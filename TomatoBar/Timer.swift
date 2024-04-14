@@ -133,9 +133,7 @@ class TBTimer: ObservableObject {
         paused = !paused
 
         if !paused {
-            if isTickingEnabled {
-                player.startTicking()
-            }
+            player.startTicking()
             
             if pausedPrevImage != nil {
                 TBStatusItem.shared.statusBarItem?.button?.image = pausedPrevImage

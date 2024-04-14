@@ -65,4 +65,12 @@ class TBPlayer: ObservableObject {
     func stopTicking() {
         tickingSound.stop()
     }
+    
+    func toggleTicking() {
+        if tickingSound.isPlaying {
+            stopTicking()
+        } else {
+            startTicking()
+        }
+    }
 }
