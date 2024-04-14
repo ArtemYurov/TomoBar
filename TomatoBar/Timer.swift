@@ -18,6 +18,9 @@ class TBTimer: ObservableObject {
     private var notificationCenter = TBNotificationCenter()
     private var finishTime: Date!
     private var timerFormatter = DateComponentsFormatter()
+    private var pausedTimeRemaining: TimeInterval = 0
+    private var pausedPrevImage: NSImage? = nil
+    @Published var paused: Bool = false
     @Published var timeLeftString: String = ""
     @Published var timer: DispatchSourceTimer?
 
@@ -112,11 +115,44 @@ class TBTimer: ObservableObject {
     }
 
     func startStop() {
+        paused = false
         stateMachine <-! .startStop
     }
 
     func skipRest() {
         stateMachine <-! .skipRest
+    }
+
+    func toggleTicking() {
+        if stateMachine.state == .work && !paused {
+            player.toggleTicking()
+        }
+    }
+    
+    func pauseResume() {
+        paused = !paused
+
+        if !paused {
+            if isTickingEnabled {
+                player.startTicking()
+            }
+            
+            if pausedPrevImage != nil {
+                TBStatusItem.shared.statusBarItem?.button?.image = pausedPrevImage
+            }
+            
+            finishTime = Date().addingTimeInterval(pausedTimeRemaining)
+            return
+        }
+        
+        if paused {
+            player.stopTicking()
+            pausedPrevImage = TBStatusItem.shared.statusBarItem?.button?.image
+            TBStatusItem.shared.setIcon(name: .pause)
+            TBStatusItem.shared.setTitle(title: nil)
+            pausedTimeRemaining = finishTime.timeIntervalSince(Date())
+            finishTime = Date.distantFuture
+        }
     }
 
     func updateTimeLeft() {
@@ -147,6 +183,10 @@ class TBTimer: ObservableObject {
     private func onTimerTick() {
         /* Cannot publish updates from background thread */
         DispatchQueue.main.async { [self] in
+            if paused {
+                return
+            }
+            
             updateTimeLeft()
             let timeLeft = finishTime.timeIntervalSince(Date())
             if timeLeft <= 0 {
