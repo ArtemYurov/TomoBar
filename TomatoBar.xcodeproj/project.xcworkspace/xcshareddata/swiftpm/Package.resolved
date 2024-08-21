@@ -1,4 +1,5 @@
 {
+  "originHash" : "60467d826e6e517911c51701bef6946e4641ae6c0ec3800ff91b0815c0d90c06",
   "pins" : [
     {
       "identity" : "keyboardshortcuts",
@@ -28,5 +29,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

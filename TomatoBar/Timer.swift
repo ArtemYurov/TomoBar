@@ -9,6 +9,7 @@ class TBTimer: ObservableObject {
     @AppStorage("shortRestIntervalLength") var shortRestIntervalLength = 5
     @AppStorage("longRestIntervalLength") var longRestIntervalLength = 15
     @AppStorage("workIntervalsInSet") var workIntervalsInSet = 4
+    @AppStorage("showFullScreenMask") var showFullScreenMask = false
     // This preference is "hidden"
     @AppStorage("overrunTimeLimit") var overrunTimeLimit = -60.0
 
@@ -239,16 +240,23 @@ class TBTimer: ObservableObject {
             imgName = .longRest
             consecutiveWorkIntervals = 0
         }
-        notificationCenter.send(
-            title: NSLocalizedString("TBTimer.onRestStart.title", comment: "Time's up title"),
-            body: body,
-            category: .restStarted
-        )
+        if (showFullScreenMask) {
+            MaskHelper.shared.showMaskWindow(desc: body) { [weak self] in
+                self?.skipRest()
+            }
+        } else {
+            notificationCenter.send(
+                title: NSLocalizedString("TBTimer.onRestStart.title", comment: "Time's up title"),
+                body: body,
+                category: .restStarted
+            )
+        }
         TBStatusItem.shared.setIcon(name: imgName)
         startTimer(seconds: length * 60)
     }
 
     private func onRestFinish(context ctx: TBStateMachine.Context) {
+        MaskHelper.shared.hideMaskWindow()
         if ctx.event == .skipRest {
             return
         }
@@ -261,6 +269,7 @@ class TBTimer: ObservableObject {
 
     private func onIdleStart(context _: TBStateMachine.Context) {
         stopTimer()
+        MaskHelper.shared.hideMaskWindow()
         TBStatusItem.shared.setIcon(name: .idle)
         consecutiveWorkIntervals = 0
     }
