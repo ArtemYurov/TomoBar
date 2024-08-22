@@ -10,6 +10,7 @@ class TBTimer: ObservableObject {
     @AppStorage("longRestIntervalLength") var longRestIntervalLength = 15
     @AppStorage("workIntervalsInSet") var workIntervalsInSet = 4
     @AppStorage("showFullScreenMask") var showFullScreenMask = false
+    @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false
     // This preference is "hidden"
     @AppStorage("overrunTimeLimit") var overrunTimeLimit = -60.0
 
@@ -219,6 +220,14 @@ class TBTimer: ObservableObject {
         player.playWindup()
         player.startTicking()
         startTimer(seconds: workIntervalLength * 60)
+        if (toggleDoNotDisturb) {
+            DispatchQueue.main.async { [self] in
+                let res = DoNotDisturb(state: true)
+                if !res {
+                    stateMachine <-! .startStop
+                }
+            }
+        }
     }
 
     private func onWorkFinish(context _: TBStateMachine.Context) {
@@ -228,6 +237,11 @@ class TBTimer: ObservableObject {
 
     private func onWorkEnd(context _: TBStateMachine.Context) {
         player.stopTicking()
+        if (toggleDoNotDisturb) {
+            DispatchQueue.main.async {
+                _ = DoNotDisturb(state: false)
+            }
+        }
     }
 
     private func onRestStart(context _: TBStateMachine.Context) {
