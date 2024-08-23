@@ -81,6 +81,7 @@ class TBTimer: ObservableObject {
         timerFormatter.zeroFormattingBehavior = .pad
 
         KeyboardShortcuts.onKeyUp(for: .startStopTimer, action: startStop)
+        KeyboardShortcuts.onKeyUp(for: .pauseTimer, action: pauseResume)
         notificationCenter.setActionHandler(handler: onNotificationAction)
 
         let aem: NSAppleEventManager = NSAppleEventManager.shared()
@@ -132,6 +133,10 @@ class TBTimer: ObservableObject {
     }
     
     func pauseResume() {
+        if timer == nil {
+            return
+        }
+
         paused = !paused
 
         if !paused {
