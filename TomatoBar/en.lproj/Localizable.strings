@@ -1,4 +1,4 @@
-"IntervalsView.min" = "%d min";
+"IntervalsView.min" = "min";
 "IntervalsView.workIntervalLength.label" = "Work interval:";
 "IntervalsView.shortRestIntervalLength.label" = "Short rest interval:";
 "IntervalsView.longRestIntervalLength.label" = "Long rest interval:";

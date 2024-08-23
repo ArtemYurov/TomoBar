@@ -1,4 +1,4 @@
-"IntervalsView.min" = "%d 分";
+"IntervalsView.min" = "分";
 "IntervalsView.workIntervalLength.label" = "工作时间:";
 "IntervalsView.shortRestIntervalLength.label" = "小憩时间:";
 "IntervalsView.longRestIntervalLength.label" = "长休息时间:";

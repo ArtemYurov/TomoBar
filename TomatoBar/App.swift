@@ -75,6 +75,7 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
         if let button = statusBarItem?.button {
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
             popover.contentViewController?.view.window?.makeKey()
+            NSApp.keyWindow?.makeFirstResponder(nil)
         }
     }
 
