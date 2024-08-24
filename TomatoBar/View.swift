@@ -4,7 +4,7 @@ import SwiftUI
 
 extension KeyboardShortcuts.Name {
     static let startStopTimer = Self("startStopTimer")
-    static let pauseTimer = Self("pauseTimer")
+    static let pauseResumeTimer = Self("pauseResumeTimer")
 }
 
 private struct IntervalsView: View {
@@ -102,7 +102,7 @@ private struct SettingsView: View {
                                        comment: "Shortcut label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            KeyboardShortcuts.Recorder(for: .pauseTimer) {
+            KeyboardShortcuts.Recorder(for: .pauseResumeTimer) {
                 Text(NSLocalizedString("SettingsView.pauseShortcut.label",
                                        comment: "Pause shortcut label"))
                     .frame(maxWidth: .infinity, alignment: .leading)

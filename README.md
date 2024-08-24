@@ -2,7 +2,7 @@
 <img src="https://raw.githubusercontent.com/ivoronin/TomatoBar/main/TomatoBar/Assets.xcassets/AppIcon.appiconset/icon_128x128%402x.png" width="128" height="128"/>
 <p>
  
-<h1 align="center">TomatoBar</h1>
+<h1 align="center">TomatoBar fork</h1>
 <p align="center">
 <img src="https://img.shields.io/github/actions/workflow/status/ivoronin/TomatoBar/main.yml?branch=main"/> <img src="https://img.shields.io/github/downloads/ivoronin/TomatoBar/total"/> <img src="https://img.shields.io/github/v/release/ivoronin/TomatoBar?display_name=tag"/> <img src="https://img.shields.io/homebrew/cask/v/tomatobar"/>
 </p>
@@ -22,21 +22,20 @@ work and rest intervals, optional sounds, discreet actionable notifications, glo
 
 TomatoBar is fully sandboxed with no entitlements (except for the Apple Events entitlement, used to run the Do Not Disturb toggle shortcut).
 
-Download the latest release <a href="https://github.com/ivoronin/TomatoBar/releases/latest/">here</a> or install using Homebrew:
-```
-$ brew install --cask tomatobar
-```
+## Fork notes
+This fork makes a couple additions/modifications:
 
-If the app doesn't start, install using the `--no-quarantine` flag:
-```
-$ brew install --cask --no-quarantine tomatobar
-```
+- Adds an option to toggle Do Not Disturb automatically using a shortcut. The first time you start the timer you'll be prompted to add the shortcut, it will work fine afterwards (also PRed to https://github.com/ivoronin/TomatoBar/pull/82)
+- Adds a pause button and keyboard shortcut (based on https://github.com/ivoronin/TomatoBar/pull/52)
+- Makes numbers in the settings editable (based on https://github.com/ivoronin/TomatoBar/pull/63)
+- Adds an option for a full screen mask (taken rom https://github.com/ivoronin/TomatoBar/pull/65)
+- Increased the minimum macOS version requirement to Monterey
 
 ## Integration with other tools
 ### Event log
 TomatoBar logs state transitions in JSON format to `~/Library/Containers/com.github.ivoronin.TomatoBar/Data/Library/Caches/TomatoBar.log`. Use this data to analyze your productivity and enrich other data sources.
 ### Starting and stopping the timer
-TomatoBar can be controlled using `tomatobar://` URLs. To start or stop the timer from the command line, use `open tomatobar://startStop`.
+TomatoBar can be controlled using `tomatobar://` URLs. To start or stop the timer from the command line, use `open tomatobar://startStop`. To pause use `open tomatobar://pauseResume`.
 
 ## Older versions
 Touch bar integration and older macOS versions (earlier than Big Sur) are supported by TomatoBar versions prior to 3.0

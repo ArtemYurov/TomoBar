@@ -81,7 +81,7 @@ class TBTimer: ObservableObject {
         timerFormatter.zeroFormattingBehavior = .pad
 
         KeyboardShortcuts.onKeyUp(for: .startStopTimer, action: startStop)
-        KeyboardShortcuts.onKeyUp(for: .pauseTimer, action: pauseResume)
+        KeyboardShortcuts.onKeyUp(for: .pauseResumeTimer, action: pauseResume)
         notificationCenter.setActionHandler(handler: onNotificationAction)
 
         let aem: NSAppleEventManager = NSAppleEventManager.shared()
@@ -111,6 +111,8 @@ class TBTimer: ObservableObject {
         switch host.lowercased() {
         case "startstop":
             startStop()
+        case "pauseresume":
+            pauseResume()
         default:
             print("url handling error: unknown command \(host)")
             return

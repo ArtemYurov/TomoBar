@@ -6,7 +6,7 @@
 "IntervalsView.workIntervalsInSet.label" = "Work intervals in a set:";
 "IntervalsView.workIntervalsInSet.help" = "Number of working intervals in the set, after which a lengthy break taken";
 "SettingsView.shortcut.label" = "Start/stop";
-"SettingsView.pauseShortcut.label" = "Pause";
+"SettingsView.pauseShortcut.label" = "Pause/resume";
 "SettingsView.stopAfterBreak.label" = "Stop after break";
 "SettingsView.showTimerInMenuBar.label" = "Show timer in menu bar";
 "SettingsView.showFullScreenMask.label" = "Use full-screen mask";
