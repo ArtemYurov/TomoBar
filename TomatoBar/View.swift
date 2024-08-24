@@ -281,7 +281,7 @@ struct TBPopoverView: View {
                 .keyboardShortcut("q")
             }
         }
-        .frame(width: 240)
+        .frame(width: 245)
         .fixedSize()
         #if DEBUG
         .overlay(
