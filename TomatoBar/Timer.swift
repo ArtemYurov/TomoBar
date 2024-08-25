@@ -17,6 +17,7 @@ class TBTimer: ObservableObject {
     private var stateMachine = TBStateMachine(state: .idle)
     public let player = TBPlayer()
     private var consecutiveWorkIntervals: Int = 0
+    private var notificationGroup = DispatchGroup()
     private var notificationCenter = TBNotificationCenter()
     private var finishTime: Date!
     private var timerFormatter = DateComponentsFormatter()
@@ -64,11 +65,11 @@ class TBTimer: ObservableObject {
          * "Finish" handlers are called when time interval ended
          * "End"    handlers are called when time interval ended or was cancelled
          */
+        stateMachine.addAnyHandler(.rest => .work, handler: onRestFinish)
         stateMachine.addAnyHandler(.any => .work, handler: onWorkStart)
         stateMachine.addAnyHandler(.work => .rest, order: 0, handler: onWorkFinish)
         stateMachine.addAnyHandler(.work => .any, order: 1, handler: onWorkEnd)
         stateMachine.addAnyHandler(.any => .rest, handler: onRestStart)
-        stateMachine.addAnyHandler(.rest => .work, handler: onRestFinish)
         stateMachine.addAnyHandler(.any => .idle, handler: onIdleStart)
         stateMachine.addAnyHandler(.any => .any, handler: { ctx in
             logger.append(event: TBLogEventTransition(fromContext: ctx))
@@ -228,7 +229,7 @@ class TBTimer: ObservableObject {
         player.startTicking()
         startTimer(seconds: workIntervalLength * 60)
         if (toggleDoNotDisturb) {
-            DispatchQueue.main.async { [self] in
+            DispatchQueue.main.async(group: notificationGroup) { [self] in
                 let res = DoNotDisturb(state: true)
                 if !res {
                     stateMachine <-! .startStop
@@ -245,7 +246,7 @@ class TBTimer: ObservableObject {
     private func onWorkEnd(context _: TBStateMachine.Context) {
         player.stopTicking()
         if (toggleDoNotDisturb) {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async(group: notificationGroup) {
                 _ = DoNotDisturb(state: false)
             }
         }
@@ -263,14 +264,16 @@ class TBTimer: ObservableObject {
         }
         if (showFullScreenMask) {
             MaskHelper.shared.showMaskWindow(desc: body) { [weak self] in
-                self?.skipRest()
+                self?.onNotificationAction(action: .skipRest)
             }
         } else {
-            notificationCenter.send(
-                title: NSLocalizedString("TBTimer.onRestStart.title", comment: "Time's up title"),
-                body: body,
-                category: .restStarted
-            )
+            DispatchQueue.main.async(group: notificationGroup) { [self] in
+                notificationCenter.send(
+                    title: NSLocalizedString("TBTimer.onRestStart.title", comment: "Time's up title"),
+                    body: body,
+                    category: .restStarted
+                )
+            }
         }
         TBStatusItem.shared.setIcon(name: imgName)
         startTimer(seconds: length * 60)
@@ -281,11 +284,13 @@ class TBTimer: ObservableObject {
         if ctx.event == .skipRest {
             return
         }
-        notificationCenter.send(
-            title: NSLocalizedString("TBTimer.onRestFinish.title", comment: "Break is over title"),
-            body: NSLocalizedString("TBTimer.onRestFinish.body", comment: "Break is over body"),
-            category: .restFinished
-        )
+        DispatchQueue.main.async(group: notificationGroup) { [self] in
+            notificationCenter.send(
+                title: NSLocalizedString("TBTimer.onRestFinish.title", comment: "Break is over title"),
+                body: NSLocalizedString("TBTimer.onRestFinish.body", comment: "Break is over body"),
+                category: .restFinished
+            )
+        }
     }
 
     private func onIdleStart(context _: TBStateMachine.Context) {
