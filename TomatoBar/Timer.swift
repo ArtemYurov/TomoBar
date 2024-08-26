@@ -78,8 +78,6 @@ class TBTimer: ObservableObject {
         stateMachine.addErrorHandler { ctx in fatalError("state machine context: <\(ctx)>") }
 
         timerFormatter.unitsStyle = .positional
-        timerFormatter.allowedUnits = [.minute, .second]
-        timerFormatter.zeroFormattingBehavior = .pad
 
         KeyboardShortcuts.onKeyUp(for: .startStopTimer, action: startStop)
         KeyboardShortcuts.onKeyUp(for: .pauseResumeTimer, action: pauseResume)
@@ -128,12 +126,6 @@ class TBTimer: ObservableObject {
     func skipRest() {
         stateMachine <-! .skipRest
     }
-
-    func toggleTicking() {
-        if stateMachine.state == .work && !paused {
-            player.toggleTicking()
-        }
-    }
     
     func pauseResume() {
         if timer == nil {
@@ -164,7 +156,18 @@ class TBTimer: ObservableObject {
     }
 
     func updateTimeLeft() {
-        timeLeftString = timerFormatter.string(from: Date(), to: finishTime)!
+        let timeLeft = finishTime.timeIntervalSince(Date())
+
+        if timeLeft >= 3600 {
+            timerFormatter.allowedUnits = [.hour, .minute, .second]
+            timerFormatter.zeroFormattingBehavior = .dropLeading
+        }
+        else {
+            timerFormatter.allowedUnits = [.minute, .second]
+            timerFormatter.zeroFormattingBehavior = .pad
+        }
+
+        timeLeftString = timerFormatter.string(from: timeLeft)!
         if timer != nil, showTimerInMenuBar {
             TBStatusItem.shared.setTitle(title: timeLeftString)
         } else {

@@ -5,6 +5,7 @@ class TBPlayer: ObservableObject {
     private var windupSound: AVAudioPlayer
     private var dingSound: AVAudioPlayer
     private var tickingSound: AVAudioPlayer
+    private var isTicking: Bool = false
 
     @AppStorage("windupVolume") var windupVolume: Double = 1.0 {
         didSet {
@@ -19,6 +20,14 @@ class TBPlayer: ObservableObject {
     @AppStorage("tickingVolume") var tickingVolume: Double = 1.0 {
         didSet {
             setVolume(tickingSound, tickingVolume)
+            if isTicking {
+                if tickingVolume == 0.0, tickingSound.isPlaying {
+                    tickingSound.stop()
+                }
+                else if tickingVolume > 0.0, !tickingSound.isPlaying {
+                    tickingSound.play()
+                }
+            }
         }
     }
 
@@ -59,18 +68,16 @@ class TBPlayer: ObservableObject {
     }
 
     func startTicking() {
-        tickingSound.play()
+        if tickingVolume > 0.0 {
+            tickingSound.play()
+        }
+        isTicking = true
     }
 
     func stopTicking() {
-        tickingSound.stop()
-    }
-    
-    func toggleTicking() {
         if tickingSound.isPlaying {
-            stopTicking()
-        } else {
-            startTicking()
+            tickingSound.stop()
         }
+        isTicking = false
     }
 }
