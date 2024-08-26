@@ -197,6 +197,7 @@ struct TBPopoverView: View {
     
     private var playIcon = Image(systemName: "play.circle.fill")
     private var pauseIcon = Image(systemName: "pause.circle.fill")
+    private var skipIcon = Image(systemName: "forward.circle.fill")
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -226,11 +227,23 @@ struct TBPopoverView: View {
                 if timer.timer != nil {
                     Button {
                         timer.pauseResume()
+                        TBStatusItem.shared.closePopover(nil)
                     } label: {
                         Text(timer.paused ?  playIcon : pauseIcon)
                     }
                     .controlSize(.large)
                     .disabled(timer.timer == nil)
+
+                    if timer.stateMachine.state == .rest {
+                        Button {
+                            timer.skipRest()
+                            TBStatusItem.shared.closePopover(nil)
+                        } label: {
+                            Text(skipIcon)
+                        }
+                        .controlSize(.large)
+                        .disabled(timer.stateMachine.state != .rest)
+                    }
                 }
             }
             

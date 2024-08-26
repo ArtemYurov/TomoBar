@@ -14,7 +14,6 @@ class TBTimer: ObservableObject {
     // This preference is "hidden"
     @AppStorage("overrunTimeLimit") var overrunTimeLimit = -60.0
 
-    private var stateMachine = TBStateMachine(state: .idle)
     public let player = TBPlayer()
     private var consecutiveWorkIntervals: Int = 0
     private var notificationGroup = DispatchGroup()
@@ -26,6 +25,7 @@ class TBTimer: ObservableObject {
     @Published var paused: Bool = false
     @Published var timeLeftString: String = ""
     @Published var timer: DispatchSourceTimer?
+    @Published var stateMachine = TBStateMachine(state: .idle)
 
     init() {
         /*
