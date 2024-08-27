@@ -60,11 +60,15 @@ class TBPlayer: ObservableObject {
     }
 
     func playWindup() {
-        windupSound.play()
+        if windupVolume > 0.0 {
+            windupSound.play()
+        }
     }
 
     func playDing() {
-        dingSound.play()
+        if dingVolume > 0.0 {
+            dingSound.play()
+        }
     }
 
     func startTicking() {
