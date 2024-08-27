@@ -134,17 +134,12 @@ class TBTimer: ObservableObject {
 
         paused = !paused
 
-        if !paused {
-            player.startTicking()
-            
-            if pausedPrevImage != nil {
-                TBStatusItem.shared.statusBarItem?.button?.image = pausedPrevImage
+        if toggleDoNotDisturb, stateMachine.state == .work {
+            DispatchQueue.main.async(group: notificationGroup) {
+                _ = DoNotDisturbHelper.shared.set(state: !self.paused)
             }
-            
-            finishTime = Date().addingTimeInterval(pausedTimeRemaining)
-            return
         }
-        
+
         if paused {
             player.stopTicking()
             pausedPrevImage = TBStatusItem.shared.statusBarItem?.button?.image
@@ -152,6 +147,15 @@ class TBTimer: ObservableObject {
             TBStatusItem.shared.setTitle(title: nil)
             pausedTimeRemaining = finishTime.timeIntervalSince(Date())
             finishTime = Date.distantFuture
+        }
+        else {
+            player.startTicking()
+            
+            if pausedPrevImage != nil {
+                TBStatusItem.shared.statusBarItem?.button?.image = pausedPrevImage
+            }
+            
+            finishTime = Date().addingTimeInterval(pausedTimeRemaining)
         }
     }
 
@@ -231,9 +235,9 @@ class TBTimer: ObservableObject {
         player.playWindup()
         player.startTicking()
         startTimer(seconds: workIntervalLength * 60)
-        if (toggleDoNotDisturb) {
+        if toggleDoNotDisturb {
             DispatchQueue.main.async(group: notificationGroup) { [self] in
-                let res = DoNotDisturb(state: true)
+                let res = DoNotDisturbHelper.shared.set(state: true)
                 if !res {
                     stateMachine <-! .startStop
                 }
@@ -248,9 +252,9 @@ class TBTimer: ObservableObject {
 
     private func onWorkEnd(context _: TBStateMachine.Context) {
         player.stopTicking()
-        if (toggleDoNotDisturb) {
+        if toggleDoNotDisturb {
             DispatchQueue.main.async(group: notificationGroup) {
-                _ = DoNotDisturb(state: false)
+                _ = DoNotDisturbHelper.shared.set(state: false)
             }
         }
     }
@@ -265,7 +269,7 @@ class TBTimer: ObservableObject {
             imgName = .longRest
             consecutiveWorkIntervals = 0
         }
-        if (showFullScreenMask) {
+        if showFullScreenMask {
             MaskHelper.shared.showMaskWindow(desc: body) { [weak self] in
                 self?.onNotificationAction(action: .skipRest)
             }

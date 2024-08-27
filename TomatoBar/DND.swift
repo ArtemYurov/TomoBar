@@ -12,26 +12,37 @@ import Cocoa
 extension SBApplication: ShortcutsEvents {}
 extension SBObject: Shortcut {}
 
-public func DoNotDisturb(state: Bool) -> Bool {
-    guard
-        let app: ShortcutsEvents = SBApplication(bundleIdentifier: "com.apple.shortcuts.events"),
-        let shortcuts = app.shortcuts else {
-        return false
-    }
+class DoNotDisturbHelper {
+    var currentState: Bool = false
 
-    guard let shortcut = shortcuts.object(withName: "macos-focus-mode") as? Shortcut else {
-        return false
-    }
+    static let shared = DoNotDisturbHelper()
 
-    guard shortcut.name == "macos-focus-mode" else {
-        if let shortcutURL = Bundle.main.url(forResource: "macos-focus-mode", withExtension: "shortcut") {
-            NSWorkspace.shared.open(shortcutURL)
+    private init() {}
+
+    func set(state: Bool) -> Bool {
+        if currentState == state {
+            return true
         }
-        return false
+
+        guard
+            let app: ShortcutsEvents = SBApplication(bundleIdentifier: "com.apple.shortcuts.events"),
+            let shortcuts = app.shortcuts else {
+            fatalError("Couldn't access shortcuts")
+        }
+
+        guard
+            let shortcut = shortcuts.object(withName: "macos-focus-mode") as? Shortcut,
+            shortcut.name == "macos-focus-mode" else {
+            if let shortcutURL = Bundle.main.url(forResource: "macos-focus-mode", withExtension: "shortcut") {
+                NSWorkspace.shared.open(shortcutURL)
+            }
+            return false
+        }
+
+        let input = state ? "on" : "off"
+        _ = shortcut.run?(withInput: input)
+        currentState = state
+
+        return true
     }
-
-    let input = state ? "on" : "off"
-    _ = shortcut.run?(withInput: input)
-
-    return true
 }

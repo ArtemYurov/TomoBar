@@ -52,6 +52,10 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
         statusBarItem?.button?.action = #selector(TBStatusItem.togglePopover(_:))
     }
 
+    func applicationWillTerminate(_: Notification) {
+        _ = DoNotDisturbHelper.shared.set(state: false)
+    }
+
     func setTitle(title: String?) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 0.9
