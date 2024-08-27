@@ -10,7 +10,15 @@ class TBTimer: ObservableObject {
     @AppStorage("longRestIntervalLength") var longRestIntervalLength = 15
     @AppStorage("workIntervalsInSet") var workIntervalsInSet = 4
     @AppStorage("showFullScreenMask") var showFullScreenMask = false
-    @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false
+    @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false {
+        didSet {
+            if !toggleDoNotDisturb {
+                DispatchQueue.main.async(group: notificationGroup) {
+                    _ = DoNotDisturbHelper.shared.set(state: false)
+                }
+            }
+        }
+    }
     // This preference is "hidden"
     @AppStorage("overrunTimeLimit") var overrunTimeLimit = -60.0
 
@@ -252,10 +260,8 @@ class TBTimer: ObservableObject {
 
     private func onWorkEnd(context _: TBStateMachine.Context) {
         player.stopTicking()
-        if toggleDoNotDisturb {
-            DispatchQueue.main.async(group: notificationGroup) {
-                _ = DoNotDisturbHelper.shared.set(state: false)
-            }
+        DispatchQueue.main.async(group: notificationGroup) {
+            _ = DoNotDisturbHelper.shared.set(state: false)
         }
     }
 
