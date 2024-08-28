@@ -132,6 +132,7 @@ class TBTimer: ObservableObject {
     }
 
     func skipRest() {
+        paused = false
         stateMachine <-! .skipRest
     }
     
