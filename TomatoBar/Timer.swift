@@ -67,7 +67,9 @@ class TBTimer: ObservableObject {
         stateMachine.addRoutes(event: .timerFired, transitions: [.rest => .work]) { _ in
             !self.stopAfterBreak
         }
-        stateMachine.addRoutes(event: .skipRest, transitions: [.rest => .work])
+        stateMachine.addRoutes(event: .skipEvent, transitions: [
+            .rest => .work, .work => .rest,
+        ])
 
         /*
          * "Finish" handlers are called when time interval ended
@@ -131,9 +133,9 @@ class TBTimer: ObservableObject {
         stateMachine <-! .startStop
     }
 
-    func skipRest() {
+    func skip() {
         paused = false
-        stateMachine <-! .skipRest
+        stateMachine <-! .skipEvent
     }
     
     func pauseResume() {
@@ -235,7 +237,7 @@ class TBTimer: ObservableObject {
 
     private func onNotificationAction(action: TBNotification.Action) {
         if action == .skipRest, stateMachine.state == .rest {
-            skipRest()
+            skip()
         }
     }
 
@@ -266,7 +268,7 @@ class TBTimer: ObservableObject {
         }
     }
 
-    private func onRestStart(context _: TBStateMachine.Context) {
+    private func onRestStart(context ctx: TBStateMachine.Context) {
         var body = NSLocalizedString("TBTimer.onRestStart.short.body", comment: "Short break body")
         var length = shortRestIntervalLength
         var imgName = NSImage.Name.shortRest
@@ -280,7 +282,7 @@ class TBTimer: ObservableObject {
             MaskHelper.shared.showMaskWindow(desc: body) { [weak self] in
                 self?.onNotificationAction(action: .skipRest)
             }
-        } else {
+        } else if ctx.event != .skipEvent {
             DispatchQueue.main.async(group: notificationGroup) { [self] in
                 notificationCenter.send(
                     title: NSLocalizedString("TBTimer.onRestStart.title", comment: "Time's up title"),
@@ -295,7 +297,7 @@ class TBTimer: ObservableObject {
 
     private func onRestFinish(context ctx: TBStateMachine.Context) {
         MaskHelper.shared.hideMaskWindow()
-        if ctx.event == .skipRest {
+        if ctx.event == .skipEvent {
             return
         }
         DispatchQueue.main.async(group: notificationGroup) { [self] in

@@ -234,16 +234,14 @@ struct TBPopoverView: View {
                     .controlSize(.large)
                     .disabled(timer.timer == nil)
 
-                    if timer.stateMachine.state == .rest {
-                        Button {
-                            timer.skipRest()
-                            TBStatusItem.shared.closePopover(nil)
-                        } label: {
-                            Text(skipIcon)
-                        }
-                        .controlSize(.large)
-                        .disabled(timer.stateMachine.state != .rest)
+                    Button {
+                        timer.skip()
+                        TBStatusItem.shared.closePopover(nil)
+                    } label: {
+                        Text(skipIcon)
                     }
+                    .controlSize(.large)
+                    .disabled(timer.timer == nil)
                 }
             }
             
