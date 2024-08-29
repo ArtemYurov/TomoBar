@@ -12,10 +12,9 @@ class TBTimer: ObservableObject {
     @AppStorage("showFullScreenMask") var showFullScreenMask = false
     @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false {
         didSet {
-            if !toggleDoNotDisturb {
-                DispatchQueue.main.async(group: notificationGroup) {
-                    _ = DoNotDisturbHelper.shared.set(state: false)
-                }
+            let state = toggleDoNotDisturb && stateMachine.state == .work && !paused
+            DispatchQueue.main.async(group: notificationGroup) { 
+                _ = DoNotDisturbHelper.shared.set(state: state)
             }
         }
     }
