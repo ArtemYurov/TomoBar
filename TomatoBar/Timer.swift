@@ -91,6 +91,7 @@ class TBTimer: ObservableObject {
 
         KeyboardShortcuts.onKeyUp(for: .startStopTimer, action: startStop)
         KeyboardShortcuts.onKeyUp(for: .pauseResumeTimer, action: pauseResume)
+        KeyboardShortcuts.onKeyUp(for: .skipTimer, action: skip)
         notificationCenter.setActionHandler(handler: onNotificationAction)
 
         let aem: NSAppleEventManager = NSAppleEventManager.shared()
@@ -122,6 +123,8 @@ class TBTimer: ObservableObject {
             startStop()
         case "pauseresume":
             pauseResume()
+        case "skip":
+            skip()
         default:
             print("url handling error: unknown command \(host)")
             return
@@ -134,6 +137,10 @@ class TBTimer: ObservableObject {
     }
 
     func skip() {
+        if timer == nil {
+            return
+        }
+
         paused = false
         stateMachine <-! .skipEvent
     }
