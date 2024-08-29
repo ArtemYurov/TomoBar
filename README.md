@@ -25,11 +25,14 @@ TomatoBar is fully sandboxed with no entitlements (except for the Apple Events e
 ## Fork notes
 This fork makes a couple additions/modifications:
 
+- Increases the maximum timer duration to 2 hours/120 minutes
 - Adds an option to toggle Do Not Disturb automatically using a shortcut. The first time you start the timer you'll be prompted to add the shortcut, it will work fine afterwards (also PRed to https://github.com/ivoronin/TomatoBar/pull/82)
 - Adds a pause button, keyboard shortcut and URL (based on https://github.com/ivoronin/TomatoBar/pull/52)
+- Adds a skip button which can skip both work and rest (in addition to the existing rest skip notification)
 - Makes numbers in the settings editable (based on https://github.com/ivoronin/TomatoBar/pull/63)
 - Adds an option for a full screen mask (taken from https://github.com/ivoronin/TomatoBar/pull/65)
-- Increased the minimum macOS version requirement to Monterey
+- Doesn't play sounds when volume is set to zero (fixes issues with e.g. multipoint bluetooth headphones)
+- Increases the minimum macOS version requirement to Monterey
 
 ## Integration with other tools
 ### Event log
