@@ -27,7 +27,9 @@ class TBPlayer: ObservableObject {
                     tickingSound.stop()
                 }
                 else if tickingVolume > 0.0, !tickingSound.isPlaying {
-                    tickingSound.play()
+                    DispatchQueue.main.async { [self] in
+                        tickingSound.play()
+                    }
                 }
             }
         }
@@ -66,8 +68,8 @@ class TBPlayer: ObservableObject {
     }
 
     init() {
-        let applicationSupport = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        soundFolder = applicationSupport.appendingPathComponent("TomatoBar")
+        let documentFolder = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        soundFolder = documentFolder.appendingPathComponent("TomatoBar")
 
         do {
             try FileManager.default.createDirectory(at: soundFolder, withIntermediateDirectories: true)
@@ -97,10 +99,10 @@ class TBPlayer: ObservableObject {
     }
 
     func startTicking() {
+        tickingSound = loadSound(fileName: "ticking")
+        tickingSound.numberOfLoops = -1
+        setVolume(tickingSound, tickingVolume)
         if tickingVolume > 0.0 {
-            tickingSound = loadSound(fileName: "ticking")
-            tickingSound.numberOfLoops = -1
-            setVolume(tickingSound, tickingVolume)
             DispatchQueue.main.async { [self] in
                 tickingSound.play()
             }
