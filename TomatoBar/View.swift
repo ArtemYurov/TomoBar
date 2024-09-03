@@ -185,6 +185,12 @@ private struct SoundsView: View {
                                    comment: "Ticking label"))
             VolumeSlider(volume: $player.tickingVolume)
         }.padding(4)
+        Button {
+            TBStatusItem.shared.closePopover(nil)
+            NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: player.soundFolder.path)
+        } label: {
+            Text(NSLocalizedString("SoundsView.openSoundFolder.label", comment: "Open sound folder label"))
+        }
         Spacer().frame(minHeight: 0)
     }
 }
