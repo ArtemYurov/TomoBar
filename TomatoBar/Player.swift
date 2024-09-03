@@ -9,20 +9,12 @@ class TBPlayer: ObservableObject {
     private var isTicking: Bool = false
     private var supportedAudioExtensions: [String] = ["mp3", "mp4", "m4a"]
 
-    @AppStorage("windupVolume") var windupVolume: Double = 1.0 {
-        didSet {
-            setVolume(windupSound, windupVolume)
-        }
-    }
-    @AppStorage("dingVolume") var dingVolume: Double = 1.0 {
-        didSet {
-            setVolume(dingSound, dingVolume)
-        }
-    }
+    @AppStorage("windupVolume") var windupVolume: Double = 1.0
+    @AppStorage("dingVolume") var dingVolume: Double = 1.0
     @AppStorage("tickingVolume") var tickingVolume: Double = 1.0 {
         didSet {
-            setVolume(tickingSound, tickingVolume)
             if isTicking {
+                setVolume(tickingSound, tickingVolume)
                 if tickingVolume == 0.0, tickingSound.isPlaying {
                     tickingSound.stop()
                 }
@@ -74,7 +66,7 @@ class TBPlayer: ObservableObject {
         do {
             try FileManager.default.createDirectory(at: soundFolder, withIntermediateDirectories: true)
         } catch {
-            fatalError("Error initializing audio folder: \(error)")
+            fatalError("Error initializing sound folder: \(error)")
         }
     }
 
@@ -102,6 +94,7 @@ class TBPlayer: ObservableObject {
         tickingSound = loadSound(fileName: "ticking")
         tickingSound.numberOfLoops = -1
         setVolume(tickingSound, tickingVolume)
+        tickingSound.prepareToPlay()
         if tickingVolume > 0.0 {
             DispatchQueue.main.async { [self] in
                 tickingSound.play()
