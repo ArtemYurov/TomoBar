@@ -28,7 +28,7 @@ class TBTimer: ObservableObject {
     private var finishTime: Date!
     private var timerFormatter = DateComponentsFormatter()
     private var pausedTimeRemaining: TimeInterval = 0
-    private var pausedPrevImage: NSImage? = nil
+    private var pausedPrevImage: NSImage?
     @Published var paused: Bool = false
     @Published var timeLeftString: String = ""
     @Published var timer: DispatchSourceTimer?
@@ -285,8 +285,8 @@ class TBTimer: ObservableObject {
             consecutiveWorkIntervals = 0
         }
         if showFullScreenMask {
-            MaskHelper.shared.showMaskWindow(desc: body) { [weak self] in
-                self?.onNotificationAction(action: .skipRest)
+            MaskHelper.shared.showMaskWindow(desc: body) { [self] in
+                onNotificationAction(action: .skipRest)
             }
         } else if ctx.event != .skipEvent {
             DispatchQueue.main.async(group: notificationGroup) { [self] in
@@ -316,6 +316,7 @@ class TBTimer: ObservableObject {
     }
 
     private func onIdleStart(context _: TBStateMachine.Context) {
+        player.stopPlayers()
         stopTimer()
         MaskHelper.shared.hideMaskWindow()
         TBStatusItem.shared.setIcon(name: .idle)
