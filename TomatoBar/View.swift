@@ -155,12 +155,28 @@ private struct SettingsView: View {
 
 private struct VolumeSlider: View {
     @Binding var volume: Double
+    @State private var backupVolume: Double = 0.0
+    @State private var isMuted: Bool = false
 
     var body: some View {
         Slider(value: $volume, in: 0 ... 2) {
             Text(String(format: "%.1f", volume))
         }.gesture(TapGesture(count: 2).onEnded {
             volume = 1.0
+        }).onChange(of: volume) { newVolume in
+            if newVolume > 0.0 {
+                isMuted = false
+            }
+        }.simultaneousGesture(LongPressGesture().onEnded { _ in
+            if volume > 0.0 {
+                backupVolume = volume
+                volume = 0.0
+                isMuted = true
+            }
+            else if isMuted {
+                volume = backupVolume
+                isMuted = false
+            }
         })
     }
 }
