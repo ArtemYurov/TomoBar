@@ -225,6 +225,17 @@ struct TBPopoverView: View {
     @State private var buttonHovered = false
     @State private var activeChildView = ChildView.intervals
 
+    private func TimerDisplayString() -> String {
+        let result: String
+        if timer.stopAfterBreak {
+            result = timer.timeLeftString
+        }
+        else {
+            result = timer.timeLeftString + " (" + String(timer.currentWorkInterval) + "/" + String(timer.workIntervalsInSet) + ")"
+        }
+        return result
+    }
+
     private var startLabel = NSLocalizedString("TBPopoverView.start.label", comment: "Start label")
     private var stopLabel = NSLocalizedString("TBPopoverView.stop.label", comment: "Stop label")
     
@@ -240,7 +251,7 @@ struct TBPopoverView: View {
                     TBStatusItem.shared.closePopover(nil)
                 } label: {
                     Text(timer.timer != nil ?
-                         (buttonHovered ? stopLabel : timer.timeLeftString) :
+                         (buttonHovered ? stopLabel : TimerDisplayString()) :
                             startLabel)
                     /*
                      When appearance is set to "Dark" and accent color is set to "Graphite"

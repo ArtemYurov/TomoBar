@@ -22,7 +22,7 @@ class TBTimer: ObservableObject {
     @AppStorage("overrunTimeLimit") var overrunTimeLimit = -60.0
 
     public let player = TBPlayer()
-    private var consecutiveWorkIntervals: Int = 0
+    public var currentWorkInterval: Int = 0
     private var notificationGroup = DispatchGroup()
     private var notificationCenter = TBNotificationCenter()
     private var finishTime: Date!
@@ -152,8 +152,8 @@ class TBTimer: ObservableObject {
         paused = !paused
 
         if toggleDoNotDisturb, stateMachine.state == .work {
-            DispatchQueue.main.async(group: notificationGroup) {
-                _ = DoNotDisturbHelper.shared.set(state: !self.paused)
+            DispatchQueue.main.async(group: notificationGroup) { [self] in
+                _ = DoNotDisturbHelper.shared.set(state: !paused)
             }
         }
 
@@ -248,6 +248,12 @@ class TBTimer: ObservableObject {
     }
 
     private func onWorkStart(context _: TBStateMachine.Context) {
+        if currentWorkInterval >= workIntervalsInSet {
+            currentWorkInterval = 1
+        }
+        else {
+            currentWorkInterval += 1
+        }
         TBStatusItem.shared.setIcon(name: .work)
         player.playWindup()
         player.startTicking()
@@ -263,7 +269,6 @@ class TBTimer: ObservableObject {
     }
 
     private func onWorkFinish(context _: TBStateMachine.Context) {
-        consecutiveWorkIntervals += 1
         player.playDing()
     }
 
@@ -278,11 +283,10 @@ class TBTimer: ObservableObject {
         var body = NSLocalizedString("TBTimer.onRestStart.short.body", comment: "Short break body")
         var length = shortRestIntervalLength
         var imgName = NSImage.Name.shortRest
-        if consecutiveWorkIntervals >= workIntervalsInSet {
+        if currentWorkInterval >= workIntervalsInSet {
             body = NSLocalizedString("TBTimer.onRestStart.long.body", comment: "Long break body")
             length = longRestIntervalLength
             imgName = .longRest
-            consecutiveWorkIntervals = 0
         }
         if showFullScreenMask {
             MaskHelper.shared.showMaskWindow(desc: body) { [self] in
@@ -320,6 +324,6 @@ class TBTimer: ObservableObject {
         stopTimer()
         MaskHelper.shared.hideMaskWindow()
         TBStatusItem.shared.setIcon(name: .idle)
-        consecutiveWorkIntervals = 0
+        currentWorkInterval = 0
     }
 }
