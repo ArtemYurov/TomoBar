@@ -100,11 +100,13 @@ class TBPlayer: ObservableObject {
         }
     }
 
-    func startTicking() {
-        tickingSound = loadSound(fileName: "ticking")
-        tickingSound.numberOfLoops = -1
+    func startTicking(isPaused: Bool = false) {
+        if !isPaused {
+            tickingSound = loadSound(fileName: "ticking")
+            tickingSound.numberOfLoops = -1
+            tickingSound.prepareToPlay()
+        }
         setVolume(tickingSound, tickingVolume)
-        tickingSound.prepareToPlay()
         if tickingVolume > 0.0 {
             DispatchQueue.main.async { [self] in
                 tickingSound.play()

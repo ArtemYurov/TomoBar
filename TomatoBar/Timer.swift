@@ -158,7 +158,9 @@ class TBTimer: ObservableObject {
         }
 
         if paused {
-            player.stopTicking()
+            if stateMachine.state == .work {
+                player.stopTicking()
+            }
             pausedPrevImage = TBStatusItem.shared.statusBarItem?.button?.image
             TBStatusItem.shared.setIcon(name: .pause)
             TBStatusItem.shared.setTitle(title: nil)
@@ -166,12 +168,12 @@ class TBTimer: ObservableObject {
             finishTime = Date.distantFuture
         }
         else {
-            player.startTicking()
-            
+            if stateMachine.state == .work {
+                player.startTicking(isPaused: true)
+            }
             if pausedPrevImage != nil {
                 TBStatusItem.shared.statusBarItem?.button?.image = pausedPrevImage
             }
-            
             finishTime = Date().addingTimeInterval(pausedTimeRemaining)
         }
     }
