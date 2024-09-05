@@ -31,6 +31,8 @@ This fork makes a couple additions/modifications:
 - Adds a pause button, keyboard shortcut and URL (based on https://github.com/ivoronin/TomatoBar/pull/52)
 - Adds a skip button, keyboard shortcut and URL which can skip both work and rest (in addition to the existing rest skip notification)
 - Makes numbers in the settings editable (based on https://github.com/ivoronin/TomatoBar/pull/63)
+- Displays current interval on the start/stop button when "Stop after break" is disabled
+- Turns the volume display into a percentage, adds long tap gesture on the percentage to mute/unmute (in addition to the existing double tap reset)
 - Adds an option for a full screen mask (taken from https://github.com/ivoronin/TomatoBar/pull/65)
 - Doesn't play sounds when volume is set to zero (fixes issues with e.g. multipoint bluetooth headphones)
 - Increases the minimum macOS version requirement to Monterey
