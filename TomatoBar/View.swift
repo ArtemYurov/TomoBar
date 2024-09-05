@@ -159,15 +159,20 @@ private struct VolumeSlider: View {
     @State private var isMuted: Bool = false
 
     var body: some View {
-        Slider(value: $volume, in: 0 ... 2) {
-            Text(String(format: "%.1f", volume))
+        Slider(value: Binding(
+            get: { volume },
+            set: { newVolume in
+                volume = (newVolume / 0.05).rounded() * 0.05
+                if volume > 0.0 {
+                    isMuted = false
+                }
+        }), in: 0 ... 2) {
+            Text(String(format: "%.0f%%", volume * 100))
+            .font(.system(.body).monospacedDigit())
+            .frame(width: 38, alignment: .trailing)
         }.gesture(TapGesture(count: 2).onEnded {
             volume = 1.0
-        }).onChange(of: volume) { newVolume in
-            if newVolume > 0.0 {
-                isMuted = false
-            }
-        }.simultaneousGesture(LongPressGesture().onEnded { _ in
+        }).simultaneousGesture(LongPressGesture().onEnded { _ in
             if volume > 0.0 {
                 backupVolume = volume
                 volume = 0.0
@@ -186,7 +191,7 @@ private struct SoundsView: View {
 
     private var columns = [
         GridItem(.flexible()),
-        GridItem(.fixed(110))
+        GridItem(.fixed(135))
     ]
 
     var body: some View {
