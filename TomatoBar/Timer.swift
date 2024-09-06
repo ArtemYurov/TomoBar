@@ -2,9 +2,17 @@ import KeyboardShortcuts
 import SwiftState
 import SwiftUI
 
+enum startWithValues: String, CaseIterable, DropdownDescribable {
+    case work, rest
+}
+
+enum stopAfterValues: String, CaseIterable, DropdownDescribable {
+    case disabled, work, rest
+}
+
 class TBTimer: ObservableObject {
-    @AppStorage("startWith") var startWith = 0
-    @AppStorage("stopAfter") var stopAfter = 0
+    @AppStorage("startWith") var startWith = startWithValues.work
+    @AppStorage("stopAfter") var stopAfter = stopAfterValues.disabled
     @AppStorage("showTimerInMenuBar") var showTimerInMenuBar = true
     @AppStorage("workIntervalLength") var workIntervalLength = 25
     @AppStorage("shortRestIntervalLength") var shortRestIntervalLength = 5
@@ -61,22 +69,22 @@ class TBTimer: ObservableObject {
             .work => .idle, .rest => .idle
         ])
         stateMachine.addRoutes(event: .startStop, transitions: [.idle => .work]) { _ in
-            self.startWith == 0
+            self.startWith == .work
         }
         stateMachine.addRoutes(event: .startStop, transitions: [.idle => .rest]) { _ in
-            self.startWith != 0
+            self.startWith != .work
         }
         stateMachine.addRoutes(event: .timerFired, transitions: [.work => .idle]) { _ in
-            self.stopAfter == 1
+            self.stopAfter == .work
         }
         stateMachine.addRoutes(event: .timerFired, transitions: [.work => .rest]) { _ in
-            self.stopAfter != 1
+            self.stopAfter != .work
         }
         stateMachine.addRoutes(event: .timerFired, transitions: [.rest => .idle]) { _ in
-            self.stopAfter == 2
+            self.stopAfter == .rest
         }
         stateMachine.addRoutes(event: .timerFired, transitions: [.rest => .work]) { _ in
-            self.stopAfter != 2
+            self.stopAfter != .rest
         }
         stateMachine.addRoutes(event: .skipEvent, transitions: [
             .rest => .work, .work => .rest,

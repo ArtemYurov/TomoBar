@@ -92,47 +92,38 @@ private struct IntervalsView: View {
     }
 }
 
-private struct StartStopDropdown: View {
-    @Binding var value: Int
-    @State var options: [String]
+protocol DropdownDescribable: RawRepresentable where RawValue == String { }
+
+private struct StartStopDropdown<E: CaseIterable & Hashable & DropdownDescribable>: View where E.RawValue == String, E.AllCases: RandomAccessCollection {
+    @Binding var value: E
 
     var body: some View {
-        Picker("", selection: Binding(
-            get: {
-                options[value]
-            },
-            set: { newValue in
-                if let index = options.firstIndex(of: newValue) {
-                    value = index
-                }
-            })) {
-            ForEach(options, id: \.self) { option in
-                Text(option)
+        Picker("", selection: $value) {
+            ForEach(E.allCases, id: \.self) { option in
+                Text(option.description)
             }
         }
         .pickerStyle(.menu)
     }
 }
 
+extension DropdownDescribable {
+    var description: String {
+        switch self.rawValue {
+            case "disabled": return NSLocalizedString("SettingsView.dropdownDisabled.label",
+                                                  comment: "Disabled label")
+            case "work": return NSLocalizedString("SettingsView.dropdownWork.label",
+                                                    comment: "Work label")
+            case "rest": return NSLocalizedString("SettingsView.dropdownBreak.label",
+                                                    comment: "Break label")
+            default: return self.rawValue
+        }
+    }
+}
+
 private struct SettingsView: View {
     @EnvironmentObject var timer: TBTimer
     @ObservedObject private var launchAtLogin = LaunchAtLogin.observable
-    
-    private let startWithOptions = [
-        NSLocalizedString("SettingsView.dropdownWork.label",
-                               comment: "Work label"),
-        NSLocalizedString("SettingsView.dropdownBreak.label",
-                               comment: "Break label")
-    ]
-
-    private let stopAfterOptions = [
-        NSLocalizedString("SettingsView.dropdownDisabled.label",
-                               comment: "Disabled label"),
-        NSLocalizedString("SettingsView.dropdownWork.label",
-                               comment: "Work label"),
-        NSLocalizedString("SettingsView.dropdownBreak.label",
-                               comment: "Break label")
-    ]
 
     var body: some View {
         VStack {
@@ -155,13 +146,13 @@ private struct SettingsView: View {
                 Text(NSLocalizedString("SettingsView.startWith.label",
                                         comment: "Start with label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                StartStopDropdown(value: $timer.startWith, options: startWithOptions)
+                StartStopDropdown(value: $timer.startWith)
             }
             HStack {
                 Text(NSLocalizedString("SettingsView.stopAfter.label",
                                         comment: "Stop after label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                StartStopDropdown(value: $timer.stopAfter, options: stopAfterOptions)
+                StartStopDropdown(value: $timer.stopAfter)
             }
             Toggle(isOn: $timer.showTimerInMenuBar) {
                 Text(NSLocalizedString("SettingsView.showTimerInMenuBar.label",
@@ -272,7 +263,7 @@ struct TBPopoverView: View {
 
     private func TimerDisplayString() -> String {
         var result = timer.timeLeftString
-        if timer.stopAfter == 0 {
+        if timer.stopAfter == .disabled {
             result += " (" + String(timer.currentWorkInterval) + "/" + String(timer.workIntervalsInSet) + ")"
         }
         return result
