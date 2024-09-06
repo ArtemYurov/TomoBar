@@ -8,7 +8,11 @@
 "SettingsView.shortcut.label" = "Start/stop";
 "SettingsView.pauseShortcut.label" = "Pause/resume";
 "SettingsView.skipShortcut.label" = "Skip";
-"SettingsView.stopAfterBreak.label" = "Stop after break";
+"SettingsView.startWith.label" = "Start with";
+"SettingsView.stopAfter.label" = "Stop after";
+"SettingsView.dropdownDisabled.label" = "Disabled";
+"SettingsView.dropdownWork.label" = "Work";
+"SettingsView.dropdownBreak.label" = "Break";
 "SettingsView.showTimerInMenuBar.label" = "Show timer in menu bar";
 "SettingsView.showFullScreenMask.label" = "Use full-screen mask";
 "SettingsView.showFullScreenMask.help" = "During breaks, use full-screen masks instead of notifications";
@@ -21,6 +25,9 @@
 "SoundsView.openSoundFolder.label" = "Open sound folder";
 "TBPopoverView.start.label" = "Start";
 "TBPopoverView.stop.label" = "Stop";
+"TBPopoverView.addMinute.help" = "Add a minute";
+"TBPopoverView.pause.help" = "Pause";
+"TBPopoverView.skip.help" = "Skip";
 "TBPopoverView.intervals.label" = "Intervals";
 "TBPopoverView.settings.label" = "Settings";
 "TBPopoverView.sounds.label" = "Sounds";

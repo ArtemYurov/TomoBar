@@ -3,7 +3,8 @@ import SwiftState
 import SwiftUI
 
 class TBTimer: ObservableObject {
-    @AppStorage("stopAfterBreak") var stopAfterBreak = false
+    @AppStorage("startWith") var startWith = 0
+    @AppStorage("stopAfter") var stopAfter = 0
     @AppStorage("showTimerInMenuBar") var showTimerInMenuBar = true
     @AppStorage("workIntervalLength") var workIntervalLength = 25
     @AppStorage("shortRestIntervalLength") var shortRestIntervalLength = 5
@@ -49,22 +50,33 @@ class TBTimer: ObservableObject {
          *   A                  A        |    |
          *   |                  |        |    |
          *   |                  +--------+    |
-         *   |  timerFired (!stopAfterBreak)  |
+         *   |  timerFired (!stopAfter)  |
          *   |             skipRest           |
          *   |                                |
          *   +--------------------------------+
-         *      timerFired (stopAfterBreak)
+         *      timerFired (stopAfter)
          *
          */
         stateMachine.addRoutes(event: .startStop, transitions: [
-            .idle => .work, .work => .idle, .rest => .idle,
+            .work => .idle, .rest => .idle
         ])
-        stateMachine.addRoutes(event: .timerFired, transitions: [.work => .rest])
+        stateMachine.addRoutes(event: .startStop, transitions: [.idle => .work]) { _ in
+            self.startWith == 0
+        }
+        stateMachine.addRoutes(event: .startStop, transitions: [.idle => .rest]) { _ in
+            self.startWith != 0
+        }
+        stateMachine.addRoutes(event: .timerFired, transitions: [.work => .idle]) { _ in
+            self.stopAfter == 1
+        }
+        stateMachine.addRoutes(event: .timerFired, transitions: [.work => .rest]) { _ in
+            self.stopAfter != 1
+        }
         stateMachine.addRoutes(event: .timerFired, transitions: [.rest => .idle]) { _ in
-            self.stopAfterBreak
+            self.stopAfter == 2
         }
         stateMachine.addRoutes(event: .timerFired, transitions: [.rest => .work]) { _ in
-            !self.stopAfterBreak
+            self.stopAfter != 2
         }
         stateMachine.addRoutes(event: .skipEvent, transitions: [
             .rest => .work, .work => .rest,
@@ -163,7 +175,6 @@ class TBTimer: ObservableObject {
             }
             pausedPrevImage = TBStatusItem.shared.statusBarItem?.button?.image
             TBStatusItem.shared.setIcon(name: .pause)
-            TBStatusItem.shared.setTitle(title: nil)
             pausedTimeRemaining = finishTime.timeIntervalSince(Date())
             finishTime = Date.distantFuture
         }
@@ -176,10 +187,12 @@ class TBTimer: ObservableObject {
             }
             finishTime = Date().addingTimeInterval(pausedTimeRemaining)
         }
+
+        updateTimeLeft()
     }
 
     func updateTimeLeft() {
-        let timeLeft = finishTime.timeIntervalSince(Date())
+        let timeLeft = paused ? pausedTimeRemaining : finishTime.timeIntervalSince(Date())
 
         if timeLeft >= 3600 {
             timerFormatter.allowedUnits = [.hour, .minute, .second]
@@ -191,11 +204,32 @@ class TBTimer: ObservableObject {
         }
 
         timeLeftString = timerFormatter.string(from: timeLeft)!
-        if timer != nil, showTimerInMenuBar {
+        if timer != nil, !paused, showTimerInMenuBar {
             TBStatusItem.shared.setTitle(title: timeLeftString)
         } else {
             TBStatusItem.shared.setTitle(title: nil)
         }
+    }
+
+    func addMinute() {
+        if timer == nil {
+            return
+        }
+
+        let timeLeft = paused ? pausedTimeRemaining : finishTime.timeIntervalSince(Date())
+        var newTimeLeft = timeLeft + TimeInterval(60)
+        if newTimeLeft > 7200 {
+            newTimeLeft = TimeInterval(7200)
+        }
+
+        if paused {
+            pausedTimeRemaining = newTimeLeft
+        }
+        else
+        {
+            finishTime = Date().addingTimeInterval(newTimeLeft)
+        }
+        updateTimeLeft()
     }
 
     private func startTimer(seconds: Int) {
@@ -294,7 +328,7 @@ class TBTimer: ObservableObject {
             MaskHelper.shared.showMaskWindow(desc: body) { [self] in
                 onNotificationAction(action: .skipRest)
             }
-        } else if ctx.event != .skipEvent {
+        } else if ctx.event == .timerFired {
             DispatchQueue.main.async(group: notificationGroup) { [self] in
                 notificationCenter.send(
                     title: NSLocalizedString("TBTimer.onRestStart.title", comment: "Time's up title"),

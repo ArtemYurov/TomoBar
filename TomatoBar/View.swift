@@ -92,9 +92,47 @@ private struct IntervalsView: View {
     }
 }
 
+private struct StartStopDropdown: View {
+    @Binding var value: Int
+    @State var options: [String]
+
+    var body: some View {
+        Picker("", selection: Binding(
+            get: {
+                options[value]
+            },
+            set: { newValue in
+                if let index = options.firstIndex(of: newValue) {
+                    value = index
+                }
+            })) {
+            ForEach(options, id: \.self) { option in
+                Text(option)
+            }
+        }
+        .pickerStyle(.menu)
+    }
+}
+
 private struct SettingsView: View {
     @EnvironmentObject var timer: TBTimer
     @ObservedObject private var launchAtLogin = LaunchAtLogin.observable
+    
+    private let startWithOptions = [
+        NSLocalizedString("SettingsView.dropdownWork.label",
+                               comment: "Work label"),
+        NSLocalizedString("SettingsView.dropdownBreak.label",
+                               comment: "Break label")
+    ]
+
+    private let stopAfterOptions = [
+        NSLocalizedString("SettingsView.dropdownDisabled.label",
+                               comment: "Disabled label"),
+        NSLocalizedString("SettingsView.dropdownWork.label",
+                               comment: "Work label"),
+        NSLocalizedString("SettingsView.dropdownBreak.label",
+                               comment: "Break label")
+    ]
 
     var body: some View {
         VStack {
@@ -113,11 +151,18 @@ private struct SettingsView: View {
                                        comment: "Skip shortcut label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            Toggle(isOn: $timer.stopAfterBreak) {
-                Text(NSLocalizedString("SettingsView.stopAfterBreak.label",
-                                       comment: "Stop after break label"))
+            HStack {
+                Text(NSLocalizedString("SettingsView.startWith.label",
+                                        comment: "Start with label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-            }.toggleStyle(.switch)
+                StartStopDropdown(value: $timer.startWith, options: startWithOptions)
+            }
+            HStack {
+                Text(NSLocalizedString("SettingsView.stopAfter.label",
+                                        comment: "Stop after label"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                StartStopDropdown(value: $timer.stopAfter, options: stopAfterOptions)
+            }
             Toggle(isOn: $timer.showTimerInMenuBar) {
                 Text(NSLocalizedString("SettingsView.showTimerInMenuBar.label",
                                        comment: "Show timer in menu bar label"))
@@ -226,19 +271,16 @@ struct TBPopoverView: View {
     @State private var activeChildView = ChildView.intervals
 
     private func TimerDisplayString() -> String {
-        let result: String
-        if timer.stopAfterBreak {
-            result = timer.timeLeftString
-        }
-        else {
-            result = timer.timeLeftString + " (" + String(timer.currentWorkInterval) + "/" + String(timer.workIntervalsInSet) + ")"
+        var result = timer.timeLeftString
+        if timer.stopAfter == 0 {
+            result += " (" + String(timer.currentWorkInterval) + "/" + String(timer.workIntervalsInSet) + ")"
         }
         return result
     }
 
     private var startLabel = NSLocalizedString("TBPopoverView.start.label", comment: "Start label")
     private var stopLabel = NSLocalizedString("TBPopoverView.stop.label", comment: "Stop label")
-    
+    private var plusIcon = Image(systemName: "plus.circle.fill")
     private var playIcon = Image(systemName: "play.circle.fill")
     private var pauseIcon = Image(systemName: "pause.circle.fill")
     private var skipIcon = Image(systemName: "forward.circle.fill")
@@ -269,22 +311,36 @@ struct TBPopoverView: View {
                 .keyboardShortcut(.defaultAction)
                 
                 if timer.timer != nil {
-                    Button {
-                        timer.pauseResume()
-                        TBStatusItem.shared.closePopover(nil)
-                    } label: {
-                        Text(timer.paused ?  playIcon : pauseIcon)
-                    }
-                    .controlSize(.large)
-                    .disabled(timer.timer == nil)
+                    Group {
+                        Button {
+                            timer.addMinute()
+                        } label: {
+                            Text(plusIcon)
+                        }
+                        .controlSize(.large)
+                        .help(NSLocalizedString("TBPopoverView.addMinute.help",
+                                comment: "Add a minute hint"))
 
-                    Button {
-                        timer.skip()
-                        TBStatusItem.shared.closePopover(nil)
-                    } label: {
-                        Text(skipIcon)
+                        Button {
+                            timer.pauseResume()
+                            TBStatusItem.shared.closePopover(nil)
+                        } label: {
+                            Text(timer.paused ?  playIcon : pauseIcon)
+                        }
+                        .controlSize(.large)
+                        .help(NSLocalizedString("TBPopoverView.pause.help",
+                                comment: "Pause hint"))
+
+                        Button {
+                            timer.skip()
+                            TBStatusItem.shared.closePopover(nil)
+                        } label: {
+                            Text(skipIcon)
+                        }
+                        .controlSize(.large)
+                        .help(NSLocalizedString("TBPopoverView.skip.help",
+                                comment: "Skip hint"))
                     }
-                    .controlSize(.large)
                     .disabled(timer.timer == nil)
                 }
             }
