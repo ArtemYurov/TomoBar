@@ -6,6 +6,7 @@ extension KeyboardShortcuts.Name {
     static let startStopTimer = Self("startStopTimer")
     static let pauseResumeTimer = Self("pauseResumeTimer")
     static let skipTimer = Self("skipTimer")
+    static let addMinuteTimer = Self("addMinuteTimer")
 }
 
 private struct IntervalsView: View {
@@ -142,6 +143,11 @@ private struct SettingsView: View {
                                        comment: "Skip shortcut label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
+            KeyboardShortcuts.Recorder(for: .addMinuteTimer) {
+                Text(NSLocalizedString("SettingsView.addMinuteShortcut.label",
+                                       comment: "Add a minute label"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             HStack {
                 Text(NSLocalizedString("SettingsView.startWith.label",
                                         comment: "Start with label"))
@@ -271,8 +277,12 @@ struct TBPopoverView: View {
 
     private var startLabel = NSLocalizedString("TBPopoverView.start.label", comment: "Start label")
     private var stopLabel = NSLocalizedString("TBPopoverView.stop.label", comment: "Stop label")
+    private var addMinuteLabel = NSLocalizedString("TBPopoverView.addMinute.help", comment: "Add a minute hint")
+    private var pauseLabel = NSLocalizedString("TBPopoverView.pause.help", comment: "Pause hint")
+    private var resumeLabel = NSLocalizedString("TBPopoverView.resume.help", comment: "Resume hint")
+    private var skipLabel = NSLocalizedString("TBPopoverView.skip.help", comment: "Skip hint")
     private var plusIcon = Image(systemName: "plus.circle.fill")
-    private var playIcon = Image(systemName: "play.circle.fill")
+    private var resumeIcon = Image(systemName: "play.circle.fill")
     private var pauseIcon = Image(systemName: "pause.circle.fill")
     private var skipIcon = Image(systemName: "forward.circle.fill")
 
@@ -309,18 +319,16 @@ struct TBPopoverView: View {
                             Text(plusIcon)
                         }
                         .controlSize(.large)
-                        .help(NSLocalizedString("TBPopoverView.addMinute.help",
-                                comment: "Add a minute hint"))
+                        .help(addMinuteLabel)
 
                         Button {
                             timer.pauseResume()
                             TBStatusItem.shared.closePopover(nil)
                         } label: {
-                            Text(timer.paused ?  playIcon : pauseIcon)
+                            Text(timer.paused ? resumeIcon : pauseIcon)
                         }
                         .controlSize(.large)
-                        .help(NSLocalizedString("TBPopoverView.pause.help",
-                                comment: "Pause hint"))
+                        .help(timer.paused ? resumeLabel : pauseLabel)
 
                         Button {
                             timer.skip()
@@ -329,8 +337,7 @@ struct TBPopoverView: View {
                             Text(skipIcon)
                         }
                         .controlSize(.large)
-                        .help(NSLocalizedString("TBPopoverView.skip.help",
-                                comment: "Skip hint"))
+                        .help(skipLabel)
                     }
                     .disabled(timer.timer == nil)
                 }

@@ -30,8 +30,11 @@ This fork makes a couple additions/modifications:
 - Adds sound customization: to use, open the sound folder from settings and place audio files named "windup", "ding" or "ticking" in mp3 or m4a/mp4 (aac/alac) format
 - Adds a pause button, keyboard shortcut and URL (based on https://github.com/ivoronin/TomatoBar/pull/52)
 - Adds a skip button, keyboard shortcut and URL which can skip both work and rest (in addition to the existing rest skip notification)
+- Adds an "add a minute" button, keyboard shortcut and URL
+- Extends "stop after break" with a "work" setting
+- Adds a "start with break" setting
 - Makes numbers in the settings editable (based on https://github.com/ivoronin/TomatoBar/pull/63)
-- Displays current interval on the start/stop button when "Stop after break" is disabled
+- Displays current interval on the start/stop button when "Stop after" is disabled
 - Turns the volume display into a percentage, adds long tap gesture on the percentage to mute/unmute (in addition to the existing double tap reset)
 - Adds an option for a full screen mask (taken from https://github.com/ivoronin/TomatoBar/pull/65)
 - Doesn't play sounds when volume is set to zero (fixes issues with e.g. multipoint bluetooth headphones)
@@ -41,7 +44,7 @@ This fork makes a couple additions/modifications:
 ### Event log
 TomatoBar logs state transitions in JSON format to `~/Library/Containers/com.github.ivoronin.TomatoBar/Data/Library/Caches/TomatoBar.log`. Use this data to analyze your productivity and enrich other data sources.
 ### Controlling the timer
-TomatoBar can be controlled using `tomatobar://` URLs. To start or stop the timer from the command line, use `open tomatobar://startStop`. To pause or resume use `open tomatobar://pauseResume`. To skip use `open tomatobar://skip`.
+TomatoBar can be controlled using `tomatobar://` URLs. To start or stop the timer from the command line, use `open tomatobar://startStop`. To pause or resume use `open tomatobar://pauseResume`. To skip use `open tomatobar://skip`. To add a minute use `open tomatobar://addMinute`
 
 ## Older versions
 Touch bar integration and older macOS versions (earlier than Big Sur) are supported by TomatoBar versions prior to 3.0
