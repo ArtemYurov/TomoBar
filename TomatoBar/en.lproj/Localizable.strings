@@ -11,7 +11,7 @@
 "SettingsView.addMinuteShortcut.label" = "Add a minute";
 "SettingsView.startWith.label" = "Start with";
 "SettingsView.stopAfter.label" = "Stop after";
-"SettingsView.dropdownDisabled.label" = "Disabled";
+"SettingsView.dropdownDisabled.label" = "Off";
 "SettingsView.dropdownWork.label" = "Work";
 "SettingsView.dropdownBreak.label" = "Break";
 "SettingsView.showTimerInMenuBar.label" = "Show timer in menu bar";

@@ -104,7 +104,7 @@ private struct StartStopDropdown<E: CaseIterable & Hashable & DropdownDescribabl
                 Text(option.description)
             }
         }
-        .pickerStyle(.menu)
+        .pickerStyle(.segmented)
     }
 }
 
