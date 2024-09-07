@@ -11,6 +11,7 @@ enum stopAfterValues: String, CaseIterable, DropdownDescribable {
 }
 
 class TBTimer: ObservableObject {
+    @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = false
     @AppStorage("startWith") var startWith = startWithValues.work
     @AppStorage("stopAfter") var stopAfter = stopAfterValues.disabled
     @AppStorage("showTimerInMenuBar") var showTimerInMenuBar = true
@@ -156,6 +157,14 @@ class TBTimer: ObservableObject {
     func startStop() {
         paused = false
         stateMachine <-! .startStop
+    }
+
+    func startOnLaunch() {
+        if !startTimerOnLaunch {
+            return
+        }
+
+        startStop()
     }
 
     func skip() {

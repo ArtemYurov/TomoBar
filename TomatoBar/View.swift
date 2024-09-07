@@ -184,6 +184,11 @@ private struct SettingsView: View {
             .toggleStyle(.switch)
             .help(NSLocalizedString("SettingsView.toggleDoNotDisturb.help",
                                     comment: "Toggle Do Not Disturb hint"))
+            Toggle(isOn: $timer.startTimerOnLaunch) {
+                Text(NSLocalizedString("SettingsView.startTimerOnLaunch.label",
+                                       comment: "Start timer on launch label"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }.toggleStyle(.switch)
             Toggle(isOn: $launchAtLogin.isEnabled) {
                 Text(NSLocalizedString("SettingsView.launchAtLogin.label",
                                        comment: "Launch at login label"))
