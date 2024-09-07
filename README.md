@@ -33,6 +33,7 @@ This fork makes a couple additions/modifications:
 - Adds an "add a minute" button, keyboard shortcut and URL
 - Extends "stop after break" with a "work" setting
 - Adds a "start with break" setting
+- Adds a "start timer on launch" setting
 - Makes numbers in the settings editable (based on https://github.com/ivoronin/TomatoBar/pull/63)
 - Displays current interval on the start/stop button when "Stop after" is disabled
 - Turns the volume display into a percentage, adds long tap gesture on the percentage to mute/unmute (in addition to the existing double tap reset)
