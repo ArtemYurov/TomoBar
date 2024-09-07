@@ -7,7 +7,7 @@ enum startWithValues: String, CaseIterable, DropdownDescribable {
 }
 
 enum stopAfterValues: String, CaseIterable, DropdownDescribable {
-    case disabled, work, rest
+    case disabled, work, rest, longRest
 }
 
 class TBTimer: ObservableObject {
@@ -75,21 +75,18 @@ class TBTimer: ObservableObject {
         stateMachine.addRoutes(event: .startStop, transitions: [.idle => .rest]) { _ in
             self.startWith != .work
         }
-        stateMachine.addRoutes(event: .timerFired, transitions: [.work => .idle]) { _ in
+        stateMachine.addRoutes(event: .any, transitions: [.work => .idle]) { _ in
             self.stopAfter == .work
         }
-        stateMachine.addRoutes(event: .timerFired, transitions: [.work => .rest]) { _ in
+        stateMachine.addRoutes(event: .any, transitions: [.work => .rest]) { _ in
             self.stopAfter != .work
         }
-        stateMachine.addRoutes(event: .timerFired, transitions: [.rest => .idle]) { _ in
-            self.stopAfter == .rest
+        stateMachine.addRoutes(event: .any, transitions: [.rest => .idle]) { _ in
+            self.stopAfter == .rest || (self.stopAfter == .longRest && self.currentWorkInterval >= self.workIntervalsInSet)
         }
-        stateMachine.addRoutes(event: .timerFired, transitions: [.rest => .work]) { _ in
-            self.stopAfter != .rest
+        stateMachine.addRoutes(event: .any, transitions: [.rest => .work]) { _ in
+            self.stopAfter != .rest && (self.stopAfter != .longRest || self.currentWorkInterval < self.workIntervalsInSet)
         }
-        stateMachine.addRoutes(event: .skipEvent, transitions: [
-            .rest => .work, .work => .rest,
-        ])
 
         /*
          * "Finish" handlers are called when time interval ended

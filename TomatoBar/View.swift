@@ -104,6 +104,7 @@ private struct StartStopDropdown<E: CaseIterable & Hashable & DropdownDescribabl
                 Text(option.description)
             }
         }
+        .labelsHidden()
         .pickerStyle(.segmented)
     }
 }
@@ -117,6 +118,8 @@ extension DropdownDescribable {
                                                     comment: "Work label")
             case "rest": return NSLocalizedString("SettingsView.dropdownBreak.label",
                                                     comment: "Break label")
+            case "longRest": return NSLocalizedString("SettingsView.dropdownSet.label",
+                                                    comment: "Set label")
             default: return self.rawValue
         }
     }
@@ -238,7 +241,7 @@ private struct SoundsView: View {
 
     private var columns = [
         GridItem(.flexible()),
-        GridItem(.fixed(135))
+        GridItem(.fixed(138))
     ]
 
     var body: some View {
@@ -274,7 +277,7 @@ struct TBPopoverView: View {
 
     private func TimerDisplayString() -> String {
         var result = timer.timeLeftString
-        if timer.stopAfter == .disabled {
+        if timer.stopAfter == .disabled || timer.stopAfter == .longRest {
             result += " (" + String(timer.currentWorkInterval) + "/" + String(timer.workIntervalsInSet) + ")"
         }
         return result
@@ -395,7 +398,7 @@ struct TBPopoverView: View {
                 .keyboardShortcut("q")
             }
         }
-        .frame(width: 245)
+        .frame(width: 255)
         .fixedSize()
         #if DEBUG
         .overlay(
