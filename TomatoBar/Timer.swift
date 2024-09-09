@@ -92,6 +92,7 @@ class TBTimer: ObservableObject {
          * "Finish" handlers are called when time interval ended
          * "End"    handlers are called when time interval ended or was cancelled
          */
+        stateMachine.addAnyHandler(.idle => .any, handler: onIdleEnd)
         stateMachine.addAnyHandler(.rest => .work, handler: onRestFinish)
         stateMachine.addAnyHandler(.any => .work, handler: onWorkStart)
         stateMachine.addAnyHandler(.work => .rest, order: 0, handler: onWorkFinish)
@@ -370,6 +371,10 @@ class TBTimer: ObservableObject {
                 category: .restFinished
             )
         }
+    }
+
+    private func onIdleEnd(context _: TBStateMachine.Context) {
+        player.initPlayers()
     }
 
     private func onIdleStart(context _: TBStateMachine.Context) {
