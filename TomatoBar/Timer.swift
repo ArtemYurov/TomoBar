@@ -2,6 +2,24 @@ import KeyboardShortcuts
 import SwiftState
 import SwiftUI
 
+extension Array: RawRepresentable where Element: Codable {
+    public init?(rawValue: String) {
+        guard
+            let data = rawValue.data(using: .utf8),
+            let result = try? JSONDecoder().decode([Element].self, from: data)
+        else { return nil }
+        self = result
+    }
+
+    public var rawValue: String {
+        guard
+            let data = try? JSONEncoder().encode(self),
+            let result = String(data: data, encoding: .utf8)
+        else { return "" }
+        return result
+    }
+}
+
 enum startWithValues: String, CaseIterable, DropdownDescribable {
     case work, rest
 }
@@ -10,15 +28,20 @@ enum stopAfterValues: String, CaseIterable, DropdownDescribable {
     case disabled, work, rest, longRest
 }
 
+struct TimerPreset: Codable {
+    var workIntervalLength = 25
+    var shortRestIntervalLength = 5
+    var longRestIntervalLength = 15
+    var workIntervalsInSet = 4
+}
+
 class TBTimer: ObservableObject {
     @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = false
     @AppStorage("startWith") var startWith = startWithValues.work
     @AppStorage("stopAfter") var stopAfter = stopAfterValues.disabled
     @AppStorage("showTimerInMenuBar") var showTimerInMenuBar = true
-    @AppStorage("workIntervalLength") var workIntervalLength = 25
-    @AppStorage("shortRestIntervalLength") var shortRestIntervalLength = 5
-    @AppStorage("longRestIntervalLength") var longRestIntervalLength = 15
-    @AppStorage("workIntervalsInSet") var workIntervalsInSet = 4
+    @AppStorage("currentPreset") var currentPreset = 0
+    @AppStorage("timerPresets") var presets = Array(repeating: TimerPreset(), count: 4)
     @AppStorage("showFullScreenMask") var showFullScreenMask = false
     @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false {
         didSet {
@@ -33,6 +56,14 @@ class TBTimer: ObservableObject {
 
     public let player = TBPlayer()
     public var currentWorkInterval: Int = 0
+    public var currentPresetInstance: TimerPreset {
+        get {
+            return presets[currentPreset]
+        }
+        set(newValue) {
+            presets[currentPreset] = newValue
+        }
+    }
     private var notificationGroup = DispatchGroup()
     private var notificationCenter = TBNotificationCenter()
     private var finishTime: Date!
@@ -81,11 +112,11 @@ class TBTimer: ObservableObject {
         stateMachine.addRoutes(event: .any, transitions: [.work => .rest]) { _ in
             self.stopAfter != .work
         }
-        stateMachine.addRoutes(event: .any, transitions: [.rest => .idle]) { _ in
-            self.stopAfter == .rest || (self.stopAfter == .longRest && self.currentWorkInterval >= self.workIntervalsInSet)
+        stateMachine.addRoutes(event: .any, transitions: [.rest => .idle]) { [self] _ in
+            stopAfter == .rest || (stopAfter == .longRest && currentWorkInterval >= currentPresetInstance.workIntervalsInSet)
         }
-        stateMachine.addRoutes(event: .any, transitions: [.rest => .work]) { _ in
-            self.stopAfter != .rest && (self.stopAfter != .longRest || self.currentWorkInterval < self.workIntervalsInSet)
+        stateMachine.addRoutes(event: .any, transitions: [.rest => .work]) { [self] _ in
+            stopAfter != .rest && (stopAfter != .longRest || currentWorkInterval < currentPresetInstance.workIntervalsInSet)
         }
 
         /*
@@ -302,7 +333,7 @@ class TBTimer: ObservableObject {
     }
 
     private func onWorkStart(context _: TBStateMachine.Context) {
-        if currentWorkInterval >= workIntervalsInSet {
+        if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
             currentWorkInterval = 1
         }
         else {
@@ -311,7 +342,7 @@ class TBTimer: ObservableObject {
         TBStatusItem.shared.setIcon(name: .work)
         player.playWindup()
         player.startTicking()
-        startTimer(seconds: workIntervalLength * 60)
+        startTimer(seconds: currentPresetInstance.workIntervalLength * 60)
         if toggleDoNotDisturb {
             DispatchQueue.main.async(group: notificationGroup) { [self] in
                 let res = DoNotDisturbHelper.shared.set(state: true)
@@ -335,11 +366,11 @@ class TBTimer: ObservableObject {
 
     private func onRestStart(context ctx: TBStateMachine.Context) {
         var body = NSLocalizedString("TBTimer.onRestStart.short.body", comment: "Short break body")
-        var length = shortRestIntervalLength
+        var length = currentPresetInstance.shortRestIntervalLength
         var imgName = NSImage.Name.shortRest
-        if currentWorkInterval >= workIntervalsInSet {
+        if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
             body = NSLocalizedString("TBTimer.onRestStart.long.body", comment: "Long break body")
-            length = longRestIntervalLength
+            length = currentPresetInstance.longRestIntervalLength
             imgName = .longRest
         }
         if showFullScreenMask {
