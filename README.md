@@ -28,6 +28,7 @@ This fork makes a couple additions/modifications:
 - Increases the maximum timer duration to 2 hours/120 minutes
 - Adds an option to toggle Do Not Disturb automatically using a shortcut. The first time you start the timer you'll be prompted to add the shortcut, it will work fine afterwards (also PRed to https://github.com/ivoronin/TomatoBar/pull/82)
 - Adds sound customization: to use, open the sound folder from settings and place audio files named "windup", "ding" or "ticking" in mp3 or m4a/mp4 (aac/alac) format
+- Adds a preset selector with 4 presets you can quickly switch between
 - Adds a pause button, keyboard shortcut and URL (based on https://github.com/ivoronin/TomatoBar/pull/52)
 - Adds a skip button, keyboard shortcut and URL which can skip both work and rest (in addition to the existing rest skip notification)
 - Adds an "add a minute" button, keyboard shortcut and URL
