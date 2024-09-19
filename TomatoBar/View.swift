@@ -291,7 +291,7 @@ struct TBPopoverView: View {
     @State private var buttonHovered = false
     @State private var activeChildView = ChildView.intervals
 
-    private func getLocalizedWidth() -> CGFloat {
+    private func GetLocalizedWidth() -> CGFloat {
         let widthString = NSLocalizedString("TBPopoverView.width", comment: "Width for the view")
         return CGFloat(Double(widthString) ?? 255)
     }
@@ -391,7 +391,7 @@ struct TBPopoverView: View {
                 case .settings:
                     SettingsView().environmentObject(timer)
                 case .sounds:
-                    SoundsView(sliderWidth: getLocalizedWidth()*0.53).environmentObject(timer.player)
+                    SoundsView(sliderWidth: GetLocalizedWidth()*0.53).environmentObject(timer.player)
                 }
             }
 
@@ -419,7 +419,7 @@ struct TBPopoverView: View {
                 .keyboardShortcut("q")
             }
         }
-        .frame(width: getLocalizedWidth())
+        .frame(width: GetLocalizedWidth())
         .fixedSize()
         #if DEBUG
         .overlay(
