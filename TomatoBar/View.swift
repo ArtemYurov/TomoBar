@@ -254,13 +254,13 @@ private struct VolumeSlider: View {
 
 private struct SoundsView: View {
     @EnvironmentObject var player: TBPlayer
-
-    private var columns = [
-        GridItem(.flexible()),
-        GridItem(.fixed(138))
-    ]
+    var sliderWidth: CGFloat
 
     var body: some View {
+        let columns = [
+            GridItem(.flexible()),
+            GridItem(.fixed(sliderWidth))
+        ]
         LazyVGrid(columns: columns, alignment: .leading, spacing: 4) {
             Text(NSLocalizedString("SoundsView.isWindupEnabled.label",
                                    comment: "Windup label"))
@@ -290,6 +290,11 @@ struct TBPopoverView: View {
     @ObservedObject var timer = TBTimer()
     @State private var buttonHovered = false
     @State private var activeChildView = ChildView.intervals
+
+    private func getLocalizedWidth() -> CGFloat {
+        let widthString = NSLocalizedString("TBPopoverView.width", comment: "Width for the view")
+        return CGFloat(Double(widthString) ?? 255)
+    }
 
     private func TimerDisplayString() -> String {
         var result = timer.timeLeftString
@@ -386,7 +391,7 @@ struct TBPopoverView: View {
                 case .settings:
                     SettingsView().environmentObject(timer)
                 case .sounds:
-                    SoundsView().environmentObject(timer.player)
+                    SoundsView(sliderWidth: getLocalizedWidth()*0.53).environmentObject(timer.player)
                 }
             }
 
@@ -414,7 +419,7 @@ struct TBPopoverView: View {
                 .keyboardShortcut("q")
             }
         }
-        .frame(width: 255)
+        .frame(width: getLocalizedWidth())
         .fixedSize()
         #if DEBUG
         .overlay(

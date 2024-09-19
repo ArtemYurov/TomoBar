@@ -5,6 +5,7 @@
 "IntervalsView.longRestIntervalLength.help" = "在完成一组工作后的长休息时长";
 "IntervalsView.workIntervalsInSet.label" = "一组中工作的次数:";
 "IntervalsView.workIntervalsInSet.help" = "每组在长时间休息后的工作次数";
+"IntervalsView.presets.label" = "预设:";
 "SettingsView.shortcut.label" = "快捷键";
 "SettingsView.pauseShortcut.label" = "暂停/继续";
 "SettingsView.skipShortcut.label" = "跳过";
@@ -26,6 +27,7 @@
 "SoundsView.isDingEnabled.label" = "叮";
 "SoundsView.isTickingEnabled.label" = "滴答声";
 "SoundsView.openSoundFolder.label" = "打开声音文件夹";
+"TBPopoverView.width" = "255";
 "TBPopoverView.start.label" = "开始";
 "TBPopoverView.stop.label" = "停止";
 "TBPopoverView.addMinute.help" = "增加一分钟";

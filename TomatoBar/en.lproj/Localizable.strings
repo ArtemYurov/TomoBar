@@ -27,6 +27,7 @@
 "SoundsView.isDingEnabled.label" = "Ding";
 "SoundsView.isTickingEnabled.label" = "Ticking";
 "SoundsView.openSoundFolder.label" = "Open sound folder";
+"TBPopoverView.width" = "255";
 "TBPopoverView.start.label" = "Start";
 "TBPopoverView.stop.label" = "Stop";
 "TBPopoverView.addMinute.help" = "Add a minute";
