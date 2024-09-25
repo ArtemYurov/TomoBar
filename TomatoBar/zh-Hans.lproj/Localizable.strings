@@ -26,7 +26,6 @@
 "SoundsView.isWindupEnabled.label" = "发条声";
 "SoundsView.isDingEnabled.label" = "叮";
 "SoundsView.isTickingEnabled.label" = "滴答声";
-"IntervalsView.presets.label" = "预设";
 "SoundsView.openSoundFolder.label" = "打开声音文件夹";
 "TBPopoverView.width" = "255";
 "TBPopoverView.start.label" = "开始";
