@@ -23,7 +23,7 @@
 "SettingsView.toggleDoNotDisturb.help" = "作業/休憩の切り替え時におやすみモードを有効化/無効化するショートカットを実行する";
 "SettingsView.startTimerOnLaunch.label" = "アプリ開く時にタイマーを開始";
 "SettingsView.launchAtLogin.label" = "ログイン時に自動的に開く";
-"SoundsView.isWindupEnabled.label" = "巻き上げ";
+"SoundsView.isWindupEnabled.label" = "ゼンマイ巻き";
 "SoundsView.isDingEnabled.label" = "チーン";
 "SoundsView.isTickingEnabled.label" = "カチカチ";
 "SoundsView.openSoundFolder.label" = "サウンドフォルダを開く";
