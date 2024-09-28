@@ -1,7 +1,7 @@
 "IntervalsView.min" = "min";
 "IntervalsView.workIntervalLength.label" = "Intervallo di lavoro:";
-"IntervalsView.shortRestIntervalLength.label" = "Intervallo di riposo breve:";
-"IntervalsView.longRestIntervalLength.label" = "Intervallo di riposo lungo:";
+"IntervalsView.shortRestIntervalLength.label" = "Pausa breve:";
+"IntervalsView.longRestIntervalLength.label" = "Pausa lunga:";
 "IntervalsView.longRestIntervalLength.help" = "Durata della pausa lunga, dopo aver completato un set";
 "IntervalsView.workIntervalsInSet.label" = "Intervalli di lavoro per set:";
 "IntervalsView.workIntervalsInSet.help" = "Numero di intervalli di lavoro per set prima di una pausa lunga";
@@ -20,7 +20,7 @@
 "SettingsView.showFullScreenMask.label" = "Usa maschera a schermo intero";
 "SettingsView.showFullScreenMask.help" = "Durante le pause, usa una maschera che copre il display invece di una notifica";
 "SettingsView.toggleDoNotDisturb.label" = "Gestisci Non disturbare";
-"SettingsView.toggleDoNotDisturb.help" = "Esegue un comando rapido per abilitare/disabilitare Non disturbare tra le fasi di lavoro e riposo";
+"SettingsView.toggleDoNotDisturb.help" = "Esegue un comando rapido per abilitare/disabilitare Non disturbare tra le fasi di lavoro e pausa";
 "SettingsView.startTimerOnLaunch.label" = "Avvia il timer aprendo l'app";
 "SettingsView.launchAtLogin.label" = "Apri al login";
 "SoundsView.isWindupEnabled.label" = "Carica";

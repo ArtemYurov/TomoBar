@@ -2,9 +2,9 @@
 "IntervalsView.workIntervalLength.label" = "Work interval:";
 "IntervalsView.shortRestIntervalLength.label" = "Short rest interval:";
 "IntervalsView.longRestIntervalLength.label" = "Long rest interval:";
-"IntervalsView.longRestIntervalLength.help" = "Duration of the lengthy break, taken after finishing work interval set";
+"IntervalsView.longRestIntervalLength.help" = "Duration of the longer break, taken after finishing a set of work intervals";
 "IntervalsView.workIntervalsInSet.label" = "Work intervals in a set:";
-"IntervalsView.workIntervalsInSet.help" = "Number of working intervals in the set, after which a lengthy break taken";
+"IntervalsView.workIntervalsInSet.help" = "Number of work intervals before taking a longer break";
 "IntervalsView.presets.label" = "Presets:";
 "SettingsView.shortcut.label" = "Start/stop";
 "SettingsView.pauseShortcut.label" = "Pause/resume";
