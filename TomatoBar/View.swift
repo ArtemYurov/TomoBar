@@ -91,7 +91,8 @@ private struct IntervalsView: View {
             HStack {
                 Text(NSLocalizedString("IntervalsView.presets.label",
                                         comment: "Presets label"))
-                    .frame(alignment: .leading)
+                .frame(alignment: .leading)
+                Spacer()
                 Picker("", selection: $timer.currentPreset) {
                     Text("1").tag(0)
                     Text("2").tag(1)
@@ -99,7 +100,7 @@ private struct IntervalsView: View {
                     Text("4").tag(3)
                 }
                 .labelsHidden()
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: 200)
                 .pickerStyle(.segmented)
             }
             Spacer().frame(minHeight: 0)

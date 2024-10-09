@@ -41,6 +41,7 @@
 		D043345B2C9C5E4B0004984D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D05258222C76B6B7005093E3 /* DND.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DND.swift; sourceTree = "<group>"; };
 		D05258242C76C7D4005093E3 /* macos-focus-mode.shortcut */ = {isa = PBXFileReference; lastKnownFileType = file; path = "macos-focus-mode.shortcut"; sourceTree = "<group>"; };
+		D0557C922CB6D9C400833516 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D07E612C2CA774ED0022B476 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D0BEE8052C9C17CA00714D40 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -155,6 +156,7 @@
 				ja,
 				it,
 				de,
+				fr,
 			);
 			mainGroup = 8A21B77F27EE31A20009E5DB;
 			packageReferences = (
@@ -234,6 +236,7 @@
 				D0BEE8052C9C17CA00714D40 /* ja */,
 				D043345B2C9C5E4B0004984D /* it */,
 				D07E612C2CA774ED0022B476 /* de */,
+				D0557C922CB6D9C400833516 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
