@@ -32,6 +32,7 @@ class MaskHelper {
             windowController.showWindow(nil)
             windowControllers.append(windowController)
             maskView.show()
+            NSApp.activate(ignoringOtherApps: true)
         }
     }
     
