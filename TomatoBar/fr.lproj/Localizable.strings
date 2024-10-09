@@ -19,7 +19,7 @@
 "SettingsView.showTimerInMenuBar.label" = "Minuteur dans la barre des menus";
 "SettingsView.showFullScreenMask.label" = "Masquer l'écran";
 "SettingsView.showFullScreenMask.help" = "Pendant les pauses, masquer tout l'écran au lieu d'afficher une notification";
-"SettingsView.toggleDoNotDisturb.label" = "«Ne pas déranger» pendant les pauses";
+"SettingsView.toggleDoNotDisturb.label" = "« Ne pas déranger » pendant les pauses";
 "SettingsView.toggleDoNotDisturb.help" = "Pendant les pauses, exécuter un raccourci pour activer le mode «Ne pas déranger»";
 "SettingsView.startTimerOnLaunch.label" = "Démarrer le minuteur au lancement";
 "SettingsView.launchAtLogin.label" = "Lancer à l'ouverture de session";

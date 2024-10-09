@@ -1,11 +1,11 @@
 "IntervalsView.min" = "分";
-"IntervalsView.workIntervalLength.label" = "工作时间:";
-"IntervalsView.shortRestIntervalLength.label" = "小憩时间:";
-"IntervalsView.longRestIntervalLength.label" = "长休息时间:";
+"IntervalsView.workIntervalLength.label" = "工作时间";
+"IntervalsView.shortRestIntervalLength.label" = "小憩时间";
+"IntervalsView.longRestIntervalLength.label" = "长休息时间";
 "IntervalsView.longRestIntervalLength.help" = "在完成一组工作后的长休息时长";
-"IntervalsView.workIntervalsInSet.label" = "一组中工作的次数:";
+"IntervalsView.workIntervalsInSet.label" = "一组中工作的次数";
 "IntervalsView.workIntervalsInSet.help" = "每组在长时间休息后的工作次数";
-"IntervalsView.presets.label" = "预设:";
+"IntervalsView.presets.label" = "预设";
 "SettingsView.shortcut.label" = "快捷键";
 "SettingsView.pauseShortcut.label" = "暂停/继续";
 "SettingsView.skipShortcut.label" = "跳过";
