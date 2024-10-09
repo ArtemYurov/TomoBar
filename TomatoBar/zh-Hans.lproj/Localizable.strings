@@ -45,4 +45,4 @@
 "TBTimer.onRestStart.skip.title" = "跳过";
 "TBTimer.onRestFinish.title" = "休息结束";
 "TBTimer.onRestFinish.body" = "继续努力!";
-"TBMask.skip.label" = "双击任意区域跳过";
+"TBMask.skip.label" = "双击任意区域跳过，或单击一次恢复屏幕到正常状态";

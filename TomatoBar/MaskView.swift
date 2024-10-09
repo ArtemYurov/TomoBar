@@ -23,7 +23,6 @@ class MaskHelper {
                         wc.close()
                     }
                     self?.windowControllers.removeAll()
-                    self?.dismissBlock?()
                 }
             }
             window.contentView = maskView
@@ -36,16 +35,20 @@ class MaskHelper {
         }
     }
     
-    func hideMaskWindow() {
+    func hideMaskWindow(skip: Bool = false) {
         for wc in windowControllers {
             guard let mask = wc.window?.contentView as? MaskView else { continue }
             mask.hide()
+        }
+        if skip {
+            self.dismissBlock?()
         }
     }
 }
 
 class MaskView: NSView {
     var dismissBlock: (() -> Void)? = nil
+    private var clickTimer: Timer?
 
     lazy var titleLabel = {
         let titleLabel = NSTextField(labelWithString: "")
@@ -101,8 +104,14 @@ class MaskView: NSView {
     
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
-        if event.clickCount == 2 {
-            MaskHelper.shared.hideMaskWindow()
+        if event.clickCount == 1 {
+            clickTimer = Timer.scheduledTimer(withTimeInterval: NSEvent.doubleClickInterval, repeats: false) { _ in
+                MaskHelper.shared.hideMaskWindow()
+            }
+        }
+        else if event.clickCount == 2 {
+            clickTimer?.invalidate()
+            MaskHelper.shared.hideMaskWindow(skip: true)
         }
     }
     

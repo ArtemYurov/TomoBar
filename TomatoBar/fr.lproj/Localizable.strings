@@ -45,4 +45,4 @@
 "TBTimer.onRestStart.skip.title" = "Passer";
 "TBTimer.onRestFinish.title" = "La pause est terminée";
 "TBTimer.onRestFinish.body" = "Tenez bon !";
-"TBMask.skip.label" = "Double-cliquer n'importe où pour passer";
+"TBMask.skip.label" = "Double-cliquer n'importe où pour passer, ou cliquer une fois pour rétablir l'écran";

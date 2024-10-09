@@ -45,4 +45,4 @@
 "TBTimer.onRestStart.skip.title" = "Überspringen";
 "TBTimer.onRestFinish.title" = "Pause ist vorbei";
 "TBTimer.onRestFinish.body" = "Mach weiter so!";
-"TBMask.skip.label" = "Doppelklicken Sie auf eine beliebige Fläche, um zu überspringen";
+"TBMask.skip.label" = "Doppelklicken Sie auf eine beliebige Fläche, um zu überspringen, oder klicken Sie einmal, um den Bildschirm wiederherzustellen";
