@@ -119,15 +119,10 @@ class TBTimer: ObservableObject {
             stopAfter != .rest && (stopAfter != .longRest || currentWorkInterval < currentPresetInstance.workIntervalsInSet)
         }
 
-        /*
-         * "Finish" handlers are called when time interval ended
-         * "End"    handlers are called when time interval ended or was cancelled
-         */
         stateMachine.addAnyHandler(.idle => .any, handler: onIdleEnd)
-        stateMachine.addAnyHandler(.rest => .work, handler: onRestFinish)
+        stateMachine.addAnyHandler(.rest => .work, handler: onRestEnd)
         stateMachine.addAnyHandler(.any => .work, handler: onWorkStart)
-        stateMachine.addAnyHandler(.work => .rest, order: 0, handler: onWorkFinish)
-        stateMachine.addAnyHandler(.work => .any, order: 1, handler: onWorkEnd)
+        stateMachine.addAnyHandler(.work => .any, handler: onWorkEnd)
         stateMachine.addAnyHandler(.any => .rest, handler: onRestStart)
         stateMachine.addAnyHandler(.any => .idle, handler: onIdleStart)
         stateMachine.addAnyHandler(.any => .any, handler: { ctx in
@@ -353,12 +348,9 @@ class TBTimer: ObservableObject {
         }
     }
 
-    private func onWorkFinish(context _: TBStateMachine.Context) {
-        player.playDing()
-    }
-
     private func onWorkEnd(context _: TBStateMachine.Context) {
         player.stopTicking()
+        player.playDing()
         DispatchQueue.main.async(group: notificationGroup) {
             _ = DoNotDisturbHelper.shared.set(state: false)
         }
@@ -390,7 +382,7 @@ class TBTimer: ObservableObject {
         startTimer(seconds: length * 60)
     }
 
-    private func onRestFinish(context ctx: TBStateMachine.Context) {
+    private func onRestEnd(context ctx: TBStateMachine.Context) {
         MaskHelper.shared.hideMaskWindow()
         if ctx.event == .skipEvent {
             return
