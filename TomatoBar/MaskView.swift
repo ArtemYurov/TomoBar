@@ -106,6 +106,7 @@ class MaskView: NSView {
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
         if event.clickCount == 1 {
+            clickTimer?.invalidate()
             clickTimer = Timer.scheduledTimer(withTimeInterval: NSEvent.doubleClickInterval, repeats: false) { _ in
                 MaskHelper.shared.hideMaskWindow()
             }
