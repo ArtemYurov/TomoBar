@@ -105,7 +105,7 @@ class TBPlayer: ObservableObject {
                 windupSound.play()
             }
             windupTimer?.invalidate()
-            windupTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { [self] (timer) in
+            windupTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { [self] _ in
                 isInitialized ? windupSound.pause() : windupSound.stop()
             }
         }
@@ -119,7 +119,7 @@ class TBPlayer: ObservableObject {
                 dingSound.play()
             }
             dingTimer?.invalidate()
-            dingTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { [self] (timer) in
+            dingTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { [self] _ in
                 isInitialized ? dingSound.pause() : dingSound.stop()
             }
         }
