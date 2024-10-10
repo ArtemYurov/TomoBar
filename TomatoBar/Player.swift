@@ -8,6 +8,7 @@ class TBPlayer: ObservableObject {
     private var tickingSound: AVAudioPlayer!
     private var windupTimer: Timer?
     private var dingTimer: Timer?
+    private var isInitialized: Bool = false
     private var isTicking: Bool = false
     private var supportedAudioExtensions: [String] = ["mp3", "mp4", "m4a"]
 
@@ -81,6 +82,8 @@ class TBPlayer: ObservableObject {
     }
 
     func initPlayers() {
+        windupTimer?.invalidate()
+        dingTimer?.invalidate()
         windupSound = loadSound(fileName: "windup")
         dingSound = loadSound(fileName: "ding")
         tickingSound = loadSound(fileName: "ticking")
@@ -91,17 +94,19 @@ class TBPlayer: ObservableObject {
         setVolume(windupSound, windupVolume)
         setVolume(dingSound, dingVolume)
         setVolume(tickingSound, tickingVolume)
+        isInitialized = true
     }
 
     func playWindup() {
         if windupVolume > 0.0 {
             windupSound.currentTime = 0
             DispatchQueue.main.async { [self] in
+                dingSound.pause()
                 windupSound.play()
             }
             windupTimer?.invalidate()
             windupTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { [self] (timer) in
-                windupSound.pause()
+                isInitialized ? windupSound.pause() : windupSound.stop()
             }
         }
     }
@@ -110,11 +115,12 @@ class TBPlayer: ObservableObject {
         if dingVolume > 0.0 {
             dingSound.currentTime = 0
             DispatchQueue.main.async { [self] in
+                windupSound.pause()
                 dingSound.play()
             }
             dingTimer?.invalidate()
             dingTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { [self] (timer) in
-                dingSound.pause()
+                isInitialized ? dingSound.pause() : dingSound.stop()
             }
         }
     }
@@ -137,10 +143,13 @@ class TBPlayer: ObservableObject {
     }
 
     func stopPlayers() {
-        dingSound.stop()
-        windupSound.stop()
+        if !(dingTimer?.isValid ?? false) {
+            dingSound.stop()
+        }
+        if !(windupTimer?.isValid ?? false) {
+            windupSound.stop()
+        }
         tickingSound.stop()
-        windupTimer?.invalidate()
-        dingTimer?.invalidate()
+        isInitialized = false
     }
 }
