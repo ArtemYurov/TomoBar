@@ -401,7 +401,7 @@ class TBTimer: ObservableObject {
     }
 
     private func onIdleStart(context _: TBStateMachine.Context) {
-        player.stopPlayers()
+        player.deinitPlayers()
         stopTimer()
         MaskHelper.shared.hideMaskWindow()
         TBStatusItem.shared.setIcon(name: .idle)
