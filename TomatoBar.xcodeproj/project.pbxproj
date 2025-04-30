@@ -25,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		489CFFB02DBBE0B70052D63E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8A21B78827EE31A20009E5DB /* TomatoBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TomatoBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A21B78B27EE31A20009E5DB /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		8A21B78D27EE31A20009E5DB /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -159,6 +160,7 @@
 				de,
 				fr,
 				el,
+				"pt-BR",
 			);
 			mainGroup = 8A21B77F27EE31A20009E5DB;
 			packageReferences = (
@@ -240,6 +242,7 @@
 				D07E612C2CA774ED0022B476 /* de */,
 				D0557C922CB6D9C400833516 /* fr */,
 				E47308B82D8C9C1C005981C6 /* el */,
+				489CFFB02DBBE0B70052D63E /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
