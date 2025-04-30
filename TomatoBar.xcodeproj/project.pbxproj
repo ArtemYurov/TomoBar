@@ -45,6 +45,7 @@
 		D0557C922CB6D9C400833516 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D07E612C2CA774ED0022B476 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D0BEE8052C9C17CA00714D40 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E47308B82D8C9C1C005981C6 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +159,7 @@
 				it,
 				de,
 				fr,
+				el,
 				"pt-BR",
 			);
 			mainGroup = 8A21B77F27EE31A20009E5DB;
@@ -239,6 +241,7 @@
 				D043345B2C9C5E4B0004984D /* it */,
 				D07E612C2CA774ED0022B476 /* de */,
 				D0557C922CB6D9C400833516 /* fr */,
+				E47308B82D8C9C1C005981C6 /* el */,
 				489CFFB02DBBE0B70052D63E /* pt-BR */,
 			);
 			name = Localizable.strings;
@@ -376,7 +379,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 24;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = LUZK6JBS9B;
+				DEVELOPMENT_TEAM = 75AGNZS6G2;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TomatoBar/Info.plist;
@@ -414,7 +417,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 24;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = LUZK6JBS9B;
+				DEVELOPMENT_TEAM = 75AGNZS6G2;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TomatoBar/Info.plist;
