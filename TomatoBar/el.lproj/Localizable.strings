@@ -27,7 +27,7 @@
 "SoundsView.isDingEnabled.label" = "Κουδούνι";
 "SoundsView.isTickingEnabled.label" = "Κτύπημα";
 "SoundsView.openSoundFolder.label" = "Άνοιγμα φακέλου ήχου";
-"TBPopoverView.width" = "255";
+"TBPopoverView.width" = "335";
 "TBPopoverView.start.label" = "Έναρξη";
 "TBPopoverView.stop.label" = "Τερματισμός";
 "TBPopoverView.addMinute.help" = "Προσθήκη λεπτού";
