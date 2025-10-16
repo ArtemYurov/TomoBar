@@ -375,6 +375,8 @@ struct TBPopoverView: View {
     private var pauseLabel = NSLocalizedString("TBPopoverView.pause.help", comment: "Pause hint")
     private var resumeLabel = NSLocalizedString("TBPopoverView.resume.help", comment: "Resume hint")
     private var skipLabel = NSLocalizedString("TBPopoverView.skip.help", comment: "Skip hint")
+    private var playIcon = Image(systemName: "play.fill")
+    private var stopIcon = Image(systemName: "stop.fill")
     private var plusIcon = Image(systemName: "plus.circle.fill")
     private var resumeIcon = Image(systemName: "play.circle.fill")
     private var pauseIcon = Image(systemName: "pause.circle.fill")
@@ -387,9 +389,14 @@ struct TBPopoverView: View {
                     timer.startStop()
                     TBStatusItem.shared.closePopover(nil)
                 } label: {
-                    Text(timer.timer != nil ?
-                         (buttonHovered ? stopLabel : TimerDisplayString()) :
-                            startLabel)
+                    HStack {
+                        if timer.timer == nil || buttonHovered {
+                            Text(timer.timer != nil ? stopIcon : playIcon)
+                        }
+                        Text(timer.timer != nil ?
+                             (buttonHovered ? stopLabel : TimerDisplayString()) :
+                                startLabel)
+                    }
                     /*
                      When appearance is set to "Dark" and accent color is set to "Graphite"
                      "defaultAction" button label's color is set to the same color as the
@@ -405,36 +412,34 @@ struct TBPopoverView: View {
                 .controlSize(.large)
                 .keyboardShortcut(.defaultAction)
 
-                if timer.timer != nil {
-                    Group {
-                        Button {
-                            timer.addMinute()
-                        } label: {
-                            Text(plusIcon)
-                        }
-                        .controlSize(.large)
-                        .help(addMinuteLabel)
-
-                        Button {
-                            timer.pauseResume()
-                            TBStatusItem.shared.closePopover(nil)
-                        } label: {
-                            Text(timer.paused ? resumeIcon : pauseIcon)
-                        }
-                        .controlSize(.large)
-                        .help(timer.paused ? resumeLabel : pauseLabel)
-
-                        Button {
-                            timer.skip()
-                            TBStatusItem.shared.closePopover(nil)
-                        } label: {
-                            Text(skipIcon)
-                        }
-                        .controlSize(.large)
-                        .help(skipLabel)
-                    }
-                    .disabled(timer.timer == nil)
+                Button {
+                    timer.addMinute()
+                } label: {
+                    Text(plusIcon)
                 }
+                .controlSize(.large)
+                .help(addMinuteLabel)
+                .disabled(timer.timer == nil)
+
+                Button {
+                    timer.pauseResume()
+                    TBStatusItem.shared.closePopover(nil)
+                } label: {
+                    Text(timer.paused ? resumeIcon : pauseIcon)
+                }
+                .controlSize(.large)
+                .help(timer.paused ? resumeLabel : pauseLabel)
+                .disabled(timer.timer == nil)
+
+                Button {
+                    timer.skip()
+                    TBStatusItem.shared.closePopover(nil)
+                } label: {
+                    Text(skipIcon)
+                }
+                .controlSize(.large)
+                .help(skipLabel)
+                .disabled(timer.timer == nil)
             }
             
             Picker("", selection: $activeChildView) {
