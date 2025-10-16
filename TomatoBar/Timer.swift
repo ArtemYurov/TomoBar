@@ -74,6 +74,9 @@ class TBTimer: ObservableObject {
     private var timerFormatter = DateComponentsFormatter()
     private var pausedTimeRemaining: TimeInterval = 0
     private var pausedPrevImage: NSImage?
+    private var startTime: Date!  // When the current interval started
+    private var pausedTimeElapsed: TimeInterval = 0  // Elapsed time when paused
+    private var adjustTimerWorkItem: DispatchWorkItem?  // For debouncing timer adjustments
     @Published var paused: Bool = false
     @Published var timeLeftString: String = ""
     @Published var timer: DispatchSourceTimer?
@@ -224,6 +227,7 @@ class TBTimer: ObservableObject {
             pausedPrevImage = TBStatusItem.shared.statusBarItem?.button?.image
             TBStatusItem.shared.setIcon(name: .pause)
             pausedTimeRemaining = finishTime.timeIntervalSince(Date())
+            pausedTimeElapsed = Date().timeIntervalSince(startTime)
             finishTime = Date.distantFuture
         }
         else {
@@ -233,6 +237,8 @@ class TBTimer: ObservableObject {
             if pausedPrevImage != nil {
                 TBStatusItem.shared.statusBarItem?.button?.image = pausedPrevImage
             }
+            // Adjust startTime to account for pause duration
+            startTime = Date().addingTimeInterval(-pausedTimeElapsed)
             finishTime = Date().addingTimeInterval(pausedTimeRemaining)
         }
 
@@ -317,8 +323,118 @@ class TBTimer: ObservableObject {
         updateStatusBarTimer()
     }
 
+    enum IntervalType {
+        case work
+        case shortRest
+        case longRest
+        case workIntervalsInSet
+    }
+
+    func adjustTimer(intervalType: IntervalType) {
+        // Only adjust if timer is running
+        guard timer != nil else {
+            updateStatusBarTimer()
+            return
+        }
+
+        // Determine current interval duration and if we should adjust
+        let newIntervalMinutes: Int
+        let shouldAdjust: Bool
+
+        switch (stateMachine.state, intervalType) {
+        case (.work, .work):
+            newIntervalMinutes = currentPresetInstance.workIntervalLength
+            shouldAdjust = true
+        case (.rest, .shortRest):
+            // Short rest applies when not in long rest
+            if currentWorkInterval < currentPresetInstance.workIntervalsInSet {
+                newIntervalMinutes = currentPresetInstance.shortRestIntervalLength
+                shouldAdjust = true
+            } else {
+                shouldAdjust = false
+                newIntervalMinutes = 0
+            }
+        case (.rest, .longRest):
+            // Long rest applies when in long rest
+            if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
+                newIntervalMinutes = currentPresetInstance.longRestIntervalLength
+                shouldAdjust = true
+            } else {
+                shouldAdjust = false
+                newIntervalMinutes = 0
+            }
+        case (.rest, .workIntervalsInSet):
+            // Changing workIntervalsInSet might change rest type, need to recalculate
+            if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
+                newIntervalMinutes = currentPresetInstance.longRestIntervalLength
+            } else {
+                newIntervalMinutes = currentPresetInstance.shortRestIntervalLength
+            }
+            shouldAdjust = true
+        default:
+            shouldAdjust = false
+            newIntervalMinutes = 0
+        }
+
+        guard shouldAdjust else {
+            updateStatusBarTimer()
+            return
+        }
+
+        // Calculate elapsed time from timer start
+        let elapsedTime: TimeInterval
+        if paused {
+            elapsedTime = pausedTimeElapsed
+        } else {
+            elapsedTime = Date().timeIntervalSince(startTime)
+        }
+
+        // Calculate new time left with new interval duration
+        let newIntervalDuration = TimeInterval(newIntervalMinutes * 60)
+        let newTimeLeft = newIntervalDuration - elapsedTime
+
+        // Only update if newTimeLeft is at least 1 second
+        // This prevents timer corruption during rapid onChange events (e.g., typing in TextField)
+        if newTimeLeft >= 1.0 {
+            if paused {
+                pausedTimeRemaining = newTimeLeft
+            } else {
+                finishTime = Date().addingTimeInterval(newTimeLeft)
+            }
+        } else if newTimeLeft < 0 {
+            // If new interval is shorter than elapsed time, keep minimal time to allow user to finish editing
+            if paused {
+                pausedTimeRemaining = 1.0
+            } else {
+                finishTime = Date().addingTimeInterval(1.0)
+            }
+        }
+        // If 0 <= newTimeLeft < 1, don't update finishTime - keep old value
+
+        updateStatusBarTimer()
+    }
+
+    func adjustTimerDebounced(intervalType: IntervalType) {
+        // Cancel previous debounce task if exists
+        adjustTimerWorkItem?.cancel()
+
+        // Create new debounce task with 0.3 second delay
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.adjustTimer(intervalType: intervalType)
+            }
+        }
+        adjustTimerWorkItem = workItem
+
+        // Execute after delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
+    }
+
     private func startTimer(seconds: Int) {
         finishTime = Date().addingTimeInterval(TimeInterval(seconds))
+        startTime = Date()  // Save when timer started
+        pausedTimeElapsed = 0  // Reset paused elapsed time
 
         let queue = DispatchQueue(label: "Timer")
         timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)

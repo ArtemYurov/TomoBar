@@ -46,7 +46,7 @@ private struct IntervalsView: View {
                 }
             }
             .onChange(of: timer.currentPresetInstance.workIntervalLength) { _ in
-                timer.updateStatusBarTimer()
+                timer.adjustTimerDebounced(intervalType: .work)
             }
             Stepper(value: $timer.currentPresetInstance.shortRestIntervalLength, in: 1 ... 120) {
                 HStack {
@@ -62,7 +62,7 @@ private struct IntervalsView: View {
                 }
             }
             .onChange(of: timer.currentPresetInstance.shortRestIntervalLength) { _ in
-                timer.updateStatusBarTimer()
+                timer.adjustTimerDebounced(intervalType: .shortRest)
             }
             Stepper(value: $timer.currentPresetInstance.longRestIntervalLength, in: 1 ... 120) {
                 HStack {
@@ -80,7 +80,7 @@ private struct IntervalsView: View {
             .help(NSLocalizedString("IntervalsView.longRestIntervalLength.help",
                                     comment: "Long rest interval hint"))
             .onChange(of: timer.currentPresetInstance.longRestIntervalLength) { _ in
-                timer.updateStatusBarTimer()
+                timer.adjustTimerDebounced(intervalType: .longRest)
             }
             Stepper(value: $timer.currentPresetInstance.workIntervalsInSet, in: 1 ... 10) {
                 HStack {
@@ -97,7 +97,7 @@ private struct IntervalsView: View {
             .help(NSLocalizedString("IntervalsView.workIntervalsInSet.help",
                                     comment: "Work intervals in set hint"))
             .onChange(of: timer.currentPresetInstance.workIntervalsInSet) { _ in
-                timer.updateStatusBarTimer()
+                timer.adjustTimerDebounced(intervalType: .workIntervalsInSet)
             }
             Spacer().frame(minHeight: 0)
             HStack {
