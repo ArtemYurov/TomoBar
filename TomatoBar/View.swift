@@ -351,6 +351,21 @@ private enum ChildView {
     case intervals, settings, shortcuts, sounds
 }
 
+private struct IconButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: 18))
+            .buttonStyle(.plain)
+            .frame(width: 28, height: 28)
+    }
+}
+
+extension View {
+    func iconButtonStyle() -> some View {
+        modifier(IconButtonStyle())
+    }
+}
+
 struct TBPopoverView: View {
     @ObservedObject var timer = TBTimer()
     @State private var buttonHovered = false
@@ -412,12 +427,15 @@ struct TBPopoverView: View {
                 .controlSize(.large)
                 .keyboardShortcut(.defaultAction)
 
+                Spacer()
+                    .frame(width: 2)
+
                 Button {
                     timer.addMinute()
                 } label: {
-                    Text(plusIcon)
+                    plusIcon
                 }
-                .controlSize(.large)
+                .iconButtonStyle()
                 .help(addMinuteLabel)
                 .disabled(timer.timer == nil)
 
@@ -425,9 +443,9 @@ struct TBPopoverView: View {
                     timer.pauseResume()
                     TBStatusItem.shared.closePopover(nil)
                 } label: {
-                    Text(timer.paused ? resumeIcon : pauseIcon)
+                    (timer.paused ? resumeIcon : pauseIcon)
                 }
-                .controlSize(.large)
+                .iconButtonStyle()
                 .help(timer.paused ? resumeLabel : pauseLabel)
                 .disabled(timer.timer == nil)
 
@@ -435,9 +453,9 @@ struct TBPopoverView: View {
                     timer.skip()
                     TBStatusItem.shared.closePopover(nil)
                 } label: {
-                    Text(skipIcon)
+                    skipIcon
                 }
-                .controlSize(.large)
+                .iconButtonStyle()
                 .help(skipLabel)
                 .disabled(timer.timer == nil)
             }
