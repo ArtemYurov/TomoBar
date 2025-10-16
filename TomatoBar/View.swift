@@ -116,7 +116,7 @@ private struct IntervalsView: View {
                 .pickerStyle(.segmented)
             }
             .onChange(of: timer.currentPreset) { _ in
-                timer.updateStatusBarTimer()
+                timer.updateTimeLeft()
             }
             Spacer().frame(minHeight: 0)
         }
@@ -196,7 +196,7 @@ private struct SettingsView: View {
                 StartStopDropdown(value: $timer.startWith)
             }
             .onChange(of: timer.startWith) { _ in
-                timer.updateStatusBarTimer()
+                timer.updateTimeLeft()
             }
             HStack {
                 Text(NSLocalizedString("SettingsView.stopAfter.label",
@@ -211,7 +211,7 @@ private struct SettingsView: View {
                 StartStopDropdown(value: $timer.showTimerMode)
             }
             .onChange(of: timer.showTimerMode) { _ in
-                timer.updateStatusBarTimer()
+                timer.updateTimeLeft()
             }
             Toggle(isOn: $timer.showFullScreenMask) {
                 Text(NSLocalizedString("SettingsView.showFullScreenMask.label",
