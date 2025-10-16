@@ -9,16 +9,17 @@ extension KeyboardShortcuts.Name {
     static let addMinuteTimer = Self("addMinuteTimer")
 }
 
+private func ClampedNumberFormatter(min: Int, max: Int) -> NumberFormatter {
+    let formatter = NumberFormatter()
+    formatter.minimum = NSNumber(value: min)
+    formatter.maximum = NSNumber(value: max)
+    formatter.generatesDecimalNumbers = false
+    formatter.maximumFractionDigits = 0
+    return formatter
+}
+
 private struct IntervalsView: View {
     @EnvironmentObject var timer: TBTimer
-    private func ClampedNumberFormatter(min: Int, max: Int) -> NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.minimum = NSNumber(value: min)
-        formatter.maximum = NSNumber(value: max)
-        formatter.generatesDecimalNumbers = false
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }
     private var minStr = NSLocalizedString("IntervalsView.min", comment: "min")
 
     enum IntervalField: Hashable {
@@ -116,7 +117,7 @@ private struct IntervalsView: View {
                 .pickerStyle(.segmented)
             }
             .onChange(of: timer.currentPreset) { _ in
-                timer.updateTimeLeft()
+                timer.updateDisplay()
             }
             Spacer().frame(minHeight: 0)
         }
@@ -157,6 +158,12 @@ extension DropdownDescribable {
                                                     comment: "Show timer running label")
             case "always": return NSLocalizedString("SettingsView.showTimerAlways.label",
                                                     comment: "Show timer always label")
+            case "system": return NSLocalizedString("SettingsView.dropdownSystem.label",
+                                                    comment: "System font label")
+            case "ptMono": return NSLocalizedString("SettingsView.dropdownMono.label",
+                                                    comment: "PT Mono font label")
+            case "sfMono": return NSLocalizedString("SettingsView.dropdownSFMono.label",
+                                                    comment: "SF Mono font label")
             default: return self.rawValue
         }
     }
@@ -196,7 +203,7 @@ private struct SettingsView: View {
                 StartStopDropdown(value: $timer.startWith)
             }
             .onChange(of: timer.startWith) { _ in
-                timer.updateTimeLeft()
+                timer.updateDisplay()
             }
             HStack {
                 Text(NSLocalizedString("SettingsView.stopAfter.label",
@@ -211,7 +218,31 @@ private struct SettingsView: View {
                 StartStopDropdown(value: $timer.showTimerMode)
             }
             .onChange(of: timer.showTimerMode) { _ in
-                timer.updateTimeLeft()
+                timer.updateDisplay()
+            }
+            if timer.showTimerMode != .off {
+                HStack {
+                    Text(NSLocalizedString("SettingsView.timerFont.label",
+                                            comment: "Timer font label"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    StartStopDropdown(value: $timer.timerFontMode)
+                }
+                .onChange(of: timer.timerFontMode) { _ in
+                    timer.updateDisplay()
+                }
+                Stepper(value: $timer.grayBackgroundOpacity, in: 0 ... 10) {
+                    HStack {
+                        Text(NSLocalizedString("SettingsView.grayBackground.label",
+                                               comment: "Gray background label"))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        TextField("", value: $timer.grayBackgroundOpacity, formatter: ClampedNumberFormatter(min: 0, max: 10))
+                            .frame(width: 36, alignment: .trailing)
+                            .multilineTextAlignment(.trailing)
+                    }
+                }
+                .onChange(of: timer.grayBackgroundOpacity) { _ in
+                    timer.updateDisplay()
+                }
             }
             Toggle(isOn: $timer.showFullScreenMask) {
                 Text(NSLocalizedString("SettingsView.showFullScreenMask.label",

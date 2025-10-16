@@ -32,6 +32,10 @@ enum ShowTimerMode: String, CaseIterable, DropdownDescribable {
     case off, running, always
 }
 
+enum TimerFontMode: String, CaseIterable, DropdownDescribable {
+    case system, ptMono, sfMono
+}
+
 struct TimerPreset: Codable {
     var workIntervalLength = 25
     var shortRestIntervalLength = 5
@@ -44,6 +48,8 @@ class TBTimer: ObservableObject {
     @AppStorage("startWith") var startWith = startWithValues.work
     @AppStorage("stopAfter") var stopAfter = stopAfterValues.disabled
     @AppStorage("showTimerMode") var showTimerMode = ShowTimerMode.running
+    @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.system
+    @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = 0
     @AppStorage("currentPreset") var currentPreset = 0
     @AppStorage("timerPresets") var presets = Array(repeating: TimerPreset(), count: 4)
     @AppStorage("showFullScreenMask") var showFullScreenMask = false
@@ -242,7 +248,7 @@ class TBTimer: ObservableObject {
             finishTime = Date().addingTimeInterval(pausedTimeRemaining)
         }
 
-        updateTimeLeft()
+        updateDisplay()
     }
 
     private func getNextIntervalDuration() -> TimeInterval {
@@ -259,7 +265,7 @@ class TBTimer: ObservableObject {
         }
     }
 
-    func updateTimeLeft() {
+    private func updateTimeLeft() {
         // Calculate and format time (always needed for popover display)
         let timeLeft: TimeInterval
         if timer == nil {
@@ -280,12 +286,9 @@ class TBTimer: ObservableObject {
         }
 
         timeLeftString = timerFormatter.string(from: timeLeft)!
-
-        // Update status bar display
-        updateStatusBarTimer()
     }
 
-    private func updateStatusBarTimer() {
+    private func updateStatusBar() {
         // Handle different show timer modes for status bar display
         switch showTimerMode {
         case .off:
@@ -304,6 +307,11 @@ class TBTimer: ObservableObject {
             // Show timer always (including idle and paused states)
             TBStatusItem.shared.setTitle(title: timeLeftString)
         }
+    }
+
+    func updateDisplay() {
+        updateTimeLeft()
+        updateStatusBar()
     }
 
     func addMinute() {
@@ -326,7 +334,7 @@ class TBTimer: ObservableObject {
             startTime = startTime.addingTimeInterval(60)
             finishTime = Date().addingTimeInterval(newTimeLeft)
         }
-        updateTimeLeft()
+        updateDisplay()
     }
 
     enum IntervalType {
@@ -339,7 +347,7 @@ class TBTimer: ObservableObject {
     func adjustTimer(intervalType: IntervalType) {
         // Only adjust if timer is running
         guard timer != nil else {
-            updateTimeLeft()
+            updateDisplay()
             return
         }
 
@@ -383,7 +391,7 @@ class TBTimer: ObservableObject {
         }
 
         guard shouldAdjust else {
-            updateTimeLeft()
+            updateDisplay()
             return
         }
 
@@ -417,7 +425,7 @@ class TBTimer: ObservableObject {
         }
         // If 0 <= newTimeLeft < 1, don't update finishTime - keep old value
 
-        updateTimeLeft()
+        updateDisplay()
     }
 
     func adjustTimerDebounced(intervalType: IntervalType) {
@@ -462,7 +470,7 @@ class TBTimer: ObservableObject {
                 return
             }
 
-            updateTimeLeft()
+            updateDisplay()
             let timeLeft = finishTime.timeIntervalSince(Date())
             if timeLeft <= 0 {
                 /*
@@ -480,7 +488,7 @@ class TBTimer: ObservableObject {
 
     private func onTimerCancel() {
         DispatchQueue.main.async { [self] in
-            updateTimeLeft()
+            updateDisplay()
         }
     }
 
@@ -569,6 +577,6 @@ class TBTimer: ObservableObject {
         MaskHelper.shared.hideMaskWindow()
         TBStatusItem.shared.setIcon(name: .idle)
         currentWorkInterval = 0
-        updateTimeLeft()
+        updateDisplay()
     }
 }

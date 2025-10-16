@@ -9,7 +9,15 @@ extension NSImage.Name {
     static let pause = Self("BarIconPause")
 }
 
-private let digitFont = NSFont.monospacedDigitSystemFont(ofSize: 0, weight: .regular)
+private enum UIConstants {
+    static let fontSizeIncrement: CGFloat = 2
+    static let ptMonoFontName = "PT Mono"
+    static let ptMonoFontSizeIncrement: CGFloat = 1
+    static let sfMonoFontName = "SF Mono"
+    static let sfMonoFontSizeIncrement: CGFloat = 1
+    static let buttonCornerRadius: CGFloat = 4
+    static let grayBackgroundMaxAlpha: CGFloat = 10.0  // Divider for opacity calculation
+}
 
 @main
 struct TBApp: App {
@@ -31,6 +39,10 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem?
     static var shared: TBStatusItem!
 
+    // Read display settings directly from AppStorage
+    @AppStorage("timerFontMode") private var timerFontMode = TimerFontMode.system
+    @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = 0
+
     func applicationDidFinishLaunching(_: Notification) {
         let view = TBPopoverView()
 
@@ -46,9 +58,11 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
             withLength: NSStatusItem.variableLength
         )
         statusBarItem?.button?.imagePosition = .imageLeft
+        statusBarItem?.button?.wantsLayer = true
+        statusBarItem?.button?.layer?.cornerRadius = UIConstants.buttonCornerRadius
         setIcon(name: .idle)
         statusBarItem?.button?.action = #selector(TBStatusItem.togglePopover(_:))
-        view.timer.updateTimeLeft()
+        view.timer.updateDisplay()
         view.timer.startOnLaunch()
     }
 
@@ -58,15 +72,40 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
 
     func setTitle(title: String?) {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 0.9
         paragraphStyle.alignment = NSTextAlignment.center
+
+        let font: NSFont
+        switch timerFontMode {
+        case .system:
+            // System monospaced digit font
+            font = NSFont.monospacedDigitSystemFont(ofSize: 0, weight: .regular)
+        case .ptMono:
+            // PT Mono font
+            let fontSize = NSFont.systemFontSize + UIConstants.ptMonoFontSizeIncrement
+            font = NSFont(name: UIConstants.ptMonoFontName, size: fontSize) ?? NSFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+        case .sfMono:
+            // SF Mono font
+            let fontSize = NSFont.systemFontSize + UIConstants.sfMonoFontSizeIncrement
+            font = NSFont(name: UIConstants.sfMonoFontName, size: fontSize) ?? NSFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+        }
+
+        let attributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.paragraphStyle: paragraphStyle,
+            NSAttributedString.Key.baselineOffset: 0
+        ]
+
+        // Update button background: only show gray background when title is shown
+        if title == nil || grayBackgroundOpacity == 0 {
+            statusBarItem?.button?.layer?.backgroundColor = NSColor.clear.cgColor
+        } else {
+            let alpha = CGFloat(grayBackgroundOpacity) / UIConstants.grayBackgroundMaxAlpha  // Convert 0-10 to 0.0-1.0
+            statusBarItem?.button?.layer?.backgroundColor = NSColor.systemGray.withAlphaComponent(alpha).cgColor
+        }
 
         let attributedTitle = NSAttributedString(
             string: title != nil ? " \(title!)" : "",
-            attributes: [
-                NSAttributedString.Key.font: digitFont,
-                NSAttributedString.Key.paragraphStyle: paragraphStyle
-            ]
+            attributes: attributes
         )
         statusBarItem?.button?.attributedTitle = attributedTitle
     }

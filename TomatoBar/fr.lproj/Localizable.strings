@@ -20,6 +20,11 @@
 "SettingsView.showTimerOff.label" = "Jamais";
 "SettingsView.showTimerRunning.label" = "En cours";
 "SettingsView.showTimerAlways.label" = "Toujours";
+"SettingsView.timerFont.label" = "Police";
+"SettingsView.dropdownSystem.label" = "Système";
+"SettingsView.dropdownMono.label" = "PT Mono";
+"SettingsView.dropdownSFMono.label" = "SF Mono";
+"SettingsView.grayBackground.label" = "Arrière-plan gris du minuteur";
 "SettingsView.showFullScreenMask.label" = "Masquer l'écran";
 "SettingsView.showFullScreenMask.help" = "Pendant les pauses, masquer tout l'écran au lieu d'afficher une notification";
 "SettingsView.toggleDoNotDisturb.label" = "« Ne pas déranger » pendant les pauses";
