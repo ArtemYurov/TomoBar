@@ -236,6 +236,12 @@ class TBTimer: ObservableObject {
     }
 
     func updateTimeLeft() {
+        // If timer is not running, just update the title and return
+        guard timer != nil else {
+            TBStatusItem.shared.setTitle(title: nil)
+            return
+        }
+
         let timeLeft = paused ? pausedTimeRemaining : finishTime.timeIntervalSince(Date())
 
         if timeLeft >= 3600 {
@@ -248,7 +254,7 @@ class TBTimer: ObservableObject {
         }
 
         timeLeftString = timerFormatter.string(from: timeLeft)!
-        if timer != nil, !paused, showTimerInMenuBar {
+        if !paused, showTimerInMenuBar {
             TBStatusItem.shared.setTitle(title: timeLeftString)
         } else {
             TBStatusItem.shared.setTitle(title: nil)
