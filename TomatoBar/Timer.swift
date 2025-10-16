@@ -319,9 +319,11 @@ class TBTimer: ObservableObject {
 
         if paused {
             pausedTimeRemaining = newTimeLeft
+            pausedTimeElapsed = pausedTimeElapsed - 60
         }
         else
         {
+            startTime = startTime.addingTimeInterval(60)
             finishTime = Date().addingTimeInterval(newTimeLeft)
         }
         updateTimeLeft()
