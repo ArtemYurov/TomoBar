@@ -28,6 +28,10 @@ enum stopAfterValues: String, CaseIterable, DropdownDescribable {
     case disabled, work, rest, longRest
 }
 
+enum ShowTimerMode: String, CaseIterable, DropdownDescribable {
+    case off, running, always
+}
+
 struct TimerPreset: Codable {
     var workIntervalLength = 25
     var shortRestIntervalLength = 5
@@ -39,7 +43,7 @@ class TBTimer: ObservableObject {
     @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = false
     @AppStorage("startWith") var startWith = startWithValues.work
     @AppStorage("stopAfter") var stopAfter = stopAfterValues.disabled
-    @AppStorage("showTimerInMenuBar") var showTimerInMenuBar = true
+    @AppStorage("showTimerMode") var showTimerMode = ShowTimerMode.running
     @AppStorage("currentPreset") var currentPreset = 0
     @AppStorage("timerPresets") var presets = Array(repeating: TimerPreset(), count: 4)
     @AppStorage("showFullScreenMask") var showFullScreenMask = false
@@ -235,30 +239,61 @@ class TBTimer: ObservableObject {
         updateTimeLeft()
     }
 
+    private func getNextIntervalDuration() -> TimeInterval {
+        // Return the duration of the next interval when timer is idle
+        if startWith == .work {
+            return TimeInterval(currentPresetInstance.workIntervalLength * 60)
+        } else {
+            // Determine if it's a long rest or short rest
+            if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
+                return TimeInterval(currentPresetInstance.longRestIntervalLength * 60)
+            } else {
+                return TimeInterval(currentPresetInstance.shortRestIntervalLength * 60)
+            }
+        }
+    }
+
     func updateTimeLeft() {
-        // If timer is not running, just update the title and return
-        guard timer != nil else {
+        // Handle different show timer modes
+        switch showTimerMode {
+        case .off:
+            // Never show timer
             TBStatusItem.shared.setTitle(title: nil)
             return
+
+        case .running:
+            // Show timer only when running and not paused
+            if timer == nil || paused {
+                TBStatusItem.shared.setTitle(title: nil)
+                return
+            }
+
+        case .always:
+            // Show timer always (including idle and paused states)
+            break
         }
 
-        let timeLeft = paused ? pausedTimeRemaining : finishTime.timeIntervalSince(Date())
+        // Calculate time to display
+        let timeLeft: TimeInterval
+        if timer == nil {
+            // Timer is idle - show the duration of the next interval
+            timeLeft = getNextIntervalDuration()
+        } else {
+            // Timer is running or paused
+            timeLeft = paused ? pausedTimeRemaining : finishTime.timeIntervalSince(Date())
+        }
 
+        // Format the time
         if timeLeft >= 3600 {
             timerFormatter.allowedUnits = [.hour, .minute, .second]
             timerFormatter.zeroFormattingBehavior = .dropLeading
-        }
-        else {
+        } else {
             timerFormatter.allowedUnits = [.minute, .second]
             timerFormatter.zeroFormattingBehavior = .pad
         }
 
         timeLeftString = timerFormatter.string(from: timeLeft)!
-        if !paused, showTimerInMenuBar {
-            TBStatusItem.shared.setTitle(title: timeLeftString)
-        } else {
-            TBStatusItem.shared.setTitle(title: nil)
-        }
+        TBStatusItem.shared.setTitle(title: timeLeftString)
     }
 
     func addMinute() {
@@ -412,5 +447,6 @@ class TBTimer: ObservableObject {
         MaskHelper.shared.hideMaskWindow()
         TBStatusItem.shared.setIcon(name: .idle)
         currentWorkInterval = 0
+        updateTimeLeft()
     }
 }

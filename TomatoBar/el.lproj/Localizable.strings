@@ -16,7 +16,10 @@
 "SettingsView.dropdownWork.label" = "Δουλεία";
 "SettingsView.dropdownBreak.label" = "Διάλειμμα";
 "SettingsView.dropdownSet.label" = "Σετ";
-"SettingsView.showTimerInMenuBar.label" = "Εμφάνιση χρονομέτρου στη γραμμή μενού";
+"SettingsView.showTimer.label" = "Εμφάνιση χρονομέτρου";
+"SettingsView.showTimerOff.label" = "Off";
+"SettingsView.showTimerRunning.label" = "Εκτελείται";
+"SettingsView.showTimerAlways.label" = "Πάντα";
 "SettingsView.showFullScreenMask.label" = "Χρήση μάσκας πλήρους οθόνης";
 "SettingsView.showFullScreenMask.help" = "Κατά τη διάρκεια των διαλειμμάτων, χρησιμοποιήστε μια μάσκα πλήρους οθόνης αντί για ειδοποιήσεις";
 "SettingsView.toggleDoNotDisturb.label" = "Εναλλαγή λειτουργίας Μην ενοχλείτε";

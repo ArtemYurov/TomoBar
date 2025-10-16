@@ -16,7 +16,10 @@
 "SettingsView.dropdownWork.label" = "Arbeit";
 "SettingsView.dropdownBreak.label" = "Pause";
 "SettingsView.dropdownSet.label" = "Set";
-"SettingsView.showTimerInMenuBar.label" = "Timer in der Menüleiste anzeigen";
+"SettingsView.showTimer.label" = "Timer anzeigen";
+"SettingsView.showTimerOff.label" = "Aus";
+"SettingsView.showTimerRunning.label" = "Läuft";
+"SettingsView.showTimerAlways.label" = "Immer";
 "SettingsView.showFullScreenMask.label" = "Vollbild-Maske verwenden";
 "SettingsView.showFullScreenMask.help" = "Während den Pausen Vollbild-Masken anstelle von Benachrichtigungen verwenden";
 "SettingsView.toggleDoNotDisturb.label" = "Nicht stören umschalten";

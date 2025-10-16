@@ -16,7 +16,10 @@
 "SettingsView.dropdownWork.label" = "Work";
 "SettingsView.dropdownBreak.label" = "Break";
 "SettingsView.dropdownSet.label" = "Set";
-"SettingsView.showTimerInMenuBar.label" = "Show timer in menu bar";
+"SettingsView.showTimer.label" = "Show timer";
+"SettingsView.showTimerOff.label" = "Off";
+"SettingsView.showTimerRunning.label" = "Running";
+"SettingsView.showTimerAlways.label" = "Always";
 "SettingsView.showFullScreenMask.label" = "Use full-screen mask";
 "SettingsView.showFullScreenMask.help" = "During breaks, use a full-screen mask instead of notifications";
 "SettingsView.toggleDoNotDisturb.label" = "Toggle Do Not Disturb";

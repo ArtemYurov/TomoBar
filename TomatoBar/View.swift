@@ -136,6 +136,12 @@ extension DropdownDescribable {
                                                     comment: "Break label")
             case "longRest": return NSLocalizedString("SettingsView.dropdownSet.label",
                                                     comment: "Set label")
+            case "off": return NSLocalizedString("SettingsView.showTimerOff.label",
+                                                    comment: "Show timer off label")
+            case "running": return NSLocalizedString("SettingsView.showTimerRunning.label",
+                                                    comment: "Show timer running label")
+            case "always": return NSLocalizedString("SettingsView.showTimerAlways.label",
+                                                    comment: "Show timer always label")
             default: return self.rawValue
         }
     }
@@ -180,14 +186,15 @@ private struct SettingsView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 StartStopDropdown(value: $timer.stopAfter)
             }
-            Toggle(isOn: $timer.showTimerInMenuBar) {
-                Text(NSLocalizedString("SettingsView.showTimerInMenuBar.label",
-                                       comment: "Show timer in menu bar label"))
+            HStack {
+                Text(NSLocalizedString("SettingsView.showTimer.label",
+                                        comment: "Show timer label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-            }.toggleStyle(.switch)
-                .onChange(of: timer.showTimerInMenuBar) { _ in
-                    timer.updateTimeLeft()
-                }
+                StartStopDropdown(value: $timer.showTimerMode)
+            }
+            .onChange(of: timer.showTimerMode) { _ in
+                timer.updateTimeLeft()
+            }
             Toggle(isOn: $timer.showFullScreenMask) {
                 Text(NSLocalizedString("SettingsView.showFullScreenMask.label",
                                        comment: "show full screen mask on rest"))
