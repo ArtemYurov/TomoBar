@@ -35,7 +35,7 @@
 "SoundsView.isDingEnabled.label" = "叮";
 "SoundsView.isTickingEnabled.label" = "滴答声";
 "SoundsView.openSoundFolder.label" = "打开声音文件夹";
-"TBPopoverView.width" = "255";
+"TBPopoverView.width" = "285";
 "TBPopoverView.start.label" = "开始";
 "TBPopoverView.stop.label" = "停止";
 "TBPopoverView.addMinute.help" = "增加一分钟";
@@ -44,6 +44,7 @@
 "TBPopoverView.skip.help" = "跳过";
 "TBPopoverView.intervals.label" = "时长";
 "TBPopoverView.settings.label" = "设置";
+"TBPopoverView.shortcuts.label" = "快捷键";
 "TBPopoverView.sounds.label" = "声音";
 "TBPopoverView.about.label" = "关于";
 "TBPopoverView.quit.label" = "退出";

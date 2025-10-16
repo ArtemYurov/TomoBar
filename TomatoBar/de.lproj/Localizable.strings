@@ -44,6 +44,7 @@
 "TBPopoverView.skip.help" = "Überspringen";
 "TBPopoverView.intervals.label" = "Intervalle";
 "TBPopoverView.settings.label" = "Einstellungen";
+"TBPopoverView.shortcuts.label" = "Tastenkombinationen";
 "TBPopoverView.sounds.label" = "Sounds";
 "TBPopoverView.about.label" = "Über";
 "TBPopoverView.quit.label" = "Beenden";

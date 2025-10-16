@@ -35,7 +35,7 @@
 "SoundsView.isDingEnabled.label" = "Ding";
 "SoundsView.isTickingEnabled.label" = "Ticchettio";
 "SoundsView.openSoundFolder.label" = "Apri cartella dei suoni";
-"TBPopoverView.width" = "275";
+"TBPopoverView.width" = "285";
 "TBPopoverView.start.label" = "Avvia";
 "TBPopoverView.stop.label" = "Ferma";
 "TBPopoverView.addMinute.help" = "Aggiungi un minuto";
@@ -44,6 +44,7 @@
 "TBPopoverView.skip.help" = "Salta";
 "TBPopoverView.intervals.label" = "Intervalli";
 "TBPopoverView.settings.label" = "Preferenze";
+"TBPopoverView.shortcuts.label" = "Scorciatoie";
 "TBPopoverView.sounds.label" = "Suoni";
 "TBPopoverView.about.label" = "Informazioni";
 "TBPopoverView.quit.label" = "Esci";

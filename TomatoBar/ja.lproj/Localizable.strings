@@ -35,7 +35,7 @@
 "SoundsView.isDingEnabled.label" = "チーン";
 "SoundsView.isTickingEnabled.label" = "カチカチ";
 "SoundsView.openSoundFolder.label" = "サウンドフォルダを開く";
-"TBPopoverView.width" = "255";
+"TBPopoverView.width" = "285";
 "TBPopoverView.start.label" = "開始";
 "TBPopoverView.stop.label" = "終了";
 "TBPopoverView.addMinute.help" = "1分追加";
@@ -44,6 +44,7 @@
 "TBPopoverView.skip.help" = "スキップ";
 "TBPopoverView.intervals.label" = "インターバル";
 "TBPopoverView.settings.label" = "設定";
+"TBPopoverView.shortcuts.label" = "ショートカット";
 "TBPopoverView.sounds.label" = "サウンド";
 "TBPopoverView.about.label" = "TomatoBarについて";
 "TBPopoverView.quit.label" = "TomatoBarを終了";

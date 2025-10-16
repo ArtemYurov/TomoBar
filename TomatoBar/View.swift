@@ -169,10 +169,7 @@ extension DropdownDescribable {
     }
 }
 
-private struct SettingsView: View {
-    @EnvironmentObject var timer: TBTimer
-    @ObservedObject private var launchAtLogin = LaunchAtLogin.observable
-
+private struct ShortcutsView: View {
     var body: some View {
         VStack {
             KeyboardShortcuts.Recorder(for: .startStopTimer) {
@@ -196,6 +193,17 @@ private struct SettingsView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             Spacer().frame(minHeight: 0)
+        }
+        .padding(4)
+    }
+}
+
+private struct SettingsView: View {
+    @EnvironmentObject var timer: TBTimer
+    @ObservedObject private var launchAtLogin = LaunchAtLogin.observable
+
+    var body: some View {
+        VStack {
             HStack {
                 Text(NSLocalizedString("SettingsView.startWith.label",
                                         comment: "Start with label"))
@@ -340,7 +348,7 @@ private struct SoundsView: View {
 }
 
 private enum ChildView {
-    case intervals, settings, sounds
+    case intervals, settings, shortcuts, sounds
 }
 
 struct TBPopoverView: View {
@@ -396,7 +404,7 @@ struct TBPopoverView: View {
                 }
                 .controlSize(.large)
                 .keyboardShortcut(.defaultAction)
-                
+
                 if timer.timer != nil {
                     Group {
                         Button {
@@ -434,6 +442,8 @@ struct TBPopoverView: View {
                                        comment: "Intervals label")).tag(ChildView.intervals)
                 Text(NSLocalizedString("TBPopoverView.settings.label",
                                        comment: "Settings label")).tag(ChildView.settings)
+                Text(NSLocalizedString("TBPopoverView.shortcuts.label",
+                                       comment: "Shortcuts label")).tag(ChildView.shortcuts)
                 Text(NSLocalizedString("TBPopoverView.sounds.label",
                                        comment: "Sounds label")).tag(ChildView.sounds)
             }
@@ -447,6 +457,8 @@ struct TBPopoverView: View {
                     IntervalsView().environmentObject(timer)
                 case .settings:
                     SettingsView().environmentObject(timer)
+                case .shortcuts:
+                    ShortcutsView()
                 case .sounds:
                     SoundsView(sliderWidth: GetLocalizedWidth()*0.53).environmentObject(timer.player)
                 }

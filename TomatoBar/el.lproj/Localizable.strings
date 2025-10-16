@@ -44,6 +44,7 @@
 "TBPopoverView.skip.help" = "Παράλειψη";
 "TBPopoverView.intervals.label" = "Διαστήματα";
 "TBPopoverView.settings.label" = "Ρυθμίσεις";
+"TBPopoverView.shortcuts.label" = "Συντομεύσεις";
 "TBPopoverView.sounds.label" = "Ήχοι";
 "TBPopoverView.about.label" = "Σχετικά";
 "TBPopoverView.quit.label" = "Τερματισμός";

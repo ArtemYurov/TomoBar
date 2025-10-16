@@ -44,6 +44,7 @@
 "TBPopoverView.skip.help" = "Pular";
 "TBPopoverView.intervals.label" = "Intervalos";
 "TBPopoverView.settings.label" = "Configurações";
+"TBPopoverView.shortcuts.label" = "Atalhos";
 "TBPopoverView.sounds.label" = "Sons";
 "TBPopoverView.about.label" = "Sobre";
 "TBPopoverView.quit.label" = "Sair";
