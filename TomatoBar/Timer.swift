@@ -236,7 +236,7 @@ class TBTimer: ObservableObject {
             finishTime = Date().addingTimeInterval(pausedTimeRemaining)
         }
 
-        updateTimeLeft()
+        updateStatusBarTimer()
     }
 
     private func getNextIntervalDuration() -> TimeInterval {
@@ -253,7 +253,7 @@ class TBTimer: ObservableObject {
         }
     }
 
-    func updateTimeLeft() {
+    func updateStatusBarTimer() {
         // Handle different show timer modes
         switch showTimerMode {
         case .off:
@@ -314,7 +314,7 @@ class TBTimer: ObservableObject {
         {
             finishTime = Date().addingTimeInterval(newTimeLeft)
         }
-        updateTimeLeft()
+        updateStatusBarTimer()
     }
 
     private func startTimer(seconds: Int) {
@@ -340,7 +340,7 @@ class TBTimer: ObservableObject {
                 return
             }
             
-            updateTimeLeft()
+            updateStatusBarTimer()
             let timeLeft = finishTime.timeIntervalSince(Date())
             if timeLeft <= 0 {
                 /*
@@ -358,7 +358,7 @@ class TBTimer: ObservableObject {
 
     private func onTimerCancel() {
         DispatchQueue.main.async { [self] in
-            updateTimeLeft()
+            updateStatusBarTimer()
         }
     }
 
@@ -447,6 +447,6 @@ class TBTimer: ObservableObject {
         MaskHelper.shared.hideMaskWindow()
         TBStatusItem.shared.setIcon(name: .idle)
         currentWorkInterval = 0
-        updateTimeLeft()
+        updateStatusBarTimer()
     }
 }

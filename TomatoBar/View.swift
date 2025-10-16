@@ -45,6 +45,9 @@ private struct IntervalsView: View {
                     Text(minStr)
                 }
             }
+            .onChange(of: timer.currentPresetInstance.workIntervalLength) { _ in
+                timer.updateStatusBarTimer()
+            }
             Stepper(value: $timer.currentPresetInstance.shortRestIntervalLength, in: 1 ... 120) {
                 HStack {
                     Text(NSLocalizedString("IntervalsView.shortRestIntervalLength.label",
@@ -57,6 +60,9 @@ private struct IntervalsView: View {
                         .onSubmit({ focusedField = .longRestIntervalLength })
                     Text(minStr)
                 }
+            }
+            .onChange(of: timer.currentPresetInstance.shortRestIntervalLength) { _ in
+                timer.updateStatusBarTimer()
             }
             Stepper(value: $timer.currentPresetInstance.longRestIntervalLength, in: 1 ... 120) {
                 HStack {
@@ -73,6 +79,9 @@ private struct IntervalsView: View {
             }
             .help(NSLocalizedString("IntervalsView.longRestIntervalLength.help",
                                     comment: "Long rest interval hint"))
+            .onChange(of: timer.currentPresetInstance.longRestIntervalLength) { _ in
+                timer.updateStatusBarTimer()
+            }
             Stepper(value: $timer.currentPresetInstance.workIntervalsInSet, in: 1 ... 10) {
                 HStack {
                     Text(NSLocalizedString("IntervalsView.workIntervalsInSet.label",
@@ -87,6 +96,9 @@ private struct IntervalsView: View {
             }
             .help(NSLocalizedString("IntervalsView.workIntervalsInSet.help",
                                     comment: "Work intervals in set hint"))
+            .onChange(of: timer.currentPresetInstance.workIntervalsInSet) { _ in
+                timer.updateStatusBarTimer()
+            }
             Spacer().frame(minHeight: 0)
             HStack {
                 Text(NSLocalizedString("IntervalsView.presets.label",
@@ -102,6 +114,9 @@ private struct IntervalsView: View {
                 .labelsHidden()
                 .frame(maxWidth: 200)
                 .pickerStyle(.segmented)
+            }
+            .onChange(of: timer.currentPreset) { _ in
+                timer.updateStatusBarTimer()
             }
             Spacer().frame(minHeight: 0)
         }
@@ -180,6 +195,9 @@ private struct SettingsView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 StartStopDropdown(value: $timer.startWith)
             }
+            .onChange(of: timer.startWith) { _ in
+                timer.updateStatusBarTimer()
+            }
             HStack {
                 Text(NSLocalizedString("SettingsView.stopAfter.label",
                                         comment: "Stop after label"))
@@ -193,7 +211,7 @@ private struct SettingsView: View {
                 StartStopDropdown(value: $timer.showTimerMode)
             }
             .onChange(of: timer.showTimerMode) { _ in
-                timer.updateTimeLeft()
+                timer.updateStatusBarTimer()
             }
             Toggle(isOn: $timer.showFullScreenMask) {
                 Text(NSLocalizedString("SettingsView.showFullScreenMask.label",

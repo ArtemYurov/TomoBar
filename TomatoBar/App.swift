@@ -48,6 +48,7 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
         statusBarItem?.button?.imagePosition = .imageLeft
         setIcon(name: .idle)
         statusBarItem?.button?.action = #selector(TBStatusItem.togglePopover(_:))
+        view.timer.updateStatusBarTimer()
         view.timer.startOnLaunch()
     }
 
