@@ -10,6 +10,7 @@
 "SettingsView.pauseShortcut.label" = "Pause/resume";
 "SettingsView.skipShortcut.label" = "Skip";
 "SettingsView.addMinuteShortcut.label" = "Add a minute";
+"SettingsView.addFiveMinutesShortcut.label" = "Add five minutes";
 "SettingsView.startWith.label" = "Start with";
 "SettingsView.stopAfter.label" = "Stop after";
 "SettingsView.dropdownDisabled.label" = "Off";
@@ -39,6 +40,7 @@
 "TBPopoverView.start.label" = "Start";
 "TBPopoverView.stop.label" = "Stop";
 "TBPopoverView.addMinute.help" = "Add a minute";
+"TBPopoverView.addFiveMinutes.help" = "Add five minutes";
 "TBPopoverView.pause.help" = "Pause";
 "TBPopoverView.resume.help" = "Resume";
 "TBPopoverView.skip.help" = "Skip";

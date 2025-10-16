@@ -10,6 +10,7 @@
 "SettingsView.pauseShortcut.label" = "Παύση/Συνέχιση";
 "SettingsView.skipShortcut.label" = "Παράλειψη";
 "SettingsView.addMinuteShortcut.label" = "Προσθήκη λεπτού";
+"SettingsView.addFiveMinutesShortcut.label" = "Προσθήκη πέντε λεπτών";
 "SettingsView.startWith.label" = "Έναρξη με";
 "SettingsView.stopAfter.label" = "Παύση μετά από";
 "SettingsView.dropdownDisabled.label" = "Off";
@@ -39,6 +40,7 @@
 "TBPopoverView.start.label" = "Έναρξη";
 "TBPopoverView.stop.label" = "Τερματισμός";
 "TBPopoverView.addMinute.help" = "Προσθήκη λεπτού";
+"TBPopoverView.addFiveMinutes.help" = "Προσθήκη πέντε λεπτών";
 "TBPopoverView.pause.help" = "Παύση";
 "TBPopoverView.resume.help" = "Συνέχεια";
 "TBPopoverView.skip.help" = "Παράλειψη";

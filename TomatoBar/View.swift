@@ -7,6 +7,7 @@ extension KeyboardShortcuts.Name {
     static let pauseResumeTimer = Self("pauseResumeTimer")
     static let skipTimer = Self("skipTimer")
     static let addMinuteTimer = Self("addMinuteTimer")
+    static let addFiveMinutesTimer = Self("addFiveMinutesTimer")
 }
 
 private func ClampedNumberFormatter(min: Int, max: Int) -> NumberFormatter {
@@ -192,6 +193,11 @@ private struct ShortcutsView: View {
                                        comment: "Add a minute label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
+            KeyboardShortcuts.Recorder(for: .addFiveMinutesTimer) {
+                Text(NSLocalizedString("SettingsView.addFiveMinutesShortcut.label",
+                                       comment: "Add five minutes label"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             Spacer().frame(minHeight: 0)
         }
         .padding(4)
@@ -354,7 +360,8 @@ private enum ChildView {
 private struct IconButtonStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 18))
+            .font(.system(size: 20))
+            .accentColor(Color.white)
             .buttonStyle(.plain)
             .frame(width: 28, height: 28)
     }
@@ -431,12 +438,31 @@ struct TBPopoverView: View {
                     .frame(width: 2)
 
                 Button {
-                    timer.addMinute()
+                    timer.addMinutes(1)
                 } label: {
-                    plusIcon
+                    Text("+1")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(Color.white)
+                        .frame(width: 28, height: 20)
+                        .background(Color.primary.opacity(0.8))
+                        .clipShape(Circle())
                 }
-                .iconButtonStyle()
+                .buttonStyle(.plain)
                 .help(addMinuteLabel)
+                .disabled(timer.timer == nil)
+
+                Button {
+                    timer.addMinutes(5)
+                } label: {
+                    Text("+5")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(Color.white)
+                        .frame(width: 28, height: 20)
+                        .background(Color.primary.opacity(0.8))
+                        .clipShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .help(NSLocalizedString("TBPopoverView.addFiveMinutes.help", comment: "Add five minutes hint"))
                 .disabled(timer.timer == nil)
 
                 Button {

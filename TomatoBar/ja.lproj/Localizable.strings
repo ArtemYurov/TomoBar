@@ -10,6 +10,7 @@
 "SettingsView.pauseShortcut.label" = "一時停止/再開";
 "SettingsView.skipShortcut.label" = "スキップ";
 "SettingsView.addMinuteShortcut.label" = "1分追加";
+"SettingsView.addFiveMinutesShortcut.label" = "5分追加";
 "SettingsView.startWith.label" = "◯◯で開始";
 "SettingsView.stopAfter.label" = "◯◯で停止";
 "SettingsView.dropdownDisabled.label" = "オフ";
@@ -39,6 +40,7 @@
 "TBPopoverView.start.label" = "開始";
 "TBPopoverView.stop.label" = "終了";
 "TBPopoverView.addMinute.help" = "1分追加";
+"TBPopoverView.addFiveMinutes.help" = "5分追加";
 "TBPopoverView.pause.help" = "一時停止";
 "TBPopoverView.resume.help" = "再開";
 "TBPopoverView.skip.help" = "スキップ";
