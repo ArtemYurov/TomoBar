@@ -1,8 +1,8 @@
 #!/bin/bash -e
-ASSETS_PATH=../TomatoBar/Assets.xcassets
-APPICON_SRC=TomatoBar.png
+ASSETS_PATH=../TomoBar/Assets.xcassets
+APPICON_SRC=TomoBar.png
 APPICON_ICONSET=${ASSETS_PATH}/AppIcon.appiconset
-BARICON_SRC=tomato-filled.png
+BARICON_SRC=tomo-filled.png
 BARICON_ICONSET_IDLE=${ASSETS_PATH}/BarIconIdle.imageset
 BARICON_ICONSET_WORK=${ASSETS_PATH}/BarIconWork.imageset
 BARICON_ICONSET_SHORT_REST=${ASSETS_PATH}/BarIconShortRest.imageset

@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8A21B78727EE31A20009E5DB"
-               BuildableName = "TomatoBar.app"
-               BlueprintName = "TomatoBar"
-               ReferencedContainer = "container:TomatoBar.xcodeproj">
+               BuildableName = "TomoBar.app"
+               BlueprintName = "TomoBar"
+               ReferencedContainer = "container:TomoBar.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8A21B78727EE31A20009E5DB"
-            BuildableName = "TomatoBar.app"
-            BlueprintName = "TomatoBar"
-            ReferencedContainer = "container:TomatoBar.xcodeproj">
+            BuildableName = "TomoBar.app"
+            BlueprintName = "TomoBar"
+            ReferencedContainer = "container:TomoBar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8A21B78727EE31A20009E5DB"
-            BuildableName = "TomatoBar.app"
-            BlueprintName = "TomatoBar"
-            ReferencedContainer = "container:TomatoBar.xcodeproj">
+            BuildableName = "TomoBar.app"
+            BlueprintName = "TomoBar"
+            ReferencedContainer = "container:TomoBar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

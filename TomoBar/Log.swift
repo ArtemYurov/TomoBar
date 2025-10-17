@@ -26,7 +26,7 @@ class TBLogEventTransition: TBLogEvent {
     }
 }
 
-private let logFileName = "TomatoBar.log"
+private let logFileName = "TomoBar.log"
 private let lineEnd = "\n".data(using: .utf8)!
 
 internal let logger = TBLogger()

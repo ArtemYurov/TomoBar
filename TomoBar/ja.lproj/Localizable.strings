@@ -37,8 +37,8 @@
 "TBPopoverView.intervals.label" = "インターバル";
 "TBPopoverView.settings.label" = "設定";
 "TBPopoverView.sounds.label" = "サウンド";
-"TBPopoverView.about.label" = "TomatoBarについて";
-"TBPopoverView.quit.label" = "TomatoBarを終了";
+"TBPopoverView.about.label" = "TomoBarについて";
+"TBPopoverView.quit.label" = "TomoBarを終了";
 "TBTimer.onRestStart.title" = "作業終了です！";
 "TBTimer.onRestStart.short.body" = "短い休憩を取りましょう！";
 "TBTimer.onRestStart.long.body" = "長い休憩を取りましょう！";

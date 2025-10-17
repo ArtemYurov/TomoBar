@@ -26,11 +26,11 @@
 
 /* Begin PBXFileReference section */
 		489CFFB02DBBE0B70052D63E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		8A21B78827EE31A20009E5DB /* TomatoBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TomatoBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A21B78827EE31A20009E5DB /* TomoBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TomoBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A21B78B27EE31A20009E5DB /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		8A21B78D27EE31A20009E5DB /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		8A21B78F27EE31A30009E5DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8A21B79427EE31A30009E5DB /* TomatoBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TomatoBar.entitlements; sourceTree = "<group>"; };
+		8A21B79427EE31A30009E5DB /* TomoBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TomoBar.entitlements; sourceTree = "<group>"; };
 		8A9F700827EE396E0012A1EC /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		8A9F701827EE3DAF0012A1EC /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		8A9F701E27EE536D0012A1EC /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -65,7 +65,7 @@
 		8A21B77F27EE31A20009E5DB = {
 			isa = PBXGroup;
 			children = (
-				8A21B78A27EE31A20009E5DB /* TomatoBar */,
+				8A21B78A27EE31A20009E5DB /* TomoBar */,
 				8A21B78927EE31A20009E5DB /* Products */,
 				8A9F700D27EE3AED0012A1EC /* Frameworks */,
 			);
@@ -74,12 +74,12 @@
 		8A21B78927EE31A20009E5DB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8A21B78827EE31A20009E5DB /* TomatoBar.app */,
+				8A21B78827EE31A20009E5DB /* TomoBar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8A21B78A27EE31A20009E5DB /* TomatoBar */ = {
+		8A21B78A27EE31A20009E5DB /* TomoBar */ = {
 			isa = PBXGroup;
 			children = (
 				D05258242C76C7D4005093E3 /* macos-focus-mode.shortcut */,
@@ -93,10 +93,10 @@
 				8A9F701E27EE536D0012A1EC /* Player.swift */,
 				8AA5B3F12812A74600BE1A6C /* Notifications.swift */,
 				8A21B78F27EE31A30009E5DB /* Assets.xcassets */,
-				8A21B79427EE31A30009E5DB /* TomatoBar.entitlements */,
+				8A21B79427EE31A30009E5DB /* TomoBar.entitlements */,
 				8AA54347293094AB002A47FC /* Localizable.strings */,
 			);
-			path = TomatoBar;
+			path = TomoBar;
 			sourceTree = "<group>";
 		};
 		8A9F700D27EE3AED0012A1EC /* Frameworks */ = {
@@ -109,9 +109,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8A21B78727EE31A20009E5DB /* TomatoBar */ = {
+		8A21B78727EE31A20009E5DB /* TomoBar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8A21B79727EE31A30009E5DB /* Build configuration list for PBXNativeTarget "TomatoBar" */;
+			buildConfigurationList = 8A21B79727EE31A30009E5DB /* Build configuration list for PBXNativeTarget "TomoBar" */;
 			buildPhases = (
 				8A21B78427EE31A20009E5DB /* Sources */,
 				8A21B78527EE31A20009E5DB /* Frameworks */,
@@ -122,14 +122,14 @@
 			);
 			dependencies = (
 			);
-			name = TomatoBar;
+			name = TomoBar;
 			packageProductDependencies = (
 				8A74039F27FA19BB00E7F90B /* LaunchAtLogin */,
 				8AA5B3EA281295DB00BE1A6C /* KeyboardShortcuts */,
 				8A8CFE3F2821D8C300F9F303 /* SwiftState */,
 			);
-			productName = TomatoBar;
-			productReference = 8A21B78827EE31A20009E5DB /* TomatoBar.app */;
+			productName = TomoBar;
+			productReference = 8A21B78827EE31A20009E5DB /* TomoBar.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -147,7 +147,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8A21B78327EE31A20009E5DB /* Build configuration list for PBXProject "TomatoBar" */;
+			buildConfigurationList = 8A21B78327EE31A20009E5DB /* Build configuration list for PBXProject "TomoBar" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -172,7 +172,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8A21B78727EE31A20009E5DB /* TomatoBar */,
+				8A21B78727EE31A20009E5DB /* TomoBar */,
 			);
 		};
 /* End PBXProject section */
@@ -374,28 +374,29 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = TomatoBar/TomatoBar.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TomoBar/TomoBar.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = LUZK6JBS9B;
+				DEVELOPMENT_TEAM = ***REMOVED***;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TomatoBar/Info.plist;
+				INFOPLIST_FILE = TomoBar/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TomoBar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "Allow changing the state of Do Not Disturb via a shortcut";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Ilya Voronin. All rights reserved. https://github.com/ivoronin/TomatoBar\nFork: https://github.com/AuroraWright/TomatoBar";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Artem Yurov. All rights reserved.\nhttps://github.com/ArtemYurov/TomoBar\n\nBased on TomatoBar by iVoronin and AuroraWright. ";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = "3.5.0-fork";
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.ivoronin.TomatoBar;
+				MARKETING_VERSION = 4.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.ArtemYurov.TomoBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -412,28 +413,29 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = TomatoBar/TomatoBar.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TomoBar/TomoBar.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = LUZK6JBS9B;
+				DEVELOPMENT_TEAM = ***REMOVED***;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TomatoBar/Info.plist;
+				INFOPLIST_FILE = TomoBar/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TomoBar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "Allow changing the state of Do Not Disturb via a shortcut";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Ilya Voronin. All rights reserved. https://github.com/ivoronin/TomatoBar\nFork: https://github.com/AuroraWright/TomatoBar";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Artem Yurov. All rights reserved.\nhttps://github.com/ArtemYurov/TomoBar\n\nBased on TomatoBar by iVoronin and AuroraWright. ";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = "3.5.0-fork";
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.ivoronin.TomatoBar;
+				MARKETING_VERSION = 4.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.ArtemYurov.TomoBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -448,7 +450,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8A21B78327EE31A20009E5DB /* Build configuration list for PBXProject "TomatoBar" */ = {
+		8A21B78327EE31A20009E5DB /* Build configuration list for PBXProject "TomoBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8A21B79527EE31A30009E5DB /* Debug */,
@@ -457,7 +459,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8A21B79727EE31A30009E5DB /* Build configuration list for PBXNativeTarget "TomatoBar" */ = {
+		8A21B79727EE31A30009E5DB /* Build configuration list for PBXNativeTarget "TomoBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8A21B79827EE31A30009E5DB /* Debug */,

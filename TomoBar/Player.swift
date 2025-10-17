@@ -75,7 +75,7 @@ class TBPlayer: ObservableObject {
 
     init() {
         let documentFolder = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        soundFolder = documentFolder.appendingPathComponent("TomatoBar")
+        soundFolder = documentFolder.appendingPathComponent("TomoBar")
 
         do {
             try FileManager.default.createDirectory(at: soundFolder, withIntermediateDirectories: true)

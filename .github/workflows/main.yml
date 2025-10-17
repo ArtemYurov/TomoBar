@@ -38,15 +38,15 @@ jobs:
         env:
           DEVELOPER_DIR: /Applications/Xcode_14.1.app/Contents/Developer
         run: |
-          xcodebuild archive -project TomatoBar.xcodeproj -scheme TomatoBar -configuration Release -archivePath TomatoBar.xcarchive MARKETING_VERSION=${{github.ref_name}}
-          xcodebuild archive -archivePath TomatoBar.xcarchive -exportArchive -exportOptionsPlist export_options.plist -exportPath .
-          zip -r "TomatoBar-${{env.version}}.zip" "TomatoBar.app"
+          xcodebuild archive -project TomoBar.xcodeproj -scheme TomoBar -configuration Release -archivePath TomoBar.xcarchive MARKETING_VERSION=${{github.ref_name}}
+          xcodebuild archive -archivePath TomoBar.xcarchive -exportArchive -exportOptionsPlist export_options.plist -exportPath .
+          zip -r "TomoBar-${{env.version}}.zip" "TomoBar.app"
 
       - name: Release
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v1
         with:
-          files: TomatoBar-${{env.version}}.zip
+          files: TomoBar-${{env.version}}.zip
 
       - name: Prerelease
         if: github.ref_type == 'branch'
@@ -54,4 +54,4 @@ jobs:
         with:
           tag_name: prerelease
           prerelease: true
-          files: TomatoBar-${{env.version}}.zip
+          files: TomoBar-${{env.version}}.zip
