@@ -149,7 +149,12 @@ class TBTimer: ObservableObject {
         KeyboardShortcuts.onKeyUp(for: .startStopTimer, action: startStop)
         KeyboardShortcuts.onKeyUp(for: .pauseResumeTimer, action: pauseResume)
         KeyboardShortcuts.onKeyUp(for: .skipTimer, action: skip)
-        KeyboardShortcuts.onKeyUp(for: .addMinuteTimer, action: addMinute)
+        KeyboardShortcuts.onKeyUp(for: .addMinuteTimer) { [weak self] in
+            self?.addMinutes(1)
+        }
+        KeyboardShortcuts.onKeyUp(for: .addFiveMinutesTimer) { [weak self] in
+            self?.addMinutes(5)
+        }
         notificationCenter.setActionHandler(handler: onNotificationAction)
 
         let aem: NSAppleEventManager = NSAppleEventManager.shared()
@@ -184,7 +189,9 @@ class TBTimer: ObservableObject {
         case "skip":
             skip()
         case "addminute":
-            addMinute()
+            addMinutes(1)
+        case "addfiveminutes":
+            addMinutes(5)
         default:
             print("url handling error: unknown command \(host)")
             return
@@ -314,24 +321,25 @@ class TBTimer: ObservableObject {
         updateStatusBar()
     }
 
-    func addMinute() {
+    func addMinutes(_ minutes: Int = 1) {
         if timer == nil {
             return
         }
 
+        let seconds = TimeInterval(minutes * 60)
         let timeLeft = paused ? pausedTimeRemaining : finishTime.timeIntervalSince(Date())
-        var newTimeLeft = timeLeft + TimeInterval(60)
+        var newTimeLeft = timeLeft + seconds
         if newTimeLeft > 7200 {
             newTimeLeft = TimeInterval(7200)
         }
 
         if paused {
             pausedTimeRemaining = newTimeLeft
-            pausedTimeElapsed = pausedTimeElapsed - 60
+            pausedTimeElapsed = pausedTimeElapsed - seconds
         }
         else
         {
-            startTime = startTime.addingTimeInterval(60)
+            startTime = startTime.addingTimeInterval(seconds)
             finishTime = Date().addingTimeInterval(newTimeLeft)
         }
         updateDisplay()

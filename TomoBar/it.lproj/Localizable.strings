@@ -10,6 +10,7 @@
 "SettingsView.pauseShortcut.label" = "Pausa/riprendi";
 "SettingsView.skipShortcut.label" = "Salta";
 "SettingsView.addMinuteShortcut.label" = "Aggiungi un minuto";
+"SettingsView.addFiveMinutesShortcut.label" = "Aggiungi cinque minuti";
 "SettingsView.startWith.label" = "Inizia con";
 "SettingsView.stopAfter.label" = "Ferma dopo";
 "SettingsView.dropdownDisabled.label" = "Off";
@@ -35,15 +36,17 @@
 "SoundsView.isDingEnabled.label" = "Ding";
 "SoundsView.isTickingEnabled.label" = "Ticchettio";
 "SoundsView.openSoundFolder.label" = "Apri cartella dei suoni";
-"TBPopoverView.width" = "275";
+"TBPopoverView.width" = "285";
 "TBPopoverView.start.label" = "Avvia";
 "TBPopoverView.stop.label" = "Ferma";
 "TBPopoverView.addMinute.help" = "Aggiungi un minuto";
+"TBPopoverView.addFiveMinutes.help" = "Aggiungi cinque minuti";
 "TBPopoverView.pause.help" = "Pausa";
 "TBPopoverView.resume.help" = "Riprendi";
 "TBPopoverView.skip.help" = "Salta";
 "TBPopoverView.intervals.label" = "Intervalli";
 "TBPopoverView.settings.label" = "Preferenze";
+"TBPopoverView.shortcuts.label" = "Scorciatoie";
 "TBPopoverView.sounds.label" = "Suoni";
 "TBPopoverView.about.label" = "Informazioni";
 "TBPopoverView.quit.label" = "Esci";

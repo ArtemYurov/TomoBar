@@ -7,6 +7,7 @@ extension KeyboardShortcuts.Name {
     static let pauseResumeTimer = Self("pauseResumeTimer")
     static let skipTimer = Self("skipTimer")
     static let addMinuteTimer = Self("addMinuteTimer")
+    static let addFiveMinutesTimer = Self("addFiveMinutesTimer")
 }
 
 private func ClampedNumberFormatter(min: Int, max: Int) -> NumberFormatter {
@@ -169,10 +170,7 @@ extension DropdownDescribable {
     }
 }
 
-private struct SettingsView: View {
-    @EnvironmentObject var timer: TBTimer
-    @ObservedObject private var launchAtLogin = LaunchAtLogin.observable
-
+private struct ShortcutsView: View {
     var body: some View {
         VStack {
             KeyboardShortcuts.Recorder(for: .startStopTimer) {
@@ -195,7 +193,23 @@ private struct SettingsView: View {
                                        comment: "Add a minute label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
+            KeyboardShortcuts.Recorder(for: .addFiveMinutesTimer) {
+                Text(NSLocalizedString("SettingsView.addFiveMinutesShortcut.label",
+                                       comment: "Add five minutes label"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             Spacer().frame(minHeight: 0)
+        }
+        .padding(4)
+    }
+}
+
+private struct SettingsView: View {
+    @EnvironmentObject var timer: TBTimer
+    @ObservedObject private var launchAtLogin = LaunchAtLogin.observable
+
+    var body: some View {
+        VStack {
             HStack {
                 Text(NSLocalizedString("SettingsView.startWith.label",
                                         comment: "Start with label"))
@@ -340,7 +354,23 @@ private struct SoundsView: View {
 }
 
 private enum ChildView {
-    case intervals, settings, sounds
+    case intervals, settings, shortcuts, sounds
+}
+
+private struct IconButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: 20))
+            .accentColor(Color.white)
+            .buttonStyle(.plain)
+            .frame(width: 28, height: 28)
+    }
+}
+
+extension View {
+    func iconButtonStyle() -> some View {
+        modifier(IconButtonStyle())
+    }
 }
 
 struct TBPopoverView: View {
@@ -367,6 +397,8 @@ struct TBPopoverView: View {
     private var pauseLabel = NSLocalizedString("TBPopoverView.pause.help", comment: "Pause hint")
     private var resumeLabel = NSLocalizedString("TBPopoverView.resume.help", comment: "Resume hint")
     private var skipLabel = NSLocalizedString("TBPopoverView.skip.help", comment: "Skip hint")
+    private var playIcon = Image(systemName: "play.fill")
+    private var stopIcon = Image(systemName: "stop.fill")
     private var plusIcon = Image(systemName: "plus.circle.fill")
     private var resumeIcon = Image(systemName: "play.circle.fill")
     private var pauseIcon = Image(systemName: "pause.circle.fill")
@@ -379,9 +411,14 @@ struct TBPopoverView: View {
                     timer.startStop()
                     TBStatusItem.shared.closePopover(nil)
                 } label: {
-                    Text(timer.timer != nil ?
-                         (buttonHovered ? stopLabel : TimerDisplayString()) :
-                            startLabel)
+                    HStack {
+                        if timer.timer == nil || buttonHovered {
+                            Text(timer.timer != nil ? stopIcon : playIcon)
+                        }
+                        Text(timer.timer != nil ?
+                             (buttonHovered ? stopLabel : TimerDisplayString()) :
+                                startLabel)
+                    }
                     /*
                      When appearance is set to "Dark" and accent color is set to "Graphite"
                      "defaultAction" button label's color is set to the same color as the
@@ -396,37 +433,57 @@ struct TBPopoverView: View {
                 }
                 .controlSize(.large)
                 .keyboardShortcut(.defaultAction)
-                
-                if timer.timer != nil {
-                    Group {
-                        Button {
-                            timer.addMinute()
-                        } label: {
-                            Text(plusIcon)
-                        }
-                        .controlSize(.large)
-                        .help(addMinuteLabel)
 
-                        Button {
-                            timer.pauseResume()
-                            TBStatusItem.shared.closePopover(nil)
-                        } label: {
-                            Text(timer.paused ? resumeIcon : pauseIcon)
-                        }
-                        .controlSize(.large)
-                        .help(timer.paused ? resumeLabel : pauseLabel)
+                Spacer()
+                    .frame(width: 2)
 
-                        Button {
-                            timer.skip()
-                            TBStatusItem.shared.closePopover(nil)
-                        } label: {
-                            Text(skipIcon)
-                        }
-                        .controlSize(.large)
-                        .help(skipLabel)
-                    }
-                    .disabled(timer.timer == nil)
+                Button {
+                    timer.addMinutes(1)
+                } label: {
+                    Text("+1")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(Color.white)
+                        .frame(width: 28, height: 20)
+                        .background(Color.primary.opacity(0.8))
+                        .clipShape(Circle())
                 }
+                .buttonStyle(.plain)
+                .help(addMinuteLabel)
+                .disabled(timer.timer == nil)
+
+                Button {
+                    timer.addMinutes(5)
+                } label: {
+                    Text("+5")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(Color.white)
+                        .frame(width: 28, height: 20)
+                        .background(Color.primary.opacity(0.8))
+                        .clipShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .help(NSLocalizedString("TBPopoverView.addFiveMinutes.help", comment: "Add five minutes hint"))
+                .disabled(timer.timer == nil)
+
+                Button {
+                    timer.pauseResume()
+                    TBStatusItem.shared.closePopover(nil)
+                } label: {
+                    (timer.paused ? resumeIcon : pauseIcon)
+                }
+                .iconButtonStyle()
+                .help(timer.paused ? resumeLabel : pauseLabel)
+                .disabled(timer.timer == nil)
+
+                Button {
+                    timer.skip()
+                    TBStatusItem.shared.closePopover(nil)
+                } label: {
+                    skipIcon
+                }
+                .iconButtonStyle()
+                .help(skipLabel)
+                .disabled(timer.timer == nil)
             }
             
             Picker("", selection: $activeChildView) {
@@ -434,6 +491,8 @@ struct TBPopoverView: View {
                                        comment: "Intervals label")).tag(ChildView.intervals)
                 Text(NSLocalizedString("TBPopoverView.settings.label",
                                        comment: "Settings label")).tag(ChildView.settings)
+                Text(NSLocalizedString("TBPopoverView.shortcuts.label",
+                                       comment: "Shortcuts label")).tag(ChildView.shortcuts)
                 Text(NSLocalizedString("TBPopoverView.sounds.label",
                                        comment: "Sounds label")).tag(ChildView.sounds)
             }
@@ -447,6 +506,8 @@ struct TBPopoverView: View {
                     IntervalsView().environmentObject(timer)
                 case .settings:
                     SettingsView().environmentObject(timer)
+                case .shortcuts:
+                    ShortcutsView()
                 case .sounds:
                     SoundsView(sliderWidth: GetLocalizedWidth()*0.53).environmentObject(timer.player)
                 }
