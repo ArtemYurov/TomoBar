@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-12
+    runs-on: macos-15
 
     steps:
       - name: Delete old prerelease
@@ -34,12 +34,42 @@ jobs:
         if: github.ref_type == 'branch'
         run: echo "version=$(git describe --tags)" >> $GITHUB_ENV
 
+      - name: Select Xcode 16.4
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.4'
+
       - name: Build
-        env:
-          DEVELOPER_DIR: /Applications/Xcode_14.1.app/Contents/Developer
         run: |
-          xcodebuild archive -project TomoBar.xcodeproj -scheme TomoBar -configuration Release -archivePath TomoBar.xcarchive MARKETING_VERSION=${{github.ref_name}}
-          xcodebuild archive -archivePath TomoBar.xcarchive -exportArchive -exportOptionsPlist export_options.plist -exportPath .
+          # Create a fake codesign that skips signing in CI
+          mkdir -p /tmp/bin
+          cat > /tmp/bin/codesign << 'EOF'
+          #!/bin/bash
+          echo "Skipping codesign in CI environment: $@"
+          exit 0
+          EOF
+          chmod +x /tmp/bin/codesign
+          export PATH="/tmp/bin:$PATH"
+
+          # Build application archive
+          xcodebuild archive -project TomoBar.xcodeproj \
+                             -scheme TomoBar \
+                             -configuration Release \
+                             -archivePath TomoBar.xcarchive \
+                             ARCHS="arm64 x86_64" \
+                             ONLY_ACTIVE_ARCH=NO \
+                             MARKETING_VERSION=${{github.ref_name}} \
+                             CODE_SIGN_IDENTITY="-" \
+                             CODE_SIGNING_REQUIRED=NO \
+                             CODE_SIGNING_ALLOWED=NO
+
+          # Export application
+          xcodebuild -archivePath TomoBar.xcarchive \
+                     -exportArchive \
+                     -exportOptionsPlist export_options.plist \
+                     -exportPath .
+
+          # Create ZIP archive
           zip -r "TomoBar-${{env.version}}.zip" "TomoBar.app"
 
       - name: Release

@@ -4,5 +4,11 @@
 <dict>
 	<key>method</key>
 	<string>mac-application</string>
+	<key>signingStyle</key>
+	<string>manual</string>
+	<key>signingCertificate</key>
+	<string>-</string>
+	<key>provisioningProfiles</key>
+	<dict/>
 </dict>
 </plist>
