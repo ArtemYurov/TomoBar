@@ -2,24 +2,6 @@ import KeyboardShortcuts
 import SwiftState
 import SwiftUI
 
-extension Array: @retroactive RawRepresentable where Element: Codable {
-    public init?(rawValue: String) {
-        guard
-            let data = rawValue.data(using: .utf8),
-            let result = try? JSONDecoder().decode([Element].self, from: data)
-        else { return nil }
-        self = result
-    }
-
-    public var rawValue: String {
-        guard
-            let data = try? JSONEncoder().encode(self),
-            let result = String(data: data, encoding: .utf8)
-        else { return "" }
-        return result
-    }
-}
-
 enum startWithValues: String, CaseIterable, DropdownDescribable {
     case work, rest
 }
@@ -51,7 +33,11 @@ class TBTimer: ObservableObject {
     @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.system
     @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = 0
     @AppStorage("currentPreset") var currentPreset = 0
-    @AppStorage("timerPresets") var presets = Array(repeating: TimerPreset(), count: 4)
+    @AppStorage("timerPresets") private var presetsData = Data()
+    var presets: [TimerPreset] {
+        get { (try? JSONDecoder().decode([TimerPreset].self, from: presetsData)) ?? Array(repeating: TimerPreset(), count: 4) }
+        set { presetsData = (try? JSONEncoder().encode(newValue)) ?? Data() }
+    }
     @AppStorage("showFullScreenMask") var showFullScreenMask = false
     @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false {
         didSet {
