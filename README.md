@@ -31,6 +31,7 @@ TomoBar can be controlled using `tomobar://` URLs.
 - use `open tomobar://pauseResume` to pause or resume 
 - use `open tomobar://skip` to skip 
 - use `open tomobar://addMinute` to add a minute
+- use `open tomobar://addFiveMinutes` to add a 5 minutes
 
 ## Older versions
 Touch bar integration and older macOS versions (earlier than Big Sur) are supported by TomatoBar versions prior to 3.0
