@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/ArtemYurov/TomoBar/main/TomoBar/Assets.xcassets/AppIcon.appiconset/icon_128x128%402x.png" width="128" height="128"/>
+<img src="https://github.com/ArtemYurov/TomoBar/raw/main/TomoBar/Assets.xcassets/AppIcon.appiconset/icon_128x128%402x.png?raw=true" width="128" height="128"/>
 <p>
  
 <h1 align="center">TomoBar (fork of TomatoBar)</h1>
