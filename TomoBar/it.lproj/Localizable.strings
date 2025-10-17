@@ -16,7 +16,15 @@
 "SettingsView.dropdownWork.label" = "Lavoro";
 "SettingsView.dropdownBreak.label" = "Pausa";
 "SettingsView.dropdownSet.label" = "Set";
-"SettingsView.showTimerInMenuBar.label" = "Mostra timer nella barra dei menu";
+"SettingsView.showTimer.label" = "Mostra timer";
+"SettingsView.showTimerOff.label" = "Off";
+"SettingsView.showTimerRunning.label" = "Attivo";
+"SettingsView.showTimerAlways.label" = "Sempre";
+"SettingsView.timerFont.label" = "Carattere";
+"SettingsView.dropdownSystem.label" = "Sistema";
+"SettingsView.dropdownMono.label" = "PT Mono";
+"SettingsView.dropdownSFMono.label" = "SF Mono";
+"SettingsView.grayBackground.label" = "Sfondo grigio del timer";
 "SettingsView.showFullScreenMask.label" = "Usa maschera a schermo intero";
 "SettingsView.showFullScreenMask.help" = "Durante le pause, copre il display invece di mostrare una notifica";
 "SettingsView.toggleDoNotDisturb.label" = "Gestisci Non disturbare";

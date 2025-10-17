@@ -16,7 +16,15 @@
 "SettingsView.dropdownWork.label" = "工作";
 "SettingsView.dropdownBreak.label" = "休息";
 "SettingsView.dropdownSet.label" = "组";
-"SettingsView.showTimerInMenuBar.label" = "在菜单栏中显示计时器";
+"SettingsView.showTimer.label" = "显示计时器";
+"SettingsView.showTimerOff.label" = "关闭";
+"SettingsView.showTimerRunning.label" = "运行时";
+"SettingsView.showTimerAlways.label" = "始终";
+"SettingsView.timerFont.label" = "字体";
+"SettingsView.dropdownSystem.label" = "系统";
+"SettingsView.dropdownMono.label" = "PT Mono";
+"SettingsView.dropdownSFMono.label" = "SF Mono";
+"SettingsView.grayBackground.label" = "计时器灰色背景";
 "SettingsView.showFullScreenMask.label" = "使用全屏遮罩";
 "SettingsView.showFullScreenMask.help" = "在休息时，使用全屏遮罩，而不是通知";
 "SettingsView.toggleDoNotDisturb.label" = "切换请勿打扰";

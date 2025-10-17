@@ -16,7 +16,15 @@
 "SettingsView.dropdownWork.label" = "作業";
 "SettingsView.dropdownBreak.label" = "休憩";
 "SettingsView.dropdownSet.label" = "セット";
-"SettingsView.showTimerInMenuBar.label" = "タイマーをメニューバーに表示";
+"SettingsView.showTimer.label" = "タイマーを表示";
+"SettingsView.showTimerOff.label" = "オフ";
+"SettingsView.showTimerRunning.label" = "実行中";
+"SettingsView.showTimerAlways.label" = "常に";
+"SettingsView.timerFont.label" = "フォント";
+"SettingsView.dropdownSystem.label" = "システム";
+"SettingsView.dropdownMono.label" = "PT Mono";
+"SettingsView.dropdownSFMono.label" = "SF Mono";
+"SettingsView.grayBackground.label" = "タイマーグレー背景";
 "SettingsView.showFullScreenMask.label" = "強制休憩モード";
 "SettingsView.showFullScreenMask.help" = "休憩中は画面全体を暗くします(いつでも解除可能です)";
 "SettingsView.toggleDoNotDisturb.label" = "おやすみモードの自動切り替え";

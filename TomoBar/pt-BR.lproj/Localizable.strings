@@ -16,7 +16,15 @@
 "SettingsView.dropdownWork.label" = "Trabalho";
 "SettingsView.dropdownBreak.label" = "Pausa";
 "SettingsView.dropdownSet.label" = "Ciclo";
-"SettingsView.showTimerInMenuBar.label" = "Mostrar cronômetro na barra de menu";
+"SettingsView.showTimer.label" = "Mostrar cronômetro";
+"SettingsView.showTimerOff.label" = "Nunca";
+"SettingsView.showTimerRunning.label" = "Em execução";
+"SettingsView.showTimerAlways.label" = "Sempre";
+"SettingsView.timerFont.label" = "Fonte";
+"SettingsView.dropdownSystem.label" = "Sistema";
+"SettingsView.dropdownMono.label" = "PT Mono";
+"SettingsView.dropdownSFMono.label" = "SF Mono";
+"SettingsView.grayBackground.label" = "Fundo cinza do temporizador";
 "SettingsView.showFullScreenMask.label" = "Usar máscara em tela cheia";
 "SettingsView.showFullScreenMask.help" = "Durante as pausas, usar uma máscara de tela cheia em vez de notificações";
 "SettingsView.toggleDoNotDisturb.label" = "Alternar Não Perturbe";

@@ -28,6 +28,14 @@ enum stopAfterValues: String, CaseIterable, DropdownDescribable {
     case disabled, work, rest, longRest
 }
 
+enum ShowTimerMode: String, CaseIterable, DropdownDescribable {
+    case off, running, always
+}
+
+enum TimerFontMode: String, CaseIterable, DropdownDescribable {
+    case system, ptMono, sfMono
+}
+
 struct TimerPreset: Codable {
     var workIntervalLength = 25
     var shortRestIntervalLength = 5
@@ -39,7 +47,9 @@ class TBTimer: ObservableObject {
     @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = false
     @AppStorage("startWith") var startWith = startWithValues.work
     @AppStorage("stopAfter") var stopAfter = stopAfterValues.disabled
-    @AppStorage("showTimerInMenuBar") var showTimerInMenuBar = true
+    @AppStorage("showTimerMode") var showTimerMode = ShowTimerMode.running
+    @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.system
+    @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = 0
     @AppStorage("currentPreset") var currentPreset = 0
     @AppStorage("timerPresets") var presets = Array(repeating: TimerPreset(), count: 4)
     @AppStorage("showFullScreenMask") var showFullScreenMask = false
@@ -70,6 +80,9 @@ class TBTimer: ObservableObject {
     private var timerFormatter = DateComponentsFormatter()
     private var pausedTimeRemaining: TimeInterval = 0
     private var pausedPrevImage: NSImage?
+    private var startTime: Date!  // When the current interval started
+    private var pausedTimeElapsed: TimeInterval = 0  // Elapsed time when paused
+    private var adjustTimerWorkItem: DispatchWorkItem?  // For debouncing timer adjustments
     @Published var paused: Bool = false
     @Published var timeLeftString: String = ""
     @Published var timer: DispatchSourceTimer?
@@ -220,6 +233,7 @@ class TBTimer: ObservableObject {
             pausedPrevImage = TBStatusItem.shared.statusBarItem?.button?.image
             TBStatusItem.shared.setIcon(name: .pause)
             pausedTimeRemaining = finishTime.timeIntervalSince(Date())
+            pausedTimeElapsed = Date().timeIntervalSince(startTime)
             finishTime = Date.distantFuture
         }
         else {
@@ -229,30 +243,75 @@ class TBTimer: ObservableObject {
             if pausedPrevImage != nil {
                 TBStatusItem.shared.statusBarItem?.button?.image = pausedPrevImage
             }
+            // Adjust startTime to account for pause duration
+            startTime = Date().addingTimeInterval(-pausedTimeElapsed)
             finishTime = Date().addingTimeInterval(pausedTimeRemaining)
         }
 
-        updateTimeLeft()
+        updateDisplay()
     }
 
-    func updateTimeLeft() {
-        let timeLeft = paused ? pausedTimeRemaining : finishTime.timeIntervalSince(Date())
+    private func getNextIntervalDuration() -> TimeInterval {
+        // Return the duration of the next interval when timer is idle
+        if startWith == .work {
+            return TimeInterval(currentPresetInstance.workIntervalLength * 60)
+        } else {
+            // Determine if it's a long rest or short rest
+            if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
+                return TimeInterval(currentPresetInstance.longRestIntervalLength * 60)
+            } else {
+                return TimeInterval(currentPresetInstance.shortRestIntervalLength * 60)
+            }
+        }
+    }
 
+    private func updateTimeLeft() {
+        // Calculate and format time (always needed for popover display)
+        let timeLeft: TimeInterval
+        if timer == nil {
+            // Timer is idle - show the duration of the next interval
+            timeLeft = getNextIntervalDuration()
+        } else {
+            // Timer is running or paused
+            timeLeft = paused ? pausedTimeRemaining : finishTime.timeIntervalSince(Date())
+        }
+
+        // Format the time
         if timeLeft >= 3600 {
             timerFormatter.allowedUnits = [.hour, .minute, .second]
             timerFormatter.zeroFormattingBehavior = .dropLeading
-        }
-        else {
+        } else {
             timerFormatter.allowedUnits = [.minute, .second]
             timerFormatter.zeroFormattingBehavior = .pad
         }
 
         timeLeftString = timerFormatter.string(from: timeLeft)!
-        if timer != nil, !paused, showTimerInMenuBar {
-            TBStatusItem.shared.setTitle(title: timeLeftString)
-        } else {
+    }
+
+    private func updateStatusBar() {
+        // Handle different show timer modes for status bar display
+        switch showTimerMode {
+        case .off:
+            // Never show timer in status bar
             TBStatusItem.shared.setTitle(title: nil)
+
+        case .running:
+            // Show timer only when running and not paused
+            if timer == nil || paused {
+                TBStatusItem.shared.setTitle(title: nil)
+            } else {
+                TBStatusItem.shared.setTitle(title: timeLeftString)
+            }
+
+        case .always:
+            // Show timer always (including idle and paused states)
+            TBStatusItem.shared.setTitle(title: timeLeftString)
         }
+    }
+
+    func updateDisplay() {
+        updateTimeLeft()
+        updateStatusBar()
     }
 
     func addMinute() {
@@ -268,16 +327,128 @@ class TBTimer: ObservableObject {
 
         if paused {
             pausedTimeRemaining = newTimeLeft
+            pausedTimeElapsed = pausedTimeElapsed - 60
         }
         else
         {
+            startTime = startTime.addingTimeInterval(60)
             finishTime = Date().addingTimeInterval(newTimeLeft)
         }
-        updateTimeLeft()
+        updateDisplay()
+    }
+
+    enum IntervalType {
+        case work
+        case shortRest
+        case longRest
+        case workIntervalsInSet
+    }
+
+    func adjustTimer(intervalType: IntervalType) {
+        // Only adjust if timer is running
+        guard timer != nil else {
+            updateDisplay()
+            return
+        }
+
+        // Determine current interval duration and if we should adjust
+        let newIntervalMinutes: Int
+        let shouldAdjust: Bool
+
+        switch (stateMachine.state, intervalType) {
+        case (.work, .work):
+            newIntervalMinutes = currentPresetInstance.workIntervalLength
+            shouldAdjust = true
+        case (.rest, .shortRest):
+            // Short rest applies when not in long rest
+            if currentWorkInterval < currentPresetInstance.workIntervalsInSet {
+                newIntervalMinutes = currentPresetInstance.shortRestIntervalLength
+                shouldAdjust = true
+            } else {
+                shouldAdjust = false
+                newIntervalMinutes = 0
+            }
+        case (.rest, .longRest):
+            // Long rest applies when in long rest
+            if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
+                newIntervalMinutes = currentPresetInstance.longRestIntervalLength
+                shouldAdjust = true
+            } else {
+                shouldAdjust = false
+                newIntervalMinutes = 0
+            }
+        case (.rest, .workIntervalsInSet):
+            // Changing workIntervalsInSet might change rest type, need to recalculate
+            if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
+                newIntervalMinutes = currentPresetInstance.longRestIntervalLength
+            } else {
+                newIntervalMinutes = currentPresetInstance.shortRestIntervalLength
+            }
+            shouldAdjust = true
+        default:
+            shouldAdjust = false
+            newIntervalMinutes = 0
+        }
+
+        guard shouldAdjust else {
+            updateDisplay()
+            return
+        }
+
+        // Calculate elapsed time from timer start
+        let elapsedTime: TimeInterval
+        if paused {
+            elapsedTime = pausedTimeElapsed
+        } else {
+            elapsedTime = Date().timeIntervalSince(startTime)
+        }
+
+        // Calculate new time left with new interval duration
+        let newIntervalDuration = TimeInterval(newIntervalMinutes * 60)
+        let newTimeLeft = newIntervalDuration - elapsedTime
+
+        // Only update if newTimeLeft is at least 1 second
+        // This prevents timer corruption during rapid onChange events (e.g., typing in TextField)
+        if newTimeLeft >= 1.0 {
+            if paused {
+                pausedTimeRemaining = newTimeLeft
+            } else {
+                finishTime = Date().addingTimeInterval(newTimeLeft)
+            }
+        } else if newTimeLeft < 0 {
+            // If new interval is shorter than elapsed time, keep minimal time to allow user to finish editing
+            if paused {
+                pausedTimeRemaining = 1.0
+            } else {
+                finishTime = Date().addingTimeInterval(1.0)
+            }
+        }
+        // If 0 <= newTimeLeft < 1, don't update finishTime - keep old value
+
+        updateDisplay()
+    }
+
+    func adjustTimerDebounced(intervalType: IntervalType) {
+        // Cancel previous debounce task if exists
+        adjustTimerWorkItem?.cancel()
+
+        // Create new debounce task with 0.3 second delay
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.adjustTimer(intervalType: intervalType)
+            }
+        }
+        adjustTimerWorkItem = workItem
+
+        // Execute after delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
     }
 
     private func startTimer(seconds: Int) {
         finishTime = Date().addingTimeInterval(TimeInterval(seconds))
+        startTime = Date()  // Save when timer started
+        pausedTimeElapsed = 0  // Reset paused elapsed time
 
         let queue = DispatchQueue(label: "Timer")
         timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)
@@ -298,8 +469,8 @@ class TBTimer: ObservableObject {
             if paused {
                 return
             }
-            
-            updateTimeLeft()
+
+            updateDisplay()
             let timeLeft = finishTime.timeIntervalSince(Date())
             if timeLeft <= 0 {
                 /*
@@ -317,7 +488,7 @@ class TBTimer: ObservableObject {
 
     private func onTimerCancel() {
         DispatchQueue.main.async { [self] in
-            updateTimeLeft()
+            updateDisplay()
         }
     }
 
@@ -406,5 +577,6 @@ class TBTimer: ObservableObject {
         MaskHelper.shared.hideMaskWindow()
         TBStatusItem.shared.setIcon(name: .idle)
         currentWorkInterval = 0
+        updateDisplay()
     }
 }
