@@ -1,5 +1,5 @@
 import ScriptingBridge
-import Cocoa
+import AppKit
 
 @objc protocol ShortcutsEvents {
     @objc optional var shortcuts: SBElementArray { get }
