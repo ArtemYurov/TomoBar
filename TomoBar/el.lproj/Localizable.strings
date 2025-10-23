@@ -18,7 +18,6 @@
 "SettingsView.dropdownBreak.label" = "Διάλειμμα";
 "SettingsView.dropdownSet.label" = "Σετ";
 "SettingsView.showTimer.label" = "Εμφάνιση χρονομέτρου";
-"SettingsView.showTimerOff.label" = "Off";
 "SettingsView.showTimerRunning.label" = "Εκτελείται";
 "SettingsView.showTimerAlways.label" = "Πάντα";
 "SettingsView.timerFont.label" = "Γραμματοσειρά";
@@ -26,8 +25,15 @@
 "SettingsView.dropdownMono.label" = "PT Mono";
 "SettingsView.dropdownSFMono.label" = "SF Mono";
 "SettingsView.grayBackground.label" = "Γκρι φόντο χρονομέτρου";
-"SettingsView.showFullScreenMask.label" = "Χρήση μάσκας πλήρους οθόνης";
-"SettingsView.showFullScreenMask.help" = "Κατά τη διάρκεια των διαλειμμάτων, χρησιμοποιήστε μια μάσκα πλήρους οθόνης αντί για ειδοποιήσεις";
+"SettingsView.alertMode.label" = "Λειτουργία ειδοποίησης";
+"SettingsView.alertModeNotify.label" = "Ειδοποίηση";
+"SettingsView.alertModeFullScreen.label" = "Πλήρης οθόνη";
+"SettingsView.notifyStyle.label" = "Στυλ ειδοποίησης";
+"SettingsView.notifyStyleSmall.label" = "Μικρό";
+"SettingsView.notifyStyleBig.label" = "Μεγάλο";
+"SettingsView.maskMode.label" = "Λειτουργία μάσκας";
+"SettingsView.maskModeNormal.label" = "Κανονικό";
+"SettingsView.maskModeBlockActions.label" = "Αποκλεισμός ενεργειών";
 "SettingsView.toggleDoNotDisturb.label" = "Εναλλαγή λειτουργίας Μην ενοχλείτε";
 "SettingsView.toggleDoNotDisturb.help" = "Εκτελεί μια συντόμευση για ενεργοποίηση/απενεργοποίηση της λειτουργίας Μην ενοχλείτε στις μεταβάσεις εργασίας/διαλειμμάτων";
 "SettingsView.startTimerOnLaunch.label" = "Έναρξη χρονομέτρου κατά την εκκίνηση";

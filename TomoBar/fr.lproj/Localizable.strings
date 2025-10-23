@@ -18,7 +18,6 @@
 "SettingsView.dropdownBreak.label" = "Pause";
 "SettingsView.dropdownSet.label" = "Série";
 "SettingsView.showTimer.label" = "Afficher le minuteur";
-"SettingsView.showTimerOff.label" = "Jamais";
 "SettingsView.showTimerRunning.label" = "En cours";
 "SettingsView.showTimerAlways.label" = "Toujours";
 "SettingsView.timerFont.label" = "Police";
@@ -26,8 +25,15 @@
 "SettingsView.dropdownMono.label" = "PT Mono";
 "SettingsView.dropdownSFMono.label" = "SF Mono";
 "SettingsView.grayBackground.label" = "Arrière-plan gris du minuteur";
-"SettingsView.showFullScreenMask.label" = "Masquer l'écran";
-"SettingsView.showFullScreenMask.help" = "Pendant les pauses, masquer tout l'écran au lieu d'afficher une notification";
+"SettingsView.alertMode.label" = "Mode d'alerte";
+"SettingsView.alertModeNotify.label" = "Notifier";
+"SettingsView.alertModeFullScreen.label" = "Plein écran";
+"SettingsView.notifyStyle.label" = "Style de notification";
+"SettingsView.notifyStyleSmall.label" = "Petit";
+"SettingsView.notifyStyleBig.label" = "Grand";
+"SettingsView.maskMode.label" = "Mode de masque";
+"SettingsView.maskModeNormal.label" = "Normal";
+"SettingsView.maskModeBlockActions.label" = "Bloquer les actions";
 "SettingsView.toggleDoNotDisturb.label" = "« Ne pas déranger » pendant les pauses";
 "SettingsView.toggleDoNotDisturb.help" = "Pendant les pauses, exécuter un raccourci pour activer le mode « Ne pas déranger »";
 "SettingsView.startTimerOnLaunch.label" = "Démarrer le minuteur au lancement";
