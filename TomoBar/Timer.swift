@@ -7,11 +7,11 @@ enum startWithValues: String, CaseIterable, DropdownDescribable {
 }
 
 enum stopAfterValues: String, CaseIterable, DropdownDescribable {
-    case disabled, work, rest, longRest
+    case disabled, work, rest, set
 }
 
 enum ShowTimerMode: String, CaseIterable, DropdownDescribable {
-    case off, running, always
+    case disabled, running, always
 }
 
 enum TimerFontMode: String, CaseIterable, DropdownDescribable {
@@ -19,11 +19,11 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
 }
 
 enum AlertMode: String, CaseIterable, DropdownDescribable {
-    case alertOff, notify, fullScreen
+    case disabled, notify, fullScreen
 }
 
 enum NotifyStyle: String, CaseIterable, DropdownDescribable {
-    case systemNotify, small, big
+    case system, small, big
 }
 
 enum MaskMode: String, CaseIterable, DropdownDescribable {
@@ -51,7 +51,7 @@ class TBTimer: ObservableObject {
         set { presetsData = (try? JSONEncoder().encode(newValue)) ?? Data() }
     }
     @AppStorage("alertMode") var alertMode = AlertMode.notify
-    @AppStorage("notifyStyle") var notifyStyle = NotifyStyle.systemNotify
+    @AppStorage("notifyStyle") var notifyStyle = NotifyStyle.system
     @AppStorage("maskMode") var maskMode = MaskMode.normal
     @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false {
         didSet {
@@ -169,11 +169,11 @@ class TBTimer: ObservableObject {
 
         // transitions from longRest
         stateMachine.addRoutes(event: .any, transitions: [.longRest => .idle]) { _ in
-            self.stopAfter == .rest || self.stopAfter == .longRest
+            self.stopAfter == .rest || self.stopAfter == .set
         }
 
         stateMachine.addRoutes(event: .any, transitions: [.longRest => .work]) { _ in
-            self.stopAfter != .rest && self.stopAfter != .longRest
+            self.stopAfter != .rest && self.stopAfter != .set
         }
 
         stateMachine.addAnyHandler(.idle => .any, handler: onIdleEnd)
@@ -344,7 +344,7 @@ class TBTimer: ObservableObject {
     private func updateStatusBar() {
         // Handle different show timer modes for status bar display
         switch showTimerMode {
-        case .off:
+        case .disabled:
             // Never show timer in status bar
             TBStatusItem.shared.setTitle(title: nil)
 

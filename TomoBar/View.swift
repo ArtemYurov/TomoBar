@@ -148,28 +148,22 @@ extension DropdownDescribable {
                                                     comment: "Work label")
             case "rest": return NSLocalizedString("SettingsView.dropdownBreak.label",
                                                     comment: "Break label")
-            case "longRest": return NSLocalizedString("SettingsView.dropdownSet.label",
+            case "set": return NSLocalizedString("SettingsView.dropdownSet.label",
                                                     comment: "Set label")
-            case "off": return NSLocalizedString("SettingsView.showTimerOff.label",
-                                                    comment: "Show timer off label")
             case "running": return NSLocalizedString("SettingsView.showTimerRunning.label",
                                                     comment: "Show timer running label")
             case "always": return NSLocalizedString("SettingsView.showTimerAlways.label",
                                                     comment: "Show timer always label")
             case "system": return NSLocalizedString("SettingsView.dropdownSystem.label",
-                                                    comment: "System font label")
+                                                    comment: "System label")
             case "ptMono": return NSLocalizedString("SettingsView.dropdownMono.label",
                                                     comment: "PT Mono font label")
             case "sfMono": return NSLocalizedString("SettingsView.dropdownSFMono.label",
                                                     comment: "SF Mono font label")
-            case "alertOff": return NSLocalizedString("SettingsView.alertModeOff.label",
-                                                    comment: "Alert mode off label")
             case "notify": return NSLocalizedString("SettingsView.alertModeNotify.label",
                                                     comment: "Alert mode notify label")
             case "fullScreen": return NSLocalizedString("SettingsView.alertModeFullScreen.label",
                                                     comment: "Alert mode full-screen label")
-            case "systemNotify": return NSLocalizedString("SettingsView.notifyStyleSystem.label",
-                                                    comment: "Notify style system label")
             case "small": return NSLocalizedString("SettingsView.notifyStyleSmall.label",
                                                     comment: "Notify style small label")
             case "big": return NSLocalizedString("SettingsView.notifyStyleBig.label",
@@ -247,7 +241,7 @@ private struct SettingsView: View {
             .onChange(of: timer.showTimerMode) { _ in
                 timer.updateDisplay()
             }
-            if timer.showTimerMode != .off {
+            if timer.showTimerMode != .disabled {
                 HStack {
                     Text(NSLocalizedString("SettingsView.timerFont.label",
                                             comment: "Timer font label"))
@@ -412,7 +406,7 @@ struct TBPopoverView: View {
 
     private func TimerDisplayString() -> String {
         var result = timer.timeLeftString
-        if timer.currentPresetInstance.workIntervalsInSet > 1, timer.stopAfter == .disabled || timer.stopAfter == .longRest {
+        if timer.currentPresetInstance.workIntervalsInSet > 1, timer.stopAfter == .disabled || timer.stopAfter == .set {
             result += " (" + String(timer.currentWorkInterval) + "/" + String(timer.currentPresetInstance.workIntervalsInSet) + ")"
         }
         return result
