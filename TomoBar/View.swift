@@ -98,9 +98,6 @@ private struct IntervalsView: View {
             }
             .help(NSLocalizedString("IntervalsView.workIntervalsInSet.help",
                                     comment: "Work intervals in set hint"))
-            .onChange(of: timer.currentPresetInstance.workIntervalsInSet) { _ in
-                timer.adjustTimerDebounced(intervalType: .workIntervalsInSet)
-            }
             Spacer().frame(minHeight: 0)
             HStack {
                 Text(NSLocalizedString("IntervalsView.presets.label",
