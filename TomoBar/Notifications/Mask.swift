@@ -1,5 +1,5 @@
 
-import Cocoa
+import AppKit
 
 class MaskHelper {
     var windowControllers = [NSWindowController]()
