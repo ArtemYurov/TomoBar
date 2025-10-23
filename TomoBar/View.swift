@@ -165,7 +165,23 @@ extension DropdownDescribable {
                                                     comment: "PT Mono font label")
             case "sfMono": return NSLocalizedString("SettingsView.dropdownSFMono.label",
                                                     comment: "SF Mono font label")
-            default: return self.rawValue
+            case "alertOff": return NSLocalizedString("SettingsView.alertModeOff.label",
+                                                    comment: "Alert mode off label")
+            case "notify": return NSLocalizedString("SettingsView.alertModeNotify.label",
+                                                    comment: "Alert mode notify label")
+            case "fullScreen": return NSLocalizedString("SettingsView.alertModeFullScreen.label",
+                                                    comment: "Alert mode full-screen label")
+            case "systemNotify": return NSLocalizedString("SettingsView.notifyStyleSystem.label",
+                                                    comment: "Notify style system label")
+            case "small": return NSLocalizedString("SettingsView.notifyStyleSmall.label",
+                                                    comment: "Notify style small label")
+            case "big": return NSLocalizedString("SettingsView.notifyStyleBig.label",
+                                                    comment: "Notify style big label")
+            case "normal": return NSLocalizedString("SettingsView.maskModeNormal.label",
+                                                    comment: "Mask mode normal label")
+            case "blockActions": return NSLocalizedString("SettingsView.maskModeBlockActions.label",
+                                                    comment: "Mask mode block actions label")
+            default: return self.rawValue.capitalized
         }
     }
 }
@@ -258,14 +274,28 @@ private struct SettingsView: View {
                     timer.updateDisplay()
                 }
             }
-            Toggle(isOn: $timer.showFullScreenMask) {
-                Text(NSLocalizedString("SettingsView.showFullScreenMask.label",
-                                       comment: "show full screen mask on rest"))
+            HStack {
+                Text(NSLocalizedString("SettingsView.alertMode.label",
+                                        comment: "Alert mode label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
+                StartStopDropdown(value: $timer.alertMode)
             }
-            .toggleStyle(.switch)
-            .help(NSLocalizedString("SettingsView.showFullScreenMask.help",
-                                    comment: "show full screen mask hint"))
+            if timer.alertMode == .notify {
+                HStack {
+                    Text(NSLocalizedString("SettingsView.notifyStyle.label",
+                                            comment: "Notify style label"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    StartStopDropdown(value: $timer.notifyStyle)
+                }
+            }
+            if timer.alertMode == .fullScreen {
+                HStack {
+                    Text(NSLocalizedString("SettingsView.maskMode.label",
+                                            comment: "Mask mode label"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    StartStopDropdown(value: $timer.maskMode)
+                }
+            }
             Toggle(isOn: $timer.toggleDoNotDisturb) {
                 Text(NSLocalizedString("SettingsView.toggleDoNotDisturb.label",
                                        comment: "Toggle Do Not Disturb"))

@@ -18,6 +18,18 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
     case system, ptMono, sfMono
 }
 
+enum AlertMode: String, CaseIterable, DropdownDescribable {
+    case alertOff, notify, fullScreen
+}
+
+enum NotifyStyle: String, CaseIterable, DropdownDescribable {
+    case systemNotify, small, big
+}
+
+enum MaskMode: String, CaseIterable, DropdownDescribable {
+    case normal, blockActions
+}
+
 struct TimerPreset: Codable {
     var workIntervalLength = 25
     var shortRestIntervalLength = 5
@@ -38,7 +50,9 @@ class TBTimer: ObservableObject {
         get { (try? JSONDecoder().decode([TimerPreset].self, from: presetsData)) ?? Array(repeating: TimerPreset(), count: 4) }
         set { presetsData = (try? JSONEncoder().encode(newValue)) ?? Data() }
     }
-    @AppStorage("showFullScreenMask") var showFullScreenMask = false
+    @AppStorage("alertMode") var alertMode = AlertMode.notify
+    @AppStorage("notifyStyle") var notifyStyle = NotifyStyle.systemNotify
+    @AppStorage("maskMode") var maskMode = MaskMode.normal
     @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false {
         didSet {
             let state = toggleDoNotDisturb && stateMachine.state == .work && !paused
@@ -530,7 +544,7 @@ class TBTimer: ObservableObject {
             length = currentPresetInstance.longRestIntervalLength
             imgName = .longRest
         }
-        if showFullScreenMask {
+        if alertMode == .fullScreen {
             MaskHelper.shared.showMaskWindow(desc: body) { [self] in
                 onNotificationAction(action: .skipRest)
             }
