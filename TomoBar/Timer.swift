@@ -395,7 +395,6 @@ class TBTimer: ObservableObject {
         case work
         case shortRest
         case longRest
-        case workIntervalsInSet
     }
 
     func adjustTimer(intervalType: IntervalType) {
@@ -419,9 +418,6 @@ class TBTimer: ObservableObject {
         case .longRest:
             shouldAdjust = isLongRest
             newIntervalMinutes = currentPresetInstance.longRestIntervalLength
-        case .workIntervalsInSet:
-            shouldAdjust = false
-            newIntervalMinutes = 0
         }
 
         guard shouldAdjust else {
