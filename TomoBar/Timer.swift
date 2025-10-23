@@ -88,55 +88,101 @@ class TBTimer: ObservableObject {
     @Published var timer: DispatchSourceTimer?
     @Published var stateMachine = TBStateMachine(state: .idle)
 
+    var isIdle: Bool {
+        stateMachine.state == .idle
+    }
+
+    var isWorking: Bool {
+        stateMachine.state == .work
+    }
+
+    var isResting: Bool {
+        stateMachine.state == .shortRest || stateMachine.state == .longRest
+    }
+
+    var isShortRest: Bool {
+        stateMachine.state == .shortRest
+    }
+
+    var isLongRest: Bool {
+        stateMachine.state == .longRest
+    }
+
     init() {
         /*
-         * State diagram
+         * State Machine Transition Table
          *
-         *                 start/stop
-         *       +--------------+-------------+
-         *       |              |             |
-         *       |  start/stop  |  timerFired |
-         *       V    |         |    |        |
-         * +--------+ |  +--------+  | +--------+
-         * | idle   |--->| work   |--->| rest   |
-         * +--------+    +--------+    +--------+
-         *   A                  A        |    |
-         *   |                  |        |    |
-         *   |                  +--------+    |
-         *   |  timerFired (!stopAfter)  |
-         *   |             skipRest           |
-         *   |                                |
-         *   +--------------------------------+
-         *      timerFired (stopAfter)
+         * From: idle
+         *   → work (startStop, if startWith = work)
+         *   → shortRest (startStop, if startWith = rest)
          *
+         * From: work
+         *   → shortRest (timerFired, if currentWorkInterval < workIntervalsInSet)
+         *   → longRest (timerFired, if currentWorkInterval >= workIntervalsInSet)
+         *   → idle (timerFired if stopAfter = work, OR startStop)
+         *
+         * From: shortRest
+         *   → work (timerFired)
+         *   → idle (timerFired if stopAfter = rest, OR startStop)
+         *
+         * From: longRest
+         *   → work (timerFired, resets currentWorkInterval)
+         *   → idle (timerFired if stopAfter = longRest, OR startStop)
          */
+
+        // startStop transitions
         stateMachine.addRoutes(event: .startStop, transitions: [
-            .work => .idle, .rest => .idle
+            .work => .idle,
+            .shortRest => .idle,
+            .longRest => .idle
         ])
+
         stateMachine.addRoutes(event: .startStop, transitions: [.idle => .work]) { _ in
             self.startWith == .work
         }
-        stateMachine.addRoutes(event: .startStop, transitions: [.idle => .rest]) { _ in
+
+        stateMachine.addRoutes(event: .startStop, transitions: [.idle => .shortRest]) { _ in
             self.startWith != .work
         }
+
+        // timerFired transitions from work
         stateMachine.addRoutes(event: .any, transitions: [.work => .idle]) { _ in
             self.stopAfter == .work
         }
-        stateMachine.addRoutes(event: .any, transitions: [.work => .rest]) { _ in
-            self.stopAfter != .work
+
+        stateMachine.addRoutes(event: .any, transitions: [.work => .shortRest]) { [self] _ in
+            self.stopAfter != .work && currentWorkInterval < currentPresetInstance.workIntervalsInSet
         }
-        stateMachine.addRoutes(event: .any, transitions: [.rest => .idle]) { [self] _ in
-            stopAfter == .rest || (stopAfter == .longRest && currentWorkInterval >= currentPresetInstance.workIntervalsInSet)
+
+        stateMachine.addRoutes(event: .any, transitions: [.work => .longRest]) { [self] _ in
+            self.stopAfter != .work && currentWorkInterval >= currentPresetInstance.workIntervalsInSet
         }
-        stateMachine.addRoutes(event: .any, transitions: [.rest => .work]) { [self] _ in
-            stopAfter != .rest && (stopAfter != .longRest || currentWorkInterval < currentPresetInstance.workIntervalsInSet)
+
+        // transitions from shortRest
+        stateMachine.addRoutes(event: .any, transitions: [.shortRest => .idle]) { _ in
+            self.stopAfter == .rest
+        }
+
+        stateMachine.addRoutes(event: .any, transitions: [.shortRest => .work]) { _ in
+            self.stopAfter != .rest
+        }
+
+        // transitions from longRest
+        stateMachine.addRoutes(event: .any, transitions: [.longRest => .idle]) { _ in
+            self.stopAfter == .rest || self.stopAfter == .longRest
+        }
+
+        stateMachine.addRoutes(event: .any, transitions: [.longRest => .work]) { _ in
+            self.stopAfter != .rest && self.stopAfter != .longRest
         }
 
         stateMachine.addAnyHandler(.idle => .any, handler: onIdleEnd)
-        stateMachine.addAnyHandler(.rest => .work, handler: onRestEnd)
+        stateMachine.addAnyHandler(.shortRest => .work, handler: onRestEnd)
+        stateMachine.addAnyHandler(.longRest => .work, handler: onRestEnd)
         stateMachine.addAnyHandler(.any => .work, handler: onWorkStart)
         stateMachine.addAnyHandler(.work => .any, handler: onWorkEnd)
-        stateMachine.addAnyHandler(.any => .rest, handler: onRestStart)
+        stateMachine.addAnyHandler(.any => .shortRest, handler: onShortRestStart)
+        stateMachine.addAnyHandler(.any => .longRest, handler: onLongRestStart)
         stateMachine.addAnyHandler(.any => .idle, handler: onIdleStart)
         stateMachine.addAnyHandler(.any => .any, handler: { ctx in
             logger.append(event: TBLogEventTransition(fromContext: ctx))
@@ -227,14 +273,14 @@ class TBTimer: ObservableObject {
 
         paused = !paused
 
-        if toggleDoNotDisturb, stateMachine.state == .work {
+        if toggleDoNotDisturb, isWorking {
             DispatchQueue.main.async(group: notificationGroup) { [self] in
                 _ = DoNotDisturbHelper.shared.set(state: !paused)
             }
         }
 
         if paused {
-            if stateMachine.state == .work {
+            if isWorking {
                 player.stopTicking()
             }
             pausedPrevImage = TBStatusItem.shared.statusBarItem?.button?.image
@@ -244,7 +290,7 @@ class TBTimer: ObservableObject {
             finishTime = Date.distantFuture
         }
         else {
-            if stateMachine.state == .work {
+            if isWorking {
                 player.startTicking(isPaused: true)
             }
             if pausedPrevImage != nil {
@@ -363,37 +409,17 @@ class TBTimer: ObservableObject {
         let newIntervalMinutes: Int
         let shouldAdjust: Bool
 
-        switch (stateMachine.state, intervalType) {
-        case (.work, .work):
+        switch intervalType {
+        case .work:
+            shouldAdjust = isWorking
             newIntervalMinutes = currentPresetInstance.workIntervalLength
-            shouldAdjust = true
-        case (.rest, .shortRest):
-            // Short rest applies when not in long rest
-            if currentWorkInterval < currentPresetInstance.workIntervalsInSet {
-                newIntervalMinutes = currentPresetInstance.shortRestIntervalLength
-                shouldAdjust = true
-            } else {
-                shouldAdjust = false
-                newIntervalMinutes = 0
-            }
-        case (.rest, .longRest):
-            // Long rest applies when in long rest
-            if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
-                newIntervalMinutes = currentPresetInstance.longRestIntervalLength
-                shouldAdjust = true
-            } else {
-                shouldAdjust = false
-                newIntervalMinutes = 0
-            }
-        case (.rest, .workIntervalsInSet):
-            // Changing workIntervalsInSet might change rest type, need to recalculate
-            if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
-                newIntervalMinutes = currentPresetInstance.longRestIntervalLength
-            } else {
-                newIntervalMinutes = currentPresetInstance.shortRestIntervalLength
-            }
-            shouldAdjust = true
-        default:
+        case .shortRest:
+            shouldAdjust = isShortRest
+            newIntervalMinutes = currentPresetInstance.shortRestIntervalLength
+        case .longRest:
+            shouldAdjust = isLongRest
+            newIntervalMinutes = currentPresetInstance.longRestIntervalLength
+        case .workIntervalsInSet:
             shouldAdjust = false
             newIntervalMinutes = 0
         }
@@ -501,7 +527,7 @@ class TBTimer: ObservableObject {
     }
 
     private func onNotificationAction(action: TBNotification.Action) {
-        if action == .skipRest, stateMachine.state == .rest {
+        if action == .skipRest, isResting {
             skip()
         }
     }
@@ -535,15 +561,19 @@ class TBTimer: ObservableObject {
         }
     }
 
-    private func onRestStart(context ctx: TBStateMachine.Context) {
-        var body = NSLocalizedString("TBTimer.onRestStart.short.body", comment: "Short break body")
-        var length = currentPresetInstance.shortRestIntervalLength
-        var imgName = NSImage.Name.shortRest
-        if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
-            body = NSLocalizedString("TBTimer.onRestStart.long.body", comment: "Long break body")
-            length = currentPresetInstance.longRestIntervalLength
-            imgName = .longRest
-        }
+    private func onShortRestStart(context ctx: TBStateMachine.Context) {
+        let body = NSLocalizedString("TBTimer.onRestStart.short.body", comment: "Short break body")
+        let length = currentPresetInstance.shortRestIntervalLength
+        onRestStart(context: ctx, body: body, length: length, imgName: .shortRest)
+    }
+
+    private func onLongRestStart(context ctx: TBStateMachine.Context) {
+        let body = NSLocalizedString("TBTimer.onRestStart.long.body", comment: "Long break body")
+        let length = currentPresetInstance.longRestIntervalLength
+        onRestStart(context: ctx, body: body, length: length, imgName: .longRest)
+    }
+
+    private func onRestStart(context ctx: TBStateMachine.Context, body: String, length: Int, imgName: NSImage.Name) {
         if alertMode == .fullScreen {
             MaskHelper.shared.showMaskWindow(desc: body) { [self] in
                 onNotificationAction(action: .skipRest)
