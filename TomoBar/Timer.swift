@@ -124,6 +124,11 @@ class TBTimer: ObservableObject {
         /*
          * State Machine Transition Table
          *
+         * Events:
+         *   - timerFired: timer completed (auto or user clicked next)
+         *   - waitChoice: pause and show notification, wait for user
+         *   - skipEvent: skip current interval
+         *
          * From: idle
          *   → work (startStop, if startWith = work)
          *   → shortRest (startStop, if startWith = rest)
@@ -196,6 +201,8 @@ class TBTimer: ObservableObject {
         stateMachine.addAnyHandler(.any => .shortRest, handler: onShortRestStart)
         stateMachine.addAnyHandler(.any => .longRest, handler: onLongRestStart)
         stateMachine.addAnyHandler(.any => .idle, handler: onIdleStart)
+        stateMachine.addHandler(event: .waitChoice, handler: onWaitChoice)
+
         stateMachine.addAnyHandler(.any => .any, handler: { ctx in
             logger.append(event: TBLogEventTransition(fromContext: ctx))
         })
@@ -619,5 +626,23 @@ class TBTimer: ObservableObject {
         TBStatusItem.shared.setIcon(name: .idle)
         currentWorkInterval = 0
         updateDisplay()
+    }
+
+    private func onWaitChoice(context ctx: TBStateMachine.Context) {
+        // Stop ticking sound if in work state
+        if stateMachine.state == .work {
+            player.stopTicking()
+        }
+
+        // Play completion sound
+        player.playDing()
+
+        // Pause timer
+        paused = true
+        pausedTimeRemaining = 0
+        updateDisplay()  // Show 00:00
+
+        // Show notification for user to choose next action
+        // showActionChoiceNotification(...)
     }
 }
