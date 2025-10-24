@@ -59,7 +59,11 @@
 "TBTimer.onRestStart.title" = "时间到";
 "TBTimer.onRestStart.short.body" = "小憩时间到!";
 "TBTimer.onRestStart.long.body" = "长休息时间到!";
-"TBTimer.onRestStart.skip.title" = "跳过";
+"TBTimer.onRestStart.skip.title" = "跳过休息";
 "TBTimer.onRestFinish.title" = "休息结束";
 "TBTimer.onRestFinish.body" = "继续努力!";
+"TBTimer.onRestFinish.skip.title" = "跳过工作";
+"TBTimer.completion.title" = "计时器已完成";
+"TBTimer.completion.body" = "会话已结束";
+"TBTimer.completion.close" = "关闭";
 "TBMask.skip.label" = "双击任意区域跳过，或单击一次恢复屏幕到正常状态";

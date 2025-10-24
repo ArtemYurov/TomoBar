@@ -59,7 +59,11 @@
 "TBTimer.onRestStart.title" = "Temps écoulé";
 "TBTimer.onRestStart.short.body" = "Il est temps de prendre une courte pause !";
 "TBTimer.onRestStart.long.body" = "Il est temps de prendre une longue pause !";
-"TBTimer.onRestStart.skip.title" = "Passer";
+"TBTimer.onRestStart.skip.title" = "Passer la pause";
 "TBTimer.onRestFinish.title" = "La pause est terminée";
 "TBTimer.onRestFinish.body" = "Tenez bon !";
+"TBTimer.onRestFinish.skip.title" = "Passer le travail";
+"TBTimer.completion.title" = "Minuterie terminée";
+"TBTimer.completion.body" = "Session terminée";
+"TBTimer.completion.close" = "Fermer";
 "TBMask.skip.label" = "Double-cliquer n'importe où pour passer, ou cliquer une fois pour rétablir l'écran";

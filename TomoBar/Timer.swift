@@ -75,7 +75,6 @@ class TBTimer: ObservableObject {
         }
     }
     private var notificationGroup = DispatchGroup()
-    private var notificationCenter = TBNotificationCenter()
     private var finishTime: Date!
     private var timerFormatter = DateComponentsFormatter()
     private var pausedTimeRemaining: TimeInterval = 0
@@ -106,6 +105,19 @@ class TBTimer: ObservableObject {
 
     var isLongRest: Bool {
         stateMachine.state == .longRest
+    }
+
+    private func wasCompletion(for state: TBStateMachineStates) -> Bool {
+        switch state {
+        case .work:
+            return stopAfter == .work
+        case .shortRest:
+            return stopAfter == .rest
+        case .longRest:
+            return stopAfter == .rest || stopAfter == .set
+        case .idle:
+            return false
+        }
     }
 
     init() {
@@ -201,7 +213,9 @@ class TBTimer: ObservableObject {
         KeyboardShortcuts.onKeyUp(for: .addFiveMinutesTimer) { [weak self] in
             self?.addMinutes(5)
         }
-        notificationCenter.setActionHandler(handler: onNotificationAction)
+
+        SystemNotifyHelper.shared.setDispatchGroup(notificationGroup)
+        SystemNotifyHelper.shared.setSkipHandler(skip)
         MaskHelper.shared.setSkipHandler(skip)
 
         let aem: NSAppleEventManager = NSAppleEventManager.shared()
@@ -530,12 +544,6 @@ class TBTimer: ObservableObject {
         }
     }
 
-    private func onNotificationAction(action: TBNotification.Action) {
-        if action == .skipRest, isResting {
-            skip()
-        }
-    }
-
     private func onWorkStart(context _: TBStateMachine.Context) {
         if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
             currentWorkInterval = 1
@@ -566,27 +574,19 @@ class TBTimer: ObservableObject {
     }
 
     private func onShortRestStart(context ctx: TBStateMachine.Context) {
-        let body = NSLocalizedString("TBTimer.onRestStart.short.body", comment: "Short break body")
-        let length = currentPresetInstance.shortRestIntervalLength
-        onRestStart(context: ctx, body: body, length: length, imgName: .shortRest)
+        onRestStart(context: ctx, isLong: false, length: currentPresetInstance.shortRestIntervalLength, imgName: .shortRest)
     }
 
     private func onLongRestStart(context ctx: TBStateMachine.Context) {
-        let body = NSLocalizedString("TBTimer.onRestStart.long.body", comment: "Long break body")
-        let length = currentPresetInstance.longRestIntervalLength
-        onRestStart(context: ctx, body: body, length: length, imgName: .longRest)
+        onRestStart(context: ctx, isLong: true, length: currentPresetInstance.longRestIntervalLength, imgName: .longRest)
     }
 
-    private func onRestStart(context ctx: TBStateMachine.Context, body: String, length: Int, imgName: NSImage.Name) {
+    private func onRestStart(context ctx: TBStateMachine.Context, isLong: Bool, length: Int, imgName: NSImage.Name) {
         if alertMode == .fullScreen {
-            MaskHelper.shared.show(desc: body)
+            MaskHelper.shared.show(isLong: isLong)
         } else if ctx.event == .timerFired {
-            DispatchQueue.main.async(group: notificationGroup) { [self] in
-                notificationCenter.send(
-                    title: NSLocalizedString("TBTimer.onRestStart.title", comment: "Time's up title"),
-                    body: body,
-                    category: .restStarted
-                )
+            if alertMode == .notify && notifyStyle == .system {
+                SystemNotifyHelper.shared.restStarted(isLong: isLong)
             }
         }
         TBStatusItem.shared.setIcon(name: imgName)
@@ -598,12 +598,8 @@ class TBTimer: ObservableObject {
         if ctx.event == .skipEvent {
             return
         }
-        DispatchQueue.main.async(group: notificationGroup) { [self] in
-            notificationCenter.send(
-                title: NSLocalizedString("TBTimer.onRestFinish.title", comment: "Break is over title"),
-                body: NSLocalizedString("TBTimer.onRestFinish.body", comment: "Break is over body"),
-                category: .restFinished
-            )
+        if alertMode == .notify && notifyStyle == .system {
+            SystemNotifyHelper.shared.restFinished()
         }
     }
 
@@ -611,10 +607,15 @@ class TBTimer: ObservableObject {
         player.initPlayers()
     }
 
-    private func onIdleStart(context _: TBStateMachine.Context) {
-        player.deinitPlayers()
-        stopTimer()
+    private func onIdleStart(context ctx: TBStateMachine.Context) {
         MaskHelper.shared.hide()
+        player.deinitPlayers()
+        if wasCompletion(for: ctx.fromState) {
+            if (alertMode == .notify && notifyStyle == .system) || alertMode == .fullScreen {
+                SystemNotifyHelper.shared.sessionComplete()
+            }
+        }
+        stopTimer()
         TBStatusItem.shared.setIcon(name: .idle)
         currentWorkInterval = 0
         updateDisplay()
