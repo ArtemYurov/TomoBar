@@ -1,2 +1,6 @@
 xcuserdata
 .DS_Store
+
+# Claude local files
+.claude/*.local.*
+.claude/**/*.local.*
