@@ -184,14 +184,17 @@ class TBTimer: ObservableObject {
             .longRest => .work
         ])
 
+        // State transition handlers (ordered by state: idle -> work -> shortRest -> longRest)
+        stateMachine.addAnyHandler(.any => .idle, handler: onIdleStart)
         stateMachine.addAnyHandler(.idle => .any, handler: onIdleEnd)
-        stateMachine.addAnyHandler(.shortRest => .work, handler: onRestEnd)
-        stateMachine.addAnyHandler(.longRest => .work, handler: onRestEnd)
         stateMachine.addAnyHandler(.any => .work, handler: onWorkStart)
         stateMachine.addAnyHandler(.work => .any, handler: onWorkEnd)
         stateMachine.addAnyHandler(.any => .shortRest, handler: onShortRestStart)
+        stateMachine.addAnyHandler(.shortRest => .work, handler: onRestEnd)
         stateMachine.addAnyHandler(.any => .longRest, handler: onLongRestStart)
-        stateMachine.addAnyHandler(.any => .idle, handler: onIdleStart)
+        stateMachine.addAnyHandler(.longRest => .work, handler: onRestEnd)
+
+        // Event handlers
         stateMachine.addHandler(event: .waitChoice, handler: onWaitChoice)
         stateMachine.addHandler(event: .sessionCompleted, handler: onSessionCompleted)
 
@@ -545,6 +548,19 @@ class TBTimer: ObservableObject {
         }
     }
 
+    private func onIdleStart(context ctx: TBStateMachine.Context) {
+        MaskHelper.shared.hide()
+        player.deinitPlayers()
+        stopTimer()
+        TBStatusItem.shared.setIcon(name: .idle)
+        currentWorkInterval = 0
+        updateDisplay()
+    }
+
+    private func onIdleEnd(context _: TBStateMachine.Context) {
+        player.initPlayers()
+    }
+
     private func onWorkStart(context _: TBStateMachine.Context) {
         if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
             currentWorkInterval = 1
@@ -602,19 +618,6 @@ class TBTimer: ObservableObject {
         if alertMode == .notify && notifyStyle == .system {
             SystemNotifyHelper.shared.restFinished()
         }
-    }
-
-    private func onIdleEnd(context _: TBStateMachine.Context) {
-        player.initPlayers()
-    }
-
-    private func onIdleStart(context ctx: TBStateMachine.Context) {
-        MaskHelper.shared.hide()
-        player.deinitPlayers()
-        stopTimer()
-        TBStatusItem.shared.setIcon(name: .idle)
-        currentWorkInterval = 0
-        updateDisplay()
     }
 
     private func onWaitChoice(context ctx: TBStateMachine.Context) {
