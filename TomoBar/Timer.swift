@@ -202,6 +202,7 @@ class TBTimer: ObservableObject {
             self?.addMinutes(5)
         }
         notificationCenter.setActionHandler(handler: onNotificationAction)
+        MaskHelper.shared.setSkipHandler(skip)
 
         let aem: NSAppleEventManager = NSAppleEventManager.shared()
         aem.setEventHandler(self,
@@ -362,9 +363,16 @@ class TBTimer: ObservableObject {
         }
     }
 
+    private func updateMask() {
+        if alertMode == .fullScreen && timer != nil && !paused {
+            MaskHelper.shared.updateTimeLeft(timeLeftString)
+        }
+    }
+
     func updateDisplay() {
         updateTimeLeft()
         updateStatusBar()
+        updateMask()
     }
 
     func addMinutes(_ minutes: Int = 1) {
@@ -571,9 +579,7 @@ class TBTimer: ObservableObject {
 
     private func onRestStart(context ctx: TBStateMachine.Context, body: String, length: Int, imgName: NSImage.Name) {
         if alertMode == .fullScreen {
-            MaskHelper.shared.showMaskWindow(desc: body) { [self] in
-                onNotificationAction(action: .skipRest)
-            }
+            MaskHelper.shared.show(desc: body)
         } else if ctx.event == .timerFired {
             DispatchQueue.main.async(group: notificationGroup) { [self] in
                 notificationCenter.send(
@@ -588,7 +594,7 @@ class TBTimer: ObservableObject {
     }
 
     private func onRestEnd(context ctx: TBStateMachine.Context) {
-        MaskHelper.shared.hideMaskWindow()
+        MaskHelper.shared.hide()
         if ctx.event == .skipEvent {
             return
         }
@@ -608,7 +614,7 @@ class TBTimer: ObservableObject {
     private func onIdleStart(context _: TBStateMachine.Context) {
         player.deinitPlayers()
         stopTimer()
-        MaskHelper.shared.hideMaskWindow()
+        MaskHelper.shared.hide()
         TBStatusItem.shared.setIcon(name: .idle)
         currentWorkInterval = 0
         updateDisplay()
