@@ -146,10 +146,10 @@ extension DropdownDescribable {
                                                   comment: "Disabled label")
             case "work": return NSLocalizedString("SettingsView.dropdownWork.label",
                                                     comment: "Work label")
-            case "rest": return NSLocalizedString("SettingsView.dropdownBreak.label",
-                                                    comment: "Break label")
-            case "set": return NSLocalizedString("SettingsView.dropdownSet.label",
-                                                    comment: "Set label")
+            case "shortRest": return NSLocalizedString("SettingsView.dropdownBreak.label",
+                                                    comment: "Short rest label")
+            case "longRest": return NSLocalizedString("SettingsView.dropdownSet.label",
+                                                    comment: "Long rest label")
             case "running": return NSLocalizedString("SettingsView.showTimerRunning.label",
                                                     comment: "Show timer running label")
             case "always": return NSLocalizedString("SettingsView.showTimerAlways.label",
@@ -228,9 +228,9 @@ private struct SettingsView: View {
             }
             HStack {
                 Text(NSLocalizedString("SettingsView.stopAfter.label",
-                                        comment: "Stop after label"))
+                                        comment: "Stop session after label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                StartStopDropdown(value: $timer.stopAfter)
+                StartStopDropdown(value: $timer.sessionStopAfter)
             }
             HStack {
                 Text(NSLocalizedString("SettingsView.showTimer.label",
@@ -406,7 +406,7 @@ struct TBPopoverView: View {
 
     private func TimerDisplayString() -> String {
         var result = timer.timeLeftString
-        if timer.currentPresetInstance.workIntervalsInSet > 1, timer.stopAfter == .disabled || timer.stopAfter == .set {
+        if timer.currentPresetInstance.workIntervalsInSet > 1, timer.sessionStopAfter == .disabled || timer.sessionStopAfter == .longRest {
             result += " (" + String(timer.currentWorkInterval) + "/" + String(timer.currentPresetInstance.workIntervalsInSet) + ")"
         }
         return result

@@ -6,8 +6,8 @@ enum startWithValues: String, CaseIterable, DropdownDescribable {
     case work, rest
 }
 
-enum stopAfterValues: String, CaseIterable, DropdownDescribable {
-    case disabled, work, rest, set
+enum SessionStopAfter: String, CaseIterable, DropdownDescribable {
+    case disabled, work, shortRest, longRest
 }
 
 enum ShowTimerMode: String, CaseIterable, DropdownDescribable {
@@ -40,7 +40,7 @@ struct TimerPreset: Codable {
 class TBTimer: ObservableObject {
     @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = false
     @AppStorage("startWith") var startWith = startWithValues.work
-    @AppStorage("stopAfter") var stopAfter = stopAfterValues.disabled
+    @AppStorage("sessionStopAfter") var sessionStopAfter = SessionStopAfter.disabled
     @AppStorage("showTimerMode") var showTimerMode = ShowTimerMode.running
     @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.system
     @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = 0
@@ -110,11 +110,11 @@ class TBTimer: ObservableObject {
     private func wasCompletion(for state: TBStateMachineStates) -> Bool {
         switch state {
         case .work:
-            return stopAfter == .work
+            return sessionStopAfter == .work
         case .shortRest:
-            return stopAfter == .rest
+            return sessionStopAfter == .shortRest
         case .longRest:
-            return stopAfter == .rest || stopAfter == .set
+            return sessionStopAfter == .shortRest || sessionStopAfter == .longRest
         case .idle:
             return false
         }
@@ -136,15 +136,15 @@ class TBTimer: ObservableObject {
          * From: work
          *   → shortRest (timerFired, if currentWorkInterval < workIntervalsInSet)
          *   → longRest (timerFired, if currentWorkInterval >= workIntervalsInSet)
-         *   → idle (timerFired if stopAfter = work, OR startStop)
+         *   → idle (timerFired if sessionStopAfter = work, OR startStop)
          *
          * From: shortRest
          *   → work (timerFired)
-         *   → idle (timerFired if stopAfter = rest, OR startStop)
+         *   → idle (timerFired if sessionStopAfter = rest, OR startStop)
          *
          * From: longRest
          *   → work (timerFired, resets currentWorkInterval)
-         *   → idle (timerFired if stopAfter = longRest, OR startStop)
+         *   → idle (timerFired if sessionStopAfter = longRest, OR startStop)
          */
 
         // startStop transitions
@@ -162,36 +162,27 @@ class TBTimer: ObservableObject {
             self.startWith != .work
         }
 
-        // timerFired transitions from work
-        stateMachine.addRoutes(event: .any, transitions: [.work => .idle]) { _ in
-            self.stopAfter == .work
+        // sessionCompleted transitions (all completion paths go to idle)
+        stateMachine.addRoutes(event: .sessionCompleted, transitions: [
+            .work => .idle,
+            .shortRest => .idle,
+            .longRest => .idle
+        ])
+
+        // timerFired transitions from work (non-completion paths)
+        stateMachine.addRoutes(event: .timerFired, transitions: [.work => .shortRest]) { [self] _ in
+            currentWorkInterval < currentPresetInstance.workIntervalsInSet
         }
 
-        stateMachine.addRoutes(event: .any, transitions: [.work => .shortRest]) { [self] _ in
-            self.stopAfter != .work && currentWorkInterval < currentPresetInstance.workIntervalsInSet
+        stateMachine.addRoutes(event: .timerFired, transitions: [.work => .longRest]) { [self] _ in
+            currentWorkInterval >= currentPresetInstance.workIntervalsInSet
         }
 
-        stateMachine.addRoutes(event: .any, transitions: [.work => .longRest]) { [self] _ in
-            self.stopAfter != .work && currentWorkInterval >= currentPresetInstance.workIntervalsInSet
-        }
-
-        // transitions from shortRest
-        stateMachine.addRoutes(event: .any, transitions: [.shortRest => .idle]) { _ in
-            self.stopAfter == .rest
-        }
-
-        stateMachine.addRoutes(event: .any, transitions: [.shortRest => .work]) { _ in
-            self.stopAfter != .rest
-        }
-
-        // transitions from longRest
-        stateMachine.addRoutes(event: .any, transitions: [.longRest => .idle]) { _ in
-            self.stopAfter == .rest || self.stopAfter == .set
-        }
-
-        stateMachine.addRoutes(event: .any, transitions: [.longRest => .work]) { _ in
-            self.stopAfter != .rest && self.stopAfter != .set
-        }
+        // timerFired transitions from rest (always back to work for non-completion)
+        stateMachine.addRoutes(event: .timerFired, transitions: [
+            .shortRest => .work,
+            .longRest => .work
+        ])
 
         stateMachine.addAnyHandler(.idle => .any, handler: onIdleEnd)
         stateMachine.addAnyHandler(.shortRest => .work, handler: onRestEnd)
@@ -202,6 +193,7 @@ class TBTimer: ObservableObject {
         stateMachine.addAnyHandler(.any => .longRest, handler: onLongRestStart)
         stateMachine.addAnyHandler(.any => .idle, handler: onIdleStart)
         stateMachine.addHandler(event: .waitChoice, handler: onWaitChoice)
+        stateMachine.addHandler(event: .sessionCompleted, handler: onSessionCompleted)
 
         stateMachine.addAnyHandler(.any => .any, handler: { ctx in
             logger.append(event: TBLogEventTransition(fromContext: ctx))
@@ -539,7 +531,9 @@ class TBTimer: ObservableObject {
                 if timeLeft < overrunTimeLimit {
                     stateMachine <-! .startStop
                 } else {
-                    stateMachine <-! .timerFired
+                    // Check if this should be a session completion
+                    let isCompletion = wasCompletion(for: stateMachine.state)
+                    stateMachine <-! (isCompletion ? .sessionCompleted : .timerFired)
                 }
             }
         }
@@ -617,11 +611,6 @@ class TBTimer: ObservableObject {
     private func onIdleStart(context ctx: TBStateMachine.Context) {
         MaskHelper.shared.hide()
         player.deinitPlayers()
-        if wasCompletion(for: ctx.fromState) {
-            if (alertMode == .notify && notifyStyle == .system) || alertMode == .fullScreen {
-                SystemNotifyHelper.shared.sessionComplete()
-            }
-        }
         stopTimer()
         TBStatusItem.shared.setIcon(name: .idle)
         currentWorkInterval = 0
@@ -644,5 +633,12 @@ class TBTimer: ObservableObject {
 
         // Show notification for user to choose next action
         // showActionChoiceNotification(...)
+    }
+
+    private func onSessionCompleted(context ctx: TBStateMachine.Context) {
+        // Show system notification for system and fullScreen alert modes
+        if (alertMode == .notify && notifyStyle == .system) || alertMode == .fullScreen {
+            SystemNotifyHelper.shared.sessionComplete()
+        }
     }
 }
