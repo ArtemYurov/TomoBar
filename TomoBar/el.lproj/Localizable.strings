@@ -59,7 +59,11 @@
 "TBTimer.onRestStart.title" = "Τέλος χρόνου";
 "TBTimer.onRestStart.short.body" = "Ήρθε η ώρα για ένα μικρό διάλειμμα!";
 "TBTimer.onRestStart.long.body" = "Ήρθε η ώρα για ένα μεγάλο διάλειμμα!";
-"TBTimer.onRestStart.skip.title" = "Παράλειψη";
+"TBTimer.onRestStart.skip.title" = "Παράλειψη διαλείμματος";
 "TBTimer.onRestFinish.title" = "Το διάλειμμα τελείωσε";
 "TBTimer.onRestFinish.body" = "Συνέχισε την καλή δουλειά!";
+"TBTimer.onRestFinish.skip.title" = "Παράλειψη εργασίας";
+"TBTimer.completion.title" = "Το χρονόμετρο ολοκληρώθηκε";
+"TBTimer.completion.body" = "Η συνεδρία τελείωσε";
+"TBTimer.completion.close" = "Κλείσιμο";
 "TBMask.skip.label" = "Κάντε διπλό κλικ σε οποιοδήποτε σημείο για παράλειψη, κάντε κλικ μια φορά για να κρύψετε αυτήν τη μάσκα πλήρης οθόνης";

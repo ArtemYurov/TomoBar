@@ -59,7 +59,11 @@
 "TBTimer.onRestStart.title" = "Zeit abgelaufen";
 "TBTimer.onRestStart.short.body" = "Zeit für eine kurze Pause!";
 "TBTimer.onRestStart.long.body" = "Zeit für eine lange Pause!";
-"TBTimer.onRestStart.skip.title" = "Überspringen";
+"TBTimer.onRestStart.skip.title" = "Pause überspringen";
 "TBTimer.onRestFinish.title" = "Pause ist vorbei";
 "TBTimer.onRestFinish.body" = "Mach weiter so!";
+"TBTimer.onRestFinish.skip.title" = "Arbeit überspringen";
+"TBTimer.completion.title" = "Timer abgeschlossen";
+"TBTimer.completion.body" = "Sitzung beendet";
+"TBTimer.completion.close" = "Schließen";
 "TBMask.skip.label" = "Doppelklicken Sie auf eine beliebige Fläche, um zu überspringen, oder klicken Sie einmal, um den Bildschirm wiederherzustellen";

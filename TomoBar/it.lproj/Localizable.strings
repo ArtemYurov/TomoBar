@@ -59,7 +59,11 @@
 "TBTimer.onRestStart.title" = "Hai fatto!";
 "TBTimer.onRestStart.short.body" = "È il momento di una pausa breve!";
 "TBTimer.onRestStart.long.body" = "È il momento di una pausa lunga!";
-"TBTimer.onRestStart.skip.title" = "Salta";
+"TBTimer.onRestStart.skip.title" = "Salta la pausa";
 "TBTimer.onRestFinish.title" = "Pausa finita";
 "TBTimer.onRestFinish.body" = "Metticela tutta!";
+"TBTimer.onRestFinish.skip.title" = "Salta il lavoro";
+"TBTimer.completion.title" = "Timer completato";
+"TBTimer.completion.body" = "Sessione terminata";
+"TBTimer.completion.close" = "Chiudi";
 "TBMask.skip.label" = "Fai doppio click da qualche parte per saltare, clicca una volta per ripristinare il display";

@@ -59,7 +59,11 @@
 "TBTimer.onRestStart.title" = "Tempo esgotado";
 "TBTimer.onRestStart.short.body" = "Hora de uma pausa curta!";
 "TBTimer.onRestStart.long.body" = "Hora de uma pausa longa!";
-"TBTimer.onRestStart.skip.title" = "Pular";
+"TBTimer.onRestStart.skip.title" = "Pular pausa";
 "TBTimer.onRestFinish.title" = "Pausa encerrada";
 "TBTimer.onRestFinish.body" = "Continue com o bom trabalho!";
+"TBTimer.onRestFinish.skip.title" = "Pular trabalho";
+"TBTimer.completion.title" = "Temporizador concluído";
+"TBTimer.completion.body" = "Sessão concluída";
+"TBTimer.completion.close" = "Fechar";
 "TBMask.skip.label" = "Clique duplo em qualquer área para pular, clique uma vez para ocultar esta máscara";

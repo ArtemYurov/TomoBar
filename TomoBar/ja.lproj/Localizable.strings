@@ -62,4 +62,8 @@
 "TBTimer.onRestStart.skip.title" = "休憩をスキップ";
 "TBTimer.onRestFinish.title" = "休憩終了です！";
 "TBTimer.onRestFinish.body" = "作業がんばってください！";
+"TBTimer.onRestFinish.skip.title" = "作業をスキップ";
+"TBTimer.completion.title" = "タイマー完了";
+"TBTimer.completion.body" = "セッション終了";
+"TBTimer.completion.close" = "閉じる";
 "TBMask.skip.label" = "画面をダブルクリックすると休憩をスキップし、1回クリックすると画面が元に戻ります。";

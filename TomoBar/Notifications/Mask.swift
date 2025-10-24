@@ -17,7 +17,11 @@ class MaskHelper {
         skipHandler = handler
     }
 
-    func show(desc: String, blockActions: Bool = false) {
+    func show(isLong: Bool, blockActions: Bool = false) {
+        let desc = isLong
+            ? NSLocalizedString("TBTimer.onRestStart.long.body", comment: "Long break body")
+            : NSLocalizedString("TBTimer.onRestStart.short.body", comment: "Short break body")
+
         let screens = NSScreen.screens
         for screen in screens {
             let window = NSWindow(contentRect: screen.frame, styleMask: .borderless, backing: .buffered, defer: true)
