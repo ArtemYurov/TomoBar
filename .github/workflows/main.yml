@@ -30,6 +30,10 @@ jobs:
         with:
           xcode-version: '16.4'
 
+      - name: Install create-dmg
+        if: github.ref_type == 'tag'
+        run: brew install create-dmg
+
       - name: Build
         run: |
           # Create a fake codesign that skips signing in CI
@@ -63,11 +67,26 @@ jobs:
           # Create ZIP archive
           zip -r "TomoBar-${{env.version}}.zip" "TomoBar.app"
 
+      - name: Create DMG
+        if: github.ref_type == 'tag'
+        run: |
+          create-dmg \
+            --volname "TomoBar" \
+            --window-pos 200 120 \
+            --window-size 520 300 \
+            --icon-size 80 \
+            --icon "TomoBar.app" 130 130 \
+            --app-drop-link 380 130 \
+            "TomoBar-${{env.version}}.dmg" \
+            "TomoBar.app"
+
       - name: Release
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v1
         with:
-          files: TomoBar-${{env.version}}.zip
+          files: |
+            TomoBar-${{env.version}}.zip
+            TomoBar-${{env.version}}.dmg
 
       - name: Delete old prerelease
         if: github.ref_type == 'branch'
