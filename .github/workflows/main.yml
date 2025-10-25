@@ -72,10 +72,12 @@ jobs:
         run: |
           create-dmg \
             --volname "TomoBar" \
+            --background "Icons/dmg.gif" \
             --window-pos 200 120 \
             --window-size 520 300 \
             --icon-size 80 \
             --icon "TomoBar.app" 130 130 \
+            --hide-extension "TomoBar.app" \
             --app-drop-link 380 130 \
             "TomoBar-${{env.version}}.dmg" \
             "TomoBar.app"
