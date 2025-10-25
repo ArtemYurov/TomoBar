@@ -2,8 +2,8 @@ name: main
 
 on:
   push:
-    branches:
-      - '*'
+#    branches:
+#      - '*'
     tags:
       - 'v*'
 
