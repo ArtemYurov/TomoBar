@@ -202,6 +202,15 @@ class TBTimer: ObservableObject {
             shouldAutoTransition()
         }
 
+        // Pause routes when user choice is required
+        stateMachine.addRoutes(event: .intervalCompleted, transitions: [
+            .work => .work,
+            .shortRest => .shortRest,
+            .longRest => .longRest
+        ]) { [self] _ in
+            !shouldAutoTransition()
+        }
+
         // confirmedNext transitions (always transition, no shouldAutoTransition check)
         stateMachine.addRoutes(event: .confirmedNext, transitions: [.work => .shortRest]) { [self] _ in
             currentWorkInterval < currentPresetInstance.workIntervalsInSet
@@ -212,6 +221,20 @@ class TBTimer: ObservableObject {
         }
 
         stateMachine.addRoutes(event: .confirmedNext, transitions: [
+            .shortRest => .work,
+            .longRest => .work
+        ])
+
+        // skipEvent transitions (skip current interval and go to next)
+        stateMachine.addRoutes(event: .skipEvent, transitions: [.work => .shortRest]) { [self] _ in
+            currentWorkInterval < currentPresetInstance.workIntervalsInSet
+        }
+
+        stateMachine.addRoutes(event: .skipEvent, transitions: [.work => .longRest]) { [self] _ in
+            currentWorkInterval >= currentPresetInstance.workIntervalsInSet
+        }
+
+        stateMachine.addRoutes(event: .skipEvent, transitions: [
             .shortRest => .work,
             .longRest => .work
         ])
