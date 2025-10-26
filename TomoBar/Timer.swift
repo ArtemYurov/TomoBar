@@ -69,6 +69,7 @@ class TBTimer: ObservableObject {
     private var startTime: Date!  // When the current interval started
     private var pausedTimeElapsed: TimeInterval = 0  // Elapsed time when paused
     private var adjustTimerWorkItem: DispatchWorkItem?  // For debouncing timer adjustments
+    private var activityToken: NSObjectProtocol?
     @Published var paused: Bool = false
     @Published var timeLeftString: String = ""
     @Published var timer: DispatchSourceTimer?
@@ -444,6 +445,9 @@ class TBTimer: ObservableObject {
         startTime = Date()  // Save when timer started
         pausedTimeElapsed = 0  // Reset paused elapsed time
 
+        // Prevent App Nap while timer is running
+        startActivity()
+
         let queue = DispatchQueue(label: "Timer")
         timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)
         timer!.schedule(deadline: .now(), repeating: .seconds(1), leeway: .never)
@@ -455,6 +459,25 @@ class TBTimer: ObservableObject {
     private func stopTimer() {
         timer!.cancel()
         timer = nil
+
+        // End App Nap prevention
+        endActivity()
+    }
+
+    private func startActivity() {
+        if activityToken == nil {
+            activityToken = ProcessInfo.processInfo.beginActivity(
+                options: [.userInitiated, .idleSystemSleepDisabled],
+                reason: "Timer is running"
+            )
+        }
+    }
+
+    private func endActivity() {
+        if let token = activityToken {
+            ProcessInfo.processInfo.endActivity(token)
+            activityToken = nil
+        }
     }
 
     private func onTimerTick() {
