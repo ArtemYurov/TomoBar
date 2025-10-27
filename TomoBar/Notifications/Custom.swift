@@ -81,7 +81,7 @@ final class CustomNotifyHelper: NSObject {
     }
 
     func hide() {
-        guard window != nil else {
+        guard let window = window, let style = currentStyle else {
             return
         }
 
@@ -90,7 +90,38 @@ final class CustomNotifyHelper: NSObject {
                 return
             }
 
-            if let window = self.window {
+            let currentFrame = window.frame
+            let animationDuration: CGFloat = 0.3
+            let animationOffset: CGFloat = BaseLayout.animationStartOffset
+
+            // Determine the end position based on notification type
+            let endFrame: NSRect
+            switch style {
+            case .big:
+                // Big notification slides up
+                endFrame = NSRect(
+                    x: currentFrame.origin.x,
+                    y: NSScreen.main?.visibleFrame.maxY ?? currentFrame.origin.y + animationOffset,
+                    width: currentFrame.width,
+                    height: currentFrame.height
+                )
+            case .small:
+                // Small notification slides right
+                endFrame = NSRect(
+                    x: NSScreen.main?.visibleFrame.maxX ?? currentFrame.origin.x + animationOffset,
+                    y: currentFrame.origin.y,
+                    width: currentFrame.width,
+                    height: currentFrame.height
+                )
+            }
+
+            // Animate slide-out
+            NSAnimationContext.runAnimationGroup({ context in
+                context.duration = animationDuration
+                context.timingFunction = CAMediaTimingFunction(name: .easeIn)
+                window.animator().setFrame(endFrame, display: true)
+            }, completionHandler: {
+                // Close window after animation
                 window.orderOut(nil)
 
                 if let controller = self.hostingController {
@@ -102,7 +133,8 @@ final class CustomNotifyHelper: NSObject {
                 window.contentViewController = nil
                 window.close()
                 self.window = nil
-            }
+                self.currentStyle = nil
+            })
         }
     }
 
