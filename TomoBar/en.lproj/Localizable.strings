@@ -30,7 +30,7 @@
 "SettingsView.addMinuteShortcut.label" = "Add a minute";
 "SettingsView.addFiveMinutesShortcut.label" = "Add five minutes";
 "SettingsView.showTimer.label" = "Show timer";
-"SettingsView.showTimerRunning.label" = "Running";
+"SettingsView.showTimerRunning.label" = "Active";
 "SettingsView.showTimerAlways.label" = "Always";
 "SettingsView.timerFont.label" = "Font";
 "SettingsView.dropdownSystem.label" = "System";

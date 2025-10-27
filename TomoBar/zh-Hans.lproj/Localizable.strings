@@ -30,7 +30,7 @@
 "SettingsView.addMinuteShortcut.label" = "增加一分钟";
 "SettingsView.addFiveMinutesShortcut.label" = "增加五分钟";
 "SettingsView.showTimer.label" = "显示计时器";
-"SettingsView.showTimerRunning.label" = "运行时";
+"SettingsView.showTimerRunning.label" = "活动时";
 "SettingsView.showTimerAlways.label" = "始终";
 "SettingsView.timerFont.label" = "字体";
 "SettingsView.dropdownSystem.label" = "系统";

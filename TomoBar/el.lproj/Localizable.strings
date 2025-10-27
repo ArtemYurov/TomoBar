@@ -30,7 +30,7 @@
 "SettingsView.addMinuteShortcut.label" = "Προσθήκη λεπτού";
 "SettingsView.addFiveMinutesShortcut.label" = "Προσθήκη πέντε λεπτών";
 "SettingsView.showTimer.label" = "Εμφάνιση χρονομέτρου";
-"SettingsView.showTimerRunning.label" = "Εκτελείται";
+"SettingsView.showTimerRunning.label" = "Ενεργό";
 "SettingsView.showTimerAlways.label" = "Πάντα";
 "SettingsView.timerFont.label" = "Γραμματοσειρά";
 "SettingsView.dropdownSystem.label" = "Σύστημα";
