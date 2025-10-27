@@ -492,7 +492,7 @@ class TBTimer: ObservableObject {
         }
 
         // Determine current interval duration and if we should adjust
-        let newIntervalMinutes: Int
+        let newIntervalMinutes: Double
         let shouldAdjust: Bool
 
         switch intervalType {
