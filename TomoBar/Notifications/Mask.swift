@@ -31,8 +31,8 @@ class MaskHelper {
                 skipHandler: skipEventHandler,
                 onAnimationComplete: { [weak self] in
                     if let windowControllers = self?.windowControllers, windowControllers.isEmpty == false {
-                        for wc in windowControllers {
-                            wc.close()
+                        for windowController in windowControllers {
+                            windowController.close()
                         }
                         self?.windowControllers.removeAll()
                     }
@@ -54,8 +54,8 @@ class MaskHelper {
     }
 
     func updateTimeLeft(_ timeString: String) {
-        for wc in windowControllers {
-            guard let mask = wc.window?.contentView as? MaskView else { continue }
+        for windowController in windowControllers {
+            guard let mask = windowController.window?.contentView as? MaskView else { continue }
             mask.updateTimeLeft(timeString)
         }
     }
@@ -64,8 +64,8 @@ class MaskHelper {
         uninstallKeyboardMonitor()
         stopWindowMonitoring()
 
-        for wc in windowControllers {
-            guard let mask = wc.window?.contentView as? MaskView else { continue }
+        for windowController in windowControllers {
+            guard let mask = windowController.window?.contentView as? MaskView else { continue }
             mask.hide()
         }
     }
@@ -137,9 +137,9 @@ class MaskHelper {
     }
 
     private func bringWindowsToFront() {
-        for wc in windowControllers {
-            wc.window?.orderFront(nil)
-            wc.window?.level = .screenSaver
+        for windowController in windowControllers {
+            windowController.window?.orderFront(nil)
+            windowController.window?.level = .screenSaver
         }
 
         NSApp.unhide(nil)

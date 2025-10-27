@@ -61,68 +61,52 @@ extension TBTimer {
 
     func adjustTimer(state: TBStateMachineStates) {
         // Only adjust if timer is running
-        guard timer != nil else {
-            updateDisplay()
-            return
-        }
-
-        guard state != .idle else {
-            updateDisplay()
-            return
-        }
-
-        let shouldAdjust: Bool
-
-        switch state {
-        case .idle:
-            return
-        case .work:
-            shouldAdjust = isWorking
-        case .shortRest:
-            shouldAdjust = isShortRest
-        case .longRest:
-            shouldAdjust = isLongRest
-        }
-
-        guard shouldAdjust else {
+        guard timer != nil, state != .idle, shouldAdjustTimer(for: state) else {
             updateDisplay()
             return
         }
 
         let newIntervalMinutes = getIntervalMinutes(for: state)
-
-        // Calculate elapsed time from timer start
-        let elapsedTime: TimeInterval
-        if paused {
-            elapsedTime = pausedTimeElapsed
-        } else {
-            elapsedTime = Date().timeIntervalSince(startTime)
-
-        }
-
-        // Calculate new time left with new interval duration
+        let elapsedTime = paused ? pausedTimeElapsed : Date().timeIntervalSince(startTime)
         let newIntervalDuration = TimeInterval(newIntervalMinutes * 60)
         let newTimeLeft = newIntervalDuration - elapsedTime
 
+        updateTimerWithNewTimeLeft(newTimeLeft)
+        updateDisplay()
+    }
+
+    private func shouldAdjustTimer(for state: TBStateMachineStates) -> Bool {
+        switch state {
+        case .idle:
+            return false
+        case .work:
+            return isWorking
+        case .shortRest:
+            return isShortRest
+        case .longRest:
+            return isLongRest
+        }
+    }
+
+    private func updateTimerWithNewTimeLeft(_ newTimeLeft: TimeInterval) {
         // Only update if newTimeLeft is at least 1 second
         // This prevents timer corruption during rapid onChange events (e.g., typing in TextField)
+        let timeToSet: TimeInterval
         if newTimeLeft >= 1.0 {
-            if paused {
-                pausedTimeRemaining = newTimeLeft
-            } else {
-                finishTime = Date().addingTimeInterval(newTimeLeft)
-            }
+            timeToSet = newTimeLeft
         } else if newTimeLeft < 0 {
             // If new interval is shorter than elapsed time, keep minimal time to allow user to finish editing
-            if paused {
-                pausedTimeRemaining = 1.0
-            } else {
-                finishTime = Date().addingTimeInterval(1.0)
-            }
+            timeToSet = 1.0
+        } else {
+            // If 0 <= newTimeLeft < 1, don't update - keep old value
+            return
         }
-        // If 0 <= newTimeLeft < 1, don't update finishTime - keep old value
 
-        updateDisplay()
+        if paused {
+            pausedTimeRemaining = timeToSet
+        } else {
+            finishTime = Date().addingTimeInterval(timeToSet)
+        }
     }
 
     func adjustTimerDebounced(state: TBStateMachineStates) {
