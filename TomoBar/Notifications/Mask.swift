@@ -1,4 +1,3 @@
-
 import AppKit
 import Carbon.HIToolbox
 
@@ -149,7 +148,7 @@ class MaskHelper {
 }
 
 class MaskView: NSView {
-    var onAnimationComplete: (() -> Void)? = nil
+    var onAnimationComplete: (() -> Void)?
     private var hideHandler: (() -> Void)?
     private var skipHandler: (() -> Void)?
     private var clickTimer: Timer?
@@ -210,7 +209,6 @@ class MaskView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
 
-
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
@@ -234,8 +232,7 @@ class MaskView: NSView {
             clickTimer = Timer.scheduledTimer(withTimeInterval: NSEvent.doubleClickInterval, repeats: false) { _ in
                 self.hideHandler?()
             }
-        }
-        else if event.clickCount == 2 {
+        } else if event.clickCount == 2 {
             clickTimer?.invalidate()
             self.hideHandler?()
             self.skipHandler?()

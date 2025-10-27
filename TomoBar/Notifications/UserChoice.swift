@@ -20,20 +20,20 @@ enum UserChoiceAction {
 
 enum NotificationStyle {
     case small(
-        title: String,
-        subtitle: String,
-        nextActionTitle: String,
-        skipActionTitle: String
-    )
+            title: String,
+            subtitle: String,
+            nextActionTitle: String,
+            skipActionTitle: String
+         )
     case big(
-        title: String,
-        subtitle: String,
-        addMinuteTitle: String,
-        addFiveMinutesTitle: String,
-        stopTitle: String,
-        nextActionTitle: String,
-        skipActionTitle: String
-    )
+            title: String,
+            subtitle: String,
+            addMinuteTitle: String,
+            addFiveMinutesTitle: String,
+            stopTitle: String,
+            nextActionTitle: String,
+            skipActionTitle: String
+         )
 }
 
 enum BaseLayout {
@@ -148,13 +148,13 @@ final class UserChoiceHelper: NSObject {
         switch style {
         case .small(let title, let subtitle, let next, let skip):
             showSmall(title: title, subtitle: subtitle,
-                     nextActionTitle: next, skipActionTitle: skip,
-                     isSessionCompleted: isSessionCompleted)
+                      nextActionTitle: next, skipActionTitle: skip,
+                      isSessionCompleted: isSessionCompleted)
         case .big(let title, let subtitle, let addMinute, let addFive, let stop, let next, let skip):
             showBig(title: title, subtitle: subtitle,
-                   addMinuteTitle: addMinute, addFiveMinutesTitle: addFive,
-                   stopTitle: stop, nextActionTitle: next,
-                   skipActionTitle: skip, isSessionCompleted: isSessionCompleted)
+                    addMinuteTitle: addMinute, addFiveMinutesTitle: addFive,
+                    stopTitle: stop, nextActionTitle: next,
+                    skipActionTitle: skip, isSessionCompleted: isSessionCompleted)
         }
     }
 
@@ -206,8 +206,8 @@ final class UserChoiceHelper: NSObject {
     }
 
     private func showSmall(title: String, subtitle: String,
-                          nextActionTitle: String, skipActionTitle: String,
-                          isSessionCompleted: Bool) {
+                           nextActionTitle: String, skipActionTitle: String,
+                           isSessionCompleted: Bool) {
         let view = SmallNotificationView(
             title: title,
             subtitle: subtitle,
@@ -238,11 +238,11 @@ final class UserChoiceHelper: NSObject {
         if let screen = NSScreen.main {
             let screenFrame = screen.visibleFrame
             let finalX = screenFrame.maxX - windowWidth - screenRightOffset
-            let y = screenFrame.maxY - windowHeight - screenTopOffset
+            let yPosition = screenFrame.maxY - windowHeight - screenTopOffset
             let startX = screenFrame.maxX + animationStartOffset
 
             window?.setFrame(
-                NSRect(x: startX, y: y, width: windowWidth, height: windowHeight),
+                NSRect(x: startX, y: yPosition, width: windowWidth, height: windowHeight),
                 display: true
             )
 
@@ -252,7 +252,7 @@ final class UserChoiceHelper: NSObject {
                 context.duration = animationDuration
                 context.timingFunction = CAMediaTimingFunction(name: .easeOut)
                 window?.animator().setFrame(
-                    NSRect(x: finalX, y: y, width: windowWidth, height: windowHeight),
+                    NSRect(x: finalX, y: yPosition, width: windowWidth, height: windowHeight),
                     display: true
                 )
             })
@@ -262,9 +262,9 @@ final class UserChoiceHelper: NSObject {
     }
 
     private func showBig(title: String, subtitle: String,
-                        addMinuteTitle: String, addFiveMinutesTitle: String,
-                        stopTitle: String, nextActionTitle: String,
-                        skipActionTitle: String, isSessionCompleted: Bool) {
+                         addMinuteTitle: String, addFiveMinutesTitle: String,
+                         stopTitle: String, nextActionTitle: String,
+                         skipActionTitle: String, isSessionCompleted: Bool) {
         let contentView = BigNotificationView(
             title: title,
             subtitle: subtitle,
