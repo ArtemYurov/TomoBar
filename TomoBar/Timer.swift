@@ -65,9 +65,9 @@ class TBTimer: ObservableObject {
     }
 
     var customBackgroundOpacity: Int {
-        get { notify.choice.customBackgroundOpacity }
+        get { notify.custom.customBackgroundOpacity }
         set {
-            notify.choice.customBackgroundOpacity = newValue
+            notify.custom.customBackgroundOpacity = newValue
             objectWillChange.send()
         }
     }
@@ -202,7 +202,7 @@ class TBTimer: ObservableObject {
     }
 
     func startStop() {
-        notify.choice.hide()
+        notify.custom.hide()
         paused = false
         stateMachine <-! .startStop
     }
