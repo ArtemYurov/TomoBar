@@ -8,21 +8,6 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             HStack {
-                Text(NSLocalizedString("SettingsView.startWith.label",
-                                       comment: "Start with label"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                StartStopDropdown(value: $timer.startWith)
-            }
-            .onChange(of: timer.startWith) { _ in
-                timer.updateDisplay()
-            }
-            HStack {
-                Text(NSLocalizedString("SettingsView.stopAfter.label",
-                                       comment: "Stop session after label"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                StartStopDropdown(value: $timer.sessionStopAfter)
-            }
-            HStack {
                 Text(NSLocalizedString("SettingsView.showTimer.label",
                                        comment: "Show timer label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
