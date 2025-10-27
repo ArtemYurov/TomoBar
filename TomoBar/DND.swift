@@ -1,5 +1,6 @@
 import ScriptingBridge
 import AppKit
+import SwiftUI
 
 @objc protocol ShortcutsEvents {
     @objc optional var shortcuts: SBElementArray { get }
@@ -12,15 +13,38 @@ import AppKit
 extension SBApplication: ShortcutsEvents {}
 extension SBObject: Shortcut {}
 
-class DoNotDisturbHelper {
-    var currentState: Bool = false
+class TBDoNotDisturb: ObservableObject {
+    @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false {
+        didSet {
+            onToggleChanged?()
+        }
+    }
+    var onToggleChanged: (() -> Void)?
+    var currentFocusState: Bool = false
+    private var dispatchGroup: DispatchGroup?
 
-    static let shared = DoNotDisturbHelper()
+    func setDispatchGroup(_ group: DispatchGroup) {
+        dispatchGroup = group
+    }
 
-    private init() {}
+    func set(focus: Bool, completion: ((Bool) -> Void)? = nil) {
+        if let group = dispatchGroup {
+            DispatchQueue.main.async(group: group) { [self] in
+                let result = updateFocusMode(focus: focus)
+                completion?(result)
+            }
+        } else {
+            let result = updateFocusMode(focus: focus)
+            completion?(result)
+        }
+    }
 
-    func set(state: Bool) -> Bool {
-        if currentState == state {
+    func setImmediate(focus: Bool) -> Bool {
+        return updateFocusMode(focus: focus)
+    }
+
+    private func updateFocusMode(focus: Bool) -> Bool {
+        if currentFocusState == focus {
             return true
         }
 
@@ -39,9 +63,9 @@ class DoNotDisturbHelper {
             return false
         }
 
-        let input = state ? "on" : "off"
+        let input = focus ? "on" : "off"
         _ = shortcut.run?(withInput: input)
-        currentState = state
+        currentFocusState = focus
 
         return true
     }

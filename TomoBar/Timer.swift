@@ -53,18 +53,11 @@ class TBTimer: ObservableObject {
     @AppStorage("alertMode") var alertMode = AlertMode.notify
     @AppStorage("notifyStyle") var notifyStyle = NotifyStyle.system
     @AppStorage("maskMode") var maskMode = MaskMode.normal
-    @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false {
-        didSet {
-            let state = toggleDoNotDisturb && stateMachine.state == .work && !paused
-            DispatchQueue.main.async(group: notificationGroup) { 
-                _ = DoNotDisturbHelper.shared.set(state: state)
-            }
-        }
-    }
     // This preference is "hidden"
     @AppStorage("overrunTimeLimit") var overrunTimeLimit = -60.0
 
     public let player = TBPlayer()
+    public var dnd = TBDoNotDisturb()
     public var currentWorkInterval: Int = 0
     public var currentPresetInstance: TimerPreset {
         get {
@@ -274,6 +267,11 @@ class TBTimer: ObservableObject {
         SystemNotifyHelper.shared.setDispatchGroup(notificationGroup)
         SystemNotifyHelper.shared.setSkipHandler(skip)
         MaskHelper.shared.setSkipHandler(skip)
+        dnd.setDispatchGroup(notificationGroup)
+        dnd.onToggleChanged = { [self] in
+            let shouldFocus = dnd.toggleDoNotDisturb && stateMachine.state == .work && !paused
+            dnd.set(focus: shouldFocus)
+        }
 
         let aem: NSAppleEventManager = NSAppleEventManager.shared()
         aem.setEventHandler(self,
@@ -357,10 +355,8 @@ class TBTimer: ObservableObject {
 
         paused = !paused
 
-        if toggleDoNotDisturb, isWorking {
-            DispatchQueue.main.async(group: notificationGroup) { [self] in
-                _ = DoNotDisturbHelper.shared.set(state: !paused)
-            }
+        if dnd.toggleDoNotDisturb, isWorking {
+            dnd.set(focus: !paused)
         }
 
         if paused {
@@ -654,24 +650,21 @@ class TBTimer: ObservableObject {
         player.playWindup()
         player.startTicking()
         startStateTimer()
-        if toggleDoNotDisturb {
-            DispatchQueue.main.async(group: notificationGroup) { [self] in
-                let res = DoNotDisturbHelper.shared.set(state: true)
-                if !res {
-                    stateMachine <-! .startStop
+        if dnd.toggleDoNotDisturb {
+            dnd.set(focus: true) { [self] success in
+                if !success {
+                    self.stateMachine <-! .startStop
                 }
             }
         }
     }
 
     private func onWorkEnd(context _: TBStateMachine.Context) {
-        DispatchQueue.main.async(group: notificationGroup) {
-            _ = DoNotDisturbHelper.shared.set(state: false)
-        }
     }
 
     private func onShortRestStart(context ctx: TBStateMachine.Context) {
         onRestStart(context: ctx, isLong: false, length: currentPresetInstance.shortRestIntervalLength, imgName: .shortRest)
+        dnd.set(focus: false)
     }
 
     private func onLongRestStart(context ctx: TBStateMachine.Context) {

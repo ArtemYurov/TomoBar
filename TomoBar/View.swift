@@ -287,7 +287,7 @@ private struct SettingsView: View {
                     StartStopDropdown(value: $timer.maskMode)
                 }
             }
-            Toggle(isOn: $timer.toggleDoNotDisturb) {
+            Toggle(isOn: $timer.dnd.toggleDoNotDisturb) {
                 Text(NSLocalizedString("SettingsView.toggleDoNotDisturb.label",
                                        comment: "Toggle Do Not Disturb"))
                     .frame(maxWidth: .infinity, alignment: .leading)
