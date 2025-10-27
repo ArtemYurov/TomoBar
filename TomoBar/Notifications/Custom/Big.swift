@@ -100,6 +100,14 @@ struct BigNotificationView: View {
     }
 }
 
+private struct BigWindowConfig {
+    let windowWidth: CGFloat
+    let windowHeight: CGFloat
+    let menuBarOffset: CGFloat
+    let animationDuration: CGFloat
+    let animationStartOffset: CGFloat
+}
+
 extension CustomNotifyHelper {
     func showBig(style: NotificationStyle, isSessionCompleted: Bool) {
         guard case .big(let content) = style else { return }
@@ -141,6 +149,21 @@ extension CustomNotifyHelper {
         let hostingController = NSHostingController(rootView: AnyView(view))
         self.hostingController = hostingController
 
+        let config = BigWindowConfig(
+            windowWidth: windowWidth,
+            windowHeight: windowHeight,
+            menuBarOffset: menuBarOffset,
+            animationDuration: animationDuration,
+            animationStartOffset: animationStartOffset
+        )
+
+        configureAndAnimateBigWindow(hostingController: hostingController, config: config)
+    }
+
+    private func configureAndAnimateBigWindow(
+        hostingController: NSHostingController<AnyView>,
+        config: BigWindowConfig
+    ) {
         let window = BigNotificationWindow(contentViewController: hostingController)
         window.styleMask = [.borderless, .fullSizeContentView]
         window.level = .screenSaver
@@ -150,20 +173,20 @@ extension CustomNotifyHelper {
         window.hasShadow = true
 
         let screenFrame = NSScreen.main?.visibleFrame ?? NSRect(x: 0, y: 0, width: 800, height: 600)
-        let xPos = (screenFrame.width - windowWidth) / 2
-        let yPos = screenFrame.maxY - windowHeight - menuBarOffset
-        let startY = screenFrame.maxY + animationStartOffset
+        let xPos = (screenFrame.width - config.windowWidth) / 2
+        let yPos = screenFrame.maxY - config.windowHeight - config.menuBarOffset
+        let startY = screenFrame.maxY + config.animationStartOffset
 
-        window.setFrame(NSRect(x: xPos, y: startY, width: windowWidth, height: windowHeight), display: true)
+        window.setFrame(NSRect(x: xPos, y: startY, width: config.windowWidth, height: config.windowHeight), display: true)
         window.orderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
 
         self.window = window
 
         NSAnimationContext.runAnimationGroup({ context in
-            context.duration = animationDuration
+            context.duration = config.animationDuration
             context.timingFunction = CAMediaTimingFunction(name: .easeOut)
-            window.animator().setFrame(NSRect(x: xPos, y: yPos, width: windowWidth, height: windowHeight), display: true)
+            window.animator().setFrame(NSRect(x: xPos, y: yPos, width: config.windowWidth, height: config.windowHeight), display: true)
         })
     }
 }
