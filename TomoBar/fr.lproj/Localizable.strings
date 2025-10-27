@@ -66,4 +66,4 @@
 "TBTimer.completion.title" = "Minuterie terminée";
 "TBTimer.completion.body" = "Session terminée";
 "TBTimer.completion.close" = "Fermer";
-"TBMask.skip.label" = "Double-cliquer n'importe où pour passer, ou cliquer une fois pour rétablir l'écran";
+"TBMask.skip.label" = "Double-cliquer n'importe où pour passer la pause, ou cliquer une fois pour rétablir l'écran";

@@ -66,4 +66,4 @@
 "TBTimer.completion.title" = "Timer abgeschlossen";
 "TBTimer.completion.body" = "Sitzung beendet";
 "TBTimer.completion.close" = "Schließen";
-"TBMask.skip.label" = "Doppelklicken Sie auf eine beliebige Fläche, um zu überspringen, oder klicken Sie einmal, um den Bildschirm wiederherzustellen";
+"TBMask.skip.label" = "Doppelklicken Sie auf eine beliebige Fläche, um die Pause zu überspringen, oder klicken Sie einmal, um den Bildschirm wiederherzustellen";

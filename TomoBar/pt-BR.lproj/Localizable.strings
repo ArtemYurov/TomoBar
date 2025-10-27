@@ -66,4 +66,4 @@
 "TBTimer.completion.title" = "Temporizador concluído";
 "TBTimer.completion.body" = "Sessão concluída";
 "TBTimer.completion.close" = "Fechar";
-"TBMask.skip.label" = "Clique duplo em qualquer área para pular, clique uma vez para ocultar esta máscara";
+"TBMask.skip.label" = "Clique duplo em qualquer área para pular a pausa, clique uma vez para ocultar esta máscara";

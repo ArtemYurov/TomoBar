@@ -66,4 +66,4 @@
 "TBTimer.completion.title" = "Timer completato";
 "TBTimer.completion.body" = "Sessione terminata";
 "TBTimer.completion.close" = "Chiudi";
-"TBMask.skip.label" = "Fai doppio click da qualche parte per saltare, clicca una volta per ripristinare il display";
+"TBMask.skip.label" = "Fai doppio click da qualche parte per saltare la pausa, clicca una volta per ripristinare il display";
