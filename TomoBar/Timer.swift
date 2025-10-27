@@ -111,6 +111,7 @@ class TBTimer: ObservableObject {
             return sessionStopAfter == .work
         case .shortRest:
             return sessionStopAfter == .shortRest
+                || (currentPresetInstance.workIntervalsInSet == 1 && sessionStopAfter == .longRest)
         case .longRest:
             return sessionStopAfter == .longRest
         case .idle:
