@@ -1,4 +1,4 @@
-.PHONY: help release
+.PHONY: help release push-release
 
 # Capture positional arguments
 ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
@@ -10,10 +10,12 @@ help:
 	@echo "TomoBar Release Management"
 	@echo ""
 	@echo "Usage:"
-	@echo "  make release VERSION    Create and push a new release"
+	@echo "  make release VERSION       Create and push a new release"
+	@echo "  make push-release          Push previously created release"
 	@echo ""
 	@echo "Example:"
 	@echo "  make release 4.1.0"
+	@echo "  make push-release"
 
 release:
 	@VERSION=$(word 1,$(ARGS)); \
@@ -67,4 +69,16 @@ release:
 	echo ""; \
 	echo "✅ Release v$$VERSION created successfully!"; \
 	echo "   Build number: $$BUILD"; \
+	echo "   GitHub Actions: https://github.com/ArtemYurov/TomoBar/actions"
+
+push-release:
+	@LAST_TAG=$$(git tag -l 'v*' | sort -V | tail -n 1); \
+	if [ -z "$$LAST_TAG" ]; then \
+		echo "❌ Error: No release tag found"; \
+		exit 1; \
+	fi; \
+	echo "🚀 Pushing release $$LAST_TAG to GitHub..."; \
+	git push && git push origin "$$LAST_TAG"; \
+	echo ""; \
+	echo "✅ Release $$LAST_TAG pushed successfully!"; \
 	echo "   GitHub Actions: https://github.com/ArtemYurov/TomoBar/actions"
