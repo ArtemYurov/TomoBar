@@ -11,13 +11,12 @@ enum TBNotification {
 }
 
 class SystemNotifyHelper: NSObject, UNUserNotificationCenterDelegate {
-    static let shared = SystemNotifyHelper()
 
     private var center = UNUserNotificationCenter.current()
-    private var skipHandler: (() -> Void)?
-    private var dispatchGroup: DispatchGroup?
+    private var skipEventHandler: (() -> Void)?
 
-    private override init() {
+    init(skipHandler: @escaping () -> Void) {
+        self.skipEventHandler = skipHandler
         super.init()
 
         center.requestAuthorization(
@@ -55,21 +54,13 @@ class SystemNotifyHelper: NSObject, UNUserNotificationCenterDelegate {
         center.setNotificationCategories(Set(categories))
     }
 
-    func setDispatchGroup(_ group: DispatchGroup) {
-        dispatchGroup = group
-    }
-
-    func setSkipHandler(_ handler: @escaping () -> Void) {
-        skipHandler = handler
-    }
-
     func userNotificationCenter(_: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler _: @escaping () -> Void)
     {
         if let action = TBNotification.Action(rawValue: response.actionIdentifier) {
             if action == .skip {
-                skipHandler?()
+                skipEventHandler?()
             }
         }
     }
@@ -110,21 +101,11 @@ class SystemNotifyHelper: NSObject, UNUserNotificationCenterDelegate {
             trigger: nil
         )
 
-        let sendNotification = {
+        DispatchQueue.main.async {
             self.center.add(request) { error in
                 if error != nil {
                     print("Error adding notification: \(error!)")
                 }
-            }
-        }
-
-        if let group = dispatchGroup {
-            DispatchQueue.main.async(group: group) {
-                sendNotification()
-            }
-        } else {
-            DispatchQueue.main.async {
-                sendNotification()
             }
         }
     }

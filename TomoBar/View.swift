@@ -48,7 +48,7 @@ private struct IntervalsView: View {
                 }
             }
             .onChange(of: timer.currentPresetInstance.workIntervalLength) { _ in
-                timer.adjustTimerDebounced(intervalType: .work)
+                timer.adjustTimerDebounced(state: .work)
             }
             Stepper(value: $timer.currentPresetInstance.shortRestIntervalLength, in: 1 ... 120) {
                 HStack {
@@ -64,7 +64,7 @@ private struct IntervalsView: View {
                 }
             }
             .onChange(of: timer.currentPresetInstance.shortRestIntervalLength) { _ in
-                timer.adjustTimerDebounced(intervalType: .shortRest)
+                timer.adjustTimerDebounced(state: .shortRest)
             }
             Stepper(value: $timer.currentPresetInstance.longRestIntervalLength, in: 1 ... 120) {
                 HStack {
@@ -82,7 +82,7 @@ private struct IntervalsView: View {
             .help(NSLocalizedString("IntervalsView.longRestIntervalLength.help",
                                     comment: "Long rest interval hint"))
             .onChange(of: timer.currentPresetInstance.longRestIntervalLength) { _ in
-                timer.adjustTimerDebounced(intervalType: .longRest)
+                timer.adjustTimerDebounced(state: .longRest)
             }
             Stepper(value: $timer.currentPresetInstance.workIntervalsInSet, in: 1 ... 10) {
                 HStack {
@@ -269,22 +269,22 @@ private struct SettingsView: View {
                 Text(NSLocalizedString("SettingsView.alertMode.label",
                                         comment: "Alert mode label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                StartStopDropdown(value: $timer.alertMode)
+                StartStopDropdown(value: $timer.notify.alertMode)
             }
-            if timer.alertMode == .notify {
+            if timer.notify.alertMode == .notify {
                 HStack {
                     Text(NSLocalizedString("SettingsView.notifyStyle.label",
                                             comment: "Notify style label"))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    StartStopDropdown(value: $timer.notifyStyle)
+                    StartStopDropdown(value: $timer.notify.notifyStyle)
                 }
             }
-            if timer.alertMode == .fullScreen {
+            if timer.notify.alertMode == .fullScreen {
                 HStack {
                     Text(NSLocalizedString("SettingsView.maskMode.label",
                                             comment: "Mask mode label"))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    StartStopDropdown(value: $timer.maskMode)
+                    StartStopDropdown(value: $timer.notify.maskMode)
                 }
             }
             Toggle(isOn: $timer.dnd.toggleDoNotDisturb) {

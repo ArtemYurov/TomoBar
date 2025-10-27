@@ -4,17 +4,13 @@ import Carbon.HIToolbox
 
 class MaskHelper {
     var windowControllers = [NSWindowController]()
-    var skipHandler: (() -> Void)?
+    let skipEventHandler: () -> Void
     private var keyboardMonitor: Any?
     private var windowMonitorTimer: Timer?
     private var appDeactivateObserver: Any?
 
-    static let shared = MaskHelper()
-
-    private init() {}
-
-    func setSkipHandler(_ handler: @escaping () -> Void) {
-        skipHandler = handler
+    init(skipHandler: @escaping () -> Void) {
+        self.skipEventHandler = skipHandler
     }
 
     func show(isLong: Bool, blockActions: Bool = false) {
@@ -28,14 +24,21 @@ class MaskHelper {
             window.level = .screenSaver
             window.collectionBehavior = .canJoinAllSpaces
             window.backgroundColor = NSColor.black.withAlphaComponent(0.2)
-            let maskView = MaskView(desc: desc, blockActions: blockActions, frame: window.contentLayoutRect) { [weak self] in
-                if let windowControllers = self?.windowControllers, windowControllers.isEmpty == false {
-                    for wc in windowControllers {
-                        wc.close()
+            let maskView = MaskView(
+                desc: desc,
+                blockActions: blockActions,
+                frame: window.contentLayoutRect,
+                hideHandler: hide,
+                skipHandler: skipEventHandler,
+                onAnimationComplete: { [weak self] in
+                    if let windowControllers = self?.windowControllers, windowControllers.isEmpty == false {
+                        for wc in windowControllers {
+                            wc.close()
+                        }
+                        self?.windowControllers.removeAll()
                     }
-                    self?.windowControllers.removeAll()
                 }
-            }
+            )
             window.contentView = maskView
 
             let windowController = NSWindowController(window: window)
@@ -59,16 +62,13 @@ class MaskHelper {
         }
     }
 
-    func hide(skip: Bool = false) {
+    func hide() {
         uninstallKeyboardMonitor()
         stopWindowMonitoring()
 
         for wc in windowControllers {
             guard let mask = wc.window?.contentView as? MaskView else { continue }
             mask.hide()
-        }
-        if skip {
-            self.skipHandler?()
         }
     }
 
@@ -151,6 +151,8 @@ class MaskHelper {
 
 class MaskView: NSView {
     var onAnimationComplete: (() -> Void)? = nil
+    private var hideHandler: (() -> Void)?
+    private var skipHandler: (() -> Void)?
     private var clickTimer: Timer?
     private var blockActions: Bool = false
 
@@ -190,8 +192,13 @@ class MaskView: NSView {
         return blurEffect
     }()
 
-    init(desc: String, blockActions: Bool = false, frame: NSRect, onAnimationComplete: (() -> Void)? = nil) {
+    init(desc: String, blockActions: Bool = false, frame: NSRect,
+         hideHandler: @escaping () -> Void,
+         skipHandler: @escaping () -> Void,
+         onAnimationComplete: (() -> Void)? = nil) {
         self.onAnimationComplete = onAnimationComplete
+        self.hideHandler = hideHandler
+        self.skipHandler = skipHandler
         self.blockActions = blockActions
         super.init(frame: frame)
         self.wantsLayer = true
@@ -226,12 +233,13 @@ class MaskView: NSView {
         if event.clickCount == 1 {
             clickTimer?.invalidate()
             clickTimer = Timer.scheduledTimer(withTimeInterval: NSEvent.doubleClickInterval, repeats: false) { _ in
-                MaskHelper.shared.hide()
+                self.hideHandler?()
             }
         }
         else if event.clickCount == 2 {
             clickTimer?.invalidate()
-            MaskHelper.shared.hide(skip: true)
+            self.hideHandler?()
+            self.skipHandler?()
         }
     }
 
