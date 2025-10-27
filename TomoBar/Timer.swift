@@ -18,18 +18,6 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
     case system, ptMono, sfMono
 }
 
-enum AlertMode: String, CaseIterable, DropdownDescribable {
-    case disabled, notify, fullScreen
-}
-
-enum NotifyStyle: String, CaseIterable, DropdownDescribable {
-    case system, small, big
-}
-
-enum MaskMode: String, CaseIterable, DropdownDescribable {
-    case normal, blockActions
-}
-
 struct TimerPreset: Codable {
     var workIntervalLength: Double = 25
     var shortRestIntervalLength: Double = 5
@@ -50,13 +38,14 @@ class TBTimer: ObservableObject {
         get { (try? JSONDecoder().decode([TimerPreset].self, from: presetsData)) ?? Array(repeating: TimerPreset(), count: 4) }
         set { presetsData = (try? JSONEncoder().encode(newValue)) ?? Data() }
     }
-    @AppStorage("alertMode") var alertMode = AlertMode.notify
-    @AppStorage("notifyStyle") var notifyStyle = NotifyStyle.system
-    @AppStorage("maskMode") var maskMode = MaskMode.normal
     // This preference is "hidden"
     @AppStorage("overrunTimeLimit") var overrunTimeLimit = -60.0
 
     public let player = TBPlayer()
+    public lazy var notify = TBNotify(
+        skipHandler: skip,
+        userChoiceHandler: handleUserChoiceAction
+    )
     public var dnd = TBDoNotDisturb()
     public var currentWorkInterval: Int = 0
     public var currentPresetInstance: TimerPreset {
@@ -67,11 +56,10 @@ class TBTimer: ObservableObject {
             presets[currentPreset] = newValue
         }
     }
-    private var notificationGroup = DispatchGroup()
+
     private var finishTime: Date!
     private var timerFormatter = DateComponentsFormatter()
     private var pausedTimeRemaining: TimeInterval = 0
-    private var pausedPrevImage: NSImage?
     private var startTime: Date!  // When the current interval started
     private var pausedTimeElapsed: TimeInterval = 0  // Elapsed time when paused
     private var adjustTimerWorkItem: DispatchWorkItem?  // For debouncing timer adjustments
@@ -100,27 +88,25 @@ class TBTimer: ObservableObject {
         stateMachine.state == .longRest
     }
 
-    private func wasCompletion(for state: TBStateMachineStates) -> Bool {
+    private func nextIntervalIsShortRest() -> Bool {
+        return !nextIntervalIsLongRest()
+    }
+
+    private func nextIntervalIsLongRest() -> Bool {
+        return currentPresetInstance.workIntervalsInSet > 1
+            && currentWorkInterval >= currentPresetInstance.workIntervalsInSet
+    }
+
+    private func isSessionCompleted(for state: TBStateMachineStates) -> Bool {
         switch state {
         case .work:
             return sessionStopAfter == .work
         case .shortRest:
             return sessionStopAfter == .shortRest
         case .longRest:
-            return sessionStopAfter == .shortRest || sessionStopAfter == .longRest
+            return sessionStopAfter == .longRest
         case .idle:
             return false
-        }
-    }
-
-    private func shouldAutoTransition() -> Bool {
-        switch alertMode {
-        case .disabled:
-            return true
-        case .notify:
-            return notifyStyle == .system  // small/big require pause for user choice
-        case .fullScreen:
-            return true
         }
     }
 
@@ -148,7 +134,7 @@ class TBTimer: ObservableObject {
          *
          * From: shortRest
          *   → work (intervalCompleted/confirmedNext)
-         *   → idle (sessionCompleted if sessionStopAfter = rest, OR startStop)
+         *   → idle (sessionCompleted if sessionStopAfter = shortRest, OR startStop)
          *
          * From: longRest
          *   → work (intervalCompleted/confirmedNext resets currentWorkInterval)
@@ -179,20 +165,20 @@ class TBTimer: ObservableObject {
 
         // intervalCompleted transitions (auto-transition only if shouldAutoTransition)
         stateMachine.addRoutes(event: .intervalCompleted, transitions: [.work => .shortRest]) { [self] _ in
-            currentWorkInterval < currentPresetInstance.workIntervalsInSet
-            && shouldAutoTransition()
+            nextIntervalIsShortRest()
+            && notify.shouldAutoTransition
         }
 
         stateMachine.addRoutes(event: .intervalCompleted, transitions: [.work => .longRest]) { [self] _ in
-            currentWorkInterval >= currentPresetInstance.workIntervalsInSet
-            && shouldAutoTransition()
+            nextIntervalIsLongRest()
+            && notify.shouldAutoTransition
         }
 
         stateMachine.addRoutes(event: .intervalCompleted, transitions: [
             .shortRest => .work,
             .longRest => .work
         ]) { [self] _ in
-            shouldAutoTransition()
+            notify.shouldAutoTransition
         }
 
         // Pause routes when user choice is required
@@ -201,16 +187,16 @@ class TBTimer: ObservableObject {
             .shortRest => .shortRest,
             .longRest => .longRest
         ]) { [self] _ in
-            !shouldAutoTransition()
+            !notify.shouldAutoTransition
         }
 
         // confirmedNext transitions (always transition, no shouldAutoTransition check)
         stateMachine.addRoutes(event: .confirmedNext, transitions: [.work => .shortRest]) { [self] _ in
-            currentWorkInterval < currentPresetInstance.workIntervalsInSet
+            nextIntervalIsShortRest()
         }
 
         stateMachine.addRoutes(event: .confirmedNext, transitions: [.work => .longRest]) { [self] _ in
-            currentWorkInterval >= currentPresetInstance.workIntervalsInSet
+            nextIntervalIsLongRest()
         }
 
         stateMachine.addRoutes(event: .confirmedNext, transitions: [
@@ -220,11 +206,11 @@ class TBTimer: ObservableObject {
 
         // skipEvent transitions (skip current interval and go to next)
         stateMachine.addRoutes(event: .skipEvent, transitions: [.work => .shortRest]) { [self] _ in
-            currentWorkInterval < currentPresetInstance.workIntervalsInSet
+            nextIntervalIsShortRest()
         }
 
         stateMachine.addRoutes(event: .skipEvent, transitions: [.work => .longRest]) { [self] _ in
-            currentWorkInterval >= currentPresetInstance.workIntervalsInSet
+            nextIntervalIsLongRest()
         }
 
         stateMachine.addRoutes(event: .skipEvent, transitions: [
@@ -235,16 +221,23 @@ class TBTimer: ObservableObject {
         // State transition handlers (ordered by state: idle -> work -> shortRest -> longRest)
         stateMachine.addAnyHandler(.any => .idle, handler: onIdleStart)
         stateMachine.addAnyHandler(.idle => .any, handler: onIdleEnd)
-        stateMachine.addAnyHandler(.any => .work, handler: onWorkStart)
+
+        // Work handlers - only for real transitions, not pause routes
+        stateMachine.addAnyHandler(.idle => .work, handler: onWorkStart)
+        stateMachine.addAnyHandler(.shortRest => .work, handler: onWorkStart)
+        stateMachine.addAnyHandler(.longRest => .work, handler: onWorkStart)
         stateMachine.addAnyHandler(.work => .any, handler: onWorkEnd)
-        stateMachine.addAnyHandler(.any => .shortRest, handler: onShortRestStart)
+
+        // Rest handlers - only for real transitions, not pause routes
+        stateMachine.addAnyHandler(.work => .shortRest, handler: onRestStart)
         stateMachine.addAnyHandler(.shortRest => .work, handler: onRestEnd)
-        stateMachine.addAnyHandler(.any => .longRest, handler: onLongRestStart)
+        stateMachine.addAnyHandler(.work => .longRest, handler: onRestStart)
         stateMachine.addAnyHandler(.longRest => .work, handler: onRestEnd)
 
         // Event handlers
         stateMachine.addHandler(event: .intervalCompleted, handler: onIntervalCompleted)
         stateMachine.addHandler(event: .sessionCompleted, handler: onSessionCompleted)
+        stateMachine.addHandler(event: .skipEvent, handler: onSkipEvent)
 
         stateMachine.addAnyHandler(.any => .any, handler: { ctx in
             logger.append(event: TBLogEventTransition(fromContext: ctx))
@@ -264,10 +257,6 @@ class TBTimer: ObservableObject {
             self?.addMinutes(5)
         }
 
-        SystemNotifyHelper.shared.setDispatchGroup(notificationGroup)
-        SystemNotifyHelper.shared.setSkipHandler(skip)
-        MaskHelper.shared.setSkipHandler(skip)
-        dnd.setDispatchGroup(notificationGroup)
         dnd.onToggleChanged = { [self] in
             let shouldFocus = dnd.toggleDoNotDisturb && stateMachine.state == .work && !paused
             dnd.set(focus: shouldFocus)
@@ -327,6 +316,7 @@ class TBTimer: ObservableObject {
     }
 
     func startStop() {
+        notify.choice.hide()
         paused = false
         stateMachine <-! .startStop
     }
@@ -340,18 +330,14 @@ class TBTimer: ObservableObject {
     }
 
     func skip() {
-        if timer == nil {
-            return
-        }
+        guard timer != nil else { return }
 
         paused = false
         stateMachine <-! .skipEvent
     }
     
     func pauseResume() {
-        if timer == nil {
-            return
-        }
+        guard timer != nil else { return }
 
         paused = !paused
 
@@ -363,8 +349,7 @@ class TBTimer: ObservableObject {
             if isWorking {
                 player.stopTicking()
             }
-            pausedPrevImage = TBStatusItem.shared.statusBarItem?.button?.image
-            TBStatusItem.shared.setIcon(name: .pause)
+            setPauseIcon()
             pausedTimeRemaining = finishTime.timeIntervalSince(Date())
             pausedTimeElapsed = Date().timeIntervalSince(startTime)
             finishTime = Date.distantFuture
@@ -373,9 +358,7 @@ class TBTimer: ObservableObject {
             if isWorking {
                 player.startTicking(isPaused: true)
             }
-            if pausedPrevImage != nil {
-                TBStatusItem.shared.statusBarItem?.button?.image = pausedPrevImage
-            }
+            setStateIcon()
             // Adjust startTime to account for pause duration
             startTime = Date().addingTimeInterval(-pausedTimeElapsed)
             finishTime = Date().addingTimeInterval(pausedTimeRemaining)
@@ -390,7 +373,7 @@ class TBTimer: ObservableObject {
             return TimeInterval(currentPresetInstance.workIntervalLength * 60)
         } else {
             // Determine if it's a long rest or short rest
-            if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
+            if nextIntervalIsLongRest() {
                 return TimeInterval(currentPresetInstance.longRestIntervalLength * 60)
             } else {
                 return TimeInterval(currentPresetInstance.shortRestIntervalLength * 60)
@@ -426,25 +409,31 @@ class TBTimer: ObservableObject {
         switch showTimerMode {
         case .disabled:
             // Never show timer in status bar
-            TBStatusItem.shared.setTitle(title: nil)
+            setTitle(nil)
 
         case .running:
             // Show timer only when running and not paused
             if timer == nil || paused {
-                TBStatusItem.shared.setTitle(title: nil)
+                setTitle(nil)
             } else {
-                TBStatusItem.shared.setTitle(title: timeLeftString)
+                setTitle(timeLeftString)
             }
 
         case .always:
             // Show timer always (including idle and paused states)
-            TBStatusItem.shared.setTitle(title: timeLeftString)
+            setTitle(timeLeftString)
         }
     }
+    
+    private func setTitle(_ title: String?) {
+        TBStatusItem.shared.setTitle(title: title)
+    }
+
 
     private func updateMask() {
-        if alertMode == .fullScreen && timer != nil && !paused {
-            MaskHelper.shared.updateTimeLeft(timeLeftString)
+        guard timer != nil else { return }
+        if notify.alertMode == .fullScreen && !paused {
+            notify.mask.updateTimeLeft(timeLeftString)
         }
     }
 
@@ -455,12 +444,10 @@ class TBTimer: ObservableObject {
     }
 
     func addMinutes(_ minutes: Int = 1) {
-        if timer == nil {
-            return
-        }
+        guard timer != nil else { return }
 
         let seconds = TimeInterval(minutes * 60)
-        let timeLeft = paused ? pausedTimeRemaining : finishTime.timeIntervalSince(Date())
+        let timeLeft = paused ? pausedTimeRemaining : max(0, finishTime.timeIntervalSince(Date()))
         var newTimeLeft = timeLeft + seconds
         if newTimeLeft > 7200 {
             newTimeLeft = TimeInterval(7200)
@@ -478,33 +465,29 @@ class TBTimer: ObservableObject {
         updateDisplay()
     }
 
-    enum IntervalType {
-        case work
-        case shortRest
-        case longRest
-    }
-
-    func adjustTimer(intervalType: IntervalType) {
+    func adjustTimer(state: TBStateMachineStates) {
         // Only adjust if timer is running
         guard timer != nil else {
             updateDisplay()
             return
         }
 
-        // Determine current interval duration and if we should adjust
-        let newIntervalMinutes: Double
+        guard state != .idle else {
+            updateDisplay()
+            return
+        }
+
         let shouldAdjust: Bool
 
-        switch intervalType {
+        switch state {
+        case .idle:
+            return
         case .work:
             shouldAdjust = isWorking
-            newIntervalMinutes = currentPresetInstance.workIntervalLength
         case .shortRest:
             shouldAdjust = isShortRest
-            newIntervalMinutes = currentPresetInstance.shortRestIntervalLength
         case .longRest:
             shouldAdjust = isLongRest
-            newIntervalMinutes = currentPresetInstance.longRestIntervalLength
         }
 
         guard shouldAdjust else {
@@ -512,12 +495,15 @@ class TBTimer: ObservableObject {
             return
         }
 
+        let newIntervalMinutes = getIntervalMinutes(for: state)
+
         // Calculate elapsed time from timer start
         let elapsedTime: TimeInterval
         if paused {
             elapsedTime = pausedTimeElapsed
         } else {
             elapsedTime = Date().timeIntervalSince(startTime)
+
         }
 
         // Calculate new time left with new interval duration
@@ -545,15 +531,14 @@ class TBTimer: ObservableObject {
         updateDisplay()
     }
 
-    func adjustTimerDebounced(intervalType: IntervalType) {
+    func adjustTimerDebounced(state: TBStateMachineStates) {
         // Cancel previous debounce task if exists
         adjustTimerWorkItem?.cancel()
 
         // Create new debounce task with 0.3 second delay
-        let workItem = DispatchWorkItem { [weak self] in
-            guard let self = self else { return }
+        let workItem = DispatchWorkItem { [self] in
             DispatchQueue.main.async {
-                self.adjustTimer(intervalType: intervalType)
+                self.adjustTimer(state: state)
             }
         }
         adjustTimerWorkItem = workItem
@@ -562,18 +547,22 @@ class TBTimer: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
     }
 
-    private func startStateTimer() {
-        let minutes: Double
-        switch stateMachine.state {
+    private func getIntervalMinutes(for state: TBStateMachineStates) -> Double {
+        switch state {
         case .idle:
-            return
+            return 0
         case .work:
-            minutes = currentPresetInstance.workIntervalLength
+            return currentPresetInstance.workIntervalLength
         case .shortRest:
-            minutes = currentPresetInstance.shortRestIntervalLength
+            return currentPresetInstance.shortRestIntervalLength
         case .longRest:
-            minutes = currentPresetInstance.longRestIntervalLength
+            return currentPresetInstance.longRestIntervalLength
         }
+    }
+
+    private func startStateTimer() {
+        guard stateMachine.state != .idle else { return }
+        let minutes = getIntervalMinutes(for: stateMachine.state)
         startTimer(seconds: Int(minutes * 60))
     }
 
@@ -591,8 +580,9 @@ class TBTimer: ObservableObject {
     }
 
     private func stopTimer() {
-        timer!.cancel()
-        timer = nil
+        guard let timer else { return }
+        timer.cancel()
+        self.timer = nil
     }
 
     private func onTimerTick() {
@@ -613,8 +603,8 @@ class TBTimer: ObservableObject {
                     stateMachine <-! .startStop
                 } else {
                     // Check if this should be a session completion
-                    let isCompletion = wasCompletion(for: stateMachine.state)
-                    stateMachine <-! (isCompletion ? .sessionCompleted : .intervalCompleted)
+                    let isSessionCompleted = isSessionCompleted(for: stateMachine.state)
+                    stateMachine <-! (isSessionCompleted ? .sessionCompleted : .intervalCompleted)
                 }
             }
         }
@@ -626,11 +616,45 @@ class TBTimer: ObservableObject {
         }
     }
 
+    private func handleUserChoiceAction(_ action: UserChoiceAction) {
+        notify.choice.hide()
+
+        switch action {
+        case .next:
+            paused = false
+            stateMachine <-! .confirmedNext
+
+        case .skip:
+            paused = false
+            stateMachine <-! .confirmedNext
+            stateMachine <-! .skipEvent
+
+        case .addMinute:
+            addMinutes(1)
+            pauseResume()
+
+        case .addFiveMinutes:
+            addMinutes(5)
+            pauseResume()
+
+        case .stop:
+            paused = false
+            stateMachine <-! .startStop
+
+        case .restart:
+            paused = false
+            stateMachine <-! .startStop
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
+                self.stateMachine <-! .startStop
+            }
+        }
+    }
+
     private func onIdleStart(context ctx: TBStateMachine.Context) {
-        MaskHelper.shared.hide()
+        notify.mask.hide()
         player.deinitPlayers()
         stopTimer()
-        TBStatusItem.shared.setIcon(name: .idle)
+        setStateIcon()
         currentWorkInterval = 0
         updateDisplay()
     }
@@ -640,13 +664,14 @@ class TBTimer: ObservableObject {
     }
 
     private func onWorkStart(context _: TBStateMachine.Context) {
+        // Reset counter if we've completed a set (reached or exceeded workIntervalsInSet)
         if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
             currentWorkInterval = 1
         }
         else {
             currentWorkInterval += 1
         }
-        TBStatusItem.shared.setIcon(name: .work)
+        setStateIcon()
         player.playWindup()
         player.startTicking()
         startStateTimer()
@@ -660,37 +685,21 @@ class TBTimer: ObservableObject {
     }
 
     private func onWorkEnd(context _: TBStateMachine.Context) {
-    }
-
-    private func onShortRestStart(context ctx: TBStateMachine.Context) {
-        onRestStart(context: ctx, isLong: false, length: currentPresetInstance.shortRestIntervalLength, imgName: .shortRest)
         dnd.set(focus: false)
     }
 
-    private func onLongRestStart(context ctx: TBStateMachine.Context) {
-        onRestStart(context: ctx, isLong: true, length: currentPresetInstance.longRestIntervalLength, imgName: .longRest)
-    }
-
-    private func onRestStart(context ctx: TBStateMachine.Context, isLong: Bool, length: Int, imgName: NSImage.Name) {
-        if alertMode == .fullScreen {
-            MaskHelper.shared.show(isLong: isLong)
-        } else if ctx.event == .intervalCompleted {
-            if alertMode == .notify && notifyStyle == .system {
-                SystemNotifyHelper.shared.restStarted(isLong: isLong)
-            }
+    private func onRestStart(context ctx: TBStateMachine.Context) {
+        let isAutoTransition = ctx.event == .intervalCompleted
+        if isAutoTransition {
+            notify.showRestStarted(isLong: isLongRest)
         }
-        TBStatusItem.shared.setIcon(name: imgName)
+        setStateIcon()
         startStateTimer()
     }
 
     private func onRestEnd(context ctx: TBStateMachine.Context) {
-        MaskHelper.shared.hide()
-        if ctx.event == .skipEvent {
-            return
-        }
-        if alertMode == .notify && notifyStyle == .system {
-            SystemNotifyHelper.shared.restFinished()
-        }
+        if ctx.event == .skipEvent { return }
+        notify.showRestFinished()
     }
 
     private func pauseForUserChoice() {
@@ -711,15 +720,40 @@ class TBTimer: ObservableObject {
         if ctx.fromState == ctx.toState {
             pauseForUserChoice()
 
-            // TODO: Show notification for user to choose next action
-            // showChoiceNotification(for: ctx.fromState)
+            // Show notification for user to choose next action
+            notify.showUserChoice(
+                for: stateMachine.state,
+                nextIsLongRest: nextIntervalIsLongRest()
+            )
         }
     }
 
     private func onSessionCompleted(context ctx: TBStateMachine.Context) {
-        // Show system notification for system and fullScreen alert modes
-        if (alertMode == .notify && notifyStyle == .system) || alertMode == .fullScreen {
-            SystemNotifyHelper.shared.sessionComplete()
+        notify.showSessionCompleted()
+    }
+
+    private func onSkipEvent(context ctx: TBStateMachine.Context) {
+        if isSessionCompleted(for: ctx.fromState) {
+            stateMachine <-! .sessionCompleted
         }
+    }
+
+    private func setStateIcon() {
+        let iconName: NSImage.Name
+        switch stateMachine.state {
+        case .idle:
+            iconName = .idle
+        case .work:
+            iconName = .work
+        case .shortRest:
+            iconName = .shortRest
+        case .longRest:
+            iconName = .longRest
+        }
+        TBStatusItem.shared.setIcon(name: iconName)
+    }
+
+    private func setPauseIcon() {
+        TBStatusItem.shared.setIcon(name: .pause)
     }
 }
