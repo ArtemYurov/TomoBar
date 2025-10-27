@@ -112,7 +112,7 @@ final class UserChoiceHelper: NSObject {
     }
 
     func showSessionComplete(notifyStyle: NotifyStyle) {
-        let content = buildSessionCompletedContent()
+        let content = buildSessionCompletedContent(notifyStyle: notifyStyle)
 
         let style: NotificationStyle
         switch notifyStyle {
@@ -348,11 +348,21 @@ final class UserChoiceHelper: NSObject {
         }
     }
 
-    private func buildSessionCompletedContent() -> NotificationContent {
+    private func buildSessionCompletedContent(notifyStyle: NotifyStyle) -> NotificationContent {
+        let restartTitle: String
+        switch notifyStyle {
+        case .small:
+            restartTitle = "Restart"
+        case .big:
+            restartTitle = "Restart Session"
+        case .system:
+            restartTitle = ""
+        }
+
         return NotificationContent(
             title: NSLocalizedString("TBTimer.completion.title", comment: "Timer completed"),
             subtitle: NSLocalizedString("TBTimer.completion.body", comment: "Session finished"),
-            nextActionTitle: "",
+            nextActionTitle: restartTitle,
             skipActionTitle: NSLocalizedString("TBTimer.completion.close", comment: "Close")
         )
     }
