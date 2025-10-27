@@ -38,13 +38,14 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     private var popover = NSPopover()
     var statusBarItem: NSStatusItem?
     static var shared: TBStatusItem!
+    private var view: TBPopoverView!
 
     // Read display settings directly from AppStorage
     @AppStorage("timerFontMode") private var timerFontMode = TimerFontMode.system
     @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = 0
 
     func applicationDidFinishLaunching(_: Notification) {
-        let view = TBPopoverView()
+        view = TBPopoverView()
 
         popover.behavior = .transient
         popover.contentViewController = NSViewController()
@@ -67,7 +68,7 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_: Notification) {
-        _ = DoNotDisturbHelper.shared.set(state: false)
+        _ = view.timer.dnd.setImmediate(focus: false)
     }
 
     func setTitle(title: String?) {

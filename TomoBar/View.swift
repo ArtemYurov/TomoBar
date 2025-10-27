@@ -48,7 +48,7 @@ private struct IntervalsView: View {
                 }
             }
             .onChange(of: timer.currentPresetInstance.workIntervalLength) { _ in
-                timer.adjustTimerDebounced(intervalType: .work)
+                timer.adjustTimerDebounced(state: .work)
             }
             Stepper(value: $timer.currentPresetInstance.shortRestIntervalLength, in: 1 ... 120) {
                 HStack {
@@ -64,7 +64,7 @@ private struct IntervalsView: View {
                 }
             }
             .onChange(of: timer.currentPresetInstance.shortRestIntervalLength) { _ in
-                timer.adjustTimerDebounced(intervalType: .shortRest)
+                timer.adjustTimerDebounced(state: .shortRest)
             }
             Stepper(value: $timer.currentPresetInstance.longRestIntervalLength, in: 1 ... 120) {
                 HStack {
@@ -82,7 +82,7 @@ private struct IntervalsView: View {
             .help(NSLocalizedString("IntervalsView.longRestIntervalLength.help",
                                     comment: "Long rest interval hint"))
             .onChange(of: timer.currentPresetInstance.longRestIntervalLength) { _ in
-                timer.adjustTimerDebounced(intervalType: .longRest)
+                timer.adjustTimerDebounced(state: .longRest)
             }
             Stepper(value: $timer.currentPresetInstance.workIntervalsInSet, in: 1 ... 10) {
                 HStack {
@@ -98,9 +98,6 @@ private struct IntervalsView: View {
             }
             .help(NSLocalizedString("IntervalsView.workIntervalsInSet.help",
                                     comment: "Work intervals in set hint"))
-            .onChange(of: timer.currentPresetInstance.workIntervalsInSet) { _ in
-                timer.adjustTimerDebounced(intervalType: .workIntervalsInSet)
-            }
             Spacer().frame(minHeight: 0)
             HStack {
                 Text(NSLocalizedString("IntervalsView.presets.label",
@@ -149,23 +146,33 @@ extension DropdownDescribable {
                                                   comment: "Disabled label")
             case "work": return NSLocalizedString("SettingsView.dropdownWork.label",
                                                     comment: "Work label")
-            case "rest": return NSLocalizedString("SettingsView.dropdownBreak.label",
-                                                    comment: "Break label")
+            case "shortRest": return NSLocalizedString("SettingsView.dropdownBreak.label",
+                                                    comment: "Short rest label")
             case "longRest": return NSLocalizedString("SettingsView.dropdownSet.label",
-                                                    comment: "Set label")
-            case "off": return NSLocalizedString("SettingsView.showTimerOff.label",
-                                                    comment: "Show timer off label")
+                                                    comment: "Long rest label")
             case "running": return NSLocalizedString("SettingsView.showTimerRunning.label",
                                                     comment: "Show timer running label")
             case "always": return NSLocalizedString("SettingsView.showTimerAlways.label",
                                                     comment: "Show timer always label")
             case "system": return NSLocalizedString("SettingsView.dropdownSystem.label",
-                                                    comment: "System font label")
+                                                    comment: "System label")
             case "ptMono": return NSLocalizedString("SettingsView.dropdownMono.label",
                                                     comment: "PT Mono font label")
             case "sfMono": return NSLocalizedString("SettingsView.dropdownSFMono.label",
                                                     comment: "SF Mono font label")
-            default: return self.rawValue
+            case "notify": return NSLocalizedString("SettingsView.alertModeNotify.label",
+                                                    comment: "Alert mode notify label")
+            case "fullScreen": return NSLocalizedString("SettingsView.alertModeFullScreen.label",
+                                                    comment: "Alert mode full-screen label")
+            case "small": return NSLocalizedString("SettingsView.notifyStyleSmall.label",
+                                                    comment: "Notify style small label")
+            case "big": return NSLocalizedString("SettingsView.notifyStyleBig.label",
+                                                    comment: "Notify style big label")
+            case "normal": return NSLocalizedString("SettingsView.maskModeNormal.label",
+                                                    comment: "Mask mode normal label")
+            case "blockActions": return NSLocalizedString("SettingsView.maskModeBlockActions.label",
+                                                    comment: "Mask mode block actions label")
+            default: return self.rawValue.capitalized
         }
     }
 }
@@ -221,9 +228,9 @@ private struct SettingsView: View {
             }
             HStack {
                 Text(NSLocalizedString("SettingsView.stopAfter.label",
-                                        comment: "Stop after label"))
+                                        comment: "Stop session after label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                StartStopDropdown(value: $timer.stopAfter)
+                StartStopDropdown(value: $timer.sessionStopAfter)
             }
             HStack {
                 Text(NSLocalizedString("SettingsView.showTimer.label",
@@ -234,7 +241,7 @@ private struct SettingsView: View {
             .onChange(of: timer.showTimerMode) { _ in
                 timer.updateDisplay()
             }
-            if timer.showTimerMode != .off {
+            if timer.showTimerMode != .disabled {
                 HStack {
                     Text(NSLocalizedString("SettingsView.timerFont.label",
                                             comment: "Timer font label"))
@@ -258,15 +265,31 @@ private struct SettingsView: View {
                     timer.updateDisplay()
                 }
             }
-            Toggle(isOn: $timer.showFullScreenMask) {
-                Text(NSLocalizedString("SettingsView.showFullScreenMask.label",
-                                       comment: "show full screen mask on rest"))
+            HStack {
+                Text(NSLocalizedString("SettingsView.alertMode.label",
+                                        comment: "Alert mode label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
+                StartStopDropdown(value: $timer.notifyAlertMode)
             }
-            .toggleStyle(.switch)
-            .help(NSLocalizedString("SettingsView.showFullScreenMask.help",
-                                    comment: "show full screen mask hint"))
-            Toggle(isOn: $timer.toggleDoNotDisturb) {
+            switch timer.notifyAlertMode {
+            case .notify:
+                HStack {
+                    Text(NSLocalizedString("SettingsView.notifyStyle.label",
+                                            comment: "Notify style label"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    StartStopDropdown(value: $timer.notify.notifyStyle)
+                }
+            case .fullScreen:
+                HStack {
+                    Text(NSLocalizedString("SettingsView.maskMode.label",
+                                            comment: "Mask mode label"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    StartStopDropdown(value: $timer.notify.maskMode)
+                }
+            case .disabled:
+                EmptyView()
+            }
+            Toggle(isOn: $timer.dnd.toggleDoNotDisturb) {
                 Text(NSLocalizedString("SettingsView.toggleDoNotDisturb.label",
                                        comment: "Toggle Do Not Disturb"))
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -385,7 +408,7 @@ struct TBPopoverView: View {
 
     private func TimerDisplayString() -> String {
         var result = timer.timeLeftString
-        if timer.currentPresetInstance.workIntervalsInSet > 1, timer.stopAfter == .disabled || timer.stopAfter == .longRest {
+        if timer.currentPresetInstance.workIntervalsInSet > 1, timer.sessionStopAfter == .disabled || timer.sessionStopAfter == .longRest {
             result += " (" + String(timer.currentWorkInterval) + "/" + String(timer.currentPresetInstance.workIntervalsInSet) + ")"
         }
         return result

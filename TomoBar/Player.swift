@@ -8,7 +8,6 @@ class TBPlayer: ObservableObject {
     private var tickingSound: AVAudioPlayer!
     private var windupTimer: Timer?
     private var dingTimer: Timer?
-    private var soundGroup = DispatchGroup()
     private var isInitialized: Bool = false
     private var isTicking: Bool = false
     private var supportedAudioExtensions: [String] = ["mp3", "mp4", "m4a"]
@@ -28,12 +27,12 @@ class TBPlayer: ObservableObject {
             setVolume(tickingSound, tickingVolume)
             if isTicking {
                 if tickingVolume == 0.0 {
-                    DispatchQueue.main.async(group: soundGroup) { [self] in
+                    DispatchQueue.main.async { [self] in
                         tickingSound.pause()
                     }
                 }
                 else if !tickingSound.isPlaying {
-                    DispatchQueue.main.async(group: soundGroup) { [self] in
+                    DispatchQueue.main.async { [self] in
                         tickingSound.play()
                     }
                 }
@@ -102,7 +101,7 @@ class TBPlayer: ObservableObject {
     func playWindup() {
         if windupVolume > 0.0 {
             windupSound.currentTime = 0
-            DispatchQueue.main.async(group: soundGroup) { [self] in
+            DispatchQueue.main.async { [self] in
                 stopDing()
                 windupSound.play()
             }
@@ -116,7 +115,7 @@ class TBPlayer: ObservableObject {
     func playDing() {
         if dingVolume > 0.0 {
             dingSound.currentTime = 0
-            DispatchQueue.main.async(group: soundGroup) { [self] in
+            DispatchQueue.main.async { [self] in
                 stopWindup()
                 dingSound.play()
             }
@@ -140,14 +139,14 @@ class TBPlayer: ObservableObject {
     }
 
     func stopWindup() {
-        DispatchQueue.main.async(group: soundGroup) { [self] in
+        DispatchQueue.main.async { [self] in
             isInitialized ? windupSound.pause() : windupSound.stop()
         }
         windupTimer?.invalidate()
     }
 
     func stopDing() {
-        DispatchQueue.main.async(group: soundGroup) { [self] in
+        DispatchQueue.main.async { [self] in
             isInitialized ? dingSound.pause() : dingSound.stop()
         }
         dingTimer?.invalidate()
@@ -155,7 +154,7 @@ class TBPlayer: ObservableObject {
 
     func stopTicking() {
         isTicking = false
-        DispatchQueue.main.async(group: soundGroup) { [self] in
+        DispatchQueue.main.async { [self] in
             isInitialized ? tickingSound.pause() : tickingSound.stop()
         }
     }
