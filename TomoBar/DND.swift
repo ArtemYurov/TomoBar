@@ -21,19 +21,9 @@ class TBDoNotDisturb: ObservableObject {
     }
     var onToggleChanged: (() -> Void)?
     var currentFocusState: Bool = false
-    private var dispatchGroup: DispatchGroup?
-
-    func setDispatchGroup(_ group: DispatchGroup) {
-        dispatchGroup = group
-    }
 
     func set(focus: Bool, completion: ((Bool) -> Void)? = nil) {
-        if let group = dispatchGroup {
-            DispatchQueue.main.async(group: group) { [self] in
-                let result = updateFocusMode(focus: focus)
-                completion?(result)
-            }
-        } else {
+        DispatchQueue.main.async { [self] in
             let result = updateFocusMode(focus: focus)
             completion?(result)
         }
