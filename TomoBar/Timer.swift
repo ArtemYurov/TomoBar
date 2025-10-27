@@ -63,6 +63,15 @@ class TBTimer: ObservableObject {
             objectWillChange.send()
         }
     }
+
+    var customBackgroundOpacity: Int {
+        get { notify.choice.customBackgroundOpacity }
+        set {
+            notify.choice.customBackgroundOpacity = newValue
+            objectWillChange.send()
+        }
+    }
+
     public var currentPresetInstance: TimerPreset {
         get {
             return presets[currentPreset]

@@ -37,6 +37,7 @@
 "SettingsView.dropdownMono.label" = "PT Mono";
 "SettingsView.dropdownSFMono.label" = "SF Mono";
 "SettingsView.grayBackground.label" = "Fundo cinza";
+"SettingsView.customBackground.label" = "Opacidade do fundo";
 "SettingsView.alertMode.label" = "Modo de alerta";
 "SettingsView.alertModeNotify.label" = "Notificar";
 "SettingsView.alertModeFullScreen.label" = "Tela cheia";

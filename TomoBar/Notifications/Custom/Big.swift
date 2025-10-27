@@ -23,6 +23,7 @@ struct BigNotificationView: View {
     let skipActionTitle: String
     let isSessionCompleted: Bool
     let windowHeight: CGFloat
+    let opacity: CGFloat
     let onAction: (UserChoiceAction) -> Void
 
     var body: some View {
@@ -96,7 +97,7 @@ struct BigNotificationView: View {
             }
         }
         .frame(width: Layout.windowWidth, height: windowHeight)
-        .notificationBackground()
+        .notificationBackground(opacity: opacity)
     }
 }
 
@@ -143,6 +144,7 @@ extension CustomNotifyHelper {
             skipActionTitle: content.skipActionTitle,
             isSessionCompleted: isSessionCompleted,
             windowHeight: windowHeight,
+            opacity: CGFloat(customBackgroundOpacity),
             onAction: self.handleAction
         )
 
