@@ -99,3 +99,67 @@ struct BigNotificationView: View {
         .notificationBackground()
     }
 }
+
+extension CustomNotifyHelper {
+    func showBig(style: NotificationStyle, isSessionCompleted: Bool) {
+        guard case .big(let content) = style else { return }
+
+        // Генерируем дополнительные локализованные строки для Big notification
+        let addMinuteTitle = NSLocalizedString(
+            "CustomNotification.control.addMinute",
+            comment: "Add 1 minute"
+        )
+        let addFiveMinutesTitle = NSLocalizedString(
+            "CustomNotification.control.addFiveMinutes",
+            comment: "Add 5 minutes"
+        )
+        let stopTitle = NSLocalizedString(
+            "CustomNotification.control.stop",
+            comment: "Stop"
+        )
+
+        let view = BigNotificationView(
+            title: content.title,
+            subtitle: content.subtitle,
+            addMinuteTitle: addMinuteTitle,
+            addFiveMinutesTitle: addFiveMinutesTitle,
+            stopTitle: stopTitle,
+            nextActionTitle: content.nextActionTitle,
+            skipActionTitle: content.skipActionTitle,
+            isSessionCompleted: isSessionCompleted,
+            onAction: handleAction
+        )
+
+        let window = BigNotificationWindow(
+            contentRect: NSRect(x: 0, y: 0, width: Layout.windowWidth, height: Layout.windowHeight),
+            styleMask: [.borderless],
+            backing: .buffered,
+            defer: false
+        )
+        window.level = .statusBar
+        window.isOpaque = false
+        window.backgroundColor = .clear
+        window.hasShadow = true
+
+        let hostingController = NSHostingController(rootView: AnyView(view))
+        window.contentViewController = hostingController
+
+        if let screen = NSScreen.main {
+            let screenFrame = screen.visibleFrame
+            let originX = (screenFrame.width - Layout.windowWidth) / 2 + screenFrame.origin.x
+            let originY = (screenFrame.height - Layout.windowHeight) / 2 + screenFrame.origin.y
+            window.setFrameOrigin(NSPoint(x: originX, y: originY))
+        }
+
+        self.window = window
+        self.hostingController = hostingController
+
+        window.alphaValue = 0
+        window.makeKeyAndOrderFront(nil)
+
+        NSAnimationContext.runAnimationGroup({ context in
+            context.duration = BaseLayout.animationDuration
+            window.animator().alphaValue = 1
+        })
+    }
+}
