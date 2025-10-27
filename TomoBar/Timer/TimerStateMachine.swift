@@ -133,7 +133,9 @@ extension TBTimer {
         stateMachine.addAnyHandler(.idle => .work, handler: onWorkStart)
         stateMachine.addAnyHandler(.shortRest => .work, handler: onWorkStart)
         stateMachine.addAnyHandler(.longRest => .work, handler: onWorkStart)
-        stateMachine.addAnyHandler(.work => .any, handler: onWorkEnd)
+        stateMachine.addAnyHandler(.work => .idle, handler: onWorkEnd)
+        stateMachine.addAnyHandler(.work => .shortRest, handler: onWorkEnd)
+        stateMachine.addAnyHandler(.work => .longRest, handler: onWorkEnd)
 
         // Rest handlers - only for real transitions, not pause routes
         stateMachine.addAnyHandler(.work => .shortRest, handler: onRestStart)
