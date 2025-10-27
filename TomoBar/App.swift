@@ -1,5 +1,6 @@
 import SwiftUI
 import LaunchAtLogin
+import Sparkle
 
 extension NSImage.Name {
     static let idle = Self("BarIconIdle")
@@ -39,10 +40,17 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem?
     static var shared: TBStatusItem!
     private var view: TBPopoverView!
+    private let updaterController: SPUStandardUpdaterController
+    private let userDriverDelegate = TBStatusItemUserDriverDelegate()
 
     // Read display settings directly from AppStorage
     @AppStorage("timerFontMode") private var timerFontMode = TimerFontMode.system
     @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = 0
+
+    override init() {
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: userDriverDelegate)
+        super.init()
+    }
 
     func applicationDidFinishLaunching(_: Notification) {
         view = TBPopoverView()
@@ -133,5 +141,15 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
         } else {
             showPopover(sender)
         }
+    }
+
+    func checkForUpdates() {
+        updaterController.checkForUpdates(nil)
+    }
+}
+
+class TBStatusItemUserDriverDelegate: NSObject, SPUStandardUserDriverDelegate {
+    var supportsGentleScheduledUpdateReminders: Bool {
+        return true
     }
 }

@@ -21,5 +21,13 @@
 	<false/>
 	<key>NSSupportsSuddenTermination</key>
 	<false/>
+	<key>SUFeedURL</key>
+	<string>https://github.com/ArtemYurov/TomoBar/releases/latest/download/appcast.xml</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUScheduledCheckInterval</key>
+	<integer>216000</integer>
+	<key>SUPublicEDKey</key>
+	<string>vIe2JDEyuBZHzM+mjSwQYSODEZX/8fYghjMvVk/tgMY=</string>
 </dict>
 </plist>

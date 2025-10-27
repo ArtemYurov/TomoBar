@@ -10,6 +10,7 @@
 "View.settings.label" = "Settings";
 "View.shortcuts.label" = "Shortcuts";
 "View.sounds.label" = "Sounds";
+"View.checkForUpdates.label" = "Check for Updates";
 "View.about.label" = "About";
 "View.quit.label" = "Quit";
 

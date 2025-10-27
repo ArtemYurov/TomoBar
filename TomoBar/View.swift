@@ -146,6 +146,16 @@ struct TBPopoverView: View {
 
             Group {
                 Button {
+                    TBStatusItem.shared.checkForUpdates()
+                } label: {
+                    Text(NSLocalizedString("View.checkForUpdates.label",
+                                           comment: "Check for Updates label"))
+                    Spacer()
+                    Text("⌘ U").foregroundColor(Color.gray)
+                }
+                .buttonStyle(.plain)
+                .keyboardShortcut("u")
+                Button {
                     NSApp.activate(ignoringOtherApps: true)
                     NSApp.orderFrontStandardAboutPanel()
                 } label: {
