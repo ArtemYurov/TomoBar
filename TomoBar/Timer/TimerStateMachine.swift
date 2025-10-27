@@ -217,7 +217,7 @@ extension TBTimer {
     }
 
     func handleUserChoiceAction(_ action: UserChoiceAction) {
-        notify.choice.hide()
+        notify.custom.hide()
 
         switch action {
         // for current state (not switched to next)

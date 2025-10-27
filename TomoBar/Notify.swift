@@ -18,12 +18,12 @@ class TBNotify: ObservableObject {
     @AppStorage("maskMode") var maskMode = MaskMode.normal
 
     let system: SystemNotifyHelper
-    let choice: CustomNotifyHelper
+    let custom: CustomNotifyHelper
     let mask: MaskHelper
 
     init(skipHandler: @escaping () -> Void, userChoiceHandler: @escaping (UserChoiceAction) -> Void) {
         self.system = SystemNotifyHelper(skipHandler: skipHandler)
-        self.choice = CustomNotifyHelper(userChoiceHandler: userChoiceHandler)
+        self.custom = CustomNotifyHelper(userChoiceHandler: userChoiceHandler)
         self.mask = MaskHelper(skipHandler: skipHandler)
     }
 
@@ -40,7 +40,7 @@ class TBNotify: ObservableObject {
 
     func showUserChoice(for state: TBStateMachineStates, nextIsLongRest: Bool) {
         // Called only when shouldAutoTransition == false (small/big)
-        choice.showIntervalComplete(state: state, nextIsLongRest: nextIsLongRest, notifyStyle: notifyStyle)
+        custom.showIntervalComplete(state: state, nextIsLongRest: nextIsLongRest, notifyStyle: notifyStyle)
     }
 
     func showRestStarted(isLong: Bool) {
@@ -77,7 +77,7 @@ class TBNotify: ObservableObject {
             case .system:
                 system.sessionComplete()
             case .small, .big:
-                choice.showSessionComplete(notifyStyle: notifyStyle)
+                custom.showSessionComplete(notifyStyle: notifyStyle)
             }
 
         case .fullScreen:
