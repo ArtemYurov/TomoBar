@@ -269,23 +269,25 @@ private struct SettingsView: View {
                 Text(NSLocalizedString("SettingsView.alertMode.label",
                                         comment: "Alert mode label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                StartStopDropdown(value: $timer.notify.alertMode)
+                StartStopDropdown(value: $timer.notifyAlertMode)
             }
-            if timer.notify.alertMode == .notify {
+            switch timer.notifyAlertMode {
+            case .notify:
                 HStack {
                     Text(NSLocalizedString("SettingsView.notifyStyle.label",
                                             comment: "Notify style label"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     StartStopDropdown(value: $timer.notify.notifyStyle)
                 }
-            }
-            if timer.notify.alertMode == .fullScreen {
+            case .fullScreen:
                 HStack {
                     Text(NSLocalizedString("SettingsView.maskMode.label",
                                             comment: "Mask mode label"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     StartStopDropdown(value: $timer.notify.maskMode)
                 }
+            case .disabled:
+                EmptyView()
             }
             Toggle(isOn: $timer.dnd.toggleDoNotDisturb) {
                 Text(NSLocalizedString("SettingsView.toggleDoNotDisturb.label",
