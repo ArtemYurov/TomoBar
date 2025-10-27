@@ -280,6 +280,18 @@ class TBTimer: ObservableObject {
                             andSelector: #selector(handleGetURLEvent(_:withReplyEvent:)),
                             forEventClass: AEEventClass(kInternetEventClass),
                             andEventID: AEEventID(kAEGetURL))
+
+        let TEST_MODE = ProcessInfo.processInfo.environment["TEST_MODE"] == "1"
+        if TEST_MODE {
+            var testPresets = presets
+            testPresets[0] = TimerPreset(
+                workIntervalLength: 0.1,
+                shortRestIntervalLength: 0.1,
+                longRestIntervalLength: 0.2,
+                workIntervalsInSet: 2
+            )
+            presets = testPresets
+        }
     }
 
     @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor,
