@@ -14,6 +14,7 @@ enum UserChoiceAction {
     case addMinute         // add 1 minute
     case addFiveMinutes    // add 5 minutes
     case stop              // stop the timer
+    case close             // close window
     case restart           // restart the session
 }
 
@@ -213,15 +214,7 @@ final class UserChoiceHelper: NSObject {
             nextActionTitle: nextActionTitle,
             skipActionTitle: skipActionTitle,
             isSessionCompleted: isSessionCompleted,
-            onNext: { [weak self] in
-                self?.handleAction(.next)
-            },
-            onSkip: { [weak self] in
-                self?.handleAction(.skip)
-            },
-            onStop: { [weak self] in
-                self?.handleAction(.stop)
-            }
+            onAction: self.handleAction
         )
 
         hostingController = NSHostingController(rootView: AnyView(view))
@@ -281,24 +274,7 @@ final class UserChoiceHelper: NSObject {
             nextActionTitle: nextActionTitle,
             skipActionTitle: skipActionTitle,
             isSessionCompleted: isSessionCompleted,
-            onAddMinute: { [weak self] in
-                self?.handleAction(.addMinute)
-            },
-            onAddFiveMinutes: { [weak self] in
-                self?.handleAction(.addFiveMinutes)
-            },
-            onStop: { [weak self] in
-                self?.handleAction(.stop)
-            },
-            onNext: { [weak self] in
-                self?.handleAction(.next)
-            },
-            onSkip: { [weak self] in
-                self?.handleAction(.skip)
-            },
-            onRestart: { [weak self] in
-                self?.handleAction(.restart)
-            }
+            onAction: self.handleAction
         )
 
         hostingController = NSHostingController(rootView: AnyView(contentView))

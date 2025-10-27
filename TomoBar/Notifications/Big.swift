@@ -23,12 +23,7 @@ struct BigNotificationView: View {
     let nextActionTitle: String
     let skipActionTitle: String
     let isSessionCompleted: Bool
-    let onAddMinute: () -> Void
-    let onAddFiveMinutes: () -> Void
-    let onStop: () -> Void
-    let onNext: () -> Void
-    let onSkip: () -> Void
-    let onRestart: () -> Void
+    let onAction: (UserChoiceAction) -> Void
 
     var body: some View {
         VStack(spacing: 0) {
@@ -60,11 +55,11 @@ struct BigNotificationView: View {
                     NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
 
                     HStack(spacing: 0) {
-                        NotificationButton(title: "Close", action: onStop)
+                        NotificationButton(title: "Close", action: { onAction(.close) })
 
                         NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
-                        NotificationButton(title: "Restart Session", action: onRestart)
+                        NotificationButton(title: "Restart Session", action: { onAction(.restart) })
                     }
                     .frame(height: Layout.buttonHeight)
                 }
@@ -74,26 +69,26 @@ struct BigNotificationView: View {
                     NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
 
                     HStack(spacing: 0) {
-                        NotificationButton(title: addMinuteTitle, action: onAddMinute)
+                        NotificationButton(title: addMinuteTitle, action: { onAction(.addMinute) })
 
                         NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
-                        NotificationButton(title: addFiveMinutesTitle, action: onAddFiveMinutes)
+                        NotificationButton(title: addFiveMinutesTitle, action: { onAction(.addFiveMinutes) })
                     }
                     .frame(height: Layout.buttonHeight)
 
                     NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
 
                     HStack(spacing: 0) {
-                        NotificationButton(title: stopTitle, action: onStop)
+                        NotificationButton(title: stopTitle, action: { onAction(.stop) })
 
                         NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
-                        NotificationButton(title: nextActionTitle, action: onNext)
+                        NotificationButton(title: nextActionTitle, action: { onAction(.next) })
 
                         NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
-                        NotificationButton(title: skipActionTitle, action: onSkip)
+                        NotificationButton(title: skipActionTitle, action: { onAction(.skip) })
                     }
                     .frame(height: Layout.buttonHeight)
                 }

@@ -24,9 +24,7 @@ struct SmallNotificationView: View {
     let nextActionTitle: String
     let skipActionTitle: String
     let isSessionCompleted: Bool
-    let onNext: () -> Void
-    let onSkip: () -> Void
-    let onStop: () -> Void
+    let onAction: (UserChoiceAction) -> Void
 
     var body: some View {
         HStack(spacing: 0) {
@@ -53,15 +51,21 @@ struct SmallNotificationView: View {
             NotificationSeparator(orientation: .vertical)
 
             if isSessionCompleted {
-                NotificationButton(title: skipActionTitle, action: onStop)
-                    .frame(width: Layout.buttonWidth, height: Layout.windowHeight)
-            } else {
                 VStack(spacing: 0) {
-                    NotificationButton(title: skipActionTitle, action: onSkip)
+                    NotificationButton(title: "Restart", action: { onAction(.restart) })
 
                     NotificationSeparator(orientation: .horizontal)
 
-                    NotificationButton(title: nextActionTitle, action: onNext)
+                    NotificationButton(title: "Close", action: { onAction(.close) })
+                }
+                .frame(width: Layout.buttonWidth, height: Layout.windowHeight)
+            } else {
+                VStack(spacing: 0) {
+                    NotificationButton(title: skipActionTitle, action: { onAction(.skip) })
+
+                    NotificationSeparator(orientation: .horizontal)
+
+                    NotificationButton(title: nextActionTitle, action: { onAction(.next) })
                 }
                 .frame(width: Layout.buttonWidth, height: Layout.windowHeight)
             }
