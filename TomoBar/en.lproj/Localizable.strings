@@ -6,6 +6,7 @@
 "IntervalsView.workIntervalsInSet.label" = "Work intervals in a set";
 "IntervalsView.workIntervalsInSet.help" = "Number of work intervals before taking a longer break";
 "IntervalsView.presets.label" = "Presets";
+
 "SettingsView.shortcut.label" = "Start/stop";
 "SettingsView.pauseShortcut.label" = "Pause/resume";
 "SettingsView.skipShortcut.label" = "Skip";
@@ -38,10 +39,12 @@
 "SettingsView.toggleDoNotDisturb.help" = "Runs a shortcut to enable/disable Do Not Disturb on work/rest transitions";
 "SettingsView.startTimerOnLaunch.label" = "Start timer on launch";
 "SettingsView.launchAtLogin.label" = "Launch at login";
+
 "SoundsView.isWindupEnabled.label" = "Windup";
 "SoundsView.isDingEnabled.label" = "Ding";
 "SoundsView.isTickingEnabled.label" = "Ticking";
 "SoundsView.openSoundFolder.label" = "Open sound folder";
+
 "TBPopoverView.width" = "285";
 "TBPopoverView.start.label" = "Start";
 "TBPopoverView.stop.label" = "Stop";
@@ -56,32 +59,36 @@
 "TBPopoverView.sounds.label" = "Sounds";
 "TBPopoverView.about.label" = "About";
 "TBPopoverView.quit.label" = "Quit";
-"TBTimer.onRestStart.title" = "Time's up";
-"TBTimer.onRestStart.short.body" = "It's time for a short break!";
-"TBTimer.onRestStart.long.body" = "It's time for a long break!";
-"TBTimer.onRestStart.skip.title" = "Skip break";
-"TBTimer.onRestFinish.title" = "Break is over";
-"TBTimer.onRestFinish.body" = "Keep up the good work!";
-"TBTimer.onRestFinish.skip.title" = "Skip work";
-"TBTimer.completion.title" = "Timer completed";
-"TBTimer.completion.body" = "Session finished";
-"TBTimer.completion.close" = "Close";
-"TBUserChoice.addMinute.title" = "+1 min";
-"TBUserChoice.addFiveMinutes.title" = "+5 min";
-"TBUserChoice.stop.title" = "Stop";
-"TBUserChoice.restart.title" = "Restart";
-"TBUserChoice.close.title" = "Close";
-"TBUserChoice.restartSession.title" = "Restart Session";
-"TBUserChoice.workComplete.title" = "Work session complete";
-"TBUserChoice.workComplete.longBreak.subtitle" = "Time for a long break";
-"TBUserChoice.workComplete.shortBreak.subtitle" = "Time for a short break";
-"TBUserChoice.workComplete.next.title" = "Take Break";
-"TBUserChoice.workComplete.skip.title" = "Skip Break";
-"TBUserChoice.breakComplete.subtitle" = "Ready to work?";
-"TBUserChoice.breakComplete.next.title" = "Start Work";
-"TBUserChoice.breakComplete.skip.title" = "Skip Work";
-"TBUserChoice.shortBreakComplete.title" = "Short break is over";
-"TBUserChoice.longBreakComplete.title" = "Long break is over";
-"TBUserChoice.sessionComplete.title" = "Timer completed";
-"TBUserChoice.sessionComplete.subtitle" = "Session finished";
-"TBMask.skip.label" = "Double-click any area to skip break, click once to hide this mask";
+
+"SystemNotification.restStart.title" = "Time's up";
+"SystemNotification.restStart.shortBreak.body" = "It's time for a short break!";
+"SystemNotification.restStart.longBreak.body" = "It's time for a long break!";
+"SystemNotification.restStart.skipBreak.action" = "Skip break";
+"SystemNotification.restFinish.title" = "Break is over";
+"SystemNotification.restFinish.body" = "Keep up the good work!";
+"SystemNotification.restFinish.skipWork.action" = "Skip work";
+"SystemNotification.sessionComplete.title" = "Timer completed";
+"SystemNotification.sessionComplete.body" = "Session finished";
+
+"CustomNotification.workComplete.title" = "Work session complete";
+"CustomNotification.workComplete.shortBreak.subtitle" = "Time for a short break";
+"CustomNotification.workComplete.longBreak.subtitle" = "Time for a long break";
+"CustomNotification.workComplete.takeBreak.action" = "Take Break";
+"CustomNotification.workComplete.skipBreak.action" = "Skip Break";
+"CustomNotification.shortBreakComplete.title" = "Short break is over";
+"CustomNotification.longBreakComplete.title" = "Long break is over";
+"CustomNotification.breakComplete.subtitle" = "Ready to work?";
+"CustomNotification.breakComplete.startWork.action" = "Start Work";
+"CustomNotification.breakComplete.skipWork.action" = "Skip Work";
+"CustomNotification.sessionComplete.title" = "Timer completed";
+"CustomNotification.sessionComplete.subtitle" = "Session finished";
+"CustomNotification.control.addMinute" = "+1 min";
+"CustomNotification.control.addFiveMinutes" = "+5 min";
+"CustomNotification.control.stop" = "Stop";
+"CustomNotification.control.restart.small" = "Restart";
+"CustomNotification.control.restart.big" = "Restart Session";
+"CustomNotification.control.close" = "Close";
+
+"MaskNotification.shortBreak.body" = "It's time for a short break!";
+"MaskNotification.longBreak.body" = "It's time for a long break!";
+"MaskNotification.instruction" = "Double-click any area to skip break, click once to hide this mask";

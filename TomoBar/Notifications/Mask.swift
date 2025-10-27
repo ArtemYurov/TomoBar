@@ -15,8 +15,8 @@ class MaskHelper {
 
     func show(isLong: Bool, blockActions: Bool = false) {
         let desc = isLong
-            ? NSLocalizedString("TBTimer.onRestStart.long.body", comment: "Long break body")
-            : NSLocalizedString("TBTimer.onRestStart.short.body", comment: "Short break body")
+            ? NSLocalizedString("MaskNotification.longBreak.body", comment: "Long break body")
+            : NSLocalizedString("MaskNotification.shortBreak.body", comment: "Short break body")
 
         let screens = NSScreen.screens
         for screen in screens {
@@ -174,7 +174,7 @@ class MaskView: NSView {
     }()
 
     lazy var tipLabel = {
-        let tipLabel = NSTextField(labelWithString: NSLocalizedString("TBMask.skip.label", comment: "Skip label"))
+        let tipLabel = NSTextField(labelWithString: NSLocalizedString("MaskNotification.instruction", comment: "Skip label"))
         tipLabel.textColor = .white.withAlphaComponent(0.8)
         tipLabel.font = NSFont.systemFont(ofSize: 18)
         tipLabel.alignment = .center

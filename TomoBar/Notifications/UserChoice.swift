@@ -98,9 +98,9 @@ final class UserChoiceHelper: NSObject {
             style = .big(
                 title: content.title,
                 subtitle: content.subtitle,
-                addMinuteTitle: NSLocalizedString("TBUserChoice.addMinute.title", comment: "+1 min"),
-                addFiveMinutesTitle: NSLocalizedString("TBUserChoice.addFiveMinutes.title", comment: "+5 min"),
-                stopTitle: NSLocalizedString("TBUserChoice.stop.title", comment: "Stop"),
+                addMinuteTitle: NSLocalizedString("CustomNotification.control.addMinute", comment: "+1 min"),
+                addFiveMinutesTitle: NSLocalizedString("CustomNotification.control.addFiveMinutes", comment: "+5 min"),
+                stopTitle: NSLocalizedString("CustomNotification.control.stop", comment: "Stop"),
                 nextActionTitle: content.nextActionTitle,
                 skipActionTitle: content.skipActionTitle
             )
@@ -127,9 +127,9 @@ final class UserChoiceHelper: NSObject {
             style = .big(
                 title: content.title,
                 subtitle: content.subtitle,
-                addMinuteTitle: NSLocalizedString("TBUserChoice.addMinute.title", comment: "+1 min"),
-                addFiveMinutesTitle: NSLocalizedString("TBUserChoice.addFiveMinutes.title", comment: "+5 min"),
-                stopTitle: NSLocalizedString("TBUserChoice.stop.title", comment: "Stop"),
+                addMinuteTitle: NSLocalizedString("CustomNotification.control.addMinute", comment: "+1 min"),
+                addFiveMinutesTitle: NSLocalizedString("CustomNotification.control.addFiveMinutes", comment: "+5 min"),
+                stopTitle: NSLocalizedString("CustomNotification.control.stop", comment: "Stop"),
                 nextActionTitle: content.nextActionTitle,
                 skipActionTitle: content.skipActionTitle
             )
@@ -316,28 +316,28 @@ final class UserChoiceHelper: NSObject {
         switch state {
         case .work:
             return NotificationContent(
-                title: NSLocalizedString("TBUserChoice.workComplete.title", comment: "Work session complete"),
+                title: NSLocalizedString("CustomNotification.workComplete.title", comment: "Work session complete"),
                 subtitle: nextIsLongRest
-                    ? NSLocalizedString("TBUserChoice.workComplete.longBreak.subtitle", comment: "Time for a long break")
-                    : NSLocalizedString("TBUserChoice.workComplete.shortBreak.subtitle", comment: "Time for a short break"),
-                nextActionTitle: NSLocalizedString("TBUserChoice.workComplete.next.title", comment: "Take Break"),
-                skipActionTitle: NSLocalizedString("TBUserChoice.workComplete.skip.title", comment: "Skip Break")
+                    ? NSLocalizedString("CustomNotification.workComplete.longBreak.subtitle", comment: "Time for a long break")
+                    : NSLocalizedString("CustomNotification.workComplete.shortBreak.subtitle", comment: "Time for a short break"),
+                nextActionTitle: NSLocalizedString("CustomNotification.workComplete.takeBreak.action", comment: "Take Break"),
+                skipActionTitle: NSLocalizedString("CustomNotification.workComplete.skipBreak.action", comment: "Skip Break")
             )
 
         case .shortRest:
             return NotificationContent(
-                title: NSLocalizedString("TBUserChoice.shortBreakComplete.title", comment: "Short break is over"),
-                subtitle: NSLocalizedString("TBUserChoice.breakComplete.subtitle", comment: "Ready to work?"),
-                nextActionTitle: NSLocalizedString("TBUserChoice.breakComplete.next.title", comment: "Start Work"),
-                skipActionTitle: NSLocalizedString("TBUserChoice.breakComplete.skip.title", comment: "Skip Work")
+                title: NSLocalizedString("CustomNotification.shortBreakComplete.title", comment: "Short break is over"),
+                subtitle: NSLocalizedString("CustomNotification.breakComplete.subtitle", comment: "Ready to work?"),
+                nextActionTitle: NSLocalizedString("CustomNotification.breakComplete.startWork.action", comment: "Start Work"),
+                skipActionTitle: NSLocalizedString("CustomNotification.breakComplete.skipWork.action", comment: "Skip Work")
             )
 
         case .longRest:
             return NotificationContent(
-                title: NSLocalizedString("TBUserChoice.longBreakComplete.title", comment: "Long break is over"),
-                subtitle: NSLocalizedString("TBUserChoice.breakComplete.subtitle", comment: "Ready to work?"),
-                nextActionTitle: NSLocalizedString("TBUserChoice.breakComplete.next.title", comment: "Start Work"),
-                skipActionTitle: NSLocalizedString("TBUserChoice.breakComplete.skip.title", comment: "Skip Work")
+                title: NSLocalizedString("CustomNotification.longBreakComplete.title", comment: "Long break is over"),
+                subtitle: NSLocalizedString("CustomNotification.breakComplete.subtitle", comment: "Ready to work?"),
+                nextActionTitle: NSLocalizedString("CustomNotification.breakComplete.startWork.action", comment: "Start Work"),
+                skipActionTitle: NSLocalizedString("CustomNotification.breakComplete.skipWork.action", comment: "Skip Work")
             )
 
         case .idle:
@@ -354,18 +354,18 @@ final class UserChoiceHelper: NSObject {
         let restartTitle: String
         switch notifyStyle {
         case .small:
-            restartTitle = NSLocalizedString("TBUserChoice.restart.title", comment: "Restart")
+            restartTitle = NSLocalizedString("CustomNotification.control.restart.small", comment: "Restart")
         case .big:
-            restartTitle = NSLocalizedString("TBUserChoice.restartSession.title", comment: "Restart Session")
+            restartTitle = NSLocalizedString("CustomNotification.control.restart.big", comment: "Restart Session")
         case .system:
             restartTitle = ""
         }
 
         return NotificationContent(
-            title: NSLocalizedString("TBUserChoice.sessionComplete.title", comment: "Timer completed"),
-            subtitle: NSLocalizedString("TBUserChoice.sessionComplete.subtitle", comment: "Session finished"),
+            title: NSLocalizedString("CustomNotification.sessionComplete.title", comment: "Timer completed"),
+            subtitle: NSLocalizedString("CustomNotification.sessionComplete.subtitle", comment: "Session finished"),
             nextActionTitle: restartTitle,
-            skipActionTitle: NSLocalizedString("TBUserChoice.close.title", comment: "Close")
+            skipActionTitle: NSLocalizedString("CustomNotification.control.close", comment: "Close")
         )
     }
 }
