@@ -1,10 +1,27 @@
+"TBPopoverView.width" = "285";
+"TBPopoverView.start.label" = "Start";
+"TBPopoverView.stop.label" = "Stop";
+"TBPopoverView.addMinute.help" = "Add a minute";
+"TBPopoverView.addFiveMinutes.help" = "Add five minutes";
+"TBPopoverView.pause.help" = "Pause";
+"TBPopoverView.resume.help" = "Resume";
+"TBPopoverView.skip.help" = "Skip";
+"TBPopoverView.intervals.label" = "Intervals";
+"TBPopoverView.settings.label" = "Settings";
+"TBPopoverView.shortcuts.label" = "Shortcuts";
+"TBPopoverView.sounds.label" = "Sounds";
+"TBPopoverView.about.label" = "About";
+"TBPopoverView.quit.label" = "Quit";
+
 "IntervalsView.min" = "min";
 "IntervalsView.workIntervalLength.label" = "Work";
 "IntervalsView.shortRestIntervalLength.label" = "Short break";
 "IntervalsView.longRestIntervalLength.label" = "Long break";
 "IntervalsView.longRestIntervalLength.help" = "Duration of the longer break, taken after finishing a set of work intervals";
-"IntervalsView.workIntervalsInSet.label" = "Work intervals in a set";
+"IntervalsView.workIntervalsInSet.label" = "Work intervals per set";
 "IntervalsView.workIntervalsInSet.help" = "Number of work intervals before taking a longer break";
+"IntervalsView.startWith.label" = "Start with";
+"IntervalsView.stopAfter.label" = "Stop after";
 "IntervalsView.presets.label" = "Presets";
 
 "SettingsView.shortcut.label" = "Start/stop";
@@ -12,12 +29,6 @@
 "SettingsView.skipShortcut.label" = "Skip";
 "SettingsView.addMinuteShortcut.label" = "Add a minute";
 "SettingsView.addFiveMinutesShortcut.label" = "Add five minutes";
-"SettingsView.startWith.label" = "Start with";
-"SettingsView.stopAfter.label" = "Stop after";
-"SettingsView.dropdownDisabled.label" = "Off";
-"SettingsView.dropdownWork.label" = "Work";
-"SettingsView.dropdownBreak.label" = "Break";
-"SettingsView.dropdownSet.label" = "Set";
 "SettingsView.showTimer.label" = "Show timer";
 "SettingsView.showTimerRunning.label" = "Running";
 "SettingsView.showTimerAlways.label" = "Always";
@@ -39,26 +50,15 @@
 "SettingsView.toggleDoNotDisturb.help" = "Runs a shortcut to enable/disable Do Not Disturb on work/rest transitions";
 "SettingsView.startTimerOnLaunch.label" = "Start timer on launch";
 "SettingsView.launchAtLogin.label" = "Launch at login";
+"SettingsView.dropdownDisabled.label" = "Off";
+"SettingsView.dropdownWork.label" = "Work";
+"SettingsView.dropdownBreak.label" = "Break";
+"SettingsView.dropdownSet.label" = "Set";
 
 "SoundsView.isWindupEnabled.label" = "Windup";
 "SoundsView.isDingEnabled.label" = "Ding";
 "SoundsView.isTickingEnabled.label" = "Ticking";
 "SoundsView.openSoundFolder.label" = "Open sound folder";
-
-"TBPopoverView.width" = "285";
-"TBPopoverView.start.label" = "Start";
-"TBPopoverView.stop.label" = "Stop";
-"TBPopoverView.addMinute.help" = "Add a minute";
-"TBPopoverView.addFiveMinutes.help" = "Add five minutes";
-"TBPopoverView.pause.help" = "Pause";
-"TBPopoverView.resume.help" = "Resume";
-"TBPopoverView.skip.help" = "Skip";
-"TBPopoverView.intervals.label" = "Intervals";
-"TBPopoverView.settings.label" = "Settings";
-"TBPopoverView.shortcuts.label" = "Shortcuts";
-"TBPopoverView.sounds.label" = "Sounds";
-"TBPopoverView.about.label" = "About";
-"TBPopoverView.quit.label" = "Quit";
 
 "SystemNotification.restStart.title" = "Time's up";
 "SystemNotification.restStart.shortBreak.body" = "It's time for a short break!";
