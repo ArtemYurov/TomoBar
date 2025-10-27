@@ -2,11 +2,11 @@ import KeyboardShortcuts
 import SwiftState
 import SwiftUI
 
-enum StartWithValues: String, CaseIterable, DropdownDescribable {
+enum StartWithValues: String, CaseIterable, DropdownDescribable, Codable {
     case work, rest
 }
 
-enum SessionStopAfter: String, CaseIterable, DropdownDescribable {
+enum SessionStopAfter: String, CaseIterable, DropdownDescribable, Codable {
     case disabled, work, shortRest, longRest
 }
 
@@ -23,21 +23,28 @@ struct TimerPreset: Codable {
     var shortRestIntervalLength: Double = 5
     var longRestIntervalLength: Double = 15
     var workIntervalsInSet = 4
+    var startWith: StartWithValues = .work
+    var sessionStopAfter: SessionStopAfter = .disabled
 }
 
 class TBTimer: ObservableObject {
     @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = false
-    @AppStorage("startWith") var startWith = StartWithValues.work
-    @AppStorage("sessionStopAfter") var sessionStopAfter = SessionStopAfter.disabled
     @AppStorage("showTimerMode") var showTimerMode = ShowTimerMode.running
     @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.system
     @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = 0
     @AppStorage("currentPreset") var currentPreset = 0
     @AppStorage("timerPresets") private var presetsData = Data()
     var presets: [TimerPreset] {
-        get { (try? JSONDecoder().decode([TimerPreset].self, from: presetsData)) ?? Array(repeating: TimerPreset(), count: 4) }
+        get { (try? JSONDecoder().decode([TimerPreset].self, from: presetsData)) ?? Self.defaultPresets }
         set { presetsData = (try? JSONEncoder().encode(newValue)) ?? Data() }
     }
+
+    static let defaultPresets: [TimerPreset] = [
+        TimerPreset(workIntervalLength: 25, shortRestIntervalLength: 5, longRestIntervalLength: 15, workIntervalsInSet: 4),
+        TimerPreset(workIntervalLength: 52, shortRestIntervalLength: 17, longRestIntervalLength: 17, workIntervalsInSet: 1),
+        TimerPreset(workIntervalLength: 20, shortRestIntervalLength: 5, longRestIntervalLength: 15, workIntervalsInSet: 4),
+        TimerPreset(workIntervalLength: 30, shortRestIntervalLength: 5, longRestIntervalLength: 20, workIntervalsInSet: 4)
+    ]
     // This preference is "hidden"
     @AppStorage("overrunTimeLimit") var overrunTimeLimit = -60.0
 
@@ -62,6 +69,22 @@ class TBTimer: ObservableObject {
         }
         set(newValue) {
             presets[currentPreset] = newValue
+        }
+    }
+
+    var startWith: StartWithValues {
+        get { currentPresetInstance.startWith }
+        set {
+            currentPresetInstance.startWith = newValue
+            objectWillChange.send()
+        }
+    }
+
+    var sessionStopAfter: SessionStopAfter {
+        get { currentPresetInstance.sessionStopAfter }
+        set {
+            currentPresetInstance.sessionStopAfter = newValue
+            objectWillChange.send()
         }
     }
 

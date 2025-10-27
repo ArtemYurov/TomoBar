@@ -1,3 +1,18 @@
+"TBPopoverView.width" = "310";
+"TBPopoverView.start.label" = "Iniciar";
+"TBPopoverView.stop.label" = "Parar";
+"TBPopoverView.addMinute.help" = "Adicionar um minuto";
+"TBPopoverView.addFiveMinutes.help" = "Adicionar cinco minutos";
+"TBPopoverView.pause.help" = "Pausar";
+"TBPopoverView.resume.help" = "Continuar";
+"TBPopoverView.skip.help" = "Pular";
+"TBPopoverView.intervals.label" = "Intervalos";
+"TBPopoverView.settings.label" = "Configurações";
+"TBPopoverView.shortcuts.label" = "Atalhos";
+"TBPopoverView.sounds.label" = "Sons";
+"TBPopoverView.about.label" = "Sobre";
+"TBPopoverView.quit.label" = "Sair";
+
 "IntervalsView.min" = "min";
 "IntervalsView.workIntervalLength.label" = "Trabalho";
 "IntervalsView.shortRestIntervalLength.label" = "Pausa curta";
@@ -5,18 +20,15 @@
 "IntervalsView.longRestIntervalLength.help" = "Duração da pausa longa, feita após concluir um ciclo de intervalos de trabalho";
 "IntervalsView.workIntervalsInSet.label" = "Intervalos de trabalho por ciclo";
 "IntervalsView.workIntervalsInSet.help" = "Número de intervalos de trabalho antes de uma pausa longa";
+"IntervalsView.startWith.label" = "Começar com";
+"IntervalsView.stopAfter.label" = "Parar após";
 "IntervalsView.presets.label" = "Predefinições";
+
 "SettingsView.shortcut.label" = "Iniciar/parar";
 "SettingsView.pauseShortcut.label" = "Pausar/continuar";
 "SettingsView.skipShortcut.label" = "Pular";
 "SettingsView.addMinuteShortcut.label" = "Adicionar um minuto";
 "SettingsView.addFiveMinutesShortcut.label" = "Adicionar cinco minutos";
-"SettingsView.startWith.label" = "Começar com";
-"SettingsView.stopAfter.label" = "Parar após";
-"SettingsView.dropdownDisabled.label" = "Nunca";
-"SettingsView.dropdownWork.label" = "Trabalho";
-"SettingsView.dropdownBreak.label" = "Pausa";
-"SettingsView.dropdownSet.label" = "Ciclo";
 "SettingsView.showTimer.label" = "Mostrar cronômetro";
 "SettingsView.showTimerRunning.label" = "Em execução";
 "SettingsView.showTimerAlways.label" = "Sempre";
@@ -38,24 +50,16 @@
 "SettingsView.toggleDoNotDisturb.help" = "Executa um atalho para ativar/desativar o modo Não Perturbe nas transições de trabalho/pausa";
 "SettingsView.startTimerOnLaunch.label" = "Iniciar cronômetro ao abrir";
 "SettingsView.launchAtLogin.label" = "Iniciar ao fazer login";
+"SettingsView.dropdownDisabled.label" = "Nunca";
+"SettingsView.dropdownWork.label" = "Trabalho";
+"SettingsView.dropdownBreak.label" = "Pausa";
+"SettingsView.dropdownSet.label" = "Ciclo";
+
 "SoundsView.isWindupEnabled.label" = "Preparar";
 "SoundsView.isDingEnabled.label" = "Alerta";
 "SoundsView.isTickingEnabled.label" = "Tique-taque";
 "SoundsView.openSoundFolder.label" = "Abrir pasta de sons";
-"TBPopoverView.width" = "310";
-"TBPopoverView.start.label" = "Iniciar";
-"TBPopoverView.stop.label" = "Parar";
-"TBPopoverView.addMinute.help" = "Adicionar um minuto";
-"TBPopoverView.addFiveMinutes.help" = "Adicionar cinco minutos";
-"TBPopoverView.pause.help" = "Pausar";
-"TBPopoverView.resume.help" = "Continuar";
-"TBPopoverView.skip.help" = "Pular";
-"TBPopoverView.intervals.label" = "Intervalos";
-"TBPopoverView.settings.label" = "Configurações";
-"TBPopoverView.shortcuts.label" = "Atalhos";
-"TBPopoverView.sounds.label" = "Sons";
-"TBPopoverView.about.label" = "Sobre";
-"TBPopoverView.quit.label" = "Sair";
+
 "SystemNotification.restStart.title" = "Tempo esgotado";
 "SystemNotification.restStart.shortBreak.body" = "Hora de uma pausa curta!";
 "SystemNotification.restStart.longBreak.body" = "Hora de uma pausa longa!";
@@ -84,4 +88,7 @@
 "CustomNotification.control.restart.small" = "Restart";
 "CustomNotification.control.restart.big" = "Restart Session";
 "CustomNotification.control.close" = "Fechar";
+
+"MaskNotification.shortBreak.body" = "Hora de uma pausa curta!";
+"MaskNotification.longBreak.body" = "Hora de uma pausa longa!";
 "MaskNotification.instruction" = "Clique duplo em qualquer área para pular a pausa, clique uma vez para ocultar esta máscara";
