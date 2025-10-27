@@ -56,10 +56,18 @@ class TBTimer: ObservableObject {
     public var dnd = TBDoNotDisturb()
     public var currentWorkInterval: Int = 0
 
-    var notifyAlertMode: AlertMode {
+    var alertMode: AlertMode {
         get { notify.alertMode }
         set {
             notify.alertMode = newValue
+            objectWillChange.send()
+        }
+    }
+
+    var notifyStyle: NotifyStyle {
+        get { notify.notifyStyle }
+        set {
+            notify.notifyStyle = newValue
             objectWillChange.send()
         }
     }

@@ -44,26 +44,35 @@ struct SettingsView: View {
                 Text(NSLocalizedString("SettingsView.alertMode.label",
                                        comment: "Alert mode label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                StartStopDropdown(value: $timer.notifyAlertMode)
+                StartStopDropdown(value: $timer.alertMode)
             }
-            switch timer.notifyAlertMode {
+            .onChange(of: timer.alertMode) { _ in
+                timer.notify.preview()
+            }
+            switch timer.alertMode {
             case .notify:
                 HStack {
                     Text(NSLocalizedString("SettingsView.notifyStyle.label",
                                            comment: "Notify style label"))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    StartStopDropdown(value: $timer.notify.notifyStyle)
+                    StartStopDropdown(value: $timer.notifyStyle)
                 }
-                if timer.notify.notifyStyle == .small || timer.notify.notifyStyle == .big {
-                    Stepper(value: $timer.customBackgroundOpacity, in: 4 ... 10) {
+                .onChange(of: timer.notifyStyle) { _ in
+                    timer.notify.preview()
+                }
+                if timer.notifyStyle == .small || timer.notifyStyle == .big {
+                    Stepper(value: $timer.customBackgroundOpacity, in: 3 ... 10) {
                         HStack {
                             Text(NSLocalizedString("SettingsView.customBackground.label",
                                                    comment: "Custom notification background label"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                            TextField("", value: $timer.customBackgroundOpacity, formatter: clampedNumberFormatter(min: 4, max: 10))
+                            TextField("", value: $timer.customBackgroundOpacity, formatter: clampedNumberFormatter(min: 3, max: 10))
                                 .frame(width: 36, alignment: .trailing)
                                 .multilineTextAlignment(.trailing)
                         }
+                    }
+                    .onChange(of: timer.customBackgroundOpacity) { _ in
+                        timer.notify.preview()
                     }
                 }
             case .fullScreen:

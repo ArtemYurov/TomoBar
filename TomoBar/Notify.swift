@@ -84,4 +84,24 @@ class TBNotify: ObservableObject {
             system.sessionComplete()
         }
     }
+
+    func preview() {
+
+        switch alertMode {
+        case .disabled:
+            custom.hide()
+            return
+
+        case .notify:
+            switch notifyStyle {
+            case .system:
+                custom.hide()
+            case .small, .big:
+                custom.showSessionComplete(notifyStyle: notifyStyle)
+            }
+
+        case .fullScreen:
+            custom.hide()
+        }
+    }
 }
