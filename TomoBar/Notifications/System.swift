@@ -30,8 +30,8 @@ class SystemNotifyHelper: NSObject, UNUserNotificationCenterDelegate {
         center.delegate = self
 
         let categoryConfigs: [(category: TBNotification.Category, actionTitle: String?)] = [
-            (.restStarted, NSLocalizedString("TBTimer.onRestStart.skip.title", comment: "Skip break")),
-            (.restFinished, NSLocalizedString("TBTimer.onRestFinish.skip.title", comment: "Skip work")),
+            (.restStarted, NSLocalizedString("SystemNotification.restStart.skipBreak.action", comment: "Skip break")),
+            (.restFinished, NSLocalizedString("SystemNotification.restFinish.skipWork.action", comment: "Skip work")),
             (.sessionComplete, nil)
         ]
 
@@ -79,22 +79,22 @@ class SystemNotifyHelper: NSObject, UNUserNotificationCenterDelegate {
     }
 
     func sessionComplete() {
-        let title = NSLocalizedString("TBTimer.completion.title", comment: "Timer completed")
-        let body = NSLocalizedString("TBTimer.completion.body", comment: "Session finished")
+        let title = NSLocalizedString("SystemNotification.sessionComplete.title", comment: "Timer completed")
+        let body = NSLocalizedString("SystemNotification.sessionComplete.body", comment: "Session finished")
         send(title: title, body: body, category: .sessionComplete)
     }
 
     func restStarted(isLong: Bool) {
-        let title = NSLocalizedString("TBTimer.onRestStart.title", comment: "Time's up title")
+        let title = NSLocalizedString("SystemNotification.restStart.title", comment: "Time's up title")
         let body = isLong
-            ? NSLocalizedString("TBTimer.onRestStart.long.body", comment: "It's time for a long break!")
-            : NSLocalizedString("TBTimer.onRestStart.short.body", comment: "It's time for a short break!")
+            ? NSLocalizedString("SystemNotification.restStart.longBreak.body", comment: "It's time for a long break!")
+            : NSLocalizedString("SystemNotification.restStart.shortBreak.body", comment: "It's time for a short break!")
         send(title: title, body: body, category: .restStarted)
     }
 
     func restFinished() {
-        let title = NSLocalizedString("TBTimer.onRestFinish.title", comment: "Break is over title")
-        let body = NSLocalizedString("TBTimer.onRestFinish.body", comment: "Break is over body")
+        let title = NSLocalizedString("SystemNotification.restFinish.title", comment: "Break is over title")
+        let body = NSLocalizedString("SystemNotification.restFinish.body", comment: "Break is over body")
         send(title: title, body: body, category: .restFinished)
     }
 
