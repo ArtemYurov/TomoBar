@@ -25,7 +25,7 @@
 "SettingsView.dropdownSystem.label" = "系统";
 "SettingsView.dropdownMono.label" = "PT Mono";
 "SettingsView.dropdownSFMono.label" = "SF Mono";
-"SettingsView.grayBackground.label" = "计时器灰色背景";
+"SettingsView.grayBackground.label" = "灰色背景";
 "SettingsView.showFullScreenMask.label" = "使用全屏遮罩";
 "SettingsView.showFullScreenMask.help" = "在休息时，使用全屏遮罩，而不是通知";
 "SettingsView.toggleDoNotDisturb.label" = "切换请勿打扰";
