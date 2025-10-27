@@ -42,8 +42,7 @@ class MaskHelper {
             window.contentView = maskView
 
             let windowController = NSWindowController(window: window)
-            windowController.loadWindow()
-            windowController.showWindow(nil)
+            windowController.window?.orderFront(nil)
             windowControllers.append(windowController)
             maskView.show()
             NSApp.activate(ignoringOtherApps: true)
@@ -140,7 +139,7 @@ class MaskHelper {
 
     private func bringWindowsToFront() {
         for wc in windowControllers {
-            wc.window?.makeKeyAndOrderFront(nil)
+            wc.window?.orderFront(nil)
             wc.window?.level = .screenSaver
         }
 
