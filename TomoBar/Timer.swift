@@ -721,7 +721,7 @@ class TBTimer: ObservableObject {
 
     private func onIntervalCompleted(context ctx: TBStateMachine.Context) {
         // Stop ticking and play completion sound for work interval
-        if isWorking {
+        if ctx.fromState == .work {
             player.stopTicking()
             player.playDing()
         }
@@ -743,6 +743,8 @@ class TBTimer: ObservableObject {
     }
 
     private func onSkipEvent(context ctx: TBStateMachine.Context) {
+        player.stopTicking()
+        
         if isSessionCompleted(for: ctx.fromState) {
             stateMachine <-! .sessionCompleted
         }
