@@ -31,9 +31,9 @@ enum MaskMode: String, CaseIterable, DropdownDescribable {
 }
 
 struct TimerPreset: Codable {
-    var workIntervalLength = 25
-    var shortRestIntervalLength = 5
-    var longRestIntervalLength = 15
+    var workIntervalLength: Double = 25
+    var shortRestIntervalLength: Double = 5
+    var longRestIntervalLength: Double = 15
     var workIntervalsInSet = 4
 }
 
@@ -554,6 +554,21 @@ class TBTimer: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
     }
 
+    private func startStateTimer() {
+        let minutes: Double
+        switch stateMachine.state {
+        case .idle:
+            return
+        case .work:
+            minutes = currentPresetInstance.workIntervalLength
+        case .shortRest:
+            minutes = currentPresetInstance.shortRestIntervalLength
+        case .longRest:
+            minutes = currentPresetInstance.longRestIntervalLength
+        }
+        startTimer(seconds: Int(minutes * 60))
+    }
+
     private func startTimer(seconds: Int) {
         finishTime = Date().addingTimeInterval(TimeInterval(seconds))
         startTime = Date()  // Save when timer started
@@ -626,7 +641,7 @@ class TBTimer: ObservableObject {
         TBStatusItem.shared.setIcon(name: .work)
         player.playWindup()
         player.startTicking()
-        startTimer(seconds: currentPresetInstance.workIntervalLength * 60)
+        startStateTimer()
         if toggleDoNotDisturb {
             DispatchQueue.main.async(group: notificationGroup) { [self] in
                 let res = DoNotDisturbHelper.shared.set(state: true)
@@ -660,7 +675,7 @@ class TBTimer: ObservableObject {
             }
         }
         TBStatusItem.shared.setIcon(name: imgName)
-        startTimer(seconds: length * 60)
+        startStateTimer()
     }
 
     private func onRestEnd(context ctx: TBStateMachine.Context) {
