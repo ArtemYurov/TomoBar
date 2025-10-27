@@ -30,7 +30,7 @@
 "SettingsView.addMinuteShortcut.label" = "1分追加";
 "SettingsView.addFiveMinutesShortcut.label" = "5分追加";
 "SettingsView.showTimer.label" = "タイマーを表示";
-"SettingsView.showTimerRunning.label" = "実行中";
+"SettingsView.showTimerRunning.label" = "アクティブ";
 "SettingsView.showTimerAlways.label" = "常に";
 "SettingsView.timerFont.label" = "フォント";
 "SettingsView.dropdownSystem.label" = "システム";

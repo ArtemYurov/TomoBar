@@ -30,7 +30,7 @@
 "SettingsView.addMinuteShortcut.label" = "Adicionar um minuto";
 "SettingsView.addFiveMinutesShortcut.label" = "Adicionar cinco minutos";
 "SettingsView.showTimer.label" = "Mostrar cronômetro";
-"SettingsView.showTimerRunning.label" = "Em execução";
+"SettingsView.showTimerRunning.label" = "Ativo";
 "SettingsView.showTimerAlways.label" = "Sempre";
 "SettingsView.timerFont.label" = "Fonte";
 "SettingsView.dropdownSystem.label" = "Sistema";
