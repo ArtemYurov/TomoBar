@@ -52,18 +52,20 @@ struct NotificationSeparator: View {
 }
 
 struct NotificationBackgroundModifier: ViewModifier {
+    let opacity: CGFloat
+
     func body(content: Content) -> some View {
         content
             .background(
                 RoundedRectangle(cornerRadius: BaseLayout.cornerRadius)
-                    .fill(Color(NSColor.windowBackgroundColor).opacity(BaseLayout.backgroundOpacity))
+                    .fill(Color(NSColor.windowBackgroundColor).opacity(opacity / 10.0))
                     .shadow(color: Color.black.opacity(0.15), radius: 8, x: 0, y: 2)
             )
     }
 }
 
 extension View {
-    func notificationBackground() -> some View {
-        modifier(NotificationBackgroundModifier())
+    func notificationBackground(opacity: CGFloat = 8.0) -> some View {
+        modifier(NotificationBackgroundModifier(opacity: opacity))
     }
 }

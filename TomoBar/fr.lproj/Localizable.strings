@@ -37,6 +37,7 @@
 "SettingsView.dropdownMono.label" = "PT Mono";
 "SettingsView.dropdownSFMono.label" = "SF Mono";
 "SettingsView.grayBackground.label" = "Arrière-plan gris";
+"SettingsView.customBackground.label" = "Opacité de l'arrière-plan";
 "SettingsView.alertMode.label" = "Mode d'alerte";
 "SettingsView.alertModeNotify.label" = "Notifier";
 "SettingsView.alertModeFullScreen.label" = "Plein écran";

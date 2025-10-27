@@ -37,6 +37,7 @@
 "SettingsView.dropdownMono.label" = "PT Mono";
 "SettingsView.dropdownSFMono.label" = "SF Mono";
 "SettingsView.grayBackground.label" = "Γκρι φόντο";
+"SettingsView.customBackground.label" = "Αδιαφάνεια φόντου";
 "SettingsView.alertMode.label" = "Λειτουργία ειδοποίησης";
 "SettingsView.alertModeNotify.label" = "Ειδοποίηση";
 "SettingsView.alertModeFullScreen.label" = "Πλήρης οθόνη";

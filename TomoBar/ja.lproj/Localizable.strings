@@ -37,6 +37,7 @@
 "SettingsView.dropdownMono.label" = "PT Mono";
 "SettingsView.dropdownSFMono.label" = "SF Mono";
 "SettingsView.grayBackground.label" = "グレー背景";
+"SettingsView.customBackground.label" = "背景の不透明度";
 "SettingsView.alertMode.label" = "アラートモード";
 "SettingsView.alertModeNotify.label" = "通知";
 "SettingsView.alertModeFullScreen.label" = "フルスクリーン";

@@ -54,6 +54,18 @@ struct SettingsView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     StartStopDropdown(value: $timer.notify.notifyStyle)
                 }
+                if timer.notify.notifyStyle == .small || timer.notify.notifyStyle == .big {
+                    Stepper(value: $timer.customBackgroundOpacity, in: 4 ... 10) {
+                        HStack {
+                            Text(NSLocalizedString("SettingsView.customBackground.label",
+                                                   comment: "Custom notification background label"))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            TextField("", value: $timer.customBackgroundOpacity, formatter: clampedNumberFormatter(min: 4, max: 10))
+                                .frame(width: 36, alignment: .trailing)
+                                .multilineTextAlignment(.trailing)
+                        }
+                    }
+                }
             case .fullScreen:
                 HStack {
                     Text(NSLocalizedString("SettingsView.maskMode.label",
