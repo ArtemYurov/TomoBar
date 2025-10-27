@@ -52,11 +52,11 @@ struct SmallNotificationView: View {
 
             if isSessionCompleted {
                 VStack(spacing: 0) {
-                    NotificationButton(title: "Restart", action: { onAction(.restart) })
+                    NotificationButton(title: nextActionTitle, action: { onAction(.restart) })
 
                     NotificationSeparator(orientation: .horizontal)
 
-                    NotificationButton(title: "Close", action: { onAction(.close) })
+                    NotificationButton(title: skipActionTitle, action: { onAction(.close) })
                 }
                 .frame(width: Layout.buttonWidth, height: Layout.windowHeight)
             } else {

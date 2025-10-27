@@ -55,11 +55,11 @@ struct BigNotificationView: View {
                     NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
 
                     HStack(spacing: 0) {
-                        NotificationButton(title: "Close", action: { onAction(.close) })
+                        NotificationButton(title: skipActionTitle, action: { onAction(.close) })
 
                         NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
-                        NotificationButton(title: "Restart Session", action: { onAction(.restart) })
+                        NotificationButton(title: nextActionTitle, action: { onAction(.restart) })
                     }
                     .frame(height: Layout.buttonHeight)
                 }
