@@ -629,6 +629,7 @@ class TBTimer: ObservableObject {
         notify.choice.hide()
 
         switch action {
+        // for current state (not switched to next)
         case .next:
             paused = false
             stateMachine <-! .confirmedNext
@@ -650,12 +651,12 @@ class TBTimer: ObservableObject {
             paused = false
             stateMachine <-! .startStop
 
+        // sessionCompleted - already switched to idle
+        case .close:
+            break;
+
         case .restart:
-            paused = false
             stateMachine <-! .startStop
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
-                self.stateMachine <-! .startStop
-            }
         }
     }
 
