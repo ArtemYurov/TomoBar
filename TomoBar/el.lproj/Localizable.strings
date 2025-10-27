@@ -1,22 +1,34 @@
+"TBPopoverView.width" = "335";
+"TBPopoverView.start.label" = "Έναρξη";
+"TBPopoverView.stop.label" = "Τερματισμός";
+"TBPopoverView.addMinute.help" = "Προσθήκη λεπτού";
+"TBPopoverView.addFiveMinutes.help" = "Προσθήκη πέντε λεπτών";
+"TBPopoverView.pause.help" = "Παύση";
+"TBPopoverView.resume.help" = "Συνέχεια";
+"TBPopoverView.skip.help" = "Παράλειψη";
+"TBPopoverView.intervals.label" = "Διαστήματα";
+"TBPopoverView.settings.label" = "Ρυθμίσεις";
+"TBPopoverView.shortcuts.label" = "Συντομεύσεις";
+"TBPopoverView.sounds.label" = "Ήχοι";
+"TBPopoverView.about.label" = "Σχετικά";
+"TBPopoverView.quit.label" = "Τερματισμός";
+
 "IntervalsView.min" = "λεπ.";
 "IntervalsView.workIntervalLength.label" = "Εργασία";
 "IntervalsView.shortRestIntervalLength.label" = "Μικρό διάλειμμα";
 "IntervalsView.longRestIntervalLength.label" = "Μεγάλο διάλειμμα";
 "IntervalsView.longRestIntervalLength.help" = "Διάρκεια του μεγαλύτερου διαλείμματος, που παίρνετε μετά την ολοκλήρωση ενός σετ εργασίας";
-"IntervalsView.workIntervalsInSet.label" = "Διαστήματα εργασίας σε ένα σετ";
+"IntervalsView.workIntervalsInSet.label" = "Διαστήματα εργασίας ανά σετ";
 "IntervalsView.workIntervalsInSet.help" = "Αριθμός διαστημάτων εργασίας πριν πάρετε ένα μεγαλύτερο διάλειμμα";
+"IntervalsView.startWith.label" = "Έναρξη με";
+"IntervalsView.stopAfter.label" = "Παύση μετά από";
 "IntervalsView.presets.label" = "Προεπιλογές";
+
 "SettingsView.shortcut.label" = "Έναρξη/Παύση";
 "SettingsView.pauseShortcut.label" = "Παύση/Συνέχιση";
 "SettingsView.skipShortcut.label" = "Παράλειψη";
 "SettingsView.addMinuteShortcut.label" = "Προσθήκη λεπτού";
 "SettingsView.addFiveMinutesShortcut.label" = "Προσθήκη πέντε λεπτών";
-"SettingsView.startWith.label" = "Έναρξη με";
-"SettingsView.stopAfter.label" = "Παύση μετά από";
-"SettingsView.dropdownDisabled.label" = "Off";
-"SettingsView.dropdownWork.label" = "Δουλεία";
-"SettingsView.dropdownBreak.label" = "Διάλειμμα";
-"SettingsView.dropdownSet.label" = "Σετ";
 "SettingsView.showTimer.label" = "Εμφάνιση χρονομέτρου";
 "SettingsView.showTimerRunning.label" = "Εκτελείται";
 "SettingsView.showTimerAlways.label" = "Πάντα";
@@ -38,24 +50,16 @@
 "SettingsView.toggleDoNotDisturb.help" = "Εκτελεί μια συντόμευση για ενεργοποίηση/απενεργοποίηση της λειτουργίας Μην ενοχλείτε στις μεταβάσεις εργασίας/διαλειμμάτων";
 "SettingsView.startTimerOnLaunch.label" = "Έναρξη χρονομέτρου κατά την εκκίνηση";
 "SettingsView.launchAtLogin.label" = "Εκκίνηση εφαρμογής κατά την εκκίνηση";
+"SettingsView.dropdownDisabled.label" = "Off";
+"SettingsView.dropdownWork.label" = "Δουλεία";
+"SettingsView.dropdownBreak.label" = "Διάλειμμα";
+"SettingsView.dropdownSet.label" = "Σετ";
+
 "SoundsView.isWindupEnabled.label" = "Ανέμελο";
 "SoundsView.isDingEnabled.label" = "Κουδούνι";
 "SoundsView.isTickingEnabled.label" = "Κτύπημα";
 "SoundsView.openSoundFolder.label" = "Άνοιγμα φακέλου ήχου";
-"TBPopoverView.width" = "335";
-"TBPopoverView.start.label" = "Έναρξη";
-"TBPopoverView.stop.label" = "Τερματισμός";
-"TBPopoverView.addMinute.help" = "Προσθήκη λεπτού";
-"TBPopoverView.addFiveMinutes.help" = "Προσθήκη πέντε λεπτών";
-"TBPopoverView.pause.help" = "Παύση";
-"TBPopoverView.resume.help" = "Συνέχεια";
-"TBPopoverView.skip.help" = "Παράλειψη";
-"TBPopoverView.intervals.label" = "Διαστήματα";
-"TBPopoverView.settings.label" = "Ρυθμίσεις";
-"TBPopoverView.shortcuts.label" = "Συντομεύσεις";
-"TBPopoverView.sounds.label" = "Ήχοι";
-"TBPopoverView.about.label" = "Σχετικά";
-"TBPopoverView.quit.label" = "Τερματισμός";
+
 "SystemNotification.restStart.title" = "Τέλος χρόνου";
 "SystemNotification.restStart.shortBreak.body" = "Ήρθε η ώρα για ένα μικρό διάλειμμα!";
 "SystemNotification.restStart.longBreak.body" = "Ήρθε η ώρα για ένα μεγάλο διάλειμμα!";
@@ -84,4 +88,7 @@
 "CustomNotification.control.restart.small" = "Restart";
 "CustomNotification.control.restart.big" = "Restart Session";
 "CustomNotification.control.close" = "Κλείσιμο";
+
+"MaskNotification.shortBreak.body" = "Ήρθε η ώρα για ένα μικρό διάλειμμα!";
+"MaskNotification.longBreak.body" = "Ήρθε η ώρα για ένα μεγάλο διάλειμμα!";
 "MaskNotification.instruction" = "Κάντε διπλό κλικ σε οποιοδήποτε σημείο για παράλειψη διαλείμματος, κάντε κλικ μια φορά για να κρύψετε αυτήν τη μάσκα πλήρης οθόνης";

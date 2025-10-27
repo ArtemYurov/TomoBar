@@ -1,22 +1,34 @@
+"TBPopoverView.width" = "285";
+"TBPopoverView.start.label" = "开始";
+"TBPopoverView.stop.label" = "停止";
+"TBPopoverView.addMinute.help" = "增加一分钟";
+"TBPopoverView.addFiveMinutes.help" = "增加五分钟";
+"TBPopoverView.pause.help" = "暂停";
+"TBPopoverView.resume.help" = "继续";
+"TBPopoverView.skip.help" = "跳过";
+"TBPopoverView.intervals.label" = "时长";
+"TBPopoverView.settings.label" = "设置";
+"TBPopoverView.shortcuts.label" = "快捷键";
+"TBPopoverView.sounds.label" = "声音";
+"TBPopoverView.about.label" = "关于";
+"TBPopoverView.quit.label" = "退出";
+
 "IntervalsView.min" = "分";
 "IntervalsView.workIntervalLength.label" = "工作时间";
 "IntervalsView.shortRestIntervalLength.label" = "小憩时间";
 "IntervalsView.longRestIntervalLength.label" = "长休息时间";
 "IntervalsView.longRestIntervalLength.help" = "在完成一组工作后的长休息时长";
-"IntervalsView.workIntervalsInSet.label" = "一组中工作的次数";
+"IntervalsView.workIntervalsInSet.label" = "每组工作次数";
 "IntervalsView.workIntervalsInSet.help" = "每组在长时间休息后的工作次数";
+"IntervalsView.startWith.label" = "开始于";
+"IntervalsView.stopAfter.label" = "在...后停止";
 "IntervalsView.presets.label" = "预设";
+
 "SettingsView.shortcut.label" = "快捷键";
 "SettingsView.pauseShortcut.label" = "暂停/继续";
 "SettingsView.skipShortcut.label" = "跳过";
 "SettingsView.addMinuteShortcut.label" = "增加一分钟";
 "SettingsView.addFiveMinutesShortcut.label" = "增加五分钟";
-"SettingsView.startWith.label" = "开始于";
-"SettingsView.stopAfter.label" = "在...后停止";
-"SettingsView.dropdownDisabled.label" = "关闭";
-"SettingsView.dropdownWork.label" = "工作";
-"SettingsView.dropdownBreak.label" = "休息";
-"SettingsView.dropdownSet.label" = "组";
 "SettingsView.showTimer.label" = "显示计时器";
 "SettingsView.showTimerRunning.label" = "运行时";
 "SettingsView.showTimerAlways.label" = "始终";
@@ -38,24 +50,16 @@
 "SettingsView.toggleDoNotDisturb.help" = "在工作/休息切换时运行快捷方式以启用/禁用请勿打扰";
 "SettingsView.startTimerOnLaunch.label" = "启动时启动计时器";
 "SettingsView.launchAtLogin.label" = "登录时启动";
+"SettingsView.dropdownDisabled.label" = "关闭";
+"SettingsView.dropdownWork.label" = "工作";
+"SettingsView.dropdownBreak.label" = "休息";
+"SettingsView.dropdownSet.label" = "组";
+
 "SoundsView.isWindupEnabled.label" = "发条声";
 "SoundsView.isDingEnabled.label" = "叮";
 "SoundsView.isTickingEnabled.label" = "滴答声";
 "SoundsView.openSoundFolder.label" = "打开声音文件夹";
-"TBPopoverView.width" = "285";
-"TBPopoverView.start.label" = "开始";
-"TBPopoverView.stop.label" = "停止";
-"TBPopoverView.addMinute.help" = "增加一分钟";
-"TBPopoverView.addFiveMinutes.help" = "增加五分钟";
-"TBPopoverView.pause.help" = "暂停";
-"TBPopoverView.resume.help" = "继续";
-"TBPopoverView.skip.help" = "跳过";
-"TBPopoverView.intervals.label" = "时长";
-"TBPopoverView.settings.label" = "设置";
-"TBPopoverView.shortcuts.label" = "快捷键";
-"TBPopoverView.sounds.label" = "声音";
-"TBPopoverView.about.label" = "关于";
-"TBPopoverView.quit.label" = "退出";
+
 "SystemNotification.restStart.title" = "时间到";
 "SystemNotification.restStart.shortBreak.body" = "小憩时间到!";
 "SystemNotification.restStart.longBreak.body" = "长休息时间到!";
@@ -84,4 +88,5 @@
 "CustomNotification.control.restart.small" = "Restart";
 "CustomNotification.control.restart.big" = "Restart Session";
 "CustomNotification.control.close" = "关闭";
+
 "MaskNotification.instruction" = "双击任意区域跳过休息，或单击一次恢复屏幕到正常状态";
