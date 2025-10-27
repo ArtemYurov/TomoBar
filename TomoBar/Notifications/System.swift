@@ -65,6 +65,19 @@ class SystemNotifyHelper: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        // Show notification even when app is active
+        if #available(macOS 11.0, *) {
+            completionHandler([.banner, .sound])
+        } else {
+            completionHandler([.alert, .sound])
+        }
+    }
+
     func sessionComplete() {
         let title = NSLocalizedString("TBTimer.completion.title", comment: "Timer completed")
         let body = NSLocalizedString("TBTimer.completion.body", comment: "Session finished")
