@@ -33,6 +33,17 @@ extension TBTimer {
          *   → idle (sessionCompleted if sessionStopAfter = longRest, OR startStop)
          */
 
+        setupTransitions()
+        setupHandlers()
+    }
+
+    private func setupTransitions() {
+        setupBasicTransitions()
+        setupIntervalCompletedTransitions()
+        setupUserActionTransitions()
+    }
+
+    private func setupBasicTransitions() {
         // startStop transitions
         stateMachine.addRoutes(event: .startStop, transitions: [
             .work => .idle,
@@ -54,16 +65,16 @@ extension TBTimer {
             .shortRest => .idle,
             .longRest => .idle
         ])
+    }
 
+    private func setupIntervalCompletedTransitions() {
         // intervalCompleted transitions (auto-transition only if shouldAutoTransition)
         stateMachine.addRoutes(event: .intervalCompleted, transitions: [.work => .shortRest]) { [self] _ in
-            nextIntervalIsShortRest()
-                && notify.shouldAutoTransition
+            nextIntervalIsShortRest() && notify.shouldAutoTransition
         }
 
         stateMachine.addRoutes(event: .intervalCompleted, transitions: [.work => .longRest]) { [self] _ in
-            nextIntervalIsLongRest()
-                && notify.shouldAutoTransition
+            nextIntervalIsLongRest() && notify.shouldAutoTransition
         }
 
         stateMachine.addRoutes(event: .intervalCompleted, transitions: [
@@ -81,7 +92,9 @@ extension TBTimer {
         ]) { [self] _ in
             !notify.shouldAutoTransition
         }
+    }
 
+    private func setupUserActionTransitions() {
         // confirmedNext transitions (always transition, no shouldAutoTransition check)
         stateMachine.addRoutes(event: .confirmedNext, transitions: [.work => .shortRest]) { [self] _ in
             nextIntervalIsShortRest()
@@ -109,7 +122,9 @@ extension TBTimer {
             .shortRest => .work,
             .longRest => .work
         ])
+    }
 
+    private func setupHandlers() {
         // State transition handlers (ordered by state: idle -> work -> shortRest -> longRest)
         stateMachine.addAnyHandler(.any => .idle, handler: onIdleStart)
         stateMachine.addAnyHandler(.idle => .any, handler: onIdleEnd)
