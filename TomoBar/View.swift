@@ -10,7 +10,7 @@ struct TBPopoverView: View {
     @State private var activeChildView = ChildView.intervals
 
     private func getLocalizedWidth() -> CGFloat {
-        let widthString = NSLocalizedString("TBPopoverView.width", comment: "Width for the view")
+        let widthString = NSLocalizedString("View.width", comment: "Width for the view")
         return CGFloat(Double(widthString) ?? 255)
     }
 
@@ -22,12 +22,12 @@ struct TBPopoverView: View {
         return result
     }
 
-    private var startLabel = NSLocalizedString("TBPopoverView.start.label", comment: "Start label")
-    private var stopLabel = NSLocalizedString("TBPopoverView.stop.label", comment: "Stop label")
-    private var addMinuteLabel = NSLocalizedString("TBPopoverView.addMinute.help", comment: "Add a minute hint")
-    private var pauseLabel = NSLocalizedString("TBPopoverView.pause.help", comment: "Pause hint")
-    private var resumeLabel = NSLocalizedString("TBPopoverView.resume.help", comment: "Resume hint")
-    private var skipLabel = NSLocalizedString("TBPopoverView.skip.help", comment: "Skip hint")
+    private var startLabel = NSLocalizedString("View.start.label", comment: "Start label")
+    private var stopLabel = NSLocalizedString("View.stop.label", comment: "Stop label")
+    private var addMinuteLabel = NSLocalizedString("View.addMinute.help", comment: "Add a minute hint")
+    private var pauseLabel = NSLocalizedString("View.pause.help", comment: "Pause hint")
+    private var resumeLabel = NSLocalizedString("View.resume.help", comment: "Resume hint")
+    private var skipLabel = NSLocalizedString("View.skip.help", comment: "Skip hint")
     private var playIcon = Image(systemName: "play.fill")
     private var stopIcon = Image(systemName: "stop.fill")
     private var plusIcon = Image(systemName: "plus.circle.fill")
@@ -93,7 +93,7 @@ struct TBPopoverView: View {
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
-                .help(NSLocalizedString("TBPopoverView.addFiveMinutes.help", comment: "Add five minutes hint"))
+                .help(NSLocalizedString("View.addFiveMinutes.help", comment: "Add five minutes hint"))
                 .disabled(timer.timer == nil)
 
                 Button {
@@ -118,13 +118,13 @@ struct TBPopoverView: View {
             }
 
             Picker("", selection: $activeChildView) {
-                Text(NSLocalizedString("TBPopoverView.intervals.label",
+                Text(NSLocalizedString("View.intervals.label",
                                        comment: "Intervals label")).tag(ChildView.intervals)
-                Text(NSLocalizedString("TBPopoverView.settings.label",
+                Text(NSLocalizedString("View.settings.label",
                                        comment: "Settings label")).tag(ChildView.settings)
-                Text(NSLocalizedString("TBPopoverView.shortcuts.label",
+                Text(NSLocalizedString("View.shortcuts.label",
                                        comment: "Shortcuts label")).tag(ChildView.shortcuts)
-                Text(NSLocalizedString("TBPopoverView.sounds.label",
+                Text(NSLocalizedString("View.sounds.label",
                                        comment: "Sounds label")).tag(ChildView.sounds)
             }
             .labelsHidden()
@@ -149,7 +149,7 @@ struct TBPopoverView: View {
                     NSApp.activate(ignoringOtherApps: true)
                     NSApp.orderFrontStandardAboutPanel()
                 } label: {
-                    Text(NSLocalizedString("TBPopoverView.about.label",
+                    Text(NSLocalizedString("View.about.label",
                                            comment: "About label"))
                     Spacer()
                     Text("⌘ A").foregroundColor(Color.gray)
@@ -159,7 +159,7 @@ struct TBPopoverView: View {
                 Button {
                     NSApplication.shared.terminate(self)
                 } label: {
-                    Text(NSLocalizedString("TBPopoverView.quit.label",
+                    Text(NSLocalizedString("View.quit.label",
                                            comment: "Quit label"))
                     Spacer()
                     Text("⌘ Q").foregroundColor(Color.gray)

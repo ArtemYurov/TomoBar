@@ -29,35 +29,35 @@ struct StartStopDropdown<E: CaseIterable & Hashable & DropdownDescribable>: View
 extension DropdownDescribable {
     var description: String {
         switch self.rawValue {
-        case "disabled": return NSLocalizedString("SettingsView.dropdownDisabled.label",
+        case "disabled": return NSLocalizedString("IntervalsView.off.label",
                                                   comment: "Disabled label")
-        case "work": return NSLocalizedString("SettingsView.dropdownWork.label",
+        case "work": return NSLocalizedString("IntervalsView.work.label",
                                               comment: "Work label")
-        case "shortRest": return NSLocalizedString("SettingsView.dropdownBreak.label",
+        case "shortRest": return NSLocalizedString("IntervalsView.break.label",
                                                    comment: "Short rest label")
-        case "longRest": return NSLocalizedString("SettingsView.dropdownSet.label",
+        case "longRest": return NSLocalizedString("IntervalsView.set.label",
                                                   comment: "Long rest label")
-        case "running": return NSLocalizedString("SettingsView.showTimerRunning.label",
-                                                 comment: "Show timer running label")
-        case "always": return NSLocalizedString("SettingsView.showTimerAlways.label",
+        case "running": return NSLocalizedString("SettingsView.timer.show.active.label",
+                                                 comment: "Show timer active label")
+        case "always": return NSLocalizedString("SettingsView.timer.show.always.label",
                                                 comment: "Show timer always label")
-        case "system": return NSLocalizedString("SettingsView.dropdownSystem.label",
+        case "system": return NSLocalizedString("SettingsView.timer.font.system.label",
                                                 comment: "System label")
-        case "ptMono": return NSLocalizedString("SettingsView.dropdownMono.label",
+        case "ptMono": return NSLocalizedString("SettingsView.timer.font.ptMono.label",
                                                 comment: "PT Mono font label")
-        case "sfMono": return NSLocalizedString("SettingsView.dropdownSFMono.label",
+        case "sfMono": return NSLocalizedString("SettingsView.timer.font.sfMono.label",
                                                 comment: "SF Mono font label")
-        case "notify": return NSLocalizedString("SettingsView.alertModeNotify.label",
+        case "notify": return NSLocalizedString("SettingsView.alert.mode.notify.label",
                                                 comment: "Alert mode notify label")
-        case "fullScreen": return NSLocalizedString("SettingsView.alertModeFullScreen.label",
+        case "fullScreen": return NSLocalizedString("SettingsView.alert.mode.fullScreen.label",
                                                     comment: "Alert mode full-screen label")
-        case "small": return NSLocalizedString("SettingsView.notifyStyleSmall.label",
+        case "small": return NSLocalizedString("SettingsView.alert.notifyStyle.small.label",
                                                comment: "Notify style small label")
-        case "big": return NSLocalizedString("SettingsView.notifyStyleBig.label",
+        case "big": return NSLocalizedString("SettingsView.alert.notifyStyle.big.label",
                                              comment: "Notify style big label")
-        case "normal": return NSLocalizedString("SettingsView.maskModeNormal.label",
+        case "normal": return NSLocalizedString("SettingsView.alert.maskMode.normal.label",
                                                 comment: "Mask mode normal label")
-        case "blockActions": return NSLocalizedString("SettingsView.maskModeBlockActions.label",
+        case "blockActions": return NSLocalizedString("SettingsView.alert.maskMode.blockActions.label",
                                                       comment: "Mask mode block actions label")
         default: return self.rawValue.capitalized
         }

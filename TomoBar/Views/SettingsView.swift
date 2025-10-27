@@ -8,7 +8,7 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             HStack {
-                Text(NSLocalizedString("SettingsView.showTimer.label",
+                Text(NSLocalizedString("SettingsView.timer.show.label",
                                        comment: "Show timer label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 StartStopDropdown(value: $timer.showTimerMode)
@@ -18,7 +18,7 @@ struct SettingsView: View {
             }
             if timer.showTimerMode != .disabled {
                 HStack {
-                    Text(NSLocalizedString("SettingsView.timerFont.label",
+                    Text(NSLocalizedString("SettingsView.timer.font.label",
                                            comment: "Timer font label"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     StartStopDropdown(value: $timer.timerFontMode)
@@ -28,7 +28,7 @@ struct SettingsView: View {
                 }
                 Stepper(value: $timer.grayBackgroundOpacity, in: 0 ... 10) {
                     HStack {
-                        Text(NSLocalizedString("SettingsView.grayBackground.label",
+                        Text(NSLocalizedString("SettingsView.timer.grayBackground.label",
                                                comment: "Gray background label"))
                             .frame(maxWidth: .infinity, alignment: .leading)
                         TextField("", value: $timer.grayBackgroundOpacity, formatter: clampedNumberFormatter(min: 0, max: 10))
@@ -41,7 +41,7 @@ struct SettingsView: View {
                 }
             }
             HStack {
-                Text(NSLocalizedString("SettingsView.alertMode.label",
+                Text(NSLocalizedString("SettingsView.alert.mode.label",
                                        comment: "Alert mode label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 StartStopDropdown(value: $timer.alertMode)
@@ -52,7 +52,7 @@ struct SettingsView: View {
             switch timer.alertMode {
             case .notify:
                 HStack {
-                    Text(NSLocalizedString("SettingsView.notifyStyle.label",
+                    Text(NSLocalizedString("SettingsView.alert.notifyStyle.label",
                                            comment: "Notify style label"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     StartStopDropdown(value: $timer.notifyStyle)
@@ -63,7 +63,7 @@ struct SettingsView: View {
                 if timer.notifyStyle == .small || timer.notifyStyle == .big {
                     Stepper(value: $timer.customBackgroundOpacity, in: 3 ... 10) {
                         HStack {
-                            Text(NSLocalizedString("SettingsView.customBackground.label",
+                            Text(NSLocalizedString("SettingsView.timer.backgroundOpacity.label",
                                                    comment: "Custom notification background label"))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             TextField("", value: $timer.customBackgroundOpacity, formatter: clampedNumberFormatter(min: 3, max: 10))
@@ -77,7 +77,7 @@ struct SettingsView: View {
                 }
             case .fullScreen:
                 HStack {
-                    Text(NSLocalizedString("SettingsView.maskMode.label",
+                    Text(NSLocalizedString("SettingsView.alert.maskMode.label",
                                            comment: "Mask mode label"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     StartStopDropdown(value: $timer.notify.maskMode)
@@ -86,20 +86,20 @@ struct SettingsView: View {
                 EmptyView()
             }
             Toggle(isOn: $timer.dnd.toggleDoNotDisturb) {
-                Text(NSLocalizedString("SettingsView.toggleDoNotDisturb.label",
+                Text(NSLocalizedString("SettingsView.app.toggleDoNotDisturb.label",
                                        comment: "Toggle Do Not Disturb"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .toggleStyle(.switch)
-            .help(NSLocalizedString("SettingsView.toggleDoNotDisturb.help",
+            .help(NSLocalizedString("SettingsView.app.toggleDoNotDisturb.help",
                                     comment: "Toggle Do Not Disturb hint"))
             Toggle(isOn: $timer.startTimerOnLaunch) {
-                Text(NSLocalizedString("SettingsView.startTimerOnLaunch.label",
+                Text(NSLocalizedString("SettingsView.app.startTimerOnLaunch.label",
                                        comment: "Start timer on launch label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }.toggleStyle(.switch)
             Toggle(isOn: $launchAtLogin.isEnabled) {
-                Text(NSLocalizedString("SettingsView.launchAtLogin.label",
+                Text(NSLocalizedString("SettingsView.app.launchAtLogin.label",
                                        comment: "Launch at login label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }.toggleStyle(.switch)
