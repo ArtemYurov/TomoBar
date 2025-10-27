@@ -57,13 +57,15 @@ class TBNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
 
     func userNotificationCenter(_: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
-                                withCompletionHandler _: @escaping () -> Void)
+                                withCompletionHandler completionHandler: @escaping () -> Void)
     {
         if handler != nil {
             if let action = TBNotification.Action(rawValue: response.actionIdentifier) {
                 handler!(action)
             }
         }
+        // Call completion handler to inform the system that notification processing is complete
+        completionHandler()
     }
 
     func send(title: String, body: String, category: TBNotification.Category) {
