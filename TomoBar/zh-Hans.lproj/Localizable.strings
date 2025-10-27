@@ -66,4 +66,4 @@
 "TBTimer.completion.title" = "计时器已完成";
 "TBTimer.completion.body" = "会话已结束";
 "TBTimer.completion.close" = "关闭";
-"TBMask.skip.label" = "双击任意区域跳过，或单击一次恢复屏幕到正常状态";
+"TBMask.skip.label" = "双击任意区域跳过休息，或单击一次恢复屏幕到正常状态";
