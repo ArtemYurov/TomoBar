@@ -30,9 +30,11 @@ jobs:
         with:
           xcode-version: '16.4'
 
-      - name: Install create-dmg
+      - name: Install create-dmg and Sparkle
         if: github.ref_type == 'tag'
-        run: brew install create-dmg
+        run: |
+          brew install create-dmg
+          brew install sparkle
 
       - name: Build
         run: |
@@ -82,6 +84,30 @@ jobs:
             "TomoBar-${{env.version}}.dmg" \
             "TomoBar.app"
 
+      - name: Generate appcast
+        if: github.ref_type == 'tag'
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          # Create appcast directory
+          mkdir -p appcast_files
+
+          # Copy current ZIP to directory
+          cp "TomoBar-${{env.version}}.zip" appcast_files/
+
+          # Find generate_appcast path
+          GENERATE_APPCAST=$(find /opt/homebrew/Caskroom/sparkle -name "generate_appcast" -type f | head -n 1)
+          echo "Using generate_appcast at: $GENERATE_APPCAST"
+
+          # Generate appcast.xml with signature
+          echo "$SPARKLE_PRIVATE_KEY" | "$GENERATE_APPCAST" \
+            --ed-key-file - \
+            --download-url-prefix "https://github.com/ArtemYurov/TomoBar/releases/download/${{github.ref_name}}/" \
+            appcast_files
+
+          # Move generated appcast
+          mv appcast_files/appcast.xml .
+
       - name: Release
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v1
@@ -89,6 +115,7 @@ jobs:
           files: |
             TomoBar-${{env.version}}.zip
             TomoBar-${{env.version}}.dmg
+            appcast.xml
 
       - name: Delete old prerelease
         if: github.ref_type == 'branch'
