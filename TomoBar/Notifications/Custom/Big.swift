@@ -168,7 +168,7 @@ extension CustomNotifyHelper {
     ) {
         let window = BigNotificationWindow(contentViewController: hostingController)
         window.styleMask = [.borderless, .fullSizeContentView]
-        window.level = .screenSaver
+        window.level = .popUpMenu
         window.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
         window.backgroundColor = .clear
         window.isOpaque = false
