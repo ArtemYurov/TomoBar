@@ -30,8 +30,7 @@ class TBPlayer: ObservableObject {
                     DispatchQueue.main.async { [self] in
                         tickingSound.pause()
                     }
-                }
-                else if !tickingSound.isPlaying {
+                } else if !tickingSound.isPlaying {
                     DispatchQueue.main.async { [self] in
                         tickingSound.play()
                     }
@@ -73,7 +72,14 @@ class TBPlayer: ObservableObject {
     }
 
     init() {
-        let documentFolder = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        guard let documentFolder = try? FileManager.default.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true
+        ) else {
+            fatalError("Error getting document directory")
+        }
         soundFolder = documentFolder.appendingPathComponent("TomoBar")
 
         do {
