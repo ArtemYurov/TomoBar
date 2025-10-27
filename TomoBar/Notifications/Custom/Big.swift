@@ -3,7 +3,6 @@ import AppKit
 
 private enum Layout {
     static let windowWidth = BaseLayout.windowWidth
-    static let windowHeight: CGFloat = 190
     static let iconSize = BaseLayout.iconSize
     static let titleFontSize = BaseLayout.titleFontSize
     static let subtitleFontSize = BaseLayout.subtitleFontSize
@@ -23,6 +22,7 @@ struct BigNotificationView: View {
     let nextActionTitle: String
     let skipActionTitle: String
     let isSessionCompleted: Bool
+    let windowHeight: CGFloat
     let onAction: (UserChoiceAction) -> Void
 
     var body: some View {
@@ -95,7 +95,75 @@ struct BigNotificationView: View {
                 .background(Color.clear)
             }
         }
-        .frame(width: Layout.windowWidth, height: Layout.windowHeight)
+        .frame(width: Layout.windowWidth, height: windowHeight)
         .notificationBackground()
+    }
+}
+
+extension CustomNotifyHelper {
+    func showBig(style: NotificationStyle, isSessionCompleted: Bool) {
+        guard case .big(let content) = style else { return }
+
+        // Генерируем дополнительные локализованные строки для Big notification
+        let addMinuteTitle = NSLocalizedString(
+            "CustomNotification.control.addMinute",
+            comment: "Add 1 minute"
+        )
+        let addFiveMinutesTitle = NSLocalizedString(
+            "CustomNotification.control.addFiveMinutes",
+            comment: "Add 5 minutes"
+        )
+        let stopTitle = NSLocalizedString(
+            "CustomNotification.control.stop",
+            comment: "Stop"
+        )
+
+        // Динамическая высота окна
+        let windowWidth: CGFloat = Layout.windowWidth
+        let windowHeight: CGFloat = isSessionCompleted ? 146 : 190
+        let menuBarOffset: CGFloat = BaseLayout.menuBarOffset
+        let animationDuration: CGFloat = 0.6
+        let animationStartOffset: CGFloat = BaseLayout.animationStartOffset
+
+        let view = BigNotificationView(
+            title: content.title,
+            subtitle: content.subtitle,
+            addMinuteTitle: addMinuteTitle,
+            addFiveMinutesTitle: addFiveMinutesTitle,
+            stopTitle: stopTitle,
+            nextActionTitle: content.nextActionTitle,
+            skipActionTitle: content.skipActionTitle,
+            isSessionCompleted: isSessionCompleted,
+            windowHeight: windowHeight,
+            onAction: self.handleAction
+        )
+
+        let hostingController = NSHostingController(rootView: AnyView(view))
+        self.hostingController = hostingController
+
+        let window = BigNotificationWindow(contentViewController: hostingController)
+        window.styleMask = [.borderless, .fullSizeContentView]
+        window.level = .screenSaver
+        window.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
+        window.backgroundColor = .clear
+        window.isOpaque = false
+        window.hasShadow = true
+
+        let screenFrame = NSScreen.main?.visibleFrame ?? NSRect(x: 0, y: 0, width: 800, height: 600)
+        let xPos = (screenFrame.width - windowWidth) / 2
+        let yPos = screenFrame.maxY - windowHeight - menuBarOffset
+        let startY = screenFrame.maxY + animationStartOffset
+
+        window.setFrame(NSRect(x: xPos, y: startY, width: windowWidth, height: windowHeight), display: true)
+        window.orderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+
+        self.window = window
+
+        NSAnimationContext.runAnimationGroup({ context in
+            context.duration = animationDuration
+            context.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            window.animator().setFrame(NSRect(x: xPos, y: yPos, width: windowWidth, height: windowHeight), display: true)
+        })
     }
 }

@@ -74,3 +74,63 @@ struct SmallNotificationView: View {
         .notificationBackground()
     }
 }
+
+extension CustomNotifyHelper {
+    func showSmall(style: NotificationStyle, isSessionCompleted: Bool) {
+        guard case .small(let content) = style else { return }
+
+        let view = SmallNotificationView(
+            title: content.title,
+            subtitle: content.subtitle,
+            nextActionTitle: content.nextActionTitle,
+            skipActionTitle: content.skipActionTitle,
+            isSessionCompleted: isSessionCompleted,
+            onAction: self.handleAction
+        )
+
+        let hostingController = NSHostingController(rootView: AnyView(view))
+        self.hostingController = hostingController
+
+        let windowWidth: CGFloat = Layout.windowWidth
+        let windowHeight: CGFloat = Layout.windowHeight
+        let screenRightOffset: CGFloat = Layout.screenRightOffset
+        let screenTopOffset: CGFloat = Layout.screenTopOffset
+        let animationDuration: CGFloat = Layout.animationDuration
+        let animationStartOffset: CGFloat = Layout.animationStartOffset
+
+        let window = BigNotificationWindow(contentViewController: hostingController)
+        window.styleMask = [.borderless, .fullSizeContentView]
+        window.level = .screenSaver
+        window.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
+        window.backgroundColor = .clear
+        window.isOpaque = false
+        window.hasShadow = true
+
+        if let screen = NSScreen.main {
+            let screenFrame = screen.visibleFrame
+            let finalX = screenFrame.maxX - windowWidth - screenRightOffset
+            let yPosition = screenFrame.maxY - windowHeight - screenTopOffset
+            let startX = screenFrame.maxX + animationStartOffset
+
+            window.setFrame(
+                NSRect(x: startX, y: yPosition, width: windowWidth, height: windowHeight),
+                display: true
+            )
+
+            window.orderFront(nil)
+
+            NSAnimationContext.runAnimationGroup({ context in
+                context.duration = animationDuration
+                context.timingFunction = CAMediaTimingFunction(name: .easeOut)
+                window.animator().setFrame(
+                    NSRect(x: finalX, y: yPosition, width: windowWidth, height: windowHeight),
+                    display: true
+                )
+            })
+        } else {
+            window.orderFront(nil)
+        }
+
+        self.window = window
+    }
+}
