@@ -25,7 +25,7 @@
 "SettingsView.dropdownSystem.label" = "Σύστημα";
 "SettingsView.dropdownMono.label" = "PT Mono";
 "SettingsView.dropdownSFMono.label" = "SF Mono";
-"SettingsView.grayBackground.label" = "Γκρι φόντο χρονομέτρου";
+"SettingsView.grayBackground.label" = "Γκρι φόντο";
 "SettingsView.showFullScreenMask.label" = "Χρήση μάσκας πλήρους οθόνης";
 "SettingsView.showFullScreenMask.help" = "Κατά τη διάρκεια των διαλειμμάτων, χρησιμοποιήστε μια μάσκα πλήρους οθόνης αντί για ειδοποιήσεις";
 "SettingsView.toggleDoNotDisturb.label" = "Εναλλαγή λειτουργίας Μην ενοχλείτε";

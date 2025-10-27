@@ -25,7 +25,7 @@
 "SettingsView.dropdownSystem.label" = "System";
 "SettingsView.dropdownMono.label" = "PT Mono";
 "SettingsView.dropdownSFMono.label" = "SF Mono";
-"SettingsView.grayBackground.label" = "Timer gray background";
+"SettingsView.grayBackground.label" = "Gray background";
 "SettingsView.showFullScreenMask.label" = "Use full-screen mask";
 "SettingsView.showFullScreenMask.help" = "During breaks, use a full-screen mask instead of notifications";
 "SettingsView.toggleDoNotDisturb.label" = "Toggle Do Not Disturb";
