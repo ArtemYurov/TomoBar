@@ -74,3 +74,50 @@ struct SmallNotificationView: View {
         .notificationBackground()
     }
 }
+
+extension CustomNotifyHelper {
+    func showSmall(style: NotificationStyle, isSessionCompleted: Bool) {
+        guard case .small(let content) = style else { return }
+
+        let view = SmallNotificationView(
+            title: content.title,
+            subtitle: content.subtitle,
+            nextActionTitle: content.nextActionTitle,
+            skipActionTitle: content.skipActionTitle,
+            isSessionCompleted: isSessionCompleted,
+            onAction: handleAction
+        )
+
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: Layout.windowWidth, height: Layout.windowHeight),
+            styleMask: [.borderless],
+            backing: .buffered,
+            defer: false
+        )
+        window.level = .statusBar
+        window.isOpaque = false
+        window.backgroundColor = .clear
+        window.hasShadow = true
+
+        let hostingController = NSHostingController(rootView: AnyView(view))
+        window.contentViewController = hostingController
+
+        if let screen = NSScreen.main {
+            let screenFrame = screen.visibleFrame
+            let originX = screenFrame.maxX - Layout.windowWidth - Layout.screenRightOffset
+            let originY = screenFrame.maxY - Layout.windowHeight - Layout.screenTopOffset
+            window.setFrameOrigin(NSPoint(x: originX, y: originY))
+        }
+
+        self.window = window
+        self.hostingController = hostingController
+
+        window.alphaValue = 0
+        window.makeKeyAndOrderFront(nil)
+
+        NSAnimationContext.runAnimationGroup({ context in
+            context.duration = Layout.animationDuration
+            window.animator().alphaValue = 1
+        })
+    }
+}

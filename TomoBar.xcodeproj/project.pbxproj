@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41866048537C0B32516927A0 /* Big.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0650CBA06EAD3CA9018708D6 /* Big.swift */; };
 		6747514A2B0AF3150924CF96 /* SoundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD9E7231FCE6FB874D7A9BD /* SoundsView.swift */; };
+		763F9392E9F75F609C681E14 /* BaseLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFC70D513A84DBA5365D66B /* BaseLayout.swift */; };
 		84106AE8296E0D7020FA7430 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A330993DE806C801A86031 /* Components.swift */; };
 		8A21B78C27EE31A20009E5DB /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A21B78B27EE31A20009E5DB /* App.swift */; };
 		8A21B79027EE31A30009E5DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A21B78F27EE31A30009E5DB /* Assets.xcassets */; };
@@ -26,16 +28,20 @@
 		A757BAF798C04CC6FA53E1DD /* ShortcutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5507621A49B050B10DCCCC7D /* ShortcutsView.swift */; };
 		AF25F3D9D9B35164957CE7A1 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4770E64C7D24E1818FED7 /* View.swift */; };
 		BD13C3DE2EAE6F310022623C /* Notify.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD13C3DD2EAE6F310022623C /* Notify.swift */; };
-		BDA289B12EA8FB4D0089FF69 /* Small.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA289B02EA8FB4D0089FF69 /* Small.swift */; };
-		BDA289B22EA8FB4D0089FF69 /* Big.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA289AF2EA8FB4D0089FF69 /* Big.swift */; };
-		BDA289B42EA973210089FF69 /* UserChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA289B32EA973210089FF69 /* UserChoice.swift */; };
 		D05258232C76B6B7005093E3 /* DND.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05258222C76B6B7005093E3 /* DND.swift */; };
+		D11A2F32A03594642ED16FEA /* NotificationComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51543A78C6944F560C7CA005 /* NotificationComponents.swift */; };
+		E6EE380A7510B028577A56D2 /* Small.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DF2400FC73D912CD4D3D4 /* Small.swift */; };
+		F86C72692C46404A1D4A7933 /* Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC8EAFBA04788F15B696AF /* Custom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0650CBA06EAD3CA9018708D6 /* Big.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Big.swift; sourceTree = "<group>"; };
+		0CAC8EAFBA04788F15B696AF /* Custom.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Custom.swift; sourceTree = "<group>"; };
 		489CFFB02DBBE0B70052D63E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		51543A78C6944F560C7CA005 /* NotificationComponents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationComponents.swift; sourceTree = "<group>"; };
 		5507621A49B050B10DCCCC7D /* ShortcutsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShortcutsView.swift; sourceTree = "<group>"; };
 		57A330993DE806C801A86031 /* Components.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		5B4DF2400FC73D912CD4D3D4 /* Small.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Small.swift; sourceTree = "<group>"; };
 		72EF953E117A47BB4284982E /* IntervalsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = IntervalsView.swift; sourceTree = "<group>"; };
 		7BD9E7231FCE6FB874D7A9BD /* SoundsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SoundsView.swift; sourceTree = "<group>"; };
 		8A21B78827EE31A20009E5DB /* TomoBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TomoBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,11 +54,9 @@
 		8AA54346293094AB002A47FC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8AA5B3F12812A74600BE1A6C /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		8AEE49AE2AA75A5E00243D2F /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		9DFC70D513A84DBA5365D66B /* BaseLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BaseLayout.swift; sourceTree = "<group>"; };
 		9EB9405B2B07605900198AD2 /* Mask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mask.swift; sourceTree = "<group>"; };
 		BD13C3DD2EAE6F310022623C /* Notify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notify.swift; sourceTree = "<group>"; };
-		BDA289AF2EA8FB4D0089FF69 /* Big.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Big.swift; sourceTree = "<group>"; };
-		BDA289B02EA8FB4D0089FF69 /* Small.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Small.swift; sourceTree = "<group>"; };
-		BDA289B32EA973210089FF69 /* UserChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserChoice.swift; sourceTree = "<group>"; };
 		C4C8DE0E2930DBB4003B1110 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		CCBF4F6785F7F6D7B70DAE7D /* SettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		CDC4770E64C7D24E1818FED7 /* View.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -103,6 +107,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		88B89C3AD8E237A507BC3532 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				9DFC70D513A84DBA5365D66B /* BaseLayout.swift */,
+				51543A78C6944F560C7CA005 /* NotificationComponents.swift */,
+				5B4DF2400FC73D912CD4D3D4 /* Small.swift */,
+				0650CBA06EAD3CA9018708D6 /* Big.swift */,
+			);
+			name = Custom;
+			path = Custom;
+			sourceTree = "<group>";
+		};
 		8A21B77F27EE31A20009E5DB = {
 			isa = PBXGroup;
 			children = (
@@ -152,11 +168,10 @@
 		BDA289B52EA9732A0089FF69 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
-				BDA289B32EA973210089FF69 /* UserChoice.swift */,
-				BDA289AF2EA8FB4D0089FF69 /* Big.swift */,
 				9EB9405B2B07605900198AD2 /* Mask.swift */,
-				BDA289B02EA8FB4D0089FF69 /* Small.swift */,
 				8AA5B3F12812A74600BE1A6C /* System.swift */,
+				88B89C3AD8E237A507BC3532 /* Custom */,
+				0CAC8EAFBA04788F15B696AF /* Custom.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -310,10 +325,7 @@
 				8A9F701F27EE536D0012A1EC /* Player.swift in Sources */,
 				8AEE49AF2AA75A5E00243D2F /* Log.swift in Sources */,
 				D05258232C76B6B7005093E3 /* DND.swift in Sources */,
-				BDA289B12EA8FB4D0089FF69 /* Small.swift in Sources */,
-				BDA289B22EA8FB4D0089FF69 /* Big.swift in Sources */,
 				BD13C3DE2EAE6F310022623C /* Notify.swift in Sources */,
-				BDA289B42EA973210089FF69 /* UserChoice.swift in Sources */,
 				8A9F701927EE3DAF0012A1EC /* Timer.swift in Sources */,
 				8A21B78C27EE31A20009E5DB /* App.swift in Sources */,
 				8AA5B3F22812A74600BE1A6C /* System.swift in Sources */,
@@ -324,6 +336,11 @@
 				959D825EE68CC1DB50581EA2 /* SettingsView.swift in Sources */,
 				A757BAF798C04CC6FA53E1DD /* ShortcutsView.swift in Sources */,
 				6747514A2B0AF3150924CF96 /* SoundsView.swift in Sources */,
+				763F9392E9F75F609C681E14 /* BaseLayout.swift in Sources */,
+				D11A2F32A03594642ED16FEA /* NotificationComponents.swift in Sources */,
+				E6EE380A7510B028577A56D2 /* Small.swift in Sources */,
+				41866048537C0B32516927A0 /* Big.swift in Sources */,
+				F86C72692C46404A1D4A7933 /* Custom.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

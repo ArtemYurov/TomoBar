@@ -18,12 +18,12 @@ class TBNotify: ObservableObject {
     @AppStorage("maskMode") var maskMode = MaskMode.normal
 
     let system: SystemNotifyHelper
-    let choice: UserChoiceHelper
+    let choice: CustomNotifyHelper
     let mask: MaskHelper
 
     init(skipHandler: @escaping () -> Void, userChoiceHandler: @escaping (UserChoiceAction) -> Void) {
         self.system = SystemNotifyHelper(skipHandler: skipHandler)
-        self.choice = UserChoiceHelper(userChoiceHandler: userChoiceHandler)
+        self.choice = CustomNotifyHelper(userChoiceHandler: userChoiceHandler)
         self.mask = MaskHelper(skipHandler: skipHandler)
     }
 
