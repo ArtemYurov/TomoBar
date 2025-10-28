@@ -11,7 +11,7 @@ align="right"
 *Pomodoro timer for macOS menu bar*
 <br clear="left"/>
 
-## Overview
+### Overview
 Have you ever heard of Pomodoro? It’s a great technique to help you keep track of time and stay on task during your studies or work. Read more about it on <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique">Wikipedia</a>.
 
 TomoBar is world's neatest Pomodoro timer for the macOS menu bar. All the essential features are here - configurable
@@ -19,13 +19,13 @@ work and rest intervals, optional sounds, discreet actionable notifications, glo
 
 TomoBar is fully sandboxed with no entitlements (except for the Apple Events entitlement, used to run the Do Not Disturb toggle shortcut).
 
-## Requirements
+### Requirements
 Minimum macOS version requirement to Monterey 12
 
-## Integration with other tools
-### Event log
+### Integration with other tools
+#### Event log
 TomoBar logs state transitions in JSON format to `~/Library/Containers/com.github.ArtemYurov.TomoBar/Data/Library/Caches/TomoBar.log`. Use this data to analyze your productivity and enrich other data sources.
-### Controlling the timer
+#### Controlling the timer
 TomoBar can be controlled using `tomobar://` URLs. 
 - use `open tomobar://startStop` to start or stop the timer from the command line 
 - use `open tomobar://pauseResume` to pause or resume 
@@ -33,10 +33,10 @@ TomoBar can be controlled using `tomobar://` URLs.
 - use `open tomobar://addMinute` to add a minute
 - use `open tomobar://addFiveMinutes` to add a 5 minutes
 
-## Older versions
+### Older versions
 Touch bar integration and older macOS versions (earlier than Big Sur) are supported by TomatoBar versions prior to 3.0
 
-## Licenses
+### Licenses
  - Based of TomatoBar fork https://github.com/AuroraWright/TomatoBar
  - Originally TomatoBar https://github.com/ivoronin/TomatoBar/
  - Timer sounds are licensed from buddhabeats
