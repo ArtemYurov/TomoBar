@@ -6,12 +6,8 @@ extension TBTimer {
         if startWith == .work {
             return TimeInterval(currentPresetInstance.workIntervalLength * 60)
         } else {
-            // Determine if it's a long rest or short rest
-            if nextIntervalIsLongRest() {
-                return TimeInterval(currentPresetInstance.longRestIntervalLength * 60)
-            } else {
-                return TimeInterval(currentPresetInstance.shortRestIntervalLength * 60)
-            }
+            // Always start with short rest when "Start with: rest" is selected
+            return TimeInterval(currentPresetInstance.shortRestIntervalLength * 60)
         }
     }
 
