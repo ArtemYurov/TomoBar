@@ -37,6 +37,9 @@ struct IntervalsView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 StartStopDropdown(value: $timer.currentPresetInstance.startWith)
             }
+            .onChange(of: timer.currentPresetInstance.startWith) { _ in
+                timer.updateDisplay()
+            }
             Stepper(value: $timer.currentPresetInstance.workIntervalLength, in: 1 ... 120) {
                 HStack {
                     Text(NSLocalizedString("IntervalsView.workIntervalLength.label",
