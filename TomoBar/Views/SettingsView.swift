@@ -76,11 +76,17 @@ struct SettingsView: View {
                     }
                 }
             case .fullScreen:
+                Toggle(isOn: $timer.maskAutoResumeWork) {
+                    Text(NSLocalizedString("SettingsView.alert.autoResumeWork.label",
+                                           comment: "Resume work automatically label"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .toggleStyle(.switch)
                 HStack {
                     Text(NSLocalizedString("SettingsView.alert.maskMode.label",
                                            comment: "Mask mode label"))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    StartStopDropdown(value: $timer.notify.maskMode)
+                    StartStopDropdown(value: $timer.maskMode)
                 }
             case .disabled:
                 EmptyView()

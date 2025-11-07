@@ -15,7 +15,6 @@ enum MaskMode: String, CaseIterable, DropdownDescribable {
 class TBNotify: ObservableObject {
     @AppStorage("alertMode") var alertMode = AlertMode.notify
     @AppStorage("notifyStyle") var notifyStyle = NotifyStyle.system
-    @AppStorage("maskMode") var maskMode = MaskMode.normal
 
     let system: SystemNotifyHelper
     let custom: CustomNotifyHelper
@@ -24,23 +23,34 @@ class TBNotify: ObservableObject {
     init(skipHandler: @escaping () -> Void, userChoiceHandler: @escaping (UserChoiceAction) -> Void) {
         self.system = SystemNotifyHelper(skipHandler: skipHandler)
         self.custom = CustomNotifyHelper(userChoiceHandler: userChoiceHandler)
-        self.mask = MaskHelper(skipHandler: skipHandler)
+        self.mask = MaskHelper(skipHandler: skipHandler, userChoiceHandler: userChoiceHandler)
     }
 
-    var shouldAutoTransition: Bool {
+    func shouldAutoTransition(from state: TBStateMachineStates) -> Bool {
         switch alertMode {
         case .disabled:
             return true
         case .notify:
             return notifyStyle == .system
         case .fullScreen:
-            return true
+            // Always auto-transition from Work to Rest, from Rest depends on setting
+            return state == .work ? true : mask.maskAutoResumeWork
         }
     }
 
     func showUserChoice(for state: TBStateMachineStates, nextIsLongRest: Bool) {
-        // Called only when shouldAutoTransition == false (small/big)
-        custom.showIntervalComplete(state: state, nextIsLongRest: nextIsLongRest, notifyStyle: notifyStyle)
+        // Called only when shouldAutoTransition == false
+        switch alertMode {
+        case .notify:
+            // small/big windows
+            custom.showIntervalComplete(state: state, nextIsLongRest: nextIsLongRest, notifyStyle: notifyStyle)
+
+        case .fullScreen:
+            mask.showRestFinished(state: state)
+
+        case .disabled:
+            return
+        }
     }
 
     func showRestStarted(isLong: Bool) {
@@ -50,7 +60,7 @@ class TBNotify: ObservableObject {
             system.restStarted(isLong: isLong)
 
         case .fullScreen:
-            mask.show(isLong: isLong, blockActions: (maskMode == .blockActions))
+            mask.show(isLong: isLong, blockActions: (mask.maskMode == .blockActions))
 
         default:
             return

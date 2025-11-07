@@ -70,27 +70,32 @@ extension TBTimer {
     private func setupIntervalCompletedTransitions() {
         // intervalCompleted transitions (auto-transition only if shouldAutoTransition)
         stateMachine.addRoutes(event: .intervalCompleted, transitions: [.work => .shortRest]) { [self] _ in
-            nextIntervalIsShortRest() && notify.shouldAutoTransition
+            nextIntervalIsShortRest() && notify.shouldAutoTransition(from: .work)
         }
 
         stateMachine.addRoutes(event: .intervalCompleted, transitions: [.work => .longRest]) { [self] _ in
-            nextIntervalIsLongRest() && notify.shouldAutoTransition
+            nextIntervalIsLongRest() && notify.shouldAutoTransition(from: .work)
         }
 
         stateMachine.addRoutes(event: .intervalCompleted, transitions: [
             .shortRest => .work,
             .longRest => .work
         ]) { [self] _ in
-            notify.shouldAutoTransition
+            notify.shouldAutoTransition(from: .shortRest)
         }
 
         // Pause routes when user choice is required
         stateMachine.addRoutes(event: .intervalCompleted, transitions: [
-            .work => .work,
+            .work => .work
+        ]) { [self] _ in
+            !notify.shouldAutoTransition(from: .work)
+        }
+
+        stateMachine.addRoutes(event: .intervalCompleted, transitions: [
             .shortRest => .shortRest,
             .longRest => .longRest
         ]) { [self] _ in
-            !notify.shouldAutoTransition
+            !notify.shouldAutoTransition(from: .shortRest)
         }
     }
 
@@ -299,7 +304,12 @@ extension TBTimer {
 
     private func onRestStart(context ctx: TBStateMachine.Context) {
         let isAutoTransition = ctx.event == .intervalCompleted
-        if isAutoTransition {
+        // Show mask when skipping work in fullScreen mode
+        let shouldShowMask = notify.alertMode == .fullScreen &&
+                            ctx.event == .skipEvent &&
+                            ctx.fromState == .work
+
+        if isAutoTransition || shouldShowMask {
             notify.showRestStarted(isLong: isLongRest)
         }
         setStateIcon()

@@ -56,55 +56,6 @@ class TBTimer: ObservableObject {
     public var dnd = TBDoNotDisturb()
     public var currentWorkInterval: Int = 0
 
-    var alertMode: AlertMode {
-        get { notify.alertMode }
-        set {
-            notify.alertMode = newValue
-            objectWillChange.send()
-        }
-    }
-
-    var notifyStyle: NotifyStyle {
-        get { notify.notifyStyle }
-        set {
-            notify.notifyStyle = newValue
-            objectWillChange.send()
-        }
-    }
-
-    var customBackgroundOpacity: Int {
-        get { notify.custom.customBackgroundOpacity }
-        set {
-            notify.custom.customBackgroundOpacity = newValue
-            objectWillChange.send()
-        }
-    }
-
-    public var currentPresetInstance: TimerPreset {
-        get {
-            return presets[currentPreset]
-        }
-        set(newValue) {
-            presets[currentPreset] = newValue
-        }
-    }
-
-    var startWith: StartWithValues {
-        get { currentPresetInstance.startWith }
-        set {
-            currentPresetInstance.startWith = newValue
-            objectWillChange.send()
-        }
-    }
-
-    var sessionStopAfter: SessionStopAfter {
-        get { currentPresetInstance.sessionStopAfter }
-        set {
-            currentPresetInstance.sessionStopAfter = newValue
-            objectWillChange.send()
-        }
-    }
-
     var finishTime: Date!
     var timerFormatter = DateComponentsFormatter()
     var pausedTimeRemaining: TimeInterval = 0
