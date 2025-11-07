@@ -53,6 +53,7 @@
 "SettingsView.alert.maskMode.label" = "遮罩模式";
 "SettingsView.alert.maskMode.normal.label" = "正常";
 "SettingsView.alert.maskMode.blockActions.label" = "阻止操作";
+"SettingsView.alert.autoResumeWork.label" = "自动恢复工作";
 
 "SettingsView.app.toggleDoNotDisturb.label" = "切换请勿打扰";
 "SettingsView.app.toggleDoNotDisturb.help" = "在工作/休息切换时运行快捷方式以启用/禁用请勿打扰";
@@ -93,6 +94,9 @@
 "CustomNotification.control.restart.big" = "Restart Session";
 "CustomNotification.control.close" = "关闭";
 
-"MaskNotification.shortBreak.body" = "小憩时间到!";
-"MaskNotification.longBreak.body" = "长休息时间到!";
-"MaskNotification.instruction" = "双击任意区域跳过休息，或单击一次恢复屏幕到正常状态";
+"MaskNotification.restStarted.shortBreak.title" = "小憩时间到!";
+"MaskNotification.restStarted.longBreak.title" = "长休息时间到!";
+"MaskNotification.restStarted.instruction" = "双击跳过休息，单击隐藏遮罩";
+"MaskNotification.restFinished.shortBreak.title" = "短休息结束";
+"MaskNotification.restFinished.longBreak.title" = "长休息结束";
+"MaskNotification.restFinished.instruction" = "单击开始工作，双击跳过工作";

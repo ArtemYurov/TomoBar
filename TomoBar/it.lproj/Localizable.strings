@@ -53,6 +53,7 @@
 "SettingsView.alert.maskMode.label" = "Modalità maschera";
 "SettingsView.alert.maskMode.normal.label" = "Normale";
 "SettingsView.alert.maskMode.blockActions.label" = "Blocca azioni";
+"SettingsView.alert.autoResumeWork.label" = "Riprendi il lavoro automaticamente";
 
 "SettingsView.app.toggleDoNotDisturb.label" = "Gestisci Non disturbare";
 "SettingsView.app.toggleDoNotDisturb.help" = "Esegue un comando rapido per abilitare/disabilitare Non disturbare tra le fasi di lavoro e pausa";
@@ -93,6 +94,9 @@
 "CustomNotification.control.restart.big" = "Restart Session";
 "CustomNotification.control.close" = "Chiudi";
 
-"MaskNotification.shortBreak.body" = "È il momento di una pausa breve!";
-"MaskNotification.longBreak.body" = "È il momento di una pausa lunga!";
-"MaskNotification.instruction" = "Fai doppio click da qualche parte per saltare la pausa, clicca una volta per ripristinare il display";
+"MaskNotification.restStarted.shortBreak.title" = "È il momento di una pausa breve!";
+"MaskNotification.restStarted.longBreak.title" = "È il momento di una pausa lunga!";
+"MaskNotification.restStarted.instruction" = "Doppio clic per saltare la pausa, un clic per nascondere";
+"MaskNotification.restFinished.shortBreak.title" = "La pausa breve è finita";
+"MaskNotification.restFinished.longBreak.title" = "La pausa lunga è finita";
+"MaskNotification.restFinished.instruction" = "Clic per iniziare il lavoro, doppio clic per saltare il lavoro";

@@ -53,6 +53,7 @@
 "SettingsView.alert.maskMode.label" = "Maskenmodus";
 "SettingsView.alert.maskMode.normal.label" = "Normal";
 "SettingsView.alert.maskMode.blockActions.label" = "Aktionen blockieren";
+"SettingsView.alert.autoResumeWork.label" = "Arbeit automatisch fortsetzen";
 
 "SettingsView.app.toggleDoNotDisturb.label" = "Nicht stören umschalten";
 "SettingsView.app.toggleDoNotDisturb.help" = "Führt einen Kurzbefehl aus, um Nicht stören bei Arbeits-/Pausenübergängen zu aktivieren/deaktivieren";
@@ -93,6 +94,9 @@
 "CustomNotification.control.restart.big" = "Restart Session";
 "CustomNotification.control.close" = "Schließen";
 
-"MaskNotification.shortBreak.body" = "Zeit für eine kurze Pause!";
-"MaskNotification.longBreak.body" = "Zeit für eine lange Pause!";
-"MaskNotification.instruction" = "Doppelklicken Sie auf eine beliebige Fläche, um die Pause zu überspringen, oder klicken Sie einmal, um den Bildschirm wiederherzustellen";
+"MaskNotification.restStarted.shortBreak.title" = "Zeit für eine kurze Pause!";
+"MaskNotification.restStarted.longBreak.title" = "Zeit für eine lange Pause!";
+"MaskNotification.restStarted.instruction" = "Doppelklick zum Überspringen der Pause, einfacher Klick zum Ausblenden der Maske";
+"MaskNotification.restFinished.shortBreak.title" = "Kurze Pause ist vorbei";
+"MaskNotification.restFinished.longBreak.title" = "Lange Pause ist vorbei";
+"MaskNotification.restFinished.instruction" = "Klicken um Arbeit zu starten, Doppelklick zum Überspringen der Arbeit";

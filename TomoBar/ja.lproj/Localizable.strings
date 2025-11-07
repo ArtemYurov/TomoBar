@@ -53,6 +53,7 @@
 "SettingsView.alert.maskMode.label" = "マスクモード";
 "SettingsView.alert.maskMode.normal.label" = "ノーマル";
 "SettingsView.alert.maskMode.blockActions.label" = "アクションをブロック";
+"SettingsView.alert.autoResumeWork.label" = "作業を自動的に再開";
 
 "SettingsView.app.toggleDoNotDisturb.label" = "おやすみモードの自動切り替え";
 "SettingsView.app.toggleDoNotDisturb.help" = "作業/休憩の切り替え時におやすみモードを有効化/無効化します";
@@ -93,6 +94,9 @@
 "CustomNotification.control.restart.big" = "Restart Session";
 "CustomNotification.control.close" = "閉じる";
 
-"MaskNotification.shortBreak.body" = "短い休憩を取りましょう！";
-"MaskNotification.longBreak.body" = "長い休憩を取りましょう！";
-"MaskNotification.instruction" = "画面をダブルクリックすると休憩をスキップし、1回クリックすると画面が元に戻ります。";
+"MaskNotification.restStarted.shortBreak.title" = "短い休憩を取りましょう！";
+"MaskNotification.restStarted.longBreak.title" = "長い休憩を取りましょう！";
+"MaskNotification.restStarted.instruction" = "ダブルクリックで休憩をスキップ、1回クリックでマスクを非表示";
+"MaskNotification.restFinished.shortBreak.title" = "短い休憩が終わりました";
+"MaskNotification.restFinished.longBreak.title" = "長い休憩が終わりました";
+"MaskNotification.restFinished.instruction" = "クリックで作業を開始、ダブルクリックで作業をスキップ";

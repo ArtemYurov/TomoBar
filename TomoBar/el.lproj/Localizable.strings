@@ -53,6 +53,7 @@
 "SettingsView.alert.maskMode.label" = "Λειτουργία μάσκας";
 "SettingsView.alert.maskMode.normal.label" = "Κανονικό";
 "SettingsView.alert.maskMode.blockActions.label" = "Αποκλεισμός ενεργειών";
+"SettingsView.alert.autoResumeWork.label" = "Αυτόματη συνέχιση εργασίας";
 
 "SettingsView.app.toggleDoNotDisturb.label" = "Εναλλαγή λειτουργίας Μην ενοχλείτε";
 "SettingsView.app.toggleDoNotDisturb.help" = "Εκτελεί μια συντόμευση για ενεργοποίηση/απενεργοποίηση της λειτουργίας Μην ενοχλείτε στις μεταβάσεις εργασίας/διαλειμμάτων";
@@ -93,6 +94,9 @@
 "CustomNotification.control.restart.big" = "Restart Session";
 "CustomNotification.control.close" = "Κλείσιμο";
 
-"MaskNotification.shortBreak.body" = "Ήρθε η ώρα για ένα μικρό διάλειμμα!";
-"MaskNotification.longBreak.body" = "Ήρθε η ώρα για ένα μεγάλο διάλειμμα!";
-"MaskNotification.instruction" = "Κάντε διπλό κλικ σε οποιοδήποτε σημείο για παράλειψη διαλείμματος, κάντε κλικ μια φορά για να κρύψετε αυτήν τη μάσκα πλήρης οθόνης";
+"MaskNotification.restStarted.shortBreak.title" = "Ήρθε η ώρα για ένα μικρό διάλειμμα!";
+"MaskNotification.restStarted.longBreak.title" = "Ήρθε η ώρα για ένα μεγάλο διάλειμμα!";
+"MaskNotification.restStarted.instruction" = "Διπλό κλικ για παράλειψη διαλείμματος, ένα κλικ για απόκρυψη μάσκας";
+"MaskNotification.restFinished.shortBreak.title" = "Το μικρό διάλειμμα τελείωσε";
+"MaskNotification.restFinished.longBreak.title" = "Το μεγάλο διάλειμμα τελείωσε";
+"MaskNotification.restFinished.instruction" = "Κλικ για έναρξη εργασίας, διπλό κλικ για παράλειψη εργασίας";
