@@ -29,5 +29,7 @@
 	<integer>216000</integer>
 	<key>SUPublicEDKey</key>
 	<string>vIe2JDEyuBZHzM+mjSwQYSODEZX/8fYghjMvVk/tgMY=</string>
+	<key>SUEnableInstallerLauncherService</key>
+	<true/>
 </dict>
 </plist>
