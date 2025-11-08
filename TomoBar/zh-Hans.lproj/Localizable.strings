@@ -22,6 +22,10 @@
 "IntervalsView.workIntervalsInSet.help" = "每组在长时间休息后的工作次数";
 "IntervalsView.startWith.label" = "开始于";
 "IntervalsView.stopAfter.label" = "在...后停止";
+"IntervalsView.dnd.label" = "请勿打扰";
+"IntervalsView.dnd.off" = "关闭";
+"IntervalsView.dnd.onWork" = "工作时";
+"IntervalsView.dnd.help" = "在工作/休息切换时运行快捷方式以启用/禁用请勿打扰";
 "IntervalsView.presets.label" = "预设";
 "IntervalsView.off.label" = "关闭";
 "IntervalsView.work.label" = "工作";
@@ -55,8 +59,6 @@
 "SettingsView.alert.maskMode.blockActions.label" = "阻止操作";
 "SettingsView.alert.autoResumeWork.label" = "自动恢复工作";
 
-"SettingsView.app.toggleDoNotDisturb.label" = "切换请勿打扰";
-"SettingsView.app.toggleDoNotDisturb.help" = "在工作/休息切换时运行快捷方式以启用/禁用请勿打扰";
 "SettingsView.app.startTimerOnLaunch.label" = "启动时启动计时器";
 "SettingsView.app.launchAtLogin.label" = "登录时启动";
 

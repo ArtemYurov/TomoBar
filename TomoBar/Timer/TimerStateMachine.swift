@@ -289,7 +289,7 @@ extension TBTimer {
         player.playWindup()
         player.startTicking()
         startStateTimer()
-        if dnd.toggleDoNotDisturb {
+        if currentPresetInstance.focusOnWork {
             dnd.set(focus: true) { [self] success in
                 if !success {
                     self.stateMachine <-! .startStop

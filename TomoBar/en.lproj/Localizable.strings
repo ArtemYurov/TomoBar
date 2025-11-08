@@ -23,6 +23,10 @@
 "IntervalsView.workIntervalsInSet.help" = "Number of work intervals before taking a longer break";
 "IntervalsView.startWith.label" = "Start with";
 "IntervalsView.stopAfter.label" = "Stop after";
+"IntervalsView.dnd.label" = "DND";
+"IntervalsView.dnd.off" = "Off";
+"IntervalsView.dnd.onWork" = "On work";
+"IntervalsView.dnd.help" = "Runs a shortcut to enable/disable Do Not Disturb on work/rest transitions";
 "IntervalsView.presets.label" = "Presets";
 "IntervalsView.off.label" = "Off";
 "IntervalsView.work.label" = "Work";
@@ -56,8 +60,6 @@
 "SettingsView.alert.maskMode.blockActions.label" = "Block actions";
 "SettingsView.alert.autoResumeWork.label" = "Resume work automatically";
 
-"SettingsView.app.toggleDoNotDisturb.label" = "Toggle Do Not Disturb";
-"SettingsView.app.toggleDoNotDisturb.help" = "Runs a shortcut to enable/disable Do Not Disturb on work/rest transitions";
 "SettingsView.app.startTimerOnLaunch.label" = "Start timer on launch";
 "SettingsView.app.launchAtLogin.label" = "Launch at login";
 

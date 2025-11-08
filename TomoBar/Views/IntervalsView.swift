@@ -4,6 +4,26 @@ struct IntervalsView: View {
     @EnvironmentObject var timer: TBTimer
     private var minStr = NSLocalizedString("IntervalsView.min", comment: "min")
 
+    enum DNDMode: String, CaseIterable, Identifiable {
+        case off
+        case onWork
+
+        var id: String { rawValue }
+    }
+
+    // Temporary computed property for mapping bool to/from enum (preserves functionality)
+    private var dndMode: Binding<DNDMode> {
+        Binding(
+            get: {
+                timer.currentPresetInstance.focusOnWork ? .onWork : .off
+            },
+            set: { newValue in
+                // For now, only .onWork sets true, everything else is false
+                timer.currentPresetInstance.focusOnWork = (newValue == .onWork)
+            }
+        )
+    }
+
     enum IntervalField: Hashable {
         case work
         case shortRest
@@ -27,6 +47,14 @@ struct IntervalsView: View {
         }
     }
 
+    private func updateDNDIfNeeded() {
+        // Update DND status if timer is running in Work mode
+        if timer.isWorking, !timer.paused {
+            let shouldFocus = timer.currentPresetInstance.focusOnWork
+            timer.dnd.set(focus: shouldFocus)
+        }
+    }
+
     @FocusState private var focusedField: IntervalField?
 
     var body: some View {
@@ -39,6 +67,24 @@ struct IntervalsView: View {
             }
             .onChange(of: timer.currentPresetInstance.startWith) { _ in
                 timer.updateDisplay()
+            }
+            HStack {
+                Text(NSLocalizedString("IntervalsView.dnd.label",
+                                       comment: "DND"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Picker("", selection: dndMode) {
+                    Text(NSLocalizedString("IntervalsView.dnd.off", comment: "Off"))
+                        .tag(DNDMode.off)
+                    Text(NSLocalizedString("IntervalsView.dnd.onWork", comment: "On work"))
+                        .tag(DNDMode.onWork)
+                }
+                .labelsHidden()
+                .pickerStyle(.segmented)
+                .help(NSLocalizedString("IntervalsView.dnd.help",
+                                        comment: "Toggle Do Not Disturb hint"))
+            }
+            .onChange(of: timer.currentPresetInstance.focusOnWork) { _ in
+                updateDNDIfNeeded()
             }
             Stepper(value: $timer.currentPresetInstance.workIntervalLength, in: 1 ... 120) {
                 HStack {
@@ -166,6 +212,7 @@ struct IntervalsView: View {
             }
             .onChange(of: timer.currentPreset) { _ in
                 timer.updateDisplay()
+                updateDNDIfNeeded()
             }
             Spacer().frame(minHeight: 0)
         }

@@ -22,6 +22,10 @@
 "IntervalsView.workIntervalsInSet.help" = "Αριθμός διαστημάτων εργασίας πριν πάρετε ένα μεγαλύτερο διάλειμμα";
 "IntervalsView.startWith.label" = "Έναρξη με";
 "IntervalsView.stopAfter.label" = "Παύση μετά από";
+"IntervalsView.dnd.label" = "Μην ενοχλείτε";
+"IntervalsView.dnd.off" = "Απενεργοποιημένο";
+"IntervalsView.dnd.onWork" = "Κατά την εργασία";
+"IntervalsView.dnd.help" = "Εκτελεί μια συντόμευση για ενεργοποίηση/απενεργοποίηση της λειτουργίας Μην ενοχλείτε στις μεταβάσεις εργασίας/διαλειμμάτων";
 "IntervalsView.presets.label" = "Προεπιλογές";
 "IntervalsView.off.label" = "Off";
 "IntervalsView.work.label" = "Δουλεία";
@@ -55,8 +59,6 @@
 "SettingsView.alert.maskMode.blockActions.label" = "Αποκλεισμός ενεργειών";
 "SettingsView.alert.autoResumeWork.label" = "Αυτόματη συνέχιση εργασίας";
 
-"SettingsView.app.toggleDoNotDisturb.label" = "Εναλλαγή λειτουργίας Μην ενοχλείτε";
-"SettingsView.app.toggleDoNotDisturb.help" = "Εκτελεί μια συντόμευση για ενεργοποίηση/απενεργοποίηση της λειτουργίας Μην ενοχλείτε στις μεταβάσεις εργασίας/διαλειμμάτων";
 "SettingsView.app.startTimerOnLaunch.label" = "Έναρξη χρονομέτρου κατά την εκκίνηση";
 "SettingsView.app.launchAtLogin.label" = "Εκκίνηση εφαρμογής κατά την εκκίνηση";
 

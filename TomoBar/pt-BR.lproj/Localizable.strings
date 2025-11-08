@@ -22,6 +22,10 @@
 "IntervalsView.workIntervalsInSet.help" = "Número de intervalos de trabalho antes de uma pausa longa";
 "IntervalsView.startWith.label" = "Começar com";
 "IntervalsView.stopAfter.label" = "Parar após";
+"IntervalsView.dnd.label" = "Não Perturbe";
+"IntervalsView.dnd.off" = "Desligado";
+"IntervalsView.dnd.onWork" = "No trabalho";
+"IntervalsView.dnd.help" = "Executa um atalho para ativar/desativar o modo Não Perturbe nas transições de trabalho/pausa";
 "IntervalsView.presets.label" = "Predefinições";
 "IntervalsView.off.label" = "Nunca";
 "IntervalsView.work.label" = "Trabalho";
@@ -55,8 +59,6 @@
 "SettingsView.alert.maskMode.blockActions.label" = "Bloquear ações";
 "SettingsView.alert.autoResumeWork.label" = "Retomar trabalho automaticamente";
 
-"SettingsView.app.toggleDoNotDisturb.label" = "Alternar Não Perturbe";
-"SettingsView.app.toggleDoNotDisturb.help" = "Executa um atalho para ativar/desativar o modo Não Perturbe nas transições de trabalho/pausa";
 "SettingsView.app.startTimerOnLaunch.label" = "Iniciar cronômetro ao abrir";
 "SettingsView.app.launchAtLogin.label" = "Iniciar ao fazer login";
 

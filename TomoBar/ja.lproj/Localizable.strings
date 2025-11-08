@@ -22,6 +22,10 @@
 "IntervalsView.workIntervalsInSet.help" = "1セット終了後に長い休憩を取ります";
 "IntervalsView.startWith.label" = "◯◯で開始";
 "IntervalsView.stopAfter.label" = "◯◯で停止";
+"IntervalsView.dnd.label" = "おやすみモード";
+"IntervalsView.dnd.off" = "オフ";
+"IntervalsView.dnd.onWork" = "作業中";
+"IntervalsView.dnd.help" = "作業/休憩の切り替え時におやすみモードを有効化/無効化します";
 "IntervalsView.presets.label" = "作業パターン";
 "IntervalsView.off.label" = "オフ";
 "IntervalsView.work.label" = "作業";
@@ -55,8 +59,6 @@
 "SettingsView.alert.maskMode.blockActions.label" = "アクションをブロック";
 "SettingsView.alert.autoResumeWork.label" = "作業を自動的に再開";
 
-"SettingsView.app.toggleDoNotDisturb.label" = "おやすみモードの自動切り替え";
-"SettingsView.app.toggleDoNotDisturb.help" = "作業/休憩の切り替え時におやすみモードを有効化/無効化します";
 "SettingsView.app.startTimerOnLaunch.label" = "アプリを開く時にタイマーを開始";
 "SettingsView.app.launchAtLogin.label" = "ログイン時に自動的に開く";
 

@@ -25,6 +25,7 @@ struct TimerPreset: Codable {
     var workIntervalsInSet = 4
     var startWith: StartWithValues = .work
     var sessionStopAfter: SessionStopAfter = .disabled
+    var focusOnWork: Bool = false
 }
 
 class TBTimer: ObservableObject {
@@ -100,11 +101,6 @@ class TBTimer: ObservableObject {
         }
         KeyboardShortcuts.onKeyUp(for: .addFiveMinutesTimer) { [weak self] in
             self?.addMinutes(5)
-        }
-
-        dnd.onToggleChanged = { [self] in
-            let shouldFocus = dnd.toggleDoNotDisturb && stateMachine.state == .work && !paused
-            dnd.set(focus: shouldFocus)
         }
 
         let aem: NSAppleEventManager = NSAppleEventManager.shared()
@@ -186,7 +182,7 @@ class TBTimer: ObservableObject {
 
         paused = !paused
 
-        if dnd.toggleDoNotDisturb, isWorking {
+        if currentPresetInstance.focusOnWork, isWorking {
             dnd.set(focus: !paused)
         }
 

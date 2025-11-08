@@ -22,6 +22,10 @@
 "IntervalsView.workIntervalsInSet.help" = "Nombre de périodes de travail avant de prendre une longue pause";
 "IntervalsView.startWith.label" = "Démarrer avec";
 "IntervalsView.stopAfter.label" = "Arrêter après";
+"IntervalsView.dnd.label" = "Ne pas déranger";
+"IntervalsView.dnd.off" = "Désactivé";
+"IntervalsView.dnd.onWork" = "Au travail";
+"IntervalsView.dnd.help" = "Pendant les pauses, exécuter un raccourci pour activer le mode « Ne pas déranger »";
 "IntervalsView.presets.label" = "Profil";
 "IntervalsView.off.label" = "Jamais";
 "IntervalsView.work.label" = "Travail";
@@ -55,8 +59,6 @@
 "SettingsView.alert.maskMode.blockActions.label" = "Bloquer les actions";
 "SettingsView.alert.autoResumeWork.label" = "Reprendre le travail automatiquement";
 
-"SettingsView.app.toggleDoNotDisturb.label" = "« Ne pas déranger » pendant les pauses";
-"SettingsView.app.toggleDoNotDisturb.help" = "Pendant les pauses, exécuter un raccourci pour activer le mode « Ne pas déranger »";
 "SettingsView.app.startTimerOnLaunch.label" = "Démarrer le minuteur au lancement";
 "SettingsView.app.launchAtLogin.label" = "Lancer à l'ouverture de session";
 

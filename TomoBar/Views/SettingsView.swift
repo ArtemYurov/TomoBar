@@ -91,14 +91,6 @@ struct SettingsView: View {
             case .disabled:
                 EmptyView()
             }
-            Toggle(isOn: $timer.dnd.toggleDoNotDisturb) {
-                Text(NSLocalizedString("SettingsView.app.toggleDoNotDisturb.label",
-                                       comment: "Toggle Do Not Disturb"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .toggleStyle(.switch)
-            .help(NSLocalizedString("SettingsView.app.toggleDoNotDisturb.help",
-                                    comment: "Toggle Do Not Disturb hint"))
             Toggle(isOn: $timer.startTimerOnLaunch) {
                 Text(NSLocalizedString("SettingsView.app.startTimerOnLaunch.label",
                                        comment: "Start timer on launch label"))

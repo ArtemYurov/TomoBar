@@ -14,12 +14,6 @@ extension SBApplication: ShortcutsEvents {}
 extension SBObject: Shortcut {}
 
 class TBDoNotDisturb: ObservableObject {
-    @AppStorage("toggleDoNotDisturb") var toggleDoNotDisturb = false {
-        didSet {
-            onToggleChanged?()
-        }
-    }
-    var onToggleChanged: (() -> Void)?
     var currentFocusState: Bool = false
 
     func set(focus: Bool, completion: ((Bool) -> Void)? = nil) {

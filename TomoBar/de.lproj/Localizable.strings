@@ -22,6 +22,10 @@
 "IntervalsView.workIntervalsInSet.help" = "Anzahl der Arbeitsintervalle bevor eine längere Pause eingelegt wird";
 "IntervalsView.startWith.label" = "Beginne mit";
 "IntervalsView.stopAfter.label" = "Beende nach";
+"IntervalsView.dnd.label" = "Nicht stören";
+"IntervalsView.dnd.off" = "Aus";
+"IntervalsView.dnd.onWork" = "Bei Arbeit";
+"IntervalsView.dnd.help" = "Führt einen Kurzbefehl aus, um Nicht stören bei Arbeits-/Pausenübergängen zu aktivieren/deaktivieren";
 "IntervalsView.presets.label" = "Vorlagen";
 "IntervalsView.off.label" = "Aus";
 "IntervalsView.work.label" = "Arbeit";
@@ -55,8 +59,6 @@
 "SettingsView.alert.maskMode.blockActions.label" = "Aktionen blockieren";
 "SettingsView.alert.autoResumeWork.label" = "Arbeit automatisch fortsetzen";
 
-"SettingsView.app.toggleDoNotDisturb.label" = "Nicht stören umschalten";
-"SettingsView.app.toggleDoNotDisturb.help" = "Führt einen Kurzbefehl aus, um Nicht stören bei Arbeits-/Pausenübergängen zu aktivieren/deaktivieren";
 "SettingsView.app.startTimerOnLaunch.label" = "Timer beim Starten starten";
 "SettingsView.app.launchAtLogin.label" = "Beim Login starten";
 
