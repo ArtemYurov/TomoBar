@@ -41,7 +41,7 @@ jobs:
         env:
           CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
           CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          KEYCHAIN_TEMP_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
         run: |
           # Check if secrets are configured
           MISSING_SECRETS=""
@@ -63,21 +63,16 @@ jobs:
           echo "$CERTIFICATE_BASE64" | base64 --decode > certificate.p12
 
           # Create and configure temporary keychain
-          security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security create-keychain -p "$KEYCHAIN_TEMP_PASSWORD" build.keychain
           security default-keychain -s build.keychain
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security unlock-keychain -p "$KEYCHAIN_TEMP_PASSWORD" build.keychain
           security set-keychain-settings -lut 21600 build.keychain
 
           # Import certificate with -A flag to allow any application to access it
           security import certificate.p12 -k build.keychain -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign -A
 
-          # Verify import
-          echo "=== Identities after import ==="
-          security find-identity -v build.keychain
-          echo ""
-
           # Enable codesigning from keychain
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_TEMP_PASSWORD" build.keychain
 
           # Add keychain to search list
           security list-keychains -d user -s build.keychain $(security list-keychains -d user | sed s/\"//g)
@@ -88,14 +83,8 @@ jobs:
         run: |
           # Build application archive
           if [ "${{ github.ref_type }}" == "tag" ]; then
-            # Debug: list all identities in keychain
-            echo "=== All identities in build.keychain ==="
-            security find-identity -v build.keychain
-            echo "========================================="
-
             # Find the Developer ID Application certificate identity
             CERT_IDENTITY=$(security find-identity -v build.keychain | grep "Developer ID Application" | head -1 | sed -E 's/.*"(.*)"/\1/')
-            echo "Using certificate: $CERT_IDENTITY"
 
             if [ -z "$CERT_IDENTITY" ]; then
               echo "ERROR: No Developer ID Application certificate found in keychain!"
