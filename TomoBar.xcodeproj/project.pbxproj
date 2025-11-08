@@ -29,6 +29,7 @@
 		AF25F3D9D9B35164957CE7A1 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4770E64C7D24E1818FED7 /* View.swift */; };
 		BD13C3DE2EAE6F310022623C /* Notify.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD13C3DD2EAE6F310022623C /* Notify.swift */; };
 		BDBF723B2EB01CE8004B0E08 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = BDBF723A2EB01CE8004B0E08 /* Sparkle */; };
+		BDE6ED3A2EC109CE00D20AEC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDE6ED392EC109CE00D20AEC /* Info.plist */; };
 		D05258232C76B6B7005093E3 /* DND.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05258222C76B6B7005093E3 /* DND.swift */; };
 		D11A2F32A03594642ED16FEA /* CustomComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51543A78C6944F560C7CA005 /* CustomComponents.swift */; };
 		E6EE380A7510B028577A56D2 /* Small.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4DF2400FC73D912CD4D3D4 /* Small.swift */; };
@@ -58,6 +59,7 @@
 		9DFC70D513A84DBA5365D66B /* BaseLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BaseLayout.swift; sourceTree = "<group>"; };
 		9EB9405B2B07605900198AD2 /* Mask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mask.swift; sourceTree = "<group>"; };
 		BD13C3DD2EAE6F310022623C /* Notify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notify.swift; sourceTree = "<group>"; };
+		BDE6ED392EC109CE00D20AEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4C8DE0E2930DBB4003B1110 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		CCBF4F6785F7F6D7B70DAE7D /* SettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		CDC4770E64C7D24E1818FED7 /* View.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 		8A21B78A27EE31A20009E5DB /* TomoBar */ = {
 			isa = PBXGroup;
 			children = (
+				BDE6ED392EC109CE00D20AEC /* Info.plist */,
 				8A21B79427EE31A30009E5DB /* TomoBar.entitlements */,
 				8A21B78B27EE31A20009E5DB /* App.swift */,
 				D05258222C76B6B7005093E3 /* DND.swift */,
@@ -253,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A21B79027EE31A30009E5DB /* Assets.xcassets in Resources */,
+				BDE6ED3A2EC109CE00D20AEC /* Info.plist in Resources */,
 				8AA5434A2930F008002A47FC /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -493,7 +497,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 4.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.ArtemYurov.TomoBar;
+				PRODUCT_BUNDLE_IDENTIFIER = org.yurov.tomobar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -532,7 +536,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 4.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.ArtemYurov.TomoBar;
+				PRODUCT_BUNDLE_IDENTIFIER = org.yurov.tomobar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

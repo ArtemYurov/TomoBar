@@ -24,7 +24,7 @@ Minimum macOS version requirement to Monterey 12
 
 ### Integration with other tools
 #### Event log
-TomoBar logs state transitions in JSON format to `~/Library/Containers/com.github.ArtemYurov.TomoBar/Data/Library/Caches/TomoBar.log`. Use this data to analyze your productivity and enrich other data sources.
+TomoBar logs state transitions in JSON format to `~/Library/Containers/org.yurov.tomobar/Data/Library/Caches/TomoBar.log`. Use this data to analyze your productivity and enrich other data sources.
 #### Controlling the timer
 TomoBar can be controlled using `tomobar://` URLs. 
 - use `open tomobar://startStop` to start or stop the timer from the command line 

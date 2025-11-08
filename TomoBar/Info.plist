@@ -10,7 +10,7 @@
 			<key>CFBundleURLIconFile</key>
 			<string></string>
 			<key>CFBundleURLName</key>
-			<string>com.github.ArtemYurov.TomoBar</string>
+			<string>org.yurov.tomobar</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>tomobar</string>
@@ -21,15 +21,15 @@
 	<false/>
 	<key>NSSupportsSuddenTermination</key>
 	<false/>
-	<key>SUFeedURL</key>
-	<string>https://github.com/ArtemYurov/TomoBar/releases/latest/download/appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
-	<key>SUScheduledCheckInterval</key>
-	<integer>216000</integer>
-	<key>SUPublicEDKey</key>
-	<string>vIe2JDEyuBZHzM+mjSwQYSODEZX/8fYghjMvVk/tgMY=</string>
 	<key>SUEnableInstallerLauncherService</key>
 	<true/>
+	<key>SUFeedURL</key>
+	<string>https://github.com/ArtemYurov/TomoBar/releases/latest/download/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>vIe2JDEyuBZHzM+mjSwQYSODEZX/8fYghjMvVk/tgMY=</string>
+	<key>SUScheduledCheckInterval</key>
+	<integer>216000</integer>
 </dict>
 </plist>
