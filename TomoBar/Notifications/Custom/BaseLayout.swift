@@ -11,7 +11,7 @@ enum BaseLayout {
 
     // Colors and transparency
     static let separatorOpacity: CGFloat = 0.3
-    static let backgroundOpacity: CGFloat = 0.8
+    static let backgroundOpacity: CGFloat = 0.7
 
     // Corner radius and shadows
     static let cornerRadius: CGFloat = 12

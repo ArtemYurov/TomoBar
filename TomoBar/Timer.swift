@@ -32,7 +32,7 @@ class TBTimer: ObservableObject {
     @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = false
     @AppStorage("showTimerMode") var showTimerMode = ShowTimerMode.running
     @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.system
-    @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = 0
+    @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = 6
     @AppStorage("currentPreset") var currentPreset = 0
     @AppStorage("timerPresets") private var presetsData = Data()
     var presets: [TimerPreset] {
@@ -41,10 +41,10 @@ class TBTimer: ObservableObject {
     }
 
     static let defaultPresets: [TimerPreset] = [
-        TimerPreset(workIntervalLength: 25, shortRestIntervalLength: 5, longRestIntervalLength: 15, workIntervalsInSet: 4),
-        TimerPreset(workIntervalLength: 52, shortRestIntervalLength: 17, longRestIntervalLength: 17, workIntervalsInSet: 1),
-        TimerPreset(workIntervalLength: 20, shortRestIntervalLength: 5, longRestIntervalLength: 15, workIntervalsInSet: 4),
-        TimerPreset(workIntervalLength: 30, shortRestIntervalLength: 5, longRestIntervalLength: 20, workIntervalsInSet: 4)
+        TimerPreset(workIntervalLength: 25, shortRestIntervalLength: 5, longRestIntervalLength: 15, workIntervalsInSet: 4, focusOnWork: false),
+        TimerPreset(workIntervalLength: 52, shortRestIntervalLength: 17, longRestIntervalLength: 17, workIntervalsInSet: 1, focusOnWork: true),
+        TimerPreset(workIntervalLength: 20, shortRestIntervalLength: 5, longRestIntervalLength: 15, workIntervalsInSet: 4, focusOnWork: false),
+        TimerPreset(workIntervalLength: 30, shortRestIntervalLength: 5, longRestIntervalLength: 20, workIntervalsInSet: 4, focusOnWork: false)
     ]
     // This preference is "hidden"
     @AppStorage("overrunTimeLimit") var overrunTimeLimit = -60.0

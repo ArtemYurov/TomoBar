@@ -14,7 +14,7 @@ enum MaskMode: String, CaseIterable, DropdownDescribable {
 
 class TBNotify: ObservableObject {
     @AppStorage("alertMode") var alertMode = AlertMode.notify
-    @AppStorage("notifyStyle") var notifyStyle = NotifyStyle.system
+    @AppStorage("notifyStyle") var notifyStyle = NotifyStyle.big
 
     let system: SystemNotifyHelper
     let custom: CustomNotifyHelper
