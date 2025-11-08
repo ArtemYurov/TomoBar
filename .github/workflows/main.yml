@@ -122,8 +122,38 @@ jobs:
                      -exportPath . \
                      -allowProvisioningUpdates
 
-          # Create ZIP archive
-          zip -r "TomoBar-${{env.version}}.zip" "TomoBar.app"
+      - name: Notarize App Bundle
+        if: github.ref_type == 'tag'
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          # Create temporary ZIP for notarization
+          echo "Creating temporary ZIP for notarization..."
+          ditto -c -k --sequesterRsrc --keepParent "TomoBar.app" "TomoBar-temp.zip"
+
+          echo "Submitting app for notarization..."
+          xcrun notarytool submit "TomoBar-temp.zip" \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_APP_SPECIFIC_PASSWORD" \
+            --team-id "$APPLE_TEAM_ID" \
+            --wait
+
+          echo "Stapling notarization ticket to app..."
+          xcrun stapler staple "TomoBar.app"
+
+          echo "Verifying app notarization..."
+          xcrun stapler validate "TomoBar.app"
+
+          # Clean up temporary ZIP
+          rm "TomoBar-temp.zip"
+
+      - name: Create Archives
+        if: github.ref_type == 'tag'
+        run: |
+          # Create final ZIP archive with notarized app
+          ditto -c -k --sequesterRsrc --keepParent "TomoBar.app" "TomoBar-${{env.version}}.zip"
 
       - name: Create DMG
         if: github.ref_type == 'tag'
@@ -139,26 +169,6 @@ jobs:
             --app-drop-link 380 130 \
             "TomoBar-${{env.version}}.dmg" \
             "TomoBar.app"
-
-      - name: Notarize DMG
-        if: github.ref_type == 'tag'
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: |
-          echo "Submitting DMG for notarization..."
-          xcrun notarytool submit "TomoBar-${{env.version}}.dmg" \
-            --apple-id "$APPLE_ID" \
-            --password "$APPLE_APP_SPECIFIC_PASSWORD" \
-            --team-id "$APPLE_TEAM_ID" \
-            --wait
-
-          echo "Stapling notarization ticket to DMG..."
-          xcrun stapler staple "TomoBar-${{env.version}}.dmg"
-
-          echo "Verifying notarization..."
-          xcrun stapler validate "TomoBar-${{env.version}}.dmg"
 
       - name: Generate appcast
         if: github.ref_type == 'tag'
