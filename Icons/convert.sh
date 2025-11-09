@@ -1,7 +1,9 @@
 #!/bin/bash -e
 ASSETS_PATH=../TomoBar/Assets.xcassets
-APPICON_SRC=TomoBar.png
+TOMO_SRC=Tomo.png
+APPICON_ICON=../TomoBar/AppIcon.icon/Assets
 APPICON_ICONSET=${ASSETS_PATH}/AppIcon.appiconset
+TOMOICON_IMAGESET=${ASSETS_PATH}/TomoIcon.imageset
 BARICON_SRC=tomo-filled.png
 BARICON_ICONSET_IDLE=${ASSETS_PATH}/BarIconIdle.imageset
 BARICON_ICONSET_WORK=${ASSETS_PATH}/BarIconWork.imageset
@@ -15,16 +17,23 @@ BARICON_TEXT_OFFSET_BASE=3
 CONVERT="convert -verbose -background none +repage"
 
 if [ "$1" == "appicon" ]; then
-    ${CONVERT} -resize '!16x16' ${APPICON_SRC} ${APPICON_ICONSET}/icon_16x16.png
-    ${CONVERT} -resize '!32x32' ${APPICON_SRC} ${APPICON_ICONSET}/icon_16x16@2x.png
-    ${CONVERT} -resize '!32x32' ${APPICON_SRC} ${APPICON_ICONSET}/icon_32x32.png
-    ${CONVERT} -resize '!64x64' ${APPICON_SRC} ${APPICON_ICONSET}/icon_32x32@2x.png
-    ${CONVERT} -resize '!128x128' ${APPICON_SRC} ${APPICON_ICONSET}/icon_128x128.png
-    ${CONVERT} -resize '!256x256' ${APPICON_SRC} ${APPICON_ICONSET}/icon_128x128@2x.png
-    ${CONVERT} -resize '!256x256' ${APPICON_SRC} ${APPICON_ICONSET}/icon_256x256.png
-    ${CONVERT} -resize '!512x512' ${APPICON_SRC} ${APPICON_ICONSET}/icon_256x256@2x.png
-    ${CONVERT} -resize '!512x512' ${APPICON_SRC} ${APPICON_ICONSET}/icon_512x512.png
-    ${CONVERT} -resize '!1024x1024' ${APPICON_SRC} ${APPICON_ICONSET}/icon_512x512@2x.png
+    # AppIcon for XCode 26
+    ${CONVERT} -resize '!1024x1024' ${TOMO_SRC} ${APPICON_ICON}/Tomo.png
+    # AppIcon for XCode < 26
+    ${CONVERT} -resize '!16x16' ${TOMO_SRC} ${APPICON_ICONSET}/icon_16x16.png
+    ${CONVERT} -resize '!32x32' ${TOMO_SRC} ${APPICON_ICONSET}/icon_16x16@2x.png
+    ${CONVERT} -resize '!32x32' ${TOMO_SRC} ${APPICON_ICONSET}/icon_32x32.png
+    ${CONVERT} -resize '!64x64' ${TOMO_SRC} ${APPICON_ICONSET}/icon_32x32@2x.png
+    ${CONVERT} -resize '!128x128' ${TOMO_SRC} ${APPICON_ICONSET}/icon_128x128.png
+    ${CONVERT} -resize '!256x256' ${TOMO_SRC} ${APPICON_ICONSET}/icon_128x128@2x.png
+    ${CONVERT} -resize '!256x256' ${TOMO_SRC} ${APPICON_ICONSET}/icon_256x256.png
+    ${CONVERT} -resize '!512x512' ${TOMO_SRC} ${APPICON_ICONSET}/icon_256x256@2x.png
+    ${CONVERT} -resize '!512x512' ${TOMO_SRC} ${APPICON_ICONSET}/icon_512x512.png
+    ${CONVERT} -resize '!1024x1024' ${TOMO_SRC} ${APPICON_ICONSET}/icon_512x512@2x.png
+    # TomoIcon for custom notifications
+    ${CONVERT} -resize '!64x64' ${TOMO_SRC} ${TOMOICON_IMAGESET}/icon_64x64.png
+    ${CONVERT} -resize '!128x128' ${TOMO_SRC} ${TOMOICON_IMAGESET}/icon_64x64@2x.png
+    ${CONVERT} -resize '!192x192' ${TOMO_SRC} ${TOMOICON_IMAGESET}/icon_64x64@3x.png
 fi
 
 function convert_baricon() {
