@@ -3,7 +3,7 @@ import AppKit
 
 private enum Layout {
     static let windowWidth = BaseLayout.windowWidth
-    static let iconSize = BaseLayout.iconSize
+    static let iconSize: CGFloat = 64
     static let titleFontSize = BaseLayout.titleFontSize
     static let subtitleFontSize = BaseLayout.subtitleFontSize
     static let buttonHeight = BaseLayout.buttonHeight
@@ -29,7 +29,7 @@ struct BigNotificationView: View {
     var body: some View {
         VStack(spacing: 0) {
             VStack(spacing: Layout.iconTextSpacing) {
-                Image(nsImage: NSApp.applicationIconImage)
+                Image("TomoIcon")
                     .resizable()
                     .frame(width: Layout.iconSize, height: Layout.iconSize)
 
@@ -129,7 +129,7 @@ extension CustomNotifyHelper {
 
         // Динамическая высота окна
         let windowWidth: CGFloat = Layout.windowWidth
-        let windowHeight: CGFloat = isSessionCompleted ? 146 : 190
+        let windowHeight: CGFloat = isSessionCompleted ? 170 : 214
         let menuBarOffset: CGFloat = BaseLayout.menuBarOffset
         let animationDuration: CGFloat = 0.6
         let animationStartOffset: CGFloat = BaseLayout.animationStartOffset

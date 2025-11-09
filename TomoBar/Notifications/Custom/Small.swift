@@ -8,7 +8,7 @@ private enum Layout {
     static let animationStartOffset = BaseLayout.animationStartOffset
     static let screenRightOffset = BaseLayout.screenEdgeOffset
     static let screenTopOffset: CGFloat = 15
-    static let iconSize = BaseLayout.iconSize
+    static let iconSize: CGFloat = 48
     static let titleFontSize = BaseLayout.titleFontSize
     static let subtitleFontSize = BaseLayout.subtitleFontSize
     static let spacing = BaseLayout.spacing
@@ -30,7 +30,7 @@ struct SmallNotificationView: View {
     var body: some View {
         HStack(spacing: 0) {
             HStack(spacing: Layout.spacing) {
-                Image(nsImage: NSApp.applicationIconImage)
+                Image("TomoIcon")
                     .resizable()
                     .frame(width: Layout.iconSize, height: Layout.iconSize)
 
