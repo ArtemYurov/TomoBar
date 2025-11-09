@@ -19,14 +19,6 @@ class SystemNotifyHelper: NSObject, UNUserNotificationCenterDelegate {
         self.skipEventHandler = skipHandler
         super.init()
 
-        center.requestAuthorization(
-            options: [.alert]
-        ) { _, error in
-            if error != nil {
-                print("Error requesting notification authorization: \(error!)")
-            }
-        }
-
         center.delegate = self
 
         let categoryConfigs: [(category: TBNotification.Category, actionTitle: String?)] = [
@@ -52,6 +44,21 @@ class SystemNotifyHelper: NSObject, UNUserNotificationCenterDelegate {
         }
 
         center.setNotificationCategories(Set(categories))
+    }
+
+    func requestPermissionsIfNeeded() {
+        center.getNotificationSettings { settings in
+            if settings.authorizationStatus == .notDetermined {
+                self.center.requestAuthorization(options: [.alert]) { granted, error in
+                    if let error = error {
+                        print("Error requesting notification authorization: \(error)")
+                    }
+                    if granted {
+                        print("Notification permission granted")
+                    }
+                }
+            }
+        }
     }
 
     func userNotificationCenter(_: UNUserNotificationCenter,

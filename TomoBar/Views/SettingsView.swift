@@ -57,7 +57,11 @@ struct SettingsView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     StartStopDropdown(value: $timer.notifyStyle)
                 }
-                .onChange(of: timer.notifyStyle) { _ in
+                .onChange(of: timer.notifyStyle) { newValue in
+                    TBStatusItem.shared.closePopover(nil)
+                    if newValue == .system {
+                        timer.notify.system.requestPermissionsIfNeeded()
+                    }
                     timer.notify.preview()
                 }
                 if timer.notifyStyle == .small || timer.notifyStyle == .big {

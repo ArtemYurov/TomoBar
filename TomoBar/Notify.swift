@@ -106,6 +106,7 @@ class TBNotify: ObservableObject {
             switch notifyStyle {
             case .system:
                 custom.hide()
+                system.sessionComplete()
             case .small, .big:
                 custom.showSessionComplete(notifyStyle: notifyStyle)
             }
