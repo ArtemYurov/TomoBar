@@ -19,9 +19,9 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
 }
 
 struct TimerPreset: Codable {
-    var workIntervalLength: Double = 25
-    var shortRestIntervalLength: Double = 5
-    var longRestIntervalLength: Double = 15
+    var workIntervalLength: Int = 25
+    var shortRestIntervalLength: Int = 5
+    var longRestIntervalLength: Int = 15
     var workIntervalsInSet = 4
     var startWith: StartWithValues = .work
     var sessionStopAfter: SessionStopAfter = .disabled
@@ -34,6 +34,14 @@ class TBTimer: ObservableObject {
     @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.system
     @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = 6
     @AppStorage("currentPreset") var currentPreset = 0
+
+    #if DEBUG
+    @AppStorage("useSecondsInsteadOfMinutes") var useSecondsInsteadOfMinutes = false
+    var secondsMultiplier: Int { useSecondsInsteadOfMinutes ? 1 : 60 }
+    #else
+    var secondsMultiplier: Int { 60 }
+    #endif
+
     @AppStorage("timerPresets") private var presetsData = Data()
     var presets: [TimerPreset] {
         get { (try? JSONDecoder().decode([TimerPreset].self, from: presetsData)) ?? Self.defaultPresets }
@@ -47,7 +55,7 @@ class TBTimer: ObservableObject {
         TimerPreset(workIntervalLength: 30, shortRestIntervalLength: 5, longRestIntervalLength: 20, workIntervalsInSet: 4, focusOnWork: false)
     ]
     // This preference is "hidden"
-    @AppStorage("overrunTimeLimit") var overrunTimeLimit = -60.0
+    @AppStorage("overrunTimeLimit") var overrunTimeLimit: Double = -60
 
     public let player = TBPlayer()
     public lazy var notify = TBNotify(
@@ -108,18 +116,6 @@ class TBTimer: ObservableObject {
                             andSelector: #selector(handleGetURLEvent(_:withReplyEvent:)),
                             forEventClass: AEEventClass(kInternetEventClass),
                             andEventID: AEEventID(kAEGetURL))
-
-        let testMode = ProcessInfo.processInfo.environment["TEST_MODE"] == "1"
-        if testMode {
-            var testPresets = presets
-            testPresets[0] = TimerPreset(
-                workIntervalLength: 0.1,
-                shortRestIntervalLength: 0.1,
-                longRestIntervalLength: 0.2,
-                workIntervalsInSet: 2
-            )
-            presets = testPresets
-        }
     }
 
     @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor,

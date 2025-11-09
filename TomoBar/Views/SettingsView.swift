@@ -101,6 +101,16 @@ struct SettingsView: View {
                                        comment: "Launch at login label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }.toggleStyle(.switch)
+            #if DEBUG
+            Toggle(isOn: $timer.useSecondsInsteadOfMinutes) {
+                Text("Use sec instead of min (for testing)")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .toggleStyle(.switch)
+            .onChange(of: timer.useSecondsInsteadOfMinutes) { _ in
+                timer.updateDisplay()
+            }
+            #endif
             Spacer().frame(minHeight: 0)
         }
         .padding(4)

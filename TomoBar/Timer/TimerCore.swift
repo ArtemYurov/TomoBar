@@ -4,14 +4,14 @@ extension TBTimer {
     func getNextIntervalDuration() -> TimeInterval {
         // Return the duration of the next interval when timer is idle
         if startWith == .work {
-            return TimeInterval(currentPresetInstance.workIntervalLength * 60)
+            return TimeInterval(currentPresetInstance.workIntervalLength * secondsMultiplier)
         } else {
             // Always start with short rest when "Start with: rest" is selected
-            return TimeInterval(currentPresetInstance.shortRestIntervalLength * 60)
+            return TimeInterval(currentPresetInstance.shortRestIntervalLength * secondsMultiplier)
         }
     }
 
-    func getIntervalMinutes(for state: TBStateMachineStates) -> Double {
+    func getIntervalMinutes(for state: TBStateMachineStates) -> Int {
         switch state {
         case .idle:
             return 0
@@ -27,7 +27,7 @@ extension TBTimer {
     func startStateTimer() {
         guard stateMachine.state != .idle else { return }
         let minutes = getIntervalMinutes(for: stateMachine.state)
-        startTimer(seconds: Int(minutes * 60))
+        startTimer(seconds: minutes * secondsMultiplier)
     }
 
     func startTimer(seconds: Int) {

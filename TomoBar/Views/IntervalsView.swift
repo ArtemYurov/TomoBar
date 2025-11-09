@@ -2,7 +2,13 @@ import SwiftUI
 
 struct IntervalsView: View {
     @EnvironmentObject var timer: TBTimer
+    #if DEBUG
+    private var minStr: String {
+        timer.useSecondsInsteadOfMinutes ? "sec" : NSLocalizedString("IntervalsView.min", comment: "min")
+    }
+    #else
     private var minStr = NSLocalizedString("IntervalsView.min", comment: "min")
+    #endif
 
     enum DNDMode: String, CaseIterable, Identifiable {
         case off
@@ -109,10 +115,10 @@ struct IntervalsView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     TextField("", text: Binding(
                         get: {
-                            isFieldDisabled(.shortRest) ? "—" : "\(Int(timer.currentPresetInstance.shortRestIntervalLength))"
+                            isFieldDisabled(.shortRest) ? "—" : "\(timer.currentPresetInstance.shortRestIntervalLength)"
                         },
                         set: { newValue in
-                            if !isFieldDisabled(.shortRest), let value = Double(newValue) {
+                            if !isFieldDisabled(.shortRest), let value = Int(newValue) {
                                 timer.currentPresetInstance.shortRestIntervalLength = min(max(value, 1), 120)
                             }
                         }
@@ -138,10 +144,10 @@ struct IntervalsView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     TextField("", text: Binding(
                         get: {
-                            isFieldDisabled(.longRest) ? "—" : "\(Int(timer.currentPresetInstance.longRestIntervalLength))"
+                            isFieldDisabled(.longRest) ? "—" : "\(timer.currentPresetInstance.longRestIntervalLength)"
                         },
                         set: { newValue in
-                            if !isFieldDisabled(.longRest), let value = Double(newValue) {
+                            if !isFieldDisabled(.longRest), let value = Int(newValue) {
                                 timer.currentPresetInstance.longRestIntervalLength = min(max(value, 1), 120)
                             }
                         }
