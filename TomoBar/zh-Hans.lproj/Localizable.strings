@@ -10,6 +10,7 @@
 "View.settings.label" = "设置";
 "View.shortcuts.label" = "快捷键";
 "View.sounds.label" = "声音";
+"View.checkForUpdates.label" = "检查更新";
 "View.about.label" = "关于";
 "View.quit.label" = "退出";
 

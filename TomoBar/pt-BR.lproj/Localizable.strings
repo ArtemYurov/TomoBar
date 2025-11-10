@@ -10,6 +10,7 @@
 "View.settings.label" = "Configurações";
 "View.shortcuts.label" = "Atalhos";
 "View.sounds.label" = "Sons";
+"View.checkForUpdates.label" = "Verificar atualizações";
 "View.about.label" = "Sobre";
 "View.quit.label" = "Sair";
 

@@ -10,6 +10,7 @@
 "View.settings.label" = "Ρυθμίσεις";
 "View.shortcuts.label" = "Συντομεύσεις";
 "View.sounds.label" = "Ήχοι";
+"View.checkForUpdates.label" = "Έλεγχος ενημερώσεων";
 "View.about.label" = "Σχετικά";
 "View.quit.label" = "Τερματισμός";
 

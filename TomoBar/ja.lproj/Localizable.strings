@@ -10,6 +10,7 @@
 "View.settings.label" = "設定";
 "View.shortcuts.label" = "ショートカット";
 "View.sounds.label" = "サウンド";
+"View.checkForUpdates.label" = "アップデートを確認";
 "View.about.label" = "TomoBarについて";
 "View.quit.label" = "TomoBarを終了";
 
