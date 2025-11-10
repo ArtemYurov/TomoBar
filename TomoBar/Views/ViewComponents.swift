@@ -33,6 +33,8 @@ extension DropdownDescribable {
                                                   comment: "Disabled label")
         case "work": return NSLocalizedString("IntervalsView.work.label",
                                               comment: "Work label")
+        case "rest": return NSLocalizedString("IntervalsView.break.label",
+                                              comment: "Break label")
         case "shortRest": return NSLocalizedString("IntervalsView.break.label",
                                                    comment: "Short rest label")
         case "longRest": return NSLocalizedString("IntervalsView.set.label",
