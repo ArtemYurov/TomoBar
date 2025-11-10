@@ -1,0 +1,105 @@
+"View.width" = "310";
+"View.start.label" = "Запустить";
+"View.stop.label" = "Остановить";
+"View.addMinute.help" = "Добавить минуту";
+"View.addFiveMinutes.help" = "Добавить пять минут";
+"View.pause.help" = "Пауза";
+"View.resume.help" = "Продолжить";
+"View.skip.help" = "Пропустить";
+"View.intervals.label" = "Интервалы";
+"View.settings.label" = "Настройки";
+"View.shortcuts.label" = "Клавиши";
+"View.sounds.label" = "Звуки";
+"View.checkForUpdates.label" = "Проверить обновления";
+"View.about.label" = "О программе";
+"View.quit.label" = "Выход";
+
+"IntervalsView.min" = "мин";
+"IntervalsView.workIntervalLength.label" = "Работа";
+"IntervalsView.shortRestIntervalLength.label" = "Короткий отдых";
+"IntervalsView.longRestIntervalLength.label" = "Длинный отдых";
+"IntervalsView.longRestIntervalLength.help" = "Продолжительность длинного перерыва после завершения сета рабочих интервалов";
+"IntervalsView.workIntervalsInSet.label" = "Рабочих интервалов в сете";
+"IntervalsView.workIntervalsInSet.help" = "Количество рабочих интервалов перед длинным отдыхом";
+"IntervalsView.startWith.label" = "Первый интервал";
+"IntervalsView.stopAfter.label" = "Стоп после";
+"IntervalsView.dnd.label" = "Не беспокоить";
+"IntervalsView.dnd.off" = "Выкл";
+"IntervalsView.dnd.onWork" = "При работе";
+"IntervalsView.dnd.help" = "Запускает команду для включения/отключения режима \"Не беспокоить\" при переходе работа/отдых";
+"IntervalsView.presets.label" = "Пресет";
+"IntervalsView.off.label" = "Выкл";
+"IntervalsView.work.label" = "Работа";
+"IntervalsView.break.label" = "Отдых";
+"IntervalsView.set.label" = "Сет";
+
+"SettingsView.shortcuts.startStop.label" = "Старт/стоп";
+"SettingsView.shortcuts.pauseResume.label" = "Пауза/продолжить";
+"SettingsView.shortcuts.skip.label" = "Пропустить";
+"SettingsView.shortcuts.addMinute.label" = "Добавить минуту";
+"SettingsView.shortcuts.addFiveMinutes.label" = "Добавить пять минут";
+
+"SettingsView.timer.show.label" = "Таймер";
+"SettingsView.timer.show.active.label" = "При работе";
+"SettingsView.timer.show.always.label" = "Всегда";
+"SettingsView.timer.font.label" = "Шрифт";
+"SettingsView.timer.font.system.label" = "Системный";
+"SettingsView.timer.font.ptMono.label" = "PT Mono";
+"SettingsView.timer.font.sfMono.label" = "SF Mono";
+"SettingsView.timer.grayBackground.label" = "Серый фон";
+"SettingsView.timer.backgroundOpacity.label" = "Прозрачность фона";
+
+"SettingsView.alert.mode.label" = "Уведомления";
+"SettingsView.alert.mode.notify.label" = "Окно";
+"SettingsView.alert.mode.fullScreen.label" = "Full-screen";
+"SettingsView.alert.notifyStyle.label" = "Стиль";
+"SettingsView.alert.notifyStyle.small.label" = "Маленькое";
+"SettingsView.alert.notifyStyle.big.label" = "Большое";
+"SettingsView.alert.maskMode.label" = "Режим";
+"SettingsView.alert.maskMode.normal.label" = "Обычный";
+"SettingsView.alert.maskMode.blockActions.label" = "Блокировать действия";
+"SettingsView.alert.autoResumeWork.label" = "Автоматически возобновлять работу";
+
+"SettingsView.app.startTimerOnLaunch.label" = "Запускать таймер при открытии";
+"SettingsView.app.launchAtLogin.label" = "Запускать при входе в систему";
+
+"SoundsView.isWindupEnabled.label" = "Завести";
+"SoundsView.isDingEnabled.label" = "Динь-динь";
+"SoundsView.isTickingEnabled.label" = "Тиканье";
+"SoundsView.openSoundFolder.label" = "Открыть папку со звуками";
+
+"SystemNotification.restStart.title" = "Время вышло";
+"SystemNotification.restStart.shortBreak.body" = "Пора на короткий перерыв!";
+"SystemNotification.restStart.longBreak.body" = "Пора на длинный перерыв!";
+"SystemNotification.restStart.skipBreak.action" = "Пропустить перерыв";
+"SystemNotification.restFinish.title" = "Перерыв окончен";
+"SystemNotification.restFinish.body" = "Продолжайте в том же духе!";
+"SystemNotification.restFinish.skipWork.action" = "Пропустить работу";
+"SystemNotification.sessionComplete.title" = "Таймер завершён";
+"SystemNotification.sessionComplete.body" = "Сессия окончена";
+
+"CustomNotification.workComplete.title" = "Работа завершена";
+"CustomNotification.workComplete.shortBreak.subtitle" = "Короткий перерыв";
+"CustomNotification.workComplete.longBreak.subtitle" = "Длинный перерыв";
+"CustomNotification.workComplete.takeBreak.action" = "Начать отдых";
+"CustomNotification.workComplete.skipBreak.action" = "Пропустить";
+"CustomNotification.shortBreakComplete.title" = "Перерыв окончен";
+"CustomNotification.longBreakComplete.title" = "Перерыв окончен";
+"CustomNotification.breakComplete.subtitle" = "Готовы работать?";
+"CustomNotification.breakComplete.startWork.action" = "Начать работу";
+"CustomNotification.breakComplete.skipWork.action" = "Пропустить";
+"CustomNotification.sessionComplete.title" = "Таймер завершён";
+"CustomNotification.sessionComplete.subtitle" = "Сессия окончена";
+"CustomNotification.control.addMinute" = "+1 мин";
+"CustomNotification.control.addFiveMinutes" = "+5 мин";
+"CustomNotification.control.stop" = "Остановить";
+"CustomNotification.control.restart.small" = "Перезапуск";
+"CustomNotification.control.restart.big" = "Перезапустить сессию";
+"CustomNotification.control.close" = "Закрыть";
+
+"MaskNotification.restStarted.shortBreak.title" = "Пора на короткий перерыв!";
+"MaskNotification.restStarted.longBreak.title" = "Пора на длинный перерыв!";
+"MaskNotification.restStarted.instruction" = "Двойной клик чтобы пропустить перерыв, одинарный клик чтобы скрыть маску";
+"MaskNotification.restFinished.shortBreak.title" = "Короткий перерыв окончен";
+"MaskNotification.restFinished.longBreak.title" = "Длинный перерыв окончен";
+"MaskNotification.restFinished.instruction" = "Клик чтобы начать работу, двойной клик чтобы пропустить работу";
