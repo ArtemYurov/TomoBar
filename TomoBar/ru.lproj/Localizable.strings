@@ -53,6 +53,7 @@
 "SettingsView.alert.mode.notify.label" = "Окно";
 "SettingsView.alert.mode.fullScreen.label" = "Full-screen";
 "SettingsView.alert.notifyStyle.label" = "Стиль";
+"SettingsView.alert.notifyStyle.system.label" = "Системное";
 "SettingsView.alert.notifyStyle.small.label" = "Маленькое";
 "SettingsView.alert.notifyStyle.big.label" = "Большое";
 "SettingsView.alert.maskMode.label" = "Режим";

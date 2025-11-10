@@ -53,6 +53,7 @@
 "SettingsView.alert.mode.notify.label" = "Notify";
 "SettingsView.alert.mode.fullScreen.label" = "Full-screen";
 "SettingsView.alert.notifyStyle.label" = "Notification style";
+"SettingsView.alert.notifyStyle.system.label" = "System";
 "SettingsView.alert.notifyStyle.small.label" = "Small";
 "SettingsView.alert.notifyStyle.big.label" = "Big";
 "SettingsView.alert.maskMode.label" = "Mask mode";

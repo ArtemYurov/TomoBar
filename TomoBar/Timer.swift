@@ -15,7 +15,7 @@ enum ShowTimerMode: String, CaseIterable, DropdownDescribable {
 }
 
 enum TimerFontMode: String, CaseIterable, DropdownDescribable {
-    case system, ptMono, sfMono
+    case fontSystem, ptMono, sfMono
 }
 
 struct TimerPreset: Codable {
@@ -31,7 +31,7 @@ struct TimerPreset: Codable {
 class TBTimer: ObservableObject {
     @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = false
     @AppStorage("showTimerMode") var showTimerMode = ShowTimerMode.running
-    @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.system
+    @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.fontSystem
     @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = 6
     @AppStorage("currentPreset") var currentPreset = 0
 

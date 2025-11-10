@@ -5,7 +5,7 @@ enum AlertMode: String, CaseIterable, DropdownDescribable {
 }
 
 enum NotifyStyle: String, CaseIterable, DropdownDescribable {
-    case system, small, big
+    case notifySystem, small, big
 }
 
 enum MaskMode: String, CaseIterable, DropdownDescribable {
@@ -31,7 +31,7 @@ class TBNotify: ObservableObject {
         case .disabled:
             return true
         case .notify:
-            return notifyStyle == .system
+            return notifyStyle == .notifySystem
         case .fullScreen:
             // Always auto-transition from Work to Rest, from Rest depends on setting
             return state == .work ? true : mask.maskAutoResumeWork
@@ -56,7 +56,7 @@ class TBNotify: ObservableObject {
     func showRestStarted(isLong: Bool) {
         switch alertMode {
 
-        case .notify where notifyStyle == .system:
+        case .notify where notifyStyle == .notifySystem:
             system.restStarted(isLong: isLong)
 
         case .fullScreen:
@@ -72,7 +72,7 @@ class TBNotify: ObservableObject {
             mask.hide()
         }
 
-        if alertMode == .notify && notifyStyle == .system {
+        if alertMode == .notify && notifyStyle == .notifySystem {
             system.restFinished()
         }
     }
@@ -84,7 +84,7 @@ class TBNotify: ObservableObject {
 
         case .notify:
             switch notifyStyle {
-            case .system:
+            case .notifySystem:
                 system.sessionComplete()
             case .small, .big:
                 custom.showSessionComplete(notifyStyle: notifyStyle)
@@ -104,7 +104,7 @@ class TBNotify: ObservableObject {
 
         case .notify:
             switch notifyStyle {
-            case .system:
+            case .notifySystem:
                 custom.hide()
                 system.sessionComplete()
             case .small, .big:

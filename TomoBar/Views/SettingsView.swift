@@ -59,7 +59,7 @@ struct SettingsView: View {
                 }
                 .onChange(of: timer.notifyStyle) { newValue in
                     TBStatusItem.shared.closePopover(nil)
-                    if newValue == .system {
+                    if newValue == .notifySystem {
                         timer.notify.system.requestPermissionsIfNeeded()
                     }
                     timer.notify.preview()

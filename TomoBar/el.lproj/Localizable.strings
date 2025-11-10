@@ -52,6 +52,7 @@
 "SettingsView.alert.mode.notify.label" = "Ειδοποίηση";
 "SettingsView.alert.mode.fullScreen.label" = "Πλήρης οθόνη";
 "SettingsView.alert.notifyStyle.label" = "Στυλ ειδοποίησης";
+"SettingsView.alert.notifyStyle.system.label" = "Σύστημα";
 "SettingsView.alert.notifyStyle.small.label" = "Μικρό";
 "SettingsView.alert.notifyStyle.big.label" = "Μεγάλο";
 "SettingsView.alert.maskMode.label" = "Λειτουργία μάσκας";

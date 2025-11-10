@@ -45,7 +45,7 @@ final class CustomNotifyHelper: NSObject {
             style = .small(content: content)
         case .big:
             style = .big(content: content)
-        case .system:
+        case .notifySystem:
             return
         }
 
@@ -61,7 +61,7 @@ final class CustomNotifyHelper: NSObject {
             style = .small(content: content)
         case .big:
             style = .big(content: content)
-        case .system:
+        case .notifySystem:
             return
         }
 
@@ -207,7 +207,7 @@ final class CustomNotifyHelper: NSObject {
             restartTitle = NSLocalizedString("CustomNotification.control.restart.small", comment: "Restart")
         case .big:
             restartTitle = NSLocalizedString("CustomNotification.control.restart.big", comment: "Restart Session")
-        case .system:
+        case .notifySystem:
             restartTitle = ""
         }
 

@@ -44,7 +44,7 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     private let userDriverDelegate = TBStatusItemUserDriverDelegate()
 
     // Read display settings directly from AppStorage
-    @AppStorage("timerFontMode") private var timerFontMode = TimerFontMode.system
+    @AppStorage("timerFontMode") private var timerFontMode = TimerFontMode.fontSystem
     @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = 0
 
     override init() {
@@ -85,7 +85,7 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
 
         let font: NSFont
         switch timerFontMode {
-        case .system:
+        case .fontSystem:
             // System monospaced digit font
             font = NSFont.monospacedDigitSystemFont(ofSize: 0, weight: .regular)
         case .ptMono:

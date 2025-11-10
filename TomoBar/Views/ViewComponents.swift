@@ -43,8 +43,10 @@ extension DropdownDescribable {
                                                  comment: "Show timer active label")
         case "always": return NSLocalizedString("SettingsView.timer.show.always.label",
                                                 comment: "Show timer always label")
-        case "system": return NSLocalizedString("SettingsView.timer.font.system.label",
-                                                comment: "System label")
+        case "fontSystem": return NSLocalizedString("SettingsView.timer.font.system.label",
+                                                    comment: "Timer font system label")
+        case "notifySystem": return NSLocalizedString("SettingsView.alert.notifyStyle.system.label",
+                                                      comment: "Notify style system label")
         case "ptMono": return NSLocalizedString("SettingsView.timer.font.ptMono.label",
                                                 comment: "PT Mono font label")
         case "sfMono": return NSLocalizedString("SettingsView.timer.font.sfMono.label",

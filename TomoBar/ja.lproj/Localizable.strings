@@ -52,6 +52,7 @@
 "SettingsView.alert.mode.notify.label" = "通知";
 "SettingsView.alert.mode.fullScreen.label" = "フルスクリーン";
 "SettingsView.alert.notifyStyle.label" = "通知スタイル";
+"SettingsView.alert.notifyStyle.system.label" = "システム通知";
 "SettingsView.alert.notifyStyle.small.label" = "小";
 "SettingsView.alert.notifyStyle.big.label" = "大";
 "SettingsView.alert.maskMode.label" = "マスクモード";
