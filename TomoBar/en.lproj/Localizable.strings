@@ -61,6 +61,13 @@
 "SettingsView.alert.maskMode.blockActions.label" = "Block actions";
 "SettingsView.alert.autoResumeWork.label" = "Resume work automatically";
 
+"SettingsView.app.language.label" = "Language";
+"SettingsView.app.language.system.label" = "System";
+"SettingsView.language.restart.title" = "Restart Required";
+"SettingsView.language.restart.message" = "TomoBar needs to restart to apply the new language setting.";
+"SettingsView.language.restart.restart" = "Restart Now";
+"SettingsView.language.restart.later" = "Later";
+
 "SettingsView.app.startTimerOnLaunch.label" = "Start timer on launch";
 "SettingsView.app.launchAtLogin.label" = "Launch at login";
 

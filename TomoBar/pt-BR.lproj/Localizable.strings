@@ -60,6 +60,13 @@
 "SettingsView.alert.maskMode.blockActions.label" = "Bloquear ações";
 "SettingsView.alert.autoResumeWork.label" = "Retomar trabalho automaticamente";
 
+"SettingsView.app.language.label" = "Idioma";
+"SettingsView.app.language.system.label" = "Sistema";
+"SettingsView.language.restart.title" = "Reinicialização necessária";
+"SettingsView.language.restart.message" = "O TomoBar precisa ser reiniciado para aplicar a nova configuração de idioma.";
+"SettingsView.language.restart.restart" = "Reiniciar agora";
+"SettingsView.language.restart.later" = "Mais tarde";
+
 "SettingsView.app.startTimerOnLaunch.label" = "Iniciar cronômetro ao abrir";
 "SettingsView.app.launchAtLogin.label" = "Iniciar ao fazer login";
 

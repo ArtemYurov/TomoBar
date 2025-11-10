@@ -60,6 +60,13 @@
 "SettingsView.alert.maskMode.blockActions.label" = "Αποκλεισμός ενεργειών";
 "SettingsView.alert.autoResumeWork.label" = "Αυτόματη συνέχιση εργασίας";
 
+"SettingsView.app.language.label" = "Γλώσσα";
+"SettingsView.app.language.system.label" = "Σύστημα";
+"SettingsView.language.restart.title" = "Απαιτείται επανεκκίνηση";
+"SettingsView.language.restart.message" = "Το TomoBar πρέπει να επανεκκινηθεί για να εφαρμοστεί η νέα ρύθμιση γλώσσας.";
+"SettingsView.language.restart.restart" = "Επανεκκίνηση τώρα";
+"SettingsView.language.restart.later" = "Αργότερα";
+
 "SettingsView.app.startTimerOnLaunch.label" = "Έναρξη χρονομέτρου κατά την εκκίνηση";
 "SettingsView.app.launchAtLogin.label" = "Εκκίνηση εφαρμογής κατά την εκκίνηση";
 

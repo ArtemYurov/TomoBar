@@ -1,6 +1,25 @@
 import Foundation
 import SwiftUI
 
+// Get localized name for a language code
+func getLanguageName(for code: String) -> String {
+    if code == "system" {
+        return NSLocalizedString("SettingsView.app.language.system.label",
+                                comment: "Language system label")
+    }
+    // Get language name in its own language via Locale API
+    if let name = Locale(identifier: code).localizedString(forLanguageCode: code) {
+        return name.prefix(1).uppercased() + name.dropFirst()
+    }
+    return code
+}
+
+// Get available app languages: system + all localizations from bundle
+func getAvailableLanguages() -> [String] {
+    let localizations = Bundle.main.localizations.filter { $0 != "Base" }.sorted()
+    return ["system"] + localizations
+}
+
 func clampedNumberFormatter(min: Int, max: Int) -> NumberFormatter {
     let formatter = NumberFormatter()
     formatter.minimum = NSNumber(value: min)

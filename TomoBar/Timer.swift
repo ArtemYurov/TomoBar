@@ -29,6 +29,7 @@ struct TimerPreset: Codable {
 }
 
 class TBTimer: ObservableObject {
+    @AppStorage("appLanguage") var appLanguage = "system"
     @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = false
     @AppStorage("showTimerMode") var showTimerMode = ShowTimerMode.running
     @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.fontSystem

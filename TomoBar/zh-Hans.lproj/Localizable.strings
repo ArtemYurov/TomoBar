@@ -60,6 +60,13 @@
 "SettingsView.alert.maskMode.blockActions.label" = "阻止操作";
 "SettingsView.alert.autoResumeWork.label" = "自动恢复工作";
 
+"SettingsView.app.language.label" = "语言";
+"SettingsView.app.language.system.label" = "系统";
+"SettingsView.language.restart.title" = "需要重启";
+"SettingsView.language.restart.message" = "TomoBar 需要重启以应用新的语言设置。";
+"SettingsView.language.restart.restart" = "立即重启";
+"SettingsView.language.restart.later" = "稍后";
+
 "SettingsView.app.startTimerOnLaunch.label" = "启动时启动计时器";
 "SettingsView.app.launchAtLogin.label" = "登录时启动";
 

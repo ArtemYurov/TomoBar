@@ -60,6 +60,13 @@
 "SettingsView.alert.maskMode.blockActions.label" = "Bloquer les actions";
 "SettingsView.alert.autoResumeWork.label" = "Reprendre le travail automatiquement";
 
+"SettingsView.app.language.label" = "Langue";
+"SettingsView.app.language.system.label" = "Système";
+"SettingsView.language.restart.title" = "Redémarrage requis";
+"SettingsView.language.restart.message" = "TomoBar doit redémarrer pour appliquer le nouveau paramètre de langue.";
+"SettingsView.language.restart.restart" = "Redémarrer maintenant";
+"SettingsView.language.restart.later" = "Plus tard";
+
 "SettingsView.app.startTimerOnLaunch.label" = "Démarrer le minuteur au lancement";
 "SettingsView.app.launchAtLogin.label" = "Lancer à l'ouverture de session";
 

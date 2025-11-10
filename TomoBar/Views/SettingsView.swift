@@ -105,6 +105,22 @@ struct SettingsView: View {
                                        comment: "Launch at login label"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }.toggleStyle(.switch)
+            HStack {
+                Text(NSLocalizedString("SettingsView.app.language.label",
+                                       comment: "Language label"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Picker("", selection: $timer.appLanguage) {
+                    ForEach(getAvailableLanguages(), id: \.self) { languageCode in
+                        Text(getLanguageName(for: languageCode))
+                            .tag(languageCode)
+                    }
+                }
+                .labelsHidden()
+            }
+            .onChange(of: timer.appLanguage) { newValue in
+                LocalizationManager.shared.applyLanguageSettings(for: newValue)
+                LocalizationManager.shared.showRestartAlert()
+            }
             #if DEBUG
             Toggle(isOn: $timer.useSecondsInsteadOfMinutes) {
                 Text("Use sec instead of min (for testing)")
