@@ -56,9 +56,7 @@
 "SettingsView.alert.notifyStyle.system.label" = "システム通知";
 "SettingsView.alert.notifyStyle.small.label" = "小";
 "SettingsView.alert.notifyStyle.big.label" = "大";
-"SettingsView.alert.maskMode.label" = "マスクモード";
-"SettingsView.alert.maskMode.normal.label" = "ノーマル";
-"SettingsView.alert.maskMode.blockActions.label" = "アクションをブロック";
+"SettingsView.alert.maskMode.blockActions.label" = "休憩中に画面をロック";
 "SettingsView.alert.autoResumeWork.label" = "作業を自動的に再開";
 
 "SettingsView.app.language.label" = "言語";

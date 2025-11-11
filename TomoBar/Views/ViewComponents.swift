@@ -125,10 +125,6 @@ extension DropdownDescribable {
                                                comment: "Notify style small label")
         case "big": return NSLocalizedString("SettingsView.alert.notifyStyle.big.label",
                                              comment: "Notify style big label")
-        case "normal": return NSLocalizedString("SettingsView.alert.maskMode.normal.label",
-                                                comment: "Mask mode normal label")
-        case "blockActions": return NSLocalizedString("SettingsView.alert.maskMode.blockActions.label",
-                                                      comment: "Mask mode block actions label")
         case "dndOff": return NSLocalizedString("IntervalsView.dnd.off",
                                                 comment: "DND off label")
         case "onWork": return NSLocalizedString("IntervalsView.dnd.onWork",

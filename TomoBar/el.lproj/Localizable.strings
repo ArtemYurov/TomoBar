@@ -56,9 +56,7 @@
 "SettingsView.alert.notifyStyle.system.label" = "Σύστημα";
 "SettingsView.alert.notifyStyle.small.label" = "Μικρό";
 "SettingsView.alert.notifyStyle.big.label" = "Μεγάλο";
-"SettingsView.alert.maskMode.label" = "Λειτουργία μάσκας";
-"SettingsView.alert.maskMode.normal.label" = "Κανονικό";
-"SettingsView.alert.maskMode.blockActions.label" = "Αποκλεισμός ενεργειών";
+"SettingsView.alert.maskMode.blockActions.label" = "Κλείδωμα οθόνης κατά το διάλειμμα";
 "SettingsView.alert.autoResumeWork.label" = "Αυτόματη συνέχιση εργασίας";
 
 "SettingsView.app.language.label" = "Γλώσσα";

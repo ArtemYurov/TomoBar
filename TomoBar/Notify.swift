@@ -8,10 +8,6 @@ enum NotifyStyle: String, CaseIterable, DropdownDescribable {
     case notifySystem, small, big
 }
 
-enum MaskMode: String, CaseIterable, DropdownDescribable {
-    case normal, blockActions
-}
-
 class TBNotify: ObservableObject {
     @AppStorage("alertMode") var alertMode = AlertMode.notify
     @AppStorage("notifyStyle") var notifyStyle = NotifyStyle.big
@@ -60,7 +56,7 @@ class TBNotify: ObservableObject {
             system.restStarted(isLong: isLong)
 
         case .fullScreen:
-            mask.show(isLong: isLong, blockActions: (mask.maskMode == .blockActions))
+            mask.show(isLong: isLong, blockActions: mask.maskBlockActions)
 
         default:
             return

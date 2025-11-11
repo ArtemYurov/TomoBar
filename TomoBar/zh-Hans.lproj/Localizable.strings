@@ -56,9 +56,7 @@
 "SettingsView.alert.notifyStyle.system.label" = "系统通知";
 "SettingsView.alert.notifyStyle.small.label" = "小";
 "SettingsView.alert.notifyStyle.big.label" = "大";
-"SettingsView.alert.maskMode.label" = "遮罩模式";
-"SettingsView.alert.maskMode.normal.label" = "正常";
-"SettingsView.alert.maskMode.blockActions.label" = "阻止操作";
+"SettingsView.alert.maskMode.blockActions.label" = "休息时锁定屏幕";
 "SettingsView.alert.autoResumeWork.label" = "自动恢复工作";
 
 "SettingsView.app.language.label" = "语言";

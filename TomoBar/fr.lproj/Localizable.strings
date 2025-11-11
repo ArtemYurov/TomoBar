@@ -56,9 +56,7 @@
 "SettingsView.alert.notifyStyle.system.label" = "Système";
 "SettingsView.alert.notifyStyle.small.label" = "Petit";
 "SettingsView.alert.notifyStyle.big.label" = "Grand";
-"SettingsView.alert.maskMode.label" = "Mode de masque";
-"SettingsView.alert.maskMode.normal.label" = "Normal";
-"SettingsView.alert.maskMode.blockActions.label" = "Bloquer les actions";
+"SettingsView.alert.maskMode.blockActions.label" = "Bloquer l'écran pendant la pause";
 "SettingsView.alert.autoResumeWork.label" = "Reprendre le travail automatiquement";
 
 "SettingsView.app.language.label" = "Langue";

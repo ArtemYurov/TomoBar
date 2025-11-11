@@ -56,9 +56,7 @@
 "SettingsView.alert.notifyStyle.system.label" = "Системное";
 "SettingsView.alert.notifyStyle.small.label" = "Маленькое";
 "SettingsView.alert.notifyStyle.big.label" = "Большое";
-"SettingsView.alert.maskMode.label" = "Режим";
-"SettingsView.alert.maskMode.normal.label" = "Обычный";
-"SettingsView.alert.maskMode.blockActions.label" = "Блокировать действия";
+"SettingsView.alert.maskMode.blockActions.label" = "Блокировать экран на отдыхе";
 "SettingsView.alert.autoResumeWork.label" = "Автоматически возобновлять работу";
 
 "SettingsView.app.language.label" = "Язык";

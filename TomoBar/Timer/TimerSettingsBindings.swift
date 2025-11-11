@@ -25,10 +25,10 @@ extension TBTimer {
         }
     }
 
-    var maskMode: MaskMode {
-        get { notify.mask.maskMode }
+    var maskBlockActions: Bool {
+        get { notify.mask.maskBlockActions }
         set {
-            notify.mask.maskMode = newValue
+            notify.mask.maskBlockActions = newValue
             objectWillChange.send()
         }
     }

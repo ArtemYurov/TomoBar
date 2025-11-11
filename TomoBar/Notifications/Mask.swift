@@ -4,7 +4,7 @@ import Foundation
 import SwiftUI
 
 class MaskHelper {
-    @AppStorage("maskMode") var maskMode = MaskMode.normal
+    @AppStorage("maskBlockActions") var maskBlockActions = false
     @AppStorage("maskAutoResumeWork") var maskAutoResumeWork = false
 
     var windowControllers = [NSWindowController]()

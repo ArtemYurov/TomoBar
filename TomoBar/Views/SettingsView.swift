@@ -87,12 +87,11 @@ struct SettingsView: View {
                         .frameInfinityLeading()
                 }
                 .toggleStyle(.switch)
-                HStack {
-                    Text(NSLocalizedString("SettingsView.alert.maskMode.label",
-                                           comment: "Mask mode label"))
+                Toggle(isOn: $timer.maskBlockActions) {
+                    Text(NSLocalizedString("SettingsView.alert.maskMode.blockActions.label",
+                                           comment: "Block actions label"))
                         .frameInfinityLeading()
-                    EnumSegmentedPicker(value: $timer.maskMode)
-                }
+                }.toggleStyle(.switch)
             case .disabled:
                 EmptyView()
             }
