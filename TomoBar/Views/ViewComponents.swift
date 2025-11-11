@@ -129,6 +129,10 @@ extension DropdownDescribable {
                                                 comment: "Mask mode normal label")
         case "blockActions": return NSLocalizedString("SettingsView.alert.maskMode.blockActions.label",
                                                       comment: "Mask mode block actions label")
+        case "dndOff": return NSLocalizedString("IntervalsView.dnd.off",
+                                                comment: "DND off label")
+        case "onWork": return NSLocalizedString("IntervalsView.dnd.onWork",
+                                                comment: "DND on work label")
         default: return self.rawValue.capitalized
         }
     }

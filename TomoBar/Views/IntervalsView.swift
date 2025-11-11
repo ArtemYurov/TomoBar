@@ -10,18 +10,16 @@ struct IntervalsView: View {
     private var minStr = NSLocalizedString("IntervalsView.min", comment: "min")
     #endif
 
-    enum DNDMode: String, CaseIterable, Identifiable {
-        case off
+    enum DNDMode: String, CaseIterable, DropdownDescribable {
+        case dndOff
         case onWork
-
-        var id: String { rawValue }
     }
 
     // Temporary computed property for mapping bool to/from enum (preserves functionality)
     private var dndMode: Binding<DNDMode> {
         Binding(
             get: {
-                timer.currentPresetInstance.focusOnWork ? .onWork : .off
+                timer.currentPresetInstance.focusOnWork ? .onWork : .dndOff
             },
             set: { newValue in
                 // For now, only .onWork sets true, everything else is false
@@ -78,17 +76,9 @@ struct IntervalsView: View {
                 Text(NSLocalizedString("IntervalsView.dnd.label",
                                        comment: "DND"))
                     .frameInfinityLeading()
-                Picker("", selection: dndMode) {
-                    Text(NSLocalizedString("IntervalsView.dnd.off", comment: "Off"))
-                        .tag(DNDMode.off)
-                    Text(NSLocalizedString("IntervalsView.dnd.onWork", comment: "On work"))
-                        .tag(DNDMode.onWork)
-                }
-                .labelsHidden()
-                .pickerStyle(.segmented)
-                .applyButtonSizingFlexible()
-                .help(NSLocalizedString("IntervalsView.dnd.help",
-                                        comment: "Toggle Do Not Disturb hint"))
+                StartStopDropdown(value: dndMode)
+                    .help(NSLocalizedString("IntervalsView.dnd.help",
+                                            comment: "Toggle Do Not Disturb hint"))
             }
             .onChange(of: timer.currentPresetInstance.focusOnWork) { _ in
                 updateDNDIfNeeded()
