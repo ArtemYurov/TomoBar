@@ -145,6 +145,7 @@ struct TBPopoverView: View {
             }
 
             Group {
+                #if SPARKLE
                 Button {
                     TBStatusItem.shared.checkForUpdates()
                 } label: {
@@ -155,6 +156,8 @@ struct TBPopoverView: View {
                 }
                 .buttonStyle(.plain)
                 .keyboardShortcut("u")
+                #endif
+
                 Button {
                     NSApp.activate(ignoringOtherApps: true)
                     NSApp.orderFrontStandardAboutPanel()

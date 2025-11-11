@@ -31,12 +31,36 @@ jobs:
         with:
           xcode-version: '26.1'
 
-
       - name: Install create-dmg and Sparkle
         if: github.ref_type == 'tag'
         run: |
           brew install create-dmg
           brew install sparkle
+
+      - name: Locate Sparkle Framework
+        if: github.ref_type == 'tag'
+        run: |
+          echo "🔍 Locating Sparkle.framework from Homebrew..."
+          SPARKLE_FW=(/opt/homebrew/Caskroom/sparkle/*/Sparkle.framework)
+          SPARKLE_FW=${SPARKLE_FW[0]}
+
+          if [ ! -d "$SPARKLE_FW" ]; then
+            echo "❌ Sparkle.framework not found"
+            exit 1
+          fi
+
+          echo "✅ Found at: $SPARKLE_FW"
+          ln -s "$SPARKLE_FW" ./Sparkle.framework
+
+      - name: Add network entitlement for Sparkle
+        if: github.ref_type == 'tag'
+        run: |
+          echo "🔑 Adding network client entitlement for Sparkle..."
+
+          # Add com.apple.security.network.client to entitlements
+          /usr/libexec/PlistBuddy -c "Add :com.apple.security.network.client bool true" TomoBar/TomoBar.entitlements || true
+
+          echo "✅ Network entitlement added"
 
       - name: Install Apple Certificate
         if: github.ref_type == 'tag'
@@ -93,7 +117,9 @@ jobs:
               exit 1
             fi
 
-            # For signed builds: use Manual signing style with Developer ID
+            # Build with Sparkle enabled
+            echo "🔨 Building with Sparkle framework..."
+            # Note: ENABLE_OUTGOING_NETWORK_CONNECTIONS=YES which is required for Sparkle to check for updates
             xcodebuild archive -project TomoBar.xcodeproj \
                                -scheme TomoBar \
                                -configuration Release \
@@ -104,8 +130,47 @@ jobs:
                                CODE_SIGN_STYLE=Manual \
                                CODE_SIGN_IDENTITY="$CERT_IDENTITY" \
                                DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
-                               ASSETCATALOG_COMPILER_SKIP_APP_STORE_DEPLOYMENT=YES \
-                               OTHER_SWIFT_FLAGS="-Xfrontend -disable-batch-mode"
+                               ENABLE_OUTGOING_NETWORK_CONNECTIONS=YES \
+                               FRAMEWORK_SEARCH_PATHS="\$(inherited) \$(PROJECT_DIR)" \
+                               OTHER_SWIFT_FLAGS="-Xfrontend -disable-batch-mode -D SPARKLE" \
+                               OTHER_LDFLAGS="-framework Sparkle" \
+                               ASSETCATALOG_COMPILER_SKIP_APP_STORE_DEPLOYMENT=YES
+
+            # Copy Sparkle to app bundle
+            echo "📦 Copying Sparkle to app bundle..."
+            APP_PATH="TomoBar.xcarchive/Products/Applications/TomoBar.app"
+            mkdir -p "$APP_PATH/Contents/Frameworks"
+            cp -R Sparkle.framework "$APP_PATH/Contents/Frameworks/"
+
+            # Sign Sparkle components according to official documentation
+            echo "✍️  Signing Sparkle components..."
+            SPARKLE_PATH="$APP_PATH/Contents/Frameworks/Sparkle.framework/Versions/B"
+
+            # Sign XPC Services
+            codesign -f -s "$CERT_IDENTITY" -o runtime \
+              "$SPARKLE_PATH/XPCServices/Installer.xpc"
+
+            codesign -f -s "$CERT_IDENTITY" -o runtime --preserve-metadata=entitlements \
+              "$SPARKLE_PATH/XPCServices/Downloader.xpc"
+
+            # Sign helper tools
+            codesign -f -s "$CERT_IDENTITY" -o runtime \
+              "$SPARKLE_PATH/Autoupdate"
+
+            codesign -f -s "$CERT_IDENTITY" -o runtime \
+              "$SPARKLE_PATH/Updater.app"
+
+            # Sign the framework itself
+            codesign -f -s "$CERT_IDENTITY" -o runtime \
+              "$APP_PATH/Contents/Frameworks/Sparkle.framework"
+
+            # Re-sign the entire app to ensure consistent signatures
+            echo "✍️  Re-signing TomoBar.app..."
+            codesign -f -s "$CERT_IDENTITY" -o runtime \
+              --entitlements TomoBar/TomoBar.entitlements \
+              "$APP_PATH"
+
+            echo "✅ Build and signing complete"
           else
             # For unsigned builds: disable signing
             xcodebuild archive -project TomoBar.xcodeproj \

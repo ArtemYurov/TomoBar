@@ -1,6 +1,8 @@
 import SwiftUI
 import LaunchAtLogin
+#if SPARKLE
 import Sparkle
+#endif
 
 extension NSImage.Name {
     static let idle = Self("BarIconIdle")
@@ -40,15 +42,19 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem?
     static var shared: TBStatusItem!
     private var view: TBPopoverView!
+    #if SPARKLE
     private let updaterController: SPUStandardUpdaterController
     private let userDriverDelegate = TBStatusItemUserDriverDelegate()
+    #endif
 
     // Read display settings directly from AppStorage
     @AppStorage("timerFontMode") private var timerFontMode = TimerFontMode.fontSystem
     @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = 0
 
     override init() {
+        #if SPARKLE
         updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: userDriverDelegate)
+        #endif
         super.init()
     }
 
@@ -144,12 +150,19 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     }
 
     func checkForUpdates() {
+        #if SPARKLE
         updaterController.checkForUpdates(nil)
+        #else
+        // Updates are managed by the App Store or not available
+        NSLog("TomoBar: Auto-update is not available in this build")
+        #endif
     }
 }
 
+#if SPARKLE
 class TBStatusItemUserDriverDelegate: NSObject, SPUStandardUserDriverDelegate {
     var supportsGentleScheduledUpdateReminders: Bool {
         return true
     }
 }
+#endif
