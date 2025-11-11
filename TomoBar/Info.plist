@@ -17,10 +17,14 @@
 			</array>
 		</dict>
 	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>NSSupportsAutomaticTermination</key>
 	<false/>
 	<key>NSSupportsSuddenTermination</key>
 	<false/>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>TomoBar sends notifications when work sessions and breaks start or end to help you stay focused and take regular breaks.</string>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUEnableInstallerLauncherService</key>
@@ -30,6 +34,6 @@
 	<key>SUPublicEDKey</key>
 	<string>vIe2JDEyuBZHzM+mjSwQYSODEZX/8fYghjMvVk/tgMY=</string>
 	<key>SUScheduledCheckInterval</key>
-	<integer>216000</integer>
+	<integer>86400</integer>
 </dict>
 </plist>

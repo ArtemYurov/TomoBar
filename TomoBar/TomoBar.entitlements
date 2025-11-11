@@ -4,8 +4,6 @@
 <dict>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
-	<key>com.apple.security.network.client</key>
-	<true/>
 	<key>com.apple.security.automation.apple-events</key>
 	<true/>
 	<key>com.apple.security.scripting-targets</key>
@@ -17,8 +15,8 @@
 	</dict>
 	<key>com.apple.security.temporary-exception.mach-lookup.global-name</key>
 	<array>
-		<string>$(PRODUCT_BUNDLE_IDENTIFIER)-spks</string>
-		<string>$(PRODUCT_BUNDLE_IDENTIFIER)-spki</string>
+		<string>org.yurov.tomobar-spks</string>
+		<string>org.yurov.tomobar-spki</string>
 	</array>
 </dict>
 </plist>
