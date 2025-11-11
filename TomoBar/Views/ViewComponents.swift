@@ -77,7 +77,7 @@ enum UISizes {
 
 protocol DropdownDescribable: RawRepresentable where RawValue == String { }
 
-struct StartStopDropdown<E: CaseIterable & Hashable & DropdownDescribable>: View where E.RawValue == String, E.AllCases: RandomAccessCollection {
+struct EnumSegmentedPicker<E: CaseIterable & Hashable & DropdownDescribable>: View where E.RawValue == String, E.AllCases: RandomAccessCollection {
     @Binding var value: E
 
     var body: some View {

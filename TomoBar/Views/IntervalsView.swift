@@ -67,7 +67,7 @@ struct IntervalsView: View {
                 Text(NSLocalizedString("IntervalsView.startWith.label",
                                        comment: "Start with"))
                     .frameInfinityLeading()
-                StartStopDropdown(value: $timer.currentPresetInstance.startWith)
+                EnumSegmentedPicker(value: $timer.currentPresetInstance.startWith)
             }
             .onChange(of: timer.currentPresetInstance.startWith) { _ in
                 timer.updateDisplay()
@@ -76,7 +76,7 @@ struct IntervalsView: View {
                 Text(NSLocalizedString("IntervalsView.dnd.label",
                                        comment: "DND"))
                     .frameInfinityLeading()
-                StartStopDropdown(value: dndMode)
+                EnumSegmentedPicker(value: dndMode)
                     .help(NSLocalizedString("IntervalsView.dnd.help",
                                             comment: "Toggle Do Not Disturb hint"))
             }
@@ -189,7 +189,7 @@ struct IntervalsView: View {
                 Text(NSLocalizedString("IntervalsView.stopAfter.label",
                                        comment: "Stop after"))
                     .frameInfinityLeading()
-                StartStopDropdown(value: $timer.currentPresetInstance.sessionStopAfter)
+                EnumSegmentedPicker(value: $timer.currentPresetInstance.sessionStopAfter)
             }
             Spacer().frame(minHeight: 0)
             HStack {

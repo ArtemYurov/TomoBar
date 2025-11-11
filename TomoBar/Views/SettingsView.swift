@@ -11,7 +11,7 @@ struct SettingsView: View {
                 Text(NSLocalizedString("SettingsView.timer.show.label",
                                        comment: "Show timer label"))
                     .frameInfinityLeading()
-                StartStopDropdown(value: $timer.showTimerMode)
+                EnumSegmentedPicker(value: $timer.showTimerMode)
             }
             .onChange(of: timer.showTimerMode) { _ in
                 timer.updateDisplay()
@@ -21,7 +21,7 @@ struct SettingsView: View {
                     Text(NSLocalizedString("SettingsView.timer.font.label",
                                            comment: "Timer font label"))
                         .frameInfinityLeading()
-                    StartStopDropdown(value: $timer.timerFontMode)
+                    EnumSegmentedPicker(value: $timer.timerFontMode)
                 }
                 .onChange(of: timer.timerFontMode) { _ in
                     timer.updateDisplay()
@@ -44,7 +44,7 @@ struct SettingsView: View {
                 Text(NSLocalizedString("SettingsView.alert.mode.label",
                                        comment: "Alert mode label"))
                     .frameInfinityLeading()
-                StartStopDropdown(value: $timer.alertMode)
+                EnumSegmentedPicker(value: $timer.alertMode)
             }
             .onChange(of: timer.alertMode) { _ in
                 timer.notify.preview()
@@ -55,7 +55,7 @@ struct SettingsView: View {
                     Text(NSLocalizedString("SettingsView.alert.notifyStyle.label",
                                            comment: "Notify style label"))
                         .frameInfinityLeading()
-                    StartStopDropdown(value: $timer.notifyStyle)
+                    EnumSegmentedPicker(value: $timer.notifyStyle)
                 }
                 .onChange(of: timer.notifyStyle) { newValue in
                     TBStatusItem.shared.closePopover(nil)
@@ -90,7 +90,7 @@ struct SettingsView: View {
                     Text(NSLocalizedString("SettingsView.alert.maskMode.label",
                                            comment: "Mask mode label"))
                         .frameInfinityLeading()
-                    StartStopDropdown(value: $timer.maskMode)
+                    EnumSegmentedPicker(value: $timer.maskMode)
                 }
             case .disabled:
                 EmptyView()
