@@ -46,9 +46,6 @@ struct SettingsView: View {
                     .frameInfinityLeading()
                 EnumSegmentedPicker(value: $timer.alertMode)
             }
-            .onChange(of: timer.alertMode) { _ in
-                timer.notify.preview()
-            }
             switch timer.alertMode {
             case .notify:
                 HStack {
