@@ -68,7 +68,7 @@ struct IntervalsView: View {
             HStack {
                 Text(NSLocalizedString("IntervalsView.startWith.label",
                                        comment: "Start with"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frameInfinityLeading()
                 StartStopDropdown(value: $timer.currentPresetInstance.startWith)
             }
             .onChange(of: timer.currentPresetInstance.startWith) { _ in
@@ -77,7 +77,7 @@ struct IntervalsView: View {
             HStack {
                 Text(NSLocalizedString("IntervalsView.dnd.label",
                                        comment: "DND"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frameInfinityLeading()
                 Picker("", selection: dndMode) {
                     Text(NSLocalizedString("IntervalsView.dnd.off", comment: "Off"))
                         .tag(DNDMode.off)
@@ -97,7 +97,7 @@ struct IntervalsView: View {
                 HStack {
                     Text(NSLocalizedString("IntervalsView.workIntervalLength.label",
                                            comment: "Work interval label"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frameInfinityLeading()
                     TextField("", value: $timer.currentPresetInstance.workIntervalLength, formatter: clampedNumberFormatter(min: 1, max: 120))
                         .frame(width: 36, alignment: .trailing)
                         .multilineTextAlignment(.trailing)
@@ -113,7 +113,7 @@ struct IntervalsView: View {
                 HStack {
                     Text(NSLocalizedString("IntervalsView.shortRestIntervalLength.label",
                                            comment: "Short rest interval label"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frameInfinityLeading()
                     TextField("", text: Binding(
                         get: {
                             isFieldDisabled(.shortRest) ? "—" : "\(timer.currentPresetInstance.shortRestIntervalLength)"
@@ -142,7 +142,7 @@ struct IntervalsView: View {
                 HStack {
                     Text(NSLocalizedString("IntervalsView.longRestIntervalLength.label",
                                            comment: "Long rest interval label"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frameInfinityLeading()
                     TextField("", text: Binding(
                         get: {
                             isFieldDisabled(.longRest) ? "—" : "\(timer.currentPresetInstance.longRestIntervalLength)"
@@ -173,7 +173,7 @@ struct IntervalsView: View {
                 HStack {
                     Text(NSLocalizedString("IntervalsView.workIntervalsInSet.label",
                                            comment: "Work intervals in a set label"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frameInfinityLeading()
                     TextField("", text: Binding(
                         get: {
                             isFieldDisabled(.workIntervals) ? "—" : "\(timer.currentPresetInstance.workIntervalsInSet)"
@@ -198,7 +198,7 @@ struct IntervalsView: View {
             HStack {
                 Text(NSLocalizedString("IntervalsView.stopAfter.label",
                                        comment: "Stop after"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frameInfinityLeading()
                 StartStopDropdown(value: $timer.currentPresetInstance.sessionStopAfter)
             }
             Spacer().frame(minHeight: 0)

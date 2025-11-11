@@ -11,6 +11,11 @@ extension View {
             self
         }
     }
+
+    /// Frame with maxWidth infinity and leading alignment
+    func frameInfinityLeading() -> some View {
+        self.frame(maxWidth: .infinity, alignment: .leading)
+    }
 }
 
 // Get localized name for a language code

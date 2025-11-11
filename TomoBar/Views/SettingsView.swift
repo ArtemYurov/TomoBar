@@ -10,7 +10,7 @@ struct SettingsView: View {
             HStack {
                 Text(NSLocalizedString("SettingsView.timer.show.label",
                                        comment: "Show timer label"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frameInfinityLeading()
                 StartStopDropdown(value: $timer.showTimerMode)
             }
             .onChange(of: timer.showTimerMode) { _ in
@@ -20,7 +20,7 @@ struct SettingsView: View {
                 HStack {
                     Text(NSLocalizedString("SettingsView.timer.font.label",
                                            comment: "Timer font label"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frameInfinityLeading()
                     StartStopDropdown(value: $timer.timerFontMode)
                 }
                 .onChange(of: timer.timerFontMode) { _ in
@@ -30,7 +30,7 @@ struct SettingsView: View {
                     HStack {
                         Text(NSLocalizedString("SettingsView.timer.grayBackground.label",
                                                comment: "Gray background label"))
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .frameInfinityLeading()
                         TextField("", value: $timer.grayBackgroundOpacity, formatter: clampedNumberFormatter(min: 0, max: 10))
                             .frame(width: 36, alignment: .trailing)
                             .multilineTextAlignment(.trailing)
@@ -43,7 +43,7 @@ struct SettingsView: View {
             HStack {
                 Text(NSLocalizedString("SettingsView.alert.mode.label",
                                        comment: "Alert mode label"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frameInfinityLeading()
                 StartStopDropdown(value: $timer.alertMode)
             }
             .onChange(of: timer.alertMode) { _ in
@@ -54,7 +54,7 @@ struct SettingsView: View {
                 HStack {
                     Text(NSLocalizedString("SettingsView.alert.notifyStyle.label",
                                            comment: "Notify style label"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frameInfinityLeading()
                     StartStopDropdown(value: $timer.notifyStyle)
                 }
                 .onChange(of: timer.notifyStyle) { newValue in
@@ -69,7 +69,7 @@ struct SettingsView: View {
                         HStack {
                             Text(NSLocalizedString("SettingsView.timer.backgroundOpacity.label",
                                                    comment: "Custom notification background label"))
-                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .frameInfinityLeading()
                             TextField("", value: $timer.customBackgroundOpacity, formatter: clampedNumberFormatter(min: 3, max: 10))
                                 .frame(width: 36, alignment: .trailing)
                                 .multilineTextAlignment(.trailing)
@@ -83,13 +83,13 @@ struct SettingsView: View {
                 Toggle(isOn: $timer.maskAutoResumeWork) {
                     Text(NSLocalizedString("SettingsView.alert.autoResumeWork.label",
                                            comment: "Resume work automatically label"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frameInfinityLeading()
                 }
                 .toggleStyle(.switch)
                 HStack {
                     Text(NSLocalizedString("SettingsView.alert.maskMode.label",
                                            comment: "Mask mode label"))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frameInfinityLeading()
                     StartStopDropdown(value: $timer.maskMode)
                 }
             case .disabled:
@@ -98,17 +98,17 @@ struct SettingsView: View {
             Toggle(isOn: $timer.startTimerOnLaunch) {
                 Text(NSLocalizedString("SettingsView.app.startTimerOnLaunch.label",
                                        comment: "Start timer on launch label"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frameInfinityLeading()
             }.toggleStyle(.switch)
             Toggle(isOn: $launchAtLogin.isEnabled) {
                 Text(NSLocalizedString("SettingsView.app.launchAtLogin.label",
                                        comment: "Launch at login label"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frameInfinityLeading()
             }.toggleStyle(.switch)
             HStack {
                 Text(NSLocalizedString("SettingsView.app.language.label",
                                        comment: "Language label"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frameInfinityLeading()
                 Picker("", selection: $timer.appLanguage) {
                     ForEach(getAvailableLanguages(), id: \.self) { languageCode in
                         Text(getLanguageName(for: languageCode))
@@ -124,7 +124,7 @@ struct SettingsView: View {
             #if DEBUG
             Toggle(isOn: $timer.useSecondsInsteadOfMinutes) {
                 Text("Use sec instead of min (for testing)")
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frameInfinityLeading()
             }
             .toggleStyle(.switch)
             .onChange(of: timer.useSecondsInsteadOfMinutes) { _ in
