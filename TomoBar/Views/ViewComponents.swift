@@ -1,6 +1,18 @@
 import Foundation
 import SwiftUI
 
+extension View {
+    /// Apply flexible button sizing for segmented pickers on macOS 26+
+    @ViewBuilder
+    func applyButtonSizingFlexible() -> some View {
+        if #available(macOS 26.0, *) {
+            self.buttonSizing(.flexible)
+        } else {
+            self
+        }
+    }
+}
+
 // Get localized name for a language code
 func getLanguageName(for code: String) -> String {
     if code == "system" {
@@ -29,6 +41,35 @@ func clampedNumberFormatter(min: Int, max: Int) -> NumberFormatter {
     return formatter
 }
 
+// Adaptive UI size for different macOS versions
+func uiSize(_ base: CGFloat, macOS26: CGFloat) -> CGFloat {
+    if #available(macOS 26, *) { return macOS26 }
+    return base
+}
+
+// Adaptive UI sizes for different macOS versions
+enum UISizes {
+    // Size for icon action buttons (pause, skip)
+    static var actionButtonSize: CGFloat {
+        uiSize(28, macOS26: 32)
+    }
+
+    // Height for small action buttons (+1, +5)
+    static var smallActionButtonHeight: CGFloat {
+        uiSize(20, macOS26: 22)
+    }
+
+    // Font size for action button icons
+    static var actionFontSize: CGFloat {
+        uiSize(20, macOS26: 22)
+    }
+
+    // Font size for small action button text (+1, +5)
+    static var smallActionFontSize: CGFloat {
+        uiSize(10, macOS26: 11)
+    }
+}
+
 protocol DropdownDescribable: RawRepresentable where RawValue == String { }
 
 struct StartStopDropdown<E: CaseIterable & Hashable & DropdownDescribable>: View where E.RawValue == String, E.AllCases: RandomAccessCollection {
@@ -42,6 +83,7 @@ struct StartStopDropdown<E: CaseIterable & Hashable & DropdownDescribable>: View
         }
         .labelsHidden()
         .pickerStyle(.segmented)
+        .applyButtonSizingFlexible()
     }
 }
 
@@ -122,10 +164,10 @@ struct VolumeSlider: View {
 private struct IconButtonStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 20))
+            .font(.system(size: UISizes.actionFontSize))
             .accentColor(Color.white)
             .buttonStyle(.plain)
-            .frame(width: 28, height: 28)
+            .frame(width: UISizes.actionButtonSize, height: UISizes.actionButtonSize)
     }
 }
 

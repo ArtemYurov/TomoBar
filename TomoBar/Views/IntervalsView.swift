@@ -86,6 +86,7 @@ struct IntervalsView: View {
                 }
                 .labelsHidden()
                 .pickerStyle(.segmented)
+                .applyButtonSizingFlexible()
                 .help(NSLocalizedString("IntervalsView.dnd.help",
                                         comment: "Toggle Do Not Disturb hint"))
             }
@@ -204,8 +205,7 @@ struct IntervalsView: View {
             HStack {
                 Text(NSLocalizedString("IntervalsView.presets.label",
                                        comment: "Presets label"))
-                    .frame(alignment: .leading)
-                Spacer()
+                Spacer().frame(width: 12)
                 Picker("", selection: $timer.currentPreset) {
                     Text("1").tag(0)
                     Text("2").tag(1)
@@ -213,8 +213,9 @@ struct IntervalsView: View {
                     Text("4").tag(3)
                 }
                 .labelsHidden()
-                .frame(maxWidth: 200)
+                .frame(minWidth: 180, maxWidth: .infinity, alignment: .trailing)
                 .pickerStyle(.segmented)
+                .applyButtonSizingFlexible()
             }
             .onChange(of: timer.currentPreset) { _ in
                 timer.updateDisplay()

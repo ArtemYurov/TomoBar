@@ -51,7 +51,7 @@
 
 "SettingsView.alert.mode.label" = "提醒模式";
 "SettingsView.alert.mode.notify.label" = "通知";
-"SettingsView.alert.mode.fullScreen.label" = "全屏";
+"SettingsView.alert.mode.fullScreen.label" = "全";
 "SettingsView.alert.notifyStyle.label" = "通知样式";
 "SettingsView.alert.notifyStyle.system.label" = "系统通知";
 "SettingsView.alert.notifyStyle.small.label" = "小";

@@ -51,7 +51,7 @@
 
 "SettingsView.alert.mode.label" = "Modalità allarme";
 "SettingsView.alert.mode.notify.label" = "Notifica";
-"SettingsView.alert.mode.fullScreen.label" = "Schermo intero";
+"SettingsView.alert.mode.fullScreen.label" = "Intero";
 "SettingsView.alert.notifyStyle.label" = "Stile notifica";
 "SettingsView.alert.notifyStyle.system.label" = "Sistema";
 "SettingsView.alert.notifyStyle.small.label" = "Piccola";

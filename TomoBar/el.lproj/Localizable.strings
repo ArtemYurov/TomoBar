@@ -51,7 +51,7 @@
 
 "SettingsView.alert.mode.label" = "Λειτουργία ειδοποίησης";
 "SettingsView.alert.mode.notify.label" = "Ειδοποίηση";
-"SettingsView.alert.mode.fullScreen.label" = "Πλήρης οθόνη";
+"SettingsView.alert.mode.fullScreen.label" = "Πλήρης";
 "SettingsView.alert.notifyStyle.label" = "Στυλ ειδοποίησης";
 "SettingsView.alert.notifyStyle.system.label" = "Σύστημα";
 "SettingsView.alert.notifyStyle.small.label" = "Μικρό";

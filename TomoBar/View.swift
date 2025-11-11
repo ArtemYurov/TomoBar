@@ -11,7 +11,8 @@ struct TBPopoverView: View {
 
     private func getLocalizedWidth() -> CGFloat {
         let widthString = NSLocalizedString("View.width", comment: "Width for the view")
-        return CGFloat(Double(widthString) ?? 255)
+        let baseWidth = CGFloat(Double(widthString) ?? 255)
+        return uiSize(baseWidth, macOS26: baseWidth + 50)
     }
 
     private func timerDisplayString() -> String {
@@ -72,9 +73,9 @@ struct TBPopoverView: View {
                     timer.addMinutes(1)
                 } label: {
                     Text("+1")
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.system(size: UISizes.smallActionFontSize, weight: .semibold))
                         .foregroundColor(Color.white)
-                        .frame(width: 28, height: 20)
+                        .frame(width: UISizes.actionButtonSize, height: UISizes.smallActionButtonHeight)
                         .background(Color.primary.opacity(0.8))
                         .clipShape(Circle())
                 }
@@ -86,9 +87,9 @@ struct TBPopoverView: View {
                     timer.addMinutes(5)
                 } label: {
                     Text("+5")
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.system(size: UISizes.smallActionFontSize, weight: .semibold))
                         .foregroundColor(Color.white)
-                        .frame(width: 28, height: 20)
+                        .frame(width: UISizes.actionButtonSize, height: UISizes.smallActionButtonHeight)
                         .background(Color.primary.opacity(0.8))
                         .clipShape(Circle())
                 }
