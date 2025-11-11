@@ -58,9 +58,13 @@ struct SettingsView: View {
                     EnumSegmentedPicker(value: $timer.notifyStyle)
                 }
                 .onChange(of: timer.notifyStyle) { newValue in
-                    TBStatusItem.shared.closePopover(nil)
                     if newValue == .notifySystem {
-                        timer.notify.system.requestPermissionsIfNeeded()
+                        timer.notify.system.needsPermission { needed in
+                            if needed {
+                                TBStatusItem.shared.closePopover(nil)
+                                timer.notify.system.requestPermission()
+                            }
+                        }
                     }
                     timer.notify.preview()
                 }

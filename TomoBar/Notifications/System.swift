@@ -46,17 +46,19 @@ class SystemNotifyHelper: NSObject, UNUserNotificationCenterDelegate {
         center.setNotificationCategories(Set(categories))
     }
 
-    func requestPermissionsIfNeeded() {
+    func needsPermission(completion: @escaping (Bool) -> Void) {
         center.getNotificationSettings { settings in
-            if settings.authorizationStatus == .notDetermined {
-                self.center.requestAuthorization(options: [.alert]) { granted, error in
-                    if let error = error {
-                        print("Error requesting notification authorization: \(error)")
-                    }
-                    if granted {
-                        print("Notification permission granted")
-                    }
-                }
+            completion(settings.authorizationStatus == .notDetermined)
+        }
+    }
+
+    func requestPermission() {
+        center.requestAuthorization(options: [.alert]) { granted, error in
+            if let error = error {
+                print("Error requesting notification authorization: \(error)")
+            }
+            if granted {
+                print("Notification permission granted")
             }
         }
     }
