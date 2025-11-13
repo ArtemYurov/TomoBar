@@ -1,4 +1,4 @@
-name: main
+name: GitHub Release
 
 on:
   push:
