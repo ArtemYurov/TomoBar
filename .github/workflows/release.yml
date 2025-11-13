@@ -186,6 +186,22 @@ jobs:
                                OTHER_SWIFT_FLAGS="-Xfrontend -disable-batch-mode"
           fi
 
+          # Create export options plist for Developer ID
+          cat > export_options.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+          	<key>method</key>
+          	<string>developer-id</string>
+          	<key>signingStyle</key>
+          	<string>manual</string>
+          	<key>signingCertificate</key>
+          	<string>Developer ID Application</string>
+          </dict>
+          </plist>
+          EOF
+
           # Export application
           xcodebuild -archivePath TomoBar.xcarchive \
                      -exportArchive \
@@ -291,3 +307,36 @@ jobs:
           tag_name: prerelease
           prerelease: true
           files: TomoBar-${{env.version}}.zip
+
+  trigger-appstore:
+    needs: build
+    if: success() && github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Trigger App Store workflow via API
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🚀 Triggering App Store upload workflow..."
+          echo "📦 Version: ${{ github.ref_name }}"
+          echo "🔖 Ref: ${{ github.ref }}"
+
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/release-appstore.yml/dispatches" \
+            -d "{\"ref\":\"${{ github.ref_name }}\"}")
+
+          if [ "$HTTP_STATUS" -eq 204 ]; then
+            echo ""
+            echo "✅ App Store workflow triggered successfully!"
+            echo "📊 Monitor progress at:"
+            echo "   ${{ github.server_url }}/${{ github.repository }}/actions/workflows/release-appstore.yml"
+          else
+            echo "❌ Failed to trigger workflow. HTTP status: $HTTP_STATUS"
+            exit 1
+          fi
