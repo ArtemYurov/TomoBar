@@ -186,6 +186,7 @@
 				8A21B78527EE31A20009E5DB /* Frameworks */,
 				8A21B78627EE31A20009E5DB /* Resources */,
 				8A7403A127FA1A4E00E7F90B /* Copy “Launch at Login Helper” */,
+				BD13C3F92EB0000000000001 /* Copy LaunchAtLoginHelper dSYM */,
 			);
 			buildRules = (
 			);
@@ -301,6 +302,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=/opt/homebrew/bin/:$PATH\nif command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
+		BD13C3F92EB0000000000001 /* Copy LaunchAtLoginHelper dSYM */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy LaunchAtLoginHelper dSYM";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Copy LaunchAtLoginHelper dSYM to archive (fixes Xcode validation warning)\nif [ \"$ACTION\" = \"install\" ] && [ \"$CONFIGURATION\" = \"Release\" ]; then\n  HELPER=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems/LaunchAtLoginHelper.app/Contents/MacOS/LaunchAtLoginHelper\"\n  if [ -f \"$HELPER\" ]; then\n    dsymutil \"$HELPER\" -o \"$HELPER.dSYM\" 2>/dev/null\n    [ -d \"$DWARF_DSYM_FOLDER_PATH\" ] && cp -Rf \"$HELPER.dSYM\" \"$DWARF_DSYM_FOLDER_PATH/LaunchAtLoginHelper.app.dSYM\"\n    rm -rf \"$HELPER.dSYM\"\n  fi\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
