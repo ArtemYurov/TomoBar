@@ -136,11 +136,11 @@ jobs:
                                OTHER_LDFLAGS="-framework Sparkle" \
                                ASSETCATALOG_COMPILER_SKIP_APP_STORE_DEPLOYMENT=YES
 
-            # Copy Sparkle to app bundle
+            # Copy Sparkle to app bundle (with -H to dereference symlinks)
             echo "📦 Copying Sparkle to app bundle..."
             APP_PATH="TomoBar.xcarchive/Products/Applications/TomoBar.app"
             mkdir -p "$APP_PATH/Contents/Frameworks"
-            cp -R Sparkle.framework "$APP_PATH/Contents/Frameworks/"
+            cp -RH Sparkle.framework "$APP_PATH/Contents/Frameworks/"
 
             # Sign Sparkle components according to official documentation
             echo "✍️  Signing Sparkle components..."
