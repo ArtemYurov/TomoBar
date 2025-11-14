@@ -11,6 +11,24 @@ align="right"
 *Pomodoro timer for macOS menu bar*
 <br clear="left"/>
 
+### Get TomoBar
+
+<p align="left">
+<a href="https://github.com/ArtemYurov/TomoBar/releases/latest">
+<img src="https://img.shields.io/github/v/release/ArtemYurov/TomoBar?label=Download&style=for-the-badge&color=d9534f"
+alt="Download Latest Release"
+style="max-width: 100%; width: 180px;"/>
+</a>
+</p>
+
+<p align="left">
+<a href="https://apps.apple.com/us/app/tomobar/id6755073574" rel="nofollow">
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+alt="Download on the Mac App Store"
+style="max-width: 100%; width: 180px;"/>
+</a>
+</p>
+
 ### Overview
 Have you ever heard of Pomodoro? It’s a great technique to help you keep track of time and stay on task during your studies or work. Read more about it on <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique">Wikipedia</a>.
 
