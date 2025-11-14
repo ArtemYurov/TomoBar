@@ -76,7 +76,7 @@ jobs:
         env:
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
-          echo "Building for App Store (without Sparkle)..."
+          echo "::group::🔨 Building Archive"
 
           xcodebuild archive \
             -project TomoBar.xcodeproj \
@@ -90,8 +90,36 @@ jobs:
             ONLY_ACTIVE_ARCH=NO \
             | xcpretty || true
 
-          echo "Archive created successfully"
-          ls -la TomoBar-AppStore.xcarchive/
+          echo "::endgroup::"
+
+          if [ -d "TomoBar-AppStore.xcarchive" ]; then
+            echo "::notice::Archive created successfully"
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ✅ Build Successful
+
+          | Item | Value |
+          |------|-------|
+          | Version | ${{ env.version }} |
+          | Configuration | Release |
+          | Architectures | arm64, x86_64 |
+          | Code Signing | Apple Distribution |
+          | Archive | TomoBar-AppStore.xcarchive |
+          EOF
+          else
+            echo "::error::Failed to create archive"
+            cat >> $GITHUB_STEP_SUMMARY <<'EOF'
+          ## ❌ Build Failed
+
+          Archive was not created. Check the build logs above for details.
+
+          ### Common Issues
+          - Code signing certificate not found
+          - Build errors in source code
+          - Missing dependencies
+          EOF
+            exit 1
+          fi
 
       - name: Setup App Store Connect API key
         env:
@@ -125,8 +153,6 @@ jobs:
 
       - name: Export .app from archive
         run: |
-          echo "Exporting .app from archive..."
-
           # Create export options plist
           cat > export_options.plist <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
@@ -145,6 +171,8 @@ jobs:
           </plist>
           EOF
 
+          echo "::group::📦 Exporting Application"
+
           xcodebuild -exportArchive \
             -archivePath TomoBar-AppStore.xcarchive \
             -exportPath ./build \
@@ -152,15 +180,21 @@ jobs:
             -allowProvisioningUpdates \
             | xcpretty || true
 
-          echo "✅ .app exported"
-          ls -la ./build/
+          echo "::endgroup::"
+
+          if [ -d "./build/TomoBar.app" ]; then
+            APP_SIZE=$(du -sh ./build/TomoBar.app | awk '{print $1}')
+            echo "::notice::Application exported successfully (${APP_SIZE})"
+          else
+            echo "::error::Failed to export application"
+            exit 1
+          fi
 
       - name: Create and sign PKG
         run: |
-          echo "Creating PKG installer..."
+          echo "::group::📦 Creating PKG Installer"
 
           # Remove quarantine attributes from all files
-          echo "Removing quarantine attributes..."
           xattr -cr ./build/TomoBar.app
 
           # Create unsigned PKG
@@ -171,72 +205,338 @@ jobs:
             TomoBar-unsigned.pkg \
             TomoBar.pkg
 
+          echo "::endgroup::"
+
           # Verify signature
+          echo "::group::🔍 Verifying PKG Signature"
           pkgutil --check-signature TomoBar.pkg
+          echo "::endgroup::"
 
           # Cleanup
           rm TomoBar-unsigned.pkg
 
-          echo "✅ PKG created and signed"
-          ls -lh TomoBar.pkg
+          if [ -f "TomoBar.pkg" ]; then
+            PKG_SIZE=$(du -sh TomoBar.pkg | awk '{print $1}')
+            echo "::notice::PKG created and signed successfully (${PKG_SIZE})"
+          else
+            echo "::error::Failed to create PKG"
+            exit 1
+          fi
 
       - name: Validate PKG before upload
         env:
           API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
         run: |
-          echo "Validating PKG with Apple..."
-
-          # Capture output to check for failures
           OUTPUT=$(mktemp)
+          EXIT_CODE=0
 
+          echo "::group::🔍 Validating PKG with Apple"
+
+          # Run altool and capture exit code
           xcrun altool --validate-app \
             --type macos \
             --file TomoBar.pkg \
             --apiKey "$API_KEY_ID" \
             --apiIssuer "$ISSUER_ID" \
-            --verbose 2>&1 | tee "$OUTPUT"
+            --verbose 2>&1 | tee "$OUTPUT" || EXIT_CODE=$?
 
-          # Check if validation failed
-          if grep -q "VERIFY FAILED\|VALIDATION FAILED" "$OUTPUT"; then
-            echo ""
-            echo "❌ Validation failed!"
-            echo "Check the logs above for validation errors"
+          echo "::endgroup::"
+
+          # Check exit code first (most reliable)
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "::error::Validation failed with exit code $EXIT_CODE"
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ❌ Validation Failed
+
+          | Detail | Value |
+          |--------|-------|
+          | Exit Code | $EXIT_CODE |
+          | File | TomoBar.pkg |
+          | Status | ❌ Failed |
+
+          ### Error Output
+          \`\`\`
+          $(cat "$OUTPUT")
+          \`\`\`
+
+          ### Troubleshooting
+          - Check bundle identifier matches provisioning profile
+          - Verify all entitlements are valid
+          - Ensure PKG is properly signed
+          - Check App Store Connect for bundle ID configuration
+
+          [App Store Connect](https://appstoreconnect.apple.com/)
+          EOF
+            rm "$OUTPUT"
+            exit $EXIT_CODE
+          fi
+
+          # Check for failure patterns
+          if grep -q "VERIFY FAILED\|VALIDATION FAILED\|Failed to validate" "$OUTPUT"; then
+            echo "::error::Validation failed"
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ❌ Validation Failed
+
+          ### Error Details
+          \`\`\`
+          $(grep -A 5 "FAILED\|Failed" "$OUTPUT" || cat "$OUTPUT")
+          \`\`\`
+
+          ### Common Issues
+          1. **Invalid entitlements** - Check TomoBar.entitlements
+          2. **Code signing mismatch** - Verify certificate and provisioning profile
+          3. **Missing capabilities** - Enable required capabilities in App Store Connect
+
+          [Troubleshooting Guide](https://developer.apple.com/documentation/xcode/distributing-your-app-to-registered-devices)
+          EOF
             rm "$OUTPUT"
             exit 1
           fi
 
-          rm "$OUTPUT"
-          echo ""
-          echo "✅ Validation passed! Proceeding to upload..."
+          # Check for warnings and fail
+          if grep -q "WARNING\|WARN:" "$OUTPUT"; then
+            echo "::warning::Validation completed with warnings - failing as configured"
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ⚠️ Validation Warnings
+
+          Warnings detected in validation output. Build configured to fail on warnings.
+
+          ### Warning Details
+          \`\`\`
+          $(grep -i "warning\|warn" "$OUTPUT")
+          \`\`\`
+          EOF
+            rm "$OUTPUT"
+            exit 1
+          fi
+
+          # Verify success
+          if grep -q "No errors" "$OUTPUT"; then
+            echo "::notice::Validation passed successfully"
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ✅ Validation Successful
+
+          PKG validated successfully by Apple. Ready for upload.
+
+          | Detail | Value |
+          |--------|-------|
+          | File | TomoBar.pkg |
+          | Version | ${{ env.version }} |
+          | Status | ✅ Validated |
+          EOF
+            rm "$OUTPUT"
+          else
+            echo "::error::Unexpected validation output"
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ⚠️ Validation Status Unknown
+
+          Validation completed but result is unclear.
+
+          ### Output
+          \`\`\`
+          $(cat "$OUTPUT")
+          \`\`\`
+          EOF
+            rm "$OUTPUT"
+            exit 1
+          fi
 
       - name: Upload PKG to App Store Connect
         env:
           API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
         run: |
-          echo "Uploading PKG to App Store Connect..."
-
-          # Capture output to check for failures
           OUTPUT=$(mktemp)
+          EXIT_CODE=0
+          START_TIME=$(date +%s)
 
+          echo "::group::📤 Uploading to App Store Connect"
+
+          # Run altool and capture exit code
           xcrun altool --upload-app \
             --type macos \
             --file TomoBar.pkg \
             --apiKey "$API_KEY_ID" \
             --apiIssuer "$ISSUER_ID" \
-            --verbose 2>&1 | tee "$OUTPUT"
+            --verbose 2>&1 | tee "$OUTPUT" || EXIT_CODE=$?
 
-          # Check if upload failed
-          if grep -q "UPLOAD FAILED" "$OUTPUT"; then
-            echo ""
-            echo "❌ Upload failed with validation errors!"
-            echo "Check the logs above for details"
+          echo "::endgroup::"
+
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+
+          # Check exit code first (most reliable)
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "::error::Upload failed with exit code $EXIT_CODE"
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ❌ Upload Failed
+
+          | Detail | Value |
+          |--------|-------|
+          | Exit Code | $EXIT_CODE |
+          | Duration | ${DURATION}s |
+          | Status | ❌ Failed |
+
+          ### Error Output
+          \`\`\`
+          $(cat "$OUTPUT")
+          \`\`\`
+          EOF
+            rm "$OUTPUT"
+            exit $EXIT_CODE
+          fi
+
+          # Check for DUPLICATE version error specifically
+          if grep -q "ENTITY_ERROR.ATTRIBUTE.INVALID.DUPLICATE" "$OUTPUT"; then
+            echo "::error::Duplicate version detected"
+
+            # Try to extract current version info
+            CURRENT_VERSION=$(grep -o "CFBundleShortVersionString.*" "$OUTPUT" | head -1 || echo "Unknown")
+            CURRENT_BUILD=$(grep -o "CFBundleVersion.*" "$OUTPUT" | head -1 || echo "Unknown")
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ❌ Upload Failed: Duplicate Version
+
+          ### Problem
+          This version was already uploaded to App Store Connect.
+
+          | Setting | Current Value |
+          |---------|---------------|
+          | Version (MARKETING_VERSION) | ${{ env.version }} |
+          | Build (CURRENT_PROJECT_VERSION) | See project.pbxproj |
+
+          ### Solution
+          Increment the build number in **project.pbxproj**:
+
+          \`\`\`bash
+          # Edit these lines (appears twice in file):
+          # TomoBar.xcodeproj/project.pbxproj:506
+          # TomoBar.xcodeproj/project.pbxproj:556
+
+          CURRENT_PROJECT_VERSION = X;  # Increment X to next number
+          \`\`\`
+
+          Or increment MARKETING_VERSION:
+          \`\`\`bash
+          # TomoBar.xcodeproj/project.pbxproj
+          MARKETING_VERSION = X.Y.Z;  # Bump version
+          \`\`\`
+
+          ### Error Details
+          \`\`\`
+          $(grep -A 10 "ENTITY_ERROR" "$OUTPUT" || cat "$OUTPUT")
+          \`\`\`
+
+          [App Store Connect Builds](https://appstoreconnect.apple.com/apps)
+          EOF
             rm "$OUTPUT"
             exit 1
           fi
 
-          rm "$OUTPUT"
-          echo ""
-          echo "✅ Upload completed successfully!"
-          echo "Check App Store Connect → TestFlight → macOS for processing status"
+          # Check for other failure patterns
+          if grep -q "UPLOAD FAILED\|Failed to upload\|ENTITY_ERROR" "$OUTPUT"; then
+            echo "::error::Upload failed"
+
+            # Try to extract specific error
+            ERROR_MSG=$(grep -o "ENTITY_ERROR[^\"]*" "$OUTPUT" | head -1 || echo "Unknown error")
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ❌ Upload Failed
+
+          ### Error Type
+          \`$ERROR_MSG\`
+
+          ### Full Error Output
+          \`\`\`
+          $(cat "$OUTPUT")
+          \`\`\`
+
+          ### Common Issues
+          1. **Bundle ID mismatch** - Verify bundle identifier in Xcode matches App Store Connect
+          2. **Invalid version** - Ensure version follows semantic versioning (X.Y.Z)
+          3. **Expired certificate** - Check certificate is valid and not expired
+          4. **Missing entitlements** - Verify all required entitlements are present
+
+          ### Documentation
+          - [App Distribution Guide](https://developer.apple.com/documentation/xcode/distributing-your-app-for-beta-testing-and-releases)
+          - [App Store Connect API](https://developer.apple.com/documentation/appstoreconnectapi)
+
+          [App Store Connect](https://appstoreconnect.apple.com/)
+          EOF
+            rm "$OUTPUT"
+            exit 1
+          fi
+
+          # Check for warnings and fail
+          if grep -q "WARNING\|WARN:" "$OUTPUT"; then
+            echo "::warning::Upload completed with warnings - failing as configured"
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ⚠️ Upload Warnings
+
+          Upload completed but warnings were detected. Build configured to fail on warnings.
+
+          ### Warning Details
+          \`\`\`
+          $(grep -i "warning\|warn" "$OUTPUT")
+          \`\`\`
+          EOF
+            rm "$OUTPUT"
+            exit 1
+          fi
+
+          # Verify success
+          if grep -q "No errors uploading" "$OUTPUT"; then
+            echo "::notice::Upload completed successfully in ${DURATION}s"
+
+            # Try to extract request ID if present
+            REQUEST_ID=$(grep -o "RequestUUID = [^;]*" "$OUTPUT" | cut -d= -f2 | tr -d ' ' || echo "N/A")
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ✅ Upload Successful
+
+          | Detail | Value |
+          |--------|-------|
+          | Version | ${{ env.version }} |
+          | Duration | ${DURATION}s |
+          | Request ID | \`${REQUEST_ID}\` |
+          | Status | ✅ Uploaded |
+
+          ### Next Steps
+          1. Go to [App Store Connect](https://appstoreconnect.apple.com/)
+          2. Navigate to **TestFlight → macOS**
+          3. Wait for processing to complete (usually 5-15 minutes)
+          4. Once processed, distribute to testers or submit for review
+
+          ### Processing Status
+          The build will appear in App Store Connect once Apple finishes processing it.
+          You'll receive an email when processing is complete.
+
+          [View Builds in App Store Connect](https://appstoreconnect.apple.com/apps)
+          EOF
+            rm "$OUTPUT"
+          else
+            echo "::error::Unexpected upload output"
+
+            cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## ⚠️ Upload Status Unknown
+
+          Upload completed but result is unclear. Check App Store Connect manually.
+
+          ### Output
+          \`\`\`
+          $(cat "$OUTPUT")
+          \`\`\`
+
+          [App Store Connect](https://appstoreconnect.apple.com/)
+          EOF
+            rm "$OUTPUT"
+            exit 1
+          fi
