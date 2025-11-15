@@ -13,13 +13,7 @@ align="right"
 
 ### Get TomoBar
 
-<p align="left">
-<a href="https://github.com/ArtemYurov/TomoBar/releases/latest">
-<img src="https://img.shields.io/github/v/release/ArtemYurov/TomoBar?label=Download&style=for-the-badge&color=d9534f"
-alt="Download Latest Release"
-style="max-width: 100%; width: 180px;"/>
-</a>
-</p>
+#### Mac App Store
 
 <p align="left">
 <a href="https://apps.apple.com/us/app/tomobar/id6755073574" rel="nofollow">
@@ -28,6 +22,22 @@ alt="Download on the Mac App Store"
 style="max-width: 100%; width: 180px;"/>
 </a>
 </p>
+
+#### Github Releases
+
+<p align="left">
+<a href="https://github.com/ArtemYurov/TomoBar/releases/latest">
+<img src="https://img.shields.io/github/v/release/ArtemYurov/TomoBar?label=Download&style=for-the-badge&color=d9534f"
+alt="Download Latest Release"
+style="max-width: 100%; width: 180px;"/>
+</a>
+</p>
+
+#### Homebrew
+
+```bash
+brew install --cask ArtemYurov/tomobar/tomobar
+```
 
 ### Overview
 Have you ever heard of Pomodoro? It’s a great technique to help you keep track of time and stay on task during your studies or work. Read more about it on <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique">Wikipedia</a>.
