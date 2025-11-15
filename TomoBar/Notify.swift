@@ -42,7 +42,7 @@ class TBNotify: ObservableObject {
             custom.showIntervalComplete(state: state, nextIsLongRest: nextIsLongRest, notifyStyle: notifyStyle)
 
         case .fullScreen:
-            mask.showRestFinished(state: state)
+            mask.show(isLong: state == .longRest, isRestStarted: false)
 
         case .disabled:
             return
@@ -56,7 +56,7 @@ class TBNotify: ObservableObject {
             system.restStarted(isLong: isLong)
 
         case .fullScreen:
-            mask.show(isLong: isLong, blockActions: mask.maskBlockActions)
+            mask.show(isLong: isLong, isRestStarted: true, blockActions: mask.maskBlockActions)
 
         default:
             return

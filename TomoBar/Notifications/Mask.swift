@@ -19,35 +19,35 @@ class MaskHelper {
         self.userChoiceHandler = userChoiceHandler
     }
 
-    func show(isLong: Bool, blockActions: Bool = false) {
-        let desc = isLong
-            ? NSLocalizedString("MaskNotification.restStarted.longBreak.title", comment: "Long break started")
-            : NSLocalizedString("MaskNotification.restStarted.shortBreak.title", comment: "Short break started")
-
+    func show(isLong: Bool, isRestStarted: Bool, blockActions: Bool = false) {
         // Fast transition - update existing windows without recreating (for skip action)
         if !windowControllers.isEmpty {
-            updateForRestStarted(title: desc, blockActions: blockActions)
+            // Stop/start monitoring based on state
+            if isRestStarted {
+                if blockActions {
+                    installKeyboardMonitor()
+                    startWindowMonitoring()
+                }
+            } else {
+                // Rest finished - stop blocking actions
+                uninstallKeyboardMonitor()
+                stopWindowMonitoring()
+            }
+
+            // Update all windows
+            for windowController in windowControllers {
+                guard let mask = windowController.window?.contentView as? MaskView else { continue }
+                mask.updateMask(isLong: isLong, isRestStarted: isRestStarted, blockActions: blockActions)
+            }
             return
         }
 
         // Normal flow - create new windows
-        createMaskWindows(desc: desc, blockActions: blockActions, requiresRestFinishedConfirmation: false)
+        let requiresConfirmation = isRestStarted ? false : !maskAutoResumeWork
+        createMaskWindows(isLong: isLong, isRestStarted: isRestStarted, blockActions: blockActions, requiresRestFinishedConfirmation: requiresConfirmation)
     }
 
-    func showRestFinished(state: TBStateMachineStates) {
-        if !windowControllers.isEmpty {
-            // Update existing windows instead of recreating
-            updateForRestFinished(state: state)
-        } else {
-            // Fallback: create new windows if none exist
-            let desc = state == .longRest
-                ? NSLocalizedString("MaskNotification.restFinished.longBreak.title", comment: "Long break finished")
-                : NSLocalizedString("MaskNotification.restFinished.shortBreak.title", comment: "Short break finished")
-            createMaskWindows(desc: desc, blockActions: false, requiresRestFinishedConfirmation: !maskAutoResumeWork)
-        }
-    }
-
-    private func createMaskWindows(desc: String, blockActions: Bool, requiresRestFinishedConfirmation: Bool) {
+    private func createMaskWindows(isLong: Bool, isRestStarted: Bool = true, blockActions: Bool, requiresRestFinishedConfirmation: Bool) {
         let screens = NSScreen.screens
         for screen in screens {
             let window = NSWindow(contentRect: screen.frame, styleMask: .borderless, backing: .buffered, defer: true)
@@ -55,7 +55,8 @@ class MaskHelper {
             window.collectionBehavior = .canJoinAllSpaces
             window.backgroundColor = NSColor.black.withAlphaComponent(0.2)
             let maskView = MaskView(
-                desc: desc,
+                isLong: isLong,
+                isRestStarted: isRestStarted,
                 blockActions: blockActions,
                 requiresRestFinishedConfirmation: requiresRestFinishedConfirmation,
                 frame: window.contentLayoutRect,
@@ -90,35 +91,6 @@ class MaskHelper {
         for windowController in windowControllers {
             guard let mask = windowController.window?.contentView as? MaskView else { continue }
             mask.updateTimeLeft(timeString)
-        }
-    }
-
-    private func updateForRestFinished(state: TBStateMachineStates) {
-        let desc = state == .longRest
-            ? NSLocalizedString("MaskNotification.restFinished.longBreak.title", comment: "Long break finished")
-            : NSLocalizedString("MaskNotification.restFinished.shortBreak.title", comment: "Short break finished")
-
-        // Stop blocking actions when rest is finished
-        uninstallKeyboardMonitor()
-        stopWindowMonitoring()
-
-        for windowController in windowControllers {
-            guard let mask = windowController.window?.contentView as? MaskView else { continue }
-            mask.updateForRestFinished(title: desc)
-        }
-    }
-
-    private func updateForRestStarted(title: String, blockActions: Bool) {
-        // Update existing windows for seamless transition (skip action)
-        // Restart monitoring if blockActions is enabled
-        if blockActions {
-            installKeyboardMonitor()
-            startWindowMonitoring()
-        }
-
-        for windowController in windowControllers {
-            guard let mask = windowController.window?.contentView as? MaskView else { continue }
-            mask.updateForRestStarted(title: title, blockActions: blockActions)
         }
     }
 
@@ -257,7 +229,7 @@ class MaskView: NSView {
         return blurEffect
     }()
 
-    init(desc: String, blockActions: Bool = false, requiresRestFinishedConfirmation: Bool = false, frame: NSRect,
+    init(isLong: Bool, isRestStarted: Bool = true, blockActions: Bool = false, requiresRestFinishedConfirmation: Bool = false, frame: NSRect,
          hideHandler: @escaping () -> Void,
          skipHandler: @escaping () -> Void,
          userChoiceHandler: @escaping (UserChoiceAction) -> Void,
@@ -271,7 +243,9 @@ class MaskView: NSView {
         super.init(frame: frame)
         self.wantsLayer = true
         layer?.backgroundColor = NSColor.black.withAlphaComponent(0.3).cgColor
-        titleLabel.stringValue = desc
+
+        // Initialize UI with updateMask
+        updateMask(isLong: isLong, isRestStarted: isRestStarted, blockActions: blockActions)
     }
 
     @available(*, unavailable)
@@ -353,50 +327,47 @@ class MaskView: NSView {
         timeLeftLabel.stringValue = timeString
     }
 
-    public func updateForRestFinished(title: String) {
+    public func updateMask(isLong: Bool, isRestStarted: Bool, blockActions: Bool = false) {
         // Update title
-        titleLabel.stringValue = title
+        let titleKey = isRestStarted
+            ? (isLong ? "MaskNotification.restStarted.longBreak.title" : "MaskNotification.restStarted.shortBreak.title")
+            : (isLong ? "MaskNotification.restFinished.longBreak.title" : "MaskNotification.restFinished.shortBreak.title")
+        titleLabel.stringValue = NSLocalizedString(titleKey, comment: "Rest title")
 
         // Update instruction
-        let newTipText = NSLocalizedString("MaskNotification.restFinished.instruction", comment: "Rest finished instruction")
+        let instructionKey = isRestStarted
+            ? "MaskNotification.restStarted.instruction"
+            : "MaskNotification.restFinished.instruction"
+        let newTipText = NSLocalizedString(instructionKey, comment: "Mask instruction")
         tipLabel.stringValue = newTipText
 
-        // Hide timer (not needed for confirmation)
-        timeLeftLabel.removeFromSuperview()
-
-        // Show tip if not already visible
-        if !subviews.contains(tipLabel) {
-            addSubview(tipLabel)
+        // Manage timer visibility
+        if isRestStarted {
+            if !subviews.contains(timeLeftLabel) {
+                addSubview(timeLeftLabel)
+            }
+        } else {
+            timeLeftLabel.removeFromSuperview()
         }
 
-        // Update click behavior and enable clicks
-        requiresRestFinishedConfirmation = true
-        blockActions = false
-    }
-
-    public func updateForRestStarted(title: String, blockActions: Bool) {
-        // Update title
-        titleLabel.stringValue = title
-
-        // Update instruction
-        let newTipText = NSLocalizedString("MaskNotification.restStarted.instruction", comment: "Rest started instruction")
-        tipLabel.stringValue = newTipText
-
-        // Remove tip if blockActions (no user interaction needed)
-        if blockActions {
-            tipLabel.removeFromSuperview()
-        } else if !subviews.contains(tipLabel) {
-            addSubview(tipLabel)
+        // Manage tip visibility
+        if isRestStarted {
+            // For rest started: hide tip if blockActions
+            if blockActions {
+                tipLabel.removeFromSuperview()
+            } else if !subviews.contains(tipLabel) {
+                addSubview(tipLabel)
+            }
+        } else {
+            // Always show tip for rest finished
+            if !subviews.contains(tipLabel) {
+                addSubview(tipLabel)
+            }
         }
 
-        // Show timer if not visible
-        if !subviews.contains(timeLeftLabel) {
-            addSubview(timeLeftLabel)
-        }
-
-        // Update click behavior - disable interactive mode
-        requiresRestFinishedConfirmation = false
-        self.blockActions = blockActions
+        // Update click behavior
+        requiresRestFinishedConfirmation = !isRestStarted
+        self.blockActions = isRestStarted ? blockActions : false
     }
 
     public func show() {
