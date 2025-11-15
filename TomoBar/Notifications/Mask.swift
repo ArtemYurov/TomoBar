@@ -24,6 +24,13 @@ class MaskHelper {
             ? NSLocalizedString("MaskNotification.restStarted.longBreak.title", comment: "Long break started")
             : NSLocalizedString("MaskNotification.restStarted.shortBreak.title", comment: "Short break started")
 
+        // Fast transition - update existing windows without recreating (for skip action)
+        if !windowControllers.isEmpty {
+            updateForRestStarted(title: desc, blockActions: blockActions)
+            return
+        }
+
+        // Normal flow - create new windows
         createMaskWindows(desc: desc, blockActions: blockActions, requiresRestFinishedConfirmation: false)
     }
 
@@ -98,6 +105,20 @@ class MaskHelper {
         for windowController in windowControllers {
             guard let mask = windowController.window?.contentView as? MaskView else { continue }
             mask.updateForRestFinished(title: desc)
+        }
+    }
+
+    private func updateForRestStarted(title: String, blockActions: Bool) {
+        // Update existing windows for seamless transition (skip action)
+        // Restart monitoring if blockActions is enabled
+        if blockActions {
+            installKeyboardMonitor()
+            startWindowMonitoring()
+        }
+
+        for windowController in windowControllers {
+            guard let mask = windowController.window?.contentView as? MaskView else { continue }
+            mask.updateForRestStarted(title: title, blockActions: blockActions)
         }
     }
 
@@ -351,6 +372,31 @@ class MaskView: NSView {
         // Update click behavior and enable clicks
         requiresRestFinishedConfirmation = true
         blockActions = false
+    }
+
+    public func updateForRestStarted(title: String, blockActions: Bool) {
+        // Update title
+        titleLabel.stringValue = title
+
+        // Update instruction
+        let newTipText = NSLocalizedString("MaskNotification.restStarted.instruction", comment: "Rest started instruction")
+        tipLabel.stringValue = newTipText
+
+        // Remove tip if blockActions (no user interaction needed)
+        if blockActions {
+            tipLabel.removeFromSuperview()
+        } else if !subviews.contains(tipLabel) {
+            addSubview(tipLabel)
+        }
+
+        // Show timer if not visible
+        if !subviews.contains(timeLeftLabel) {
+            addSubview(timeLeftLabel)
+        }
+
+        // Update click behavior - disable interactive mode
+        requiresRestFinishedConfirmation = false
+        self.blockActions = blockActions
     }
 
     public func show() {

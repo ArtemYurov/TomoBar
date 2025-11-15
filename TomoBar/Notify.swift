@@ -64,10 +64,6 @@ class TBNotify: ObservableObject {
     }
 
     func showRestFinished() {
-        if alertMode == .fullScreen {
-            mask.hide()
-        }
-
         if alertMode == .notify && notifyStyle == .notifySystem {
             system.restFinished()
         }

@@ -237,10 +237,15 @@ extension TBTimer {
         // for current state (not switched to next)
         case .next:
             paused = false
+            // Hide mask when user confirms next (not skip - skip will update seamlessly)
+            if notify.alertMode == .fullScreen {
+                notify.mask.hide()
+            }
             stateMachine <-! .confirmedNext
 
         case .skip:
             paused = false
+            // Don't hide mask - it will be updated seamlessly
             stateMachine <-! .confirmedNext
             stateMachine <-! .skipEvent
 
