@@ -14,9 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set version from tag
+      - name: Set version from project
         run: |
-          VERSION=$(git describe --tags --match 'v*')
+          # Get MARKETING_VERSION from project.pbxproj
+          MARKETING_VERSION=$(grep -m1 'MARKETING_VERSION' TomoBar.xcodeproj/project.pbxproj | sed 's/.*= \(.*\);/\1/')
+          VERSION="v${MARKETING_VERSION}"
           echo "version=$VERSION" >> $GITHUB_ENV
           echo "📦 Building version: $VERSION"
           echo "🔖 Git ref: ${{ github.ref }}"
