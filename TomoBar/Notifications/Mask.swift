@@ -91,6 +91,10 @@ class MaskHelper {
             ? NSLocalizedString("MaskNotification.restFinished.longBreak.title", comment: "Long break finished")
             : NSLocalizedString("MaskNotification.restFinished.shortBreak.title", comment: "Short break finished")
 
+        // Stop blocking actions when rest is finished
+        uninstallKeyboardMonitor()
+        stopWindowMonitoring()
+
         for windowController in windowControllers {
             guard let mask = windowController.window?.contentView as? MaskView else { continue }
             mask.updateForRestFinished(title: desc)
@@ -285,6 +289,20 @@ class MaskView: NSView {
         }
     }
 
+    // Accept mouse events even when window is inactive
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
+        return true
+    }
+
+    // Override hit test to ensure MaskView receives all mouse events,
+    // preventing subviews (like blurEffect) from intercepting them
+    override func hitTest(_ point: NSPoint) -> NSView? {
+        if self.bounds.contains(point) {
+            return self
+        }
+        return nil
+    }
+
     private func handleInteractiveClick(_ event: NSEvent) {
         if event.clickCount == 1 {
             clickTimer?.invalidate()
@@ -330,8 +348,9 @@ class MaskView: NSView {
             addSubview(tipLabel)
         }
 
-        // Update click behavior
+        // Update click behavior and enable clicks
         requiresRestFinishedConfirmation = true
+        blockActions = false
     }
 
     public func show() {
