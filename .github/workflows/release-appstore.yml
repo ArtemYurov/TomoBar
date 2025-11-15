@@ -202,7 +202,19 @@ jobs:
           cp ~/Library/MobileDevice/Provisioning\ Profiles/profile.provisionprofile \
              ./build/TomoBar.app/Contents/embedded.provisionprofile
 
-          # Create entitlements file with application-identifier for TestFlight
+          # Create minimal entitlements for LaunchAtLoginHelper (no application-identifier)
+          cat > /tmp/helper.entitlements <<'HELPER_ENTITLEMENTS'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+          	<key>com.apple.security.app-sandbox</key>
+          	<true/>
+          </dict>
+          </plist>
+          HELPER_ENTITLEMENTS
+
+          # Create entitlements file with application-identifier for main app
           cat > /tmp/signing.entitlements <<'ENTITLEMENTS'
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -232,18 +244,26 @@ jobs:
           </plist>
           ENTITLEMENTS
 
-          # Re-sign the app with embedded provisioning profile
+          # Unlock keychain for codesign
           echo "Available identities in keychain:"
           security find-identity -v -p codesigning "$KEYCHAIN_PATH"
-
-          # Unlock keychain for codesign
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
 
+          # Re-sign nested helper app first (without application-identifier)
+          echo "Re-signing LaunchAtLoginHelper..."
+          codesign --force --sign "$SIGNING_CERTIFICATE" \
+            --entitlements /tmp/helper.entitlements \
+            --options runtime \
+            --timestamp \
+            --keychain "$KEYCHAIN_PATH" \
+            ./build/TomoBar.app/Contents/Library/LoginItems/LaunchAtLoginHelper.app
+
+          # Re-sign main app (with application-identifier, without --deep)
+          echo "Re-signing main TomoBar.app..."
           codesign --force --sign "$SIGNING_CERTIFICATE" \
             --entitlements /tmp/signing.entitlements \
             --options runtime \
             --timestamp \
-            --deep \
             --keychain "$KEYCHAIN_PATH" \
             ./build/TomoBar.app
 
