@@ -1,5 +1,12 @@
 # Changelog
 
+## [v4.0.1] - 2025-11-15
+
+### Fixed
+- Fixed click handling after rest finished in block actions mode - clicks are now properly processed when mask shows "click once to start work"
+- Fixed mask not appearing when using double-click skip action - implemented seamless transition without animation flicker
+- Improved mask update logic with consolidated codebase for better maintainability
+
 ## [v4.0.0] - 2025-11-11
 
 ### Added
