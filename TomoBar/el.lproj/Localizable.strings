@@ -66,8 +66,8 @@
 "SettingsView.language.restart.restart" = "Επανεκκίνηση τώρα";
 "SettingsView.language.restart.later" = "Αργότερα";
 
-"SettingsView.iconRightClick.label" = "Δεξί κλικ στη γραμμή";
 "SettingsView.iconLongRightClick.label" = "Παρατεταμένο δεξί κλικ";
+"SettingsView.iconRightClick.label" = "Δεξί κλικ στη γραμμή";
 "SettingsView.app.startTimerOnLaunch.label" = "Έναρξη χρονομέτρου κατά την εκκίνηση";
 "SettingsView.app.launchAtLogin.label" = "Εκκίνηση εφαρμογής κατά την εκκίνηση";
 

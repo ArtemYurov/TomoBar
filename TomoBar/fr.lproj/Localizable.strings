@@ -66,8 +66,8 @@
 "SettingsView.language.restart.restart" = "Redémarrer maintenant";
 "SettingsView.language.restart.later" = "Plus tard";
 
-"SettingsView.iconRightClick.label" = "Clic droit sur la barre";
 "SettingsView.iconLongRightClick.label" = "Long clic droit";
+"SettingsView.iconRightClick.label" = "Clic droit sur la barre";
 "SettingsView.app.startTimerOnLaunch.label" = "Démarrer le minuteur au lancement";
 "SettingsView.app.launchAtLogin.label" = "Lancer à l'ouverture de session";
 

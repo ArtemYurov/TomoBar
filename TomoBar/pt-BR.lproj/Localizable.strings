@@ -66,8 +66,8 @@
 "SettingsView.language.restart.restart" = "Reiniciar agora";
 "SettingsView.language.restart.later" = "Mais tarde";
 
-"SettingsView.iconRightClick.label" = "Clique direito na barra";
 "SettingsView.iconLongRightClick.label" = "Clique direito longo";
+"SettingsView.iconRightClick.label" = "Clique direito na barra";
 "SettingsView.app.startTimerOnLaunch.label" = "Iniciar cronômetro ao abrir";
 "SettingsView.app.launchAtLogin.label" = "Iniciar ao fazer login";
 
