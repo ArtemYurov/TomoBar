@@ -53,6 +53,8 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     // Read display settings directly from AppStorage
     @AppStorage("timerFontMode") private var timerFontMode = TimerFontMode.fontSystem
     @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = 0
+    @AppStorage("rightClickAction") private var rightClickAction = RightClickAction.pause
+    @AppStorage("longRightClickAction") private var longRightClickAction = RightClickAction.play
 
     override init() {
         #if SPARKLE
@@ -91,29 +93,41 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
 
         switch event?.type {
         case .leftMouseUp:
-            togglePopover(sender)
+            togglePopover(nil)
         case .rightMouseDown:
             longPressTriggered = false
-            // Long press for pause only when timer is running and not paused
-            if !view.timer.isIdle && !view.timer.paused {
-                longPressWorkItem = DispatchWorkItem {
-                    self.longPressTriggered = true
-                    self.view.timer.pauseResume()
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.longPressMinDuration, execute: longPressWorkItem!)
+            longPressWorkItem = DispatchWorkItem {
+                self.longPressTriggered = true
+                self.performLongPressAction()
             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.longPressMinDuration, execute: longPressWorkItem!)
         case .rightMouseUp:
             longPressWorkItem?.cancel()
             longPressWorkItem = nil
             if !longPressTriggered {
-                if view.timer.paused {
-                    view.timer.pauseResume()
-                } else {
-                    view.timer.startStop()
-                }
+                performAction(rightClickAction)
             }
         default:
             break
+        }
+    }
+
+    private func performLongPressAction() {
+        performAction(longRightClickAction)
+    }
+
+    private func performAction(_ action: RightClickAction) {
+        switch action {
+        case .play:
+            view.timer.startStop()
+        case .pause:
+            view.timer.pauseResume()
+        case .addMinute:
+            view.timer.addMinutes(1)
+        case .addFiveMinutes:
+            view.timer.addMinutes(5)
+        case .skip:
+            view.timer.skip()
         }
     }
 

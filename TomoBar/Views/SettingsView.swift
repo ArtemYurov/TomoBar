@@ -8,6 +8,16 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             HStack {
+                Text("Icon right click")
+                    .frameInfinityLeading()
+                RightClickActionPicker(value: $timer.rightClickAction)
+            }
+            HStack {
+                Text("Icon long right")
+                    .frameInfinityLeading()
+                RightClickActionPicker(value: $timer.longRightClickAction)
+            }
+            HStack {
                 Text(NSLocalizedString("SettingsView.timer.show.label",
                                        comment: "Show timer label"))
                     .frameInfinityLeading()
