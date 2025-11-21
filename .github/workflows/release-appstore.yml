@@ -2,9 +2,6 @@ name: App Store Release
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*'
 
 jobs:
   upload-to-testflight:
