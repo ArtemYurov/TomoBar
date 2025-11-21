@@ -20,6 +20,7 @@ private enum UIConstants {
     static let sfMonoFontSizeIncrement: CGFloat = 1
     static let buttonCornerRadius: CGFloat = 4
     static let grayBackgroundMaxAlpha: CGFloat = 10.0  // Divider for opacity calculation
+    static let longPressMinDuration: TimeInterval = 0.5
 }
 
 @main
@@ -42,6 +43,8 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem?
     static var shared: TBStatusItem!
     private var view: TBPopoverView!
+    private var longPressWorkItem: DispatchWorkItem?
+    private var longPressTriggered = false
     #if SPARKLE
     private let updaterController: SPUStandardUpdaterController
     private let userDriverDelegate = TBStatusItemUserDriverDelegate()
@@ -76,9 +79,42 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
         statusBarItem?.button?.wantsLayer = true
         statusBarItem?.button?.layer?.cornerRadius = UIConstants.buttonCornerRadius
         setIcon(name: .idle)
-        statusBarItem?.button?.action = #selector(TBStatusItem.togglePopover(_:))
+        statusBarItem?.button?.sendAction(on: [.leftMouseUp, .rightMouseDown, .rightMouseUp])
+        statusBarItem?.button?.action = #selector(TBStatusItem.handleClick(_:))
+
         view.timer.updateDisplay()
         view.timer.startOnLaunch()
+    }
+
+    @objc func handleClick(_ sender: AnyObject?) {
+        let event = NSApp.currentEvent
+
+        switch event?.type {
+        case .leftMouseUp:
+            togglePopover(sender)
+        case .rightMouseDown:
+            longPressTriggered = false
+            // Long press for pause only when timer is running and not paused
+            if !view.timer.isIdle && !view.timer.paused {
+                longPressWorkItem = DispatchWorkItem {
+                    self.longPressTriggered = true
+                    self.view.timer.pauseResume()
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.longPressMinDuration, execute: longPressWorkItem!)
+            }
+        case .rightMouseUp:
+            longPressWorkItem?.cancel()
+            longPressWorkItem = nil
+            if !longPressTriggered {
+                if view.timer.paused {
+                    view.timer.pauseResume()
+                } else {
+                    view.timer.startStop()
+                }
+            }
+        default:
+            break
+        }
     }
 
     func applicationWillTerminate(_: Notification) {
@@ -141,7 +177,7 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
         popover.performClose(sender)
     }
 
-    @objc func togglePopover(_ sender: AnyObject?) {
+    func togglePopover(_ sender: AnyObject?) {
         if popover.isShown {
             closePopover(sender)
         } else {
