@@ -62,7 +62,7 @@ struct SmallNotificationView: View {
                 .frame(width: Layout.buttonWidth, height: Layout.windowHeight)
             } else {
                 VStack(spacing: 0) {
-                    NotificationButton(title: skipActionTitle, action: { onAction(.skip) })
+                    NotificationButton(title: skipActionTitle, action: { onAction(.skipInterval) })
 
                     NotificationSeparator(orientation: .horizontal)
 

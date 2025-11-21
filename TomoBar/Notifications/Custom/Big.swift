@@ -89,7 +89,7 @@ struct BigNotificationView: View {
 
                         NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
-                        NotificationButton(title: skipActionTitle, action: { onAction(.skip) })
+                        NotificationButton(title: skipActionTitle, action: { onAction(.skipInterval) })
                     }
                     .frame(height: Layout.buttonHeight)
                 }

@@ -306,7 +306,7 @@ class MaskView: NSView {
             }
         } else if event.clickCount == 2 {
             clickTimer?.invalidate()
-            self.userChoiceHandler?(.skip)
+            self.userChoiceHandler?(.skipInterval)
         }
     }
 

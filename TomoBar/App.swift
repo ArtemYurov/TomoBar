@@ -126,8 +126,8 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
             view.timer.addMinutes(1)
         case .addFiveMinutes:
             view.timer.addMinutes(5)
-        case .skip:
-            view.timer.skip()
+        case .skipInterval:
+            view.timer.skipInterval()
         }
     }
 

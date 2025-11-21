@@ -108,7 +108,7 @@ struct TBPopoverView: View {
                 .disabled(timer.timer == nil)
 
                 Button {
-                    timer.skip()
+                    timer.skipInterval()
                     TBStatusItem.shared.closePopover(nil)
                 } label: {
                     skipIcon

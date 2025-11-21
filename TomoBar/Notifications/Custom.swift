@@ -10,7 +10,7 @@ struct NotificationContent {
 
 enum UserChoiceAction {
     case next              // transition to the next interval
-    case skip              // skip the next interval
+    case skipInterval      // skip the next interval
     case addMinute         // add 1 minute
     case addFiveMinutes    // add 5 minutes
     case stop              // stop the timer

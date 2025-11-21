@@ -19,7 +19,7 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
 }
 
 enum RightClickAction: String, CaseIterable {
-    case startStop, addMinute, addFiveMinutes, pauseResume, skip
+    case startStop, addMinute, addFiveMinutes, pauseResume, skipInterval
 
     var label: String {
         switch self {
@@ -27,7 +27,7 @@ enum RightClickAction: String, CaseIterable {
         case .addMinute: return "+1"
         case .addFiveMinutes: return "+5"
         case .pauseResume: return "⏸"
-        case .skip: return ">>"
+        case .skipInterval: return ">>"
         }
     }
 }
@@ -68,7 +68,7 @@ class TBTimer: ObservableObject {
 
     public let player = TBPlayer()
     public lazy var notify = TBNotify(
-        skipHandler: skip,
+        skipHandler: skipInterval,
         userChoiceHandler: handleUserChoiceAction
     )
     public var dnd = TBDoNotDisturb()
@@ -112,7 +112,7 @@ class TBTimer: ObservableObject {
 
         KeyboardShortcuts.onKeyUp(for: .startStopTimer, action: startStop)
         KeyboardShortcuts.onKeyUp(for: .pauseResumeTimer, action: pauseResume)
-        KeyboardShortcuts.onKeyUp(for: .skipTimer, action: skip)
+        KeyboardShortcuts.onKeyUp(for: .skipTimer, action: skipInterval)
         KeyboardShortcuts.onKeyUp(for: .addMinuteTimer) { [weak self] in
             self?.addMinutes(1)
         }
@@ -150,7 +150,7 @@ class TBTimer: ObservableObject {
         case "pauseresume":
             pauseResume()
         case "skip":
-            skip()
+            skipInterval()
         case "addminute":
             addMinutes(1)
         case "addfiveminutes":
@@ -175,7 +175,7 @@ class TBTimer: ObservableObject {
         startStop()
     }
 
-    func skip() {
+    func skipInterval() {
         guard timer != nil else { return }
 
         paused = false

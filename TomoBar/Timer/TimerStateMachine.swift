@@ -243,7 +243,7 @@ extension TBTimer {
             }
             stateMachine <-! .confirmedNext
 
-        case .skip:
+        case .skipInterval:
             paused = false
             // Don't hide mask - it will be updated seamlessly
             stateMachine <-! .confirmedNext
