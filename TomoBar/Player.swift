@@ -12,17 +12,17 @@ class TBPlayer: ObservableObject {
     private var isTicking: Bool = false
     private var supportedAudioExtensions: [String] = ["mp3", "mp4", "m4a"]
 
-    @AppStorage("windupVolume") var windupVolume: Double = 1.0 {
+    @AppStorage("windupVolume") var windupVolume: Double = Default.windupVolume {
         didSet {
             setVolume(windupSound, windupVolume)
         }
     }
-    @AppStorage("dingVolume") var dingVolume: Double = 1.0 {
+    @AppStorage("dingVolume") var dingVolume: Double = Default.dingVolume {
         didSet {
             setVolume(dingSound, dingVolume)
         }
     }
-    @AppStorage("tickingVolume") var tickingVolume: Double = 1.0 {
+    @AppStorage("tickingVolume") var tickingVolume: Double = Default.tickingVolume {
         didSet {
             setVolume(tickingSound, tickingVolume)
             if isTicking {

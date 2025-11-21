@@ -48,8 +48,8 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     #endif
 
     // Read display settings directly from AppStorage
-    @AppStorage("timerFontMode") private var timerFontMode = TimerFontMode.fontSystem
-    @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = 6
+    @AppStorage("timerFontMode") private var timerFontMode = Default.timerFontMode
+    @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = Default.grayBackgroundOpacity
 
     override init() {
         #if SPARKLE

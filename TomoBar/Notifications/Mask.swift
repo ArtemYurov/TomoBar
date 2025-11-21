@@ -4,8 +4,8 @@ import Foundation
 import SwiftUI
 
 class MaskHelper {
-    @AppStorage("maskBlockActions") var maskBlockActions = false
-    @AppStorage("maskAutoResumeWork") var maskAutoResumeWork = false
+    @AppStorage("maskBlockActions") var maskBlockActions = Default.maskBlockActions
+    @AppStorage("maskAutoResumeWork") var maskAutoResumeWork = Default.maskAutoResumeWork
 
     var windowControllers = [NSWindowController]()
     let skipEventHandler: () -> Void

@@ -29,7 +29,7 @@ final class CustomNotifyHelper: NSObject {
     var hostingController: NSHostingController<AnyView>?
     private var actionCallback: ((UserChoiceAction) -> Void)?
     private var currentStyle: NotificationStyle?
-    @AppStorage("customBackgroundOpacity") var customBackgroundOpacity = Int(BaseLayout.backgroundOpacity * 10)
+    @AppStorage("customBackgroundOpacity") var customBackgroundOpacity = Default.customBackgroundOpacity
 
     init(userChoiceHandler: @escaping (UserChoiceAction) -> Void) {
         self.actionCallback = userChoiceHandler

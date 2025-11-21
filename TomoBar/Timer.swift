@@ -18,6 +18,30 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
     case fontSystem, ptMono, sfMono
 }
 
+enum Default {
+    // Timer display
+    static let showTimerMode = ShowTimerMode.always
+    static let timerFontMode = TimerFontMode.fontSystem
+    static let grayBackgroundOpacity = 6
+
+    // App behavior
+    static let appLanguage = "system"
+    static let startTimerOnLaunch = false
+    static let currentPreset = 0
+
+    // Alerts
+    static let alertMode = AlertMode.notify
+    static let notifyStyle = NotifyStyle.big
+    static let customBackgroundOpacity = 7
+    static let maskBlockActions = false
+    static let maskAutoResumeWork = false
+
+    // Sounds
+    static let windupVolume = 1.0
+    static let dingVolume = 1.0
+    static let tickingVolume = 1.0
+}
+
 struct TimerPreset: Codable {
     var workIntervalLength: Int = 25
     var shortRestIntervalLength: Int = 5
@@ -29,12 +53,12 @@ struct TimerPreset: Codable {
 }
 
 class TBTimer: ObservableObject {
-    @AppStorage("appLanguage") var appLanguage = "system"
-    @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = false
-    @AppStorage("showTimerMode") var showTimerMode = ShowTimerMode.running
-    @AppStorage("timerFontMode") var timerFontMode = TimerFontMode.fontSystem
-    @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = 6
-    @AppStorage("currentPreset") var currentPreset = 0
+    @AppStorage("appLanguage") var appLanguage = Default.appLanguage
+    @AppStorage("startTimerOnLaunch") var startTimerOnLaunch = Default.startTimerOnLaunch
+    @AppStorage("showTimerMode") var showTimerMode = Default.showTimerMode
+    @AppStorage("timerFontMode") var timerFontMode = Default.timerFontMode
+    @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = Default.grayBackgroundOpacity
+    @AppStorage("currentPreset") var currentPreset = Default.currentPreset
 
     #if DEBUG
     @AppStorage("useSecondsInsteadOfMinutes") var useSecondsInsteadOfMinutes = false
