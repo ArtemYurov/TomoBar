@@ -38,8 +38,8 @@ class TBTimer: ObservableObject {
     @AppStorage("showTimerMode") var showTimerMode = Default.showTimerMode
     @AppStorage("timerFontMode") var timerFontMode = Default.timerFontMode
     @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = Default.grayBackgroundOpacity
-    @AppStorage("rightClickAction") var rightClickAction = Default.rightClickAction
     @AppStorage("longRightClickAction") var longRightClickAction = Default.longRightClickAction
+    @AppStorage("rightClickAction") var rightClickAction = Default.rightClickAction
     @AppStorage("currentPreset") var currentPreset = Default.currentPreset
 
     #if DEBUG
