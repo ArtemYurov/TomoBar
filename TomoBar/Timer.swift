@@ -20,16 +20,6 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
 
 enum RightClickAction: String, CaseIterable {
     case startStop, addMinute, addFiveMinutes, pauseResume, skipInterval
-
-    var label: String {
-        switch self {
-        case .startStop: return "▶︎"
-        case .addMinute: return "+1"
-        case .addFiveMinutes: return "+5"
-        case .pauseResume: return "⏸"
-        case .skipInterval: return ">>"
-        }
-    }
 }
 
 struct TimerPreset: Codable {

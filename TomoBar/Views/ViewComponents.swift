@@ -107,6 +107,18 @@ struct RightClickActionPicker: View {
     }
 }
 
+extension RightClickAction {
+    var label: String {
+        switch self {
+        case .startStop: return "▶︎"
+        case .addMinute: return "+1"
+        case .addFiveMinutes: return "+5"
+        case .pauseResume: return "⏸"
+        case .skipInterval: return ">>"
+        }
+    }
+}
+
 extension DropdownDescribable {
     var description: String {
         switch self.rawValue {
