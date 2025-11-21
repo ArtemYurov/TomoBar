@@ -10,8 +10,8 @@ enum Default {
     static let appLanguage = "system"
     static let startTimerOnLaunch = false
     static let currentPreset = 0
-    static let rightClickAction = RightClickAction.pause
-    static let longRightClickAction = RightClickAction.play
+    static let rightClickAction = RightClickAction.pauseResume
+    static let longRightClickAction = RightClickAction.startStop
 
     // Alerts
     static let alertMode = AlertMode.notify

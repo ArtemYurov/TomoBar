@@ -19,14 +19,14 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
 }
 
 enum RightClickAction: String, CaseIterable {
-    case play, addMinute, addFiveMinutes, pause, skip
+    case startStop, addMinute, addFiveMinutes, pauseResume, skip
 
     var label: String {
         switch self {
-        case .play: return "▶︎"
+        case .startStop: return "▶︎"
         case .addMinute: return "+1"
         case .addFiveMinutes: return "+5"
-        case .pause: return "⏸"
+        case .pauseResume: return "⏸"
         case .skip: return ">>"
         }
     }

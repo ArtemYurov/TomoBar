@@ -118,9 +118,9 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
 
     private func performAction(_ action: RightClickAction) {
         switch action {
-        case .play:
+        case .startStop:
             view.timer.startStop()
-        case .pause:
+        case .pauseResume:
             view.timer.pauseResume()
         case .addMinute:
             view.timer.addMinutes(1)
