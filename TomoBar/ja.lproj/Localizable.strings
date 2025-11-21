@@ -66,6 +66,8 @@
 "SettingsView.language.restart.restart" = "今すぐ再起動";
 "SettingsView.language.restart.later" = "後で";
 
+"SettingsView.iconRightClick.label" = "バーで右クリック";
+"SettingsView.iconLongRightClick.label" = "長押し右クリック";
 "SettingsView.app.startTimerOnLaunch.label" = "アプリを開く時にタイマーを開始";
 "SettingsView.app.launchAtLogin.label" = "ログイン時に自動的に開く";
 

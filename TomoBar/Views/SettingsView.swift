@@ -8,12 +8,14 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Icon right click")
+                Text(NSLocalizedString("SettingsView.iconRightClick.label",
+                                       comment: "Icon right click label"))
                     .frameInfinityLeading()
                 RightClickActionPicker(value: $timer.rightClickAction)
             }
             HStack {
-                Text("Icon long right")
+                Text(NSLocalizedString("SettingsView.iconLongRightClick.label",
+                                       comment: "Icon long right click label"))
                     .frameInfinityLeading()
                 RightClickActionPicker(value: $timer.longRightClickAction)
             }

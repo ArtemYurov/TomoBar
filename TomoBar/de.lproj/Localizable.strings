@@ -66,6 +66,8 @@
 "SettingsView.language.restart.restart" = "Jetzt neu starten";
 "SettingsView.language.restart.later" = "Später";
 
+"SettingsView.iconRightClick.label" = "Rechtsklick in der Leiste";
+"SettingsView.iconLongRightClick.label" = "Langer Rechtsklick";
 "SettingsView.app.startTimerOnLaunch.label" = "Timer beim Starten starten";
 "SettingsView.app.launchAtLogin.label" = "Beim Login starten";
 

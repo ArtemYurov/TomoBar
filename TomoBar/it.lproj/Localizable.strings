@@ -66,6 +66,8 @@
 "SettingsView.language.restart.restart" = "Riavvia ora";
 "SettingsView.language.restart.later" = "Più tardi";
 
+"SettingsView.iconRightClick.label" = "Clic destro sulla barra";
+"SettingsView.iconLongRightClick.label" = "Clic destro lungo";
 "SettingsView.app.startTimerOnLaunch.label" = "Avvia il timer aprendo l'app";
 "SettingsView.app.launchAtLogin.label" = "Apri al login";
 
