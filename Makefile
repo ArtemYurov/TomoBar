@@ -70,8 +70,20 @@ release:
 	fi; \
 	echo "   ✓ Found changelog entry"; \
 	echo "🔧 Auto-incrementing build number..."; \
-	agvtool next-version -all; \
-	BUILD=$$(agvtool what-version -terse); \
+	AGVTOOL_OUTPUT=$$(agvtool next-version -all 2>&1); \
+	AGVTOOL_EXIT=$$?; \
+	if [ $$AGVTOOL_EXIT -ne 0 ]; then \
+		echo "❌ Error: agvtool failed to increment build number"; \
+		echo ""; \
+		echo "$$AGVTOOL_OUTPUT"; \
+		echo ""; \
+		exit 1; \
+	fi; \
+	BUILD=$$(agvtool what-version -terse 2>&1); \
+	if [ $$? -ne 0 ]; then \
+		echo "❌ Error: Failed to get build number"; \
+		exit 1; \
+	fi; \
 	echo "   New build number: $$BUILD"; \
 	echo "🔧 Setting marketing version to $$NEW_VERSION..."; \
 	sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = $$NEW_VERSION/g" TomoBar.xcodeproj/project.pbxproj; \
