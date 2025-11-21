@@ -44,7 +44,12 @@ class MaskHelper {
 
         // Normal flow - create new windows
         let requiresConfirmation = isRestStarted ? false : !maskAutoResumeWork
-        createMaskWindows(isLong: isLong, isRestStarted: isRestStarted, blockActions: blockActions, requiresRestFinishedConfirmation: requiresConfirmation)
+        createMaskWindows(
+            isLong: isLong,
+            isRestStarted: isRestStarted,
+            blockActions: blockActions,
+            requiresRestFinishedConfirmation: requiresConfirmation
+        )
     }
 
     private func createMaskWindows(isLong: Bool, isRestStarted: Bool = true, blockActions: Bool, requiresRestFinishedConfirmation: Bool) {

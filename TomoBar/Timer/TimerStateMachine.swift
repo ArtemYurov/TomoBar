@@ -131,28 +131,28 @@ extension TBTimer {
 
     private func setupHandlers() {
         // State transition handlers (ordered by state: idle -> work -> shortRest -> longRest)
-        stateMachine.addAnyHandler(.any => .idle,           handler: onIdleStart)
-        stateMachine.addAnyHandler(.idle => .any,           handler: onIdleEnd)
+        stateMachine.addAnyHandler(.any => .idle, handler: onIdleStart)
+        stateMachine.addAnyHandler(.idle => .any, handler: onIdleEnd)
 
         // Work handlers - only for real transitions, not pause routes
-        stateMachine.addAnyHandler(.idle => .work,          handler: onWorkStart)
-        stateMachine.addAnyHandler(.shortRest => .work,     handler: onWorkStart)
-        stateMachine.addAnyHandler(.longRest => .work,      handler: onWorkStart)
-        stateMachine.addAnyHandler(.work => .idle,          handler: onWorkEnd)
-        stateMachine.addAnyHandler(.work => .shortRest,     handler: onWorkEnd)
-        stateMachine.addAnyHandler(.work => .longRest,      handler: onWorkEnd)
+        stateMachine.addAnyHandler(.idle => .work, handler: onWorkStart)
+        stateMachine.addAnyHandler(.shortRest => .work, handler: onWorkStart)
+        stateMachine.addAnyHandler(.longRest => .work, handler: onWorkStart)
+        stateMachine.addAnyHandler(.work => .idle, handler: onWorkEnd)
+        stateMachine.addAnyHandler(.work => .shortRest, handler: onWorkEnd)
+        stateMachine.addAnyHandler(.work => .longRest, handler: onWorkEnd)
 
         // Rest handlers - only for real transitions, not pause routes
-        stateMachine.addAnyHandler(.idle => .shortRest,     handler: onRestStart)
-        stateMachine.addAnyHandler(.work => .shortRest,     handler: onRestStart)
-        stateMachine.addAnyHandler(.work => .longRest,      handler: onRestStart)
-        stateMachine.addAnyHandler(.shortRest => .work,     handler: onRestEnd)
-        stateMachine.addAnyHandler(.longRest => .work,      handler: onRestEnd)
+        stateMachine.addAnyHandler(.idle => .shortRest, handler: onRestStart)
+        stateMachine.addAnyHandler(.work => .shortRest, handler: onRestStart)
+        stateMachine.addAnyHandler(.work => .longRest, handler: onRestStart)
+        stateMachine.addAnyHandler(.shortRest => .work, handler: onRestEnd)
+        stateMachine.addAnyHandler(.longRest => .work, handler: onRestEnd)
 
         // Event handlers
-        stateMachine.addHandler(event: .skipEvent,          handler: onSkipEvent)
-        stateMachine.addHandler(event: .intervalCompleted,  handler: onIntervalCompleted)
-        stateMachine.addHandler(event: .sessionCompleted,   handler: onSessionCompleted)
+        stateMachine.addHandler(event: .skipEvent, handler: onSkipEvent)
+        stateMachine.addHandler(event: .intervalCompleted, handler: onIntervalCompleted)
+        stateMachine.addHandler(event: .sessionCompleted, handler: onSessionCompleted)
 
         stateMachine.addAnyHandler(.any => .any, handler: { ctx in
             logger.append(event: TBLogEventTransition(fromContext: ctx))
