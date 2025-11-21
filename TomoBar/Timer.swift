@@ -18,38 +18,14 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
     case fontSystem, ptMono, sfMono
 }
 
-enum Default {
-    // Timer display
-    static let showTimerMode = ShowTimerMode.always
-    static let timerFontMode = TimerFontMode.fontSystem
-    static let grayBackgroundOpacity = 6
-
-    // App behavior
-    static let appLanguage = "system"
-    static let startTimerOnLaunch = false
-    static let currentPreset = 0
-
-    // Alerts
-    static let alertMode = AlertMode.notify
-    static let notifyStyle = NotifyStyle.big
-    static let customBackgroundOpacity = 7
-    static let maskBlockActions = false
-    static let maskAutoResumeWork = false
-
-    // Sounds
-    static let windupVolume = 1.0
-    static let dingVolume = 1.0
-    static let tickingVolume = 1.0
-}
-
 struct TimerPreset: Codable {
-    var workIntervalLength: Int = 25
-    var shortRestIntervalLength: Int = 5
-    var longRestIntervalLength: Int = 15
-    var workIntervalsInSet = 4
-    var startWith: StartWithValues = .work
-    var sessionStopAfter: SessionStopAfter = .disabled
-    var focusOnWork: Bool = false
+    var workIntervalLength: Int
+    var shortRestIntervalLength: Int
+    var longRestIntervalLength: Int
+    var workIntervalsInSet: Int
+    var startWith: StartWithValues
+    var sessionStopAfter: SessionStopAfter
+    var focusOnWork: Bool
 }
 
 class TBTimer: ObservableObject {
@@ -69,16 +45,9 @@ class TBTimer: ObservableObject {
 
     @AppStorage("timerPresets") private var presetsData = Data()
     var presets: [TimerPreset] {
-        get { (try? JSONDecoder().decode([TimerPreset].self, from: presetsData)) ?? Self.defaultPresets }
+        get { (try? JSONDecoder().decode([TimerPreset].self, from: presetsData)) ?? Default.presets }
         set { presetsData = (try? JSONEncoder().encode(newValue)) ?? Data() }
     }
-
-    static let defaultPresets: [TimerPreset] = [
-        TimerPreset(workIntervalLength: 25, shortRestIntervalLength: 5, longRestIntervalLength: 15, workIntervalsInSet: 4, focusOnWork: false),
-        TimerPreset(workIntervalLength: 52, shortRestIntervalLength: 17, longRestIntervalLength: 17, workIntervalsInSet: 1, focusOnWork: true),
-        TimerPreset(workIntervalLength: 20, shortRestIntervalLength: 5, longRestIntervalLength: 15, workIntervalsInSet: 4, focusOnWork: false),
-        TimerPreset(workIntervalLength: 30, shortRestIntervalLength: 5, longRestIntervalLength: 20, workIntervalsInSet: 4, focusOnWork: false)
-    ]
     let overrunTimeLimit: Double = -60
 
     public let player = TBPlayer()
