@@ -79,8 +79,7 @@ class TBTimer: ObservableObject {
         TimerPreset(workIntervalLength: 20, shortRestIntervalLength: 5, longRestIntervalLength: 15, workIntervalsInSet: 4, focusOnWork: false),
         TimerPreset(workIntervalLength: 30, shortRestIntervalLength: 5, longRestIntervalLength: 20, workIntervalsInSet: 4, focusOnWork: false)
     ]
-    // This preference is "hidden"
-    @AppStorage("overrunTimeLimit") var overrunTimeLimit: Double = -60
+    let overrunTimeLimit: Double = -60
 
     public let player = TBPlayer()
     public lazy var notify = TBNotify(
