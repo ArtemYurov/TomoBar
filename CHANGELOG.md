@@ -1,5 +1,10 @@
 # Changelog
 
+## [v4.1.0] - 2025-11-22
+
+### Added
+- Right-click actions on menu bar icon - click to start/stop timer, long press to pause/resume, fully configurable in settings
+
 ## [v4.0.1] - 2025-11-15
 
 ### Fixed
