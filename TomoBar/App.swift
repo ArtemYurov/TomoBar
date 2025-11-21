@@ -53,8 +53,8 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     // Read display settings directly from AppStorage
     @AppStorage("timerFontMode") private var timerFontMode = Default.timerFontMode
     @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = Default.grayBackgroundOpacity
-    @AppStorage("rightClickAction") private var rightClickAction = RightClickAction.pause
-    @AppStorage("longRightClickAction") private var longRightClickAction = RightClickAction.play
+    @AppStorage("rightClickAction") private var rightClickAction = Default.rightClickAction
+    @AppStorage("longRightClickAction") private var longRightClickAction = Default.longRightClickAction
 
     override init() {
         #if SPARKLE
