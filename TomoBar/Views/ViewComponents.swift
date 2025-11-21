@@ -31,10 +31,10 @@ func getLanguageName(for code: String) -> String {
     return code
 }
 
-// Get available app languages: system + all localizations from bundle
+// Get available app languages: system + English + all other localizations
 func getAvailableLanguages() -> [String] {
-    let localizations = Bundle.main.localizations.filter { $0 != "Base" }.sorted()
-    return ["system"] + localizations
+    let localizations = Bundle.main.localizations.filter { $0 != "Base" && $0 != "en" }.sorted()
+    return ["system", "en"] + localizations
 }
 
 func clampedNumberFormatter(min: Int, max: Int) -> NumberFormatter {
