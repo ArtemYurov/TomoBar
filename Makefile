@@ -50,6 +50,25 @@ release:
 	else \
 		echo "📦 Creating first release $$VERSION"; \
 	fi; \
+	echo "📝 Checking CHANGELOG.md for version $$VERSION..."; \
+	if ! grep -q "^## \[$$VERSION\]" CHANGELOG.md; then \
+		echo "❌ Error: Version $$VERSION not found in CHANGELOG.md"; \
+		echo ""; \
+		echo "   Please add a changelog entry in the following format:"; \
+		echo ""; \
+		echo "   ## [$$VERSION] - $$(date +%Y-%m-%d)"; \
+		echo ""; \
+		echo "   ### Added/Changed/Fixed"; \
+		echo "   - Your changes here"; \
+		echo ""; \
+		exit 1; \
+	fi; \
+	CHANGELOG_TEXT=$$(sed -n "/^## \[$$VERSION\]/,/^## \[v/p" CHANGELOG.md | sed '1d;$$d' | sed '/^$$/d'); \
+	if [ -z "$$CHANGELOG_TEXT" ]; then \
+		echo "❌ Error: Changelog entry for $$VERSION is empty"; \
+		exit 1; \
+	fi; \
+	echo "   ✓ Found changelog entry"; \
 	echo "🔧 Auto-incrementing build number..."; \
 	agvtool next-version -all; \
 	BUILD=$$(agvtool what-version -terse); \
@@ -61,7 +80,11 @@ release:
 	else \
 		echo "💾 Committing version changes..."; \
 		git add TomoBar.xcodeproj/project.pbxproj; \
-		git commit -m "chore: bump version to $$NEW_VERSION (build $$BUILD)"; \
+		if ! git diff --quiet CHANGELOG.md; then \
+			echo "   Adding CHANGELOG.md to commit"; \
+			git add CHANGELOG.md; \
+		fi; \
+		git commit -m "chore: bump version to $$NEW_VERSION (build $$BUILD)" -m "$$CHANGELOG_TEXT"; \
 	fi; \
 	echo "🏷️  Creating tag $$VERSION..."; \
 	git tag "$$VERSION"; \
