@@ -20,6 +20,7 @@ private enum UIConstants {
     static let sfMonoFontSizeIncrement: CGFloat = 1
     static let buttonCornerRadius: CGFloat = 4
     static let grayBackgroundMaxAlpha: CGFloat = 10.0  // Divider for opacity calculation
+    static let longPressMinDuration: TimeInterval = 0.5
 }
 
 @main
@@ -42,6 +43,8 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem?
     static var shared: TBStatusItem!
     private var view: TBPopoverView!
+    private var longPressWorkItem: DispatchWorkItem?
+    private var longPressTriggered = false
     #if SPARKLE
     private let updaterController: SPUStandardUpdaterController
     private let userDriverDelegate = TBStatusItemUserDriverDelegate()
@@ -50,6 +53,8 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     // Read display settings directly from AppStorage
     @AppStorage("timerFontMode") private var timerFontMode = Default.timerFontMode
     @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = Default.grayBackgroundOpacity
+    @AppStorage("rightClickAction") private var rightClickAction = RightClickAction.pause
+    @AppStorage("longRightClickAction") private var longRightClickAction = RightClickAction.play
 
     override init() {
         #if SPARKLE
@@ -76,9 +81,54 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
         statusBarItem?.button?.wantsLayer = true
         statusBarItem?.button?.layer?.cornerRadius = UIConstants.buttonCornerRadius
         setIcon(name: .idle)
-        statusBarItem?.button?.action = #selector(TBStatusItem.togglePopover(_:))
+        statusBarItem?.button?.sendAction(on: [.leftMouseUp, .rightMouseDown, .rightMouseUp])
+        statusBarItem?.button?.action = #selector(TBStatusItem.handleClick(_:))
+
         view.timer.updateDisplay()
         view.timer.startOnLaunch()
+    }
+
+    @objc func handleClick(_ sender: AnyObject?) {
+        let event = NSApp.currentEvent
+
+        switch event?.type {
+        case .leftMouseUp:
+            togglePopover(nil)
+        case .rightMouseDown:
+            longPressTriggered = false
+            longPressWorkItem = DispatchWorkItem {
+                self.longPressTriggered = true
+                self.performLongPressAction()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + UIConstants.longPressMinDuration, execute: longPressWorkItem!)
+        case .rightMouseUp:
+            longPressWorkItem?.cancel()
+            longPressWorkItem = nil
+            if !longPressTriggered {
+                performAction(rightClickAction)
+            }
+        default:
+            break
+        }
+    }
+
+    private func performLongPressAction() {
+        performAction(longRightClickAction)
+    }
+
+    private func performAction(_ action: RightClickAction) {
+        switch action {
+        case .play:
+            view.timer.startStop()
+        case .pause:
+            view.timer.pauseResume()
+        case .addMinute:
+            view.timer.addMinutes(1)
+        case .addFiveMinutes:
+            view.timer.addMinutes(5)
+        case .skip:
+            view.timer.skip()
+        }
     }
 
     func applicationWillTerminate(_: Notification) {
@@ -141,7 +191,7 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
         popover.performClose(sender)
     }
 
-    @objc func togglePopover(_ sender: AnyObject?) {
+    func togglePopover(_ sender: AnyObject?) {
         if popover.isShown {
             closePopover(sender)
         } else {

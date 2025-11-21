@@ -66,6 +66,8 @@
 "SettingsView.language.restart.restart" = "Перезапустить";
 "SettingsView.language.restart.later" = "Позже";
 
+"SettingsView.iconRightClick.label" = "Правый клик в баре";
+"SettingsView.iconLongRightClick.label" = "Долгий правый";
 "SettingsView.app.startTimerOnLaunch.label" = "Запускать таймер при открытии";
 "SettingsView.app.launchAtLogin.label" = "Запускать при входе в систему";
 

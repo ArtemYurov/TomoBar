@@ -92,6 +92,21 @@ struct EnumSegmentedPicker<E: CaseIterable & Hashable & DropdownDescribable>: Vi
     }
 }
 
+struct RightClickActionPicker: View {
+    @Binding var value: RightClickAction
+
+    var body: some View {
+        Picker("", selection: $value) {
+            ForEach(RightClickAction.allCases, id: \.self) { option in
+                Text(option.label)
+            }
+        }
+        .labelsHidden()
+        .pickerStyle(.segmented)
+        .applyButtonSizingFlexible()
+    }
+}
+
 extension DropdownDescribable {
     var description: String {
         switch self.rawValue {

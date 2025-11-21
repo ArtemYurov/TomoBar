@@ -66,6 +66,8 @@
 "SettingsView.language.restart.restart" = "立即重启";
 "SettingsView.language.restart.later" = "稍后";
 
+"SettingsView.iconRightClick.label" = "栏上右键点击";
+"SettingsView.iconLongRightClick.label" = "长按右键";
 "SettingsView.app.startTimerOnLaunch.label" = "启动时启动计时器";
 "SettingsView.app.launchAtLogin.label" = "登录时启动";
 

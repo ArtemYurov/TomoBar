@@ -18,6 +18,20 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
     case fontSystem, ptMono, sfMono
 }
 
+enum RightClickAction: String, CaseIterable {
+    case play, addMinute, addFiveMinutes, pause, skip
+
+    var label: String {
+        switch self {
+        case .play: return "▶︎"
+        case .addMinute: return "+1"
+        case .addFiveMinutes: return "+5"
+        case .pause: return "⏸"
+        case .skip: return ">>"
+        }
+    }
+}
+
 struct TimerPreset: Codable {
     var workIntervalLength: Int
     var shortRestIntervalLength: Int
@@ -34,6 +48,8 @@ class TBTimer: ObservableObject {
     @AppStorage("showTimerMode") var showTimerMode = Default.showTimerMode
     @AppStorage("timerFontMode") var timerFontMode = Default.timerFontMode
     @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = Default.grayBackgroundOpacity
+    @AppStorage("rightClickAction") var rightClickAction = RightClickAction.pause
+    @AppStorage("longRightClickAction") var longRightClickAction = RightClickAction.play
     @AppStorage("currentPreset") var currentPreset = Default.currentPreset
 
     #if DEBUG
