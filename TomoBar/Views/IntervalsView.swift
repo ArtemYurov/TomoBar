@@ -211,6 +211,17 @@ struct IntervalsView: View {
                 timer.updateDisplay()
                 updateDNDIfNeeded()
             }
+            #if DEBUG
+            Spacer().frame(minHeight: 0)
+            Toggle(isOn: $timer.useSecondsInsteadOfMinutes) {
+                Text("Use sec instead of min (for testing)")
+                    .frameInfinityLeading()
+            }
+            .toggleStyle(.switch)
+            .onChange(of: timer.useSecondsInsteadOfMinutes) { _ in
+                timer.updateDisplay()
+            }
+            #endif
             Spacer().frame(minHeight: 0)
         }
         .padding(4)
