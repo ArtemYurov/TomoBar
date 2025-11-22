@@ -35,7 +35,7 @@ release:
 		LAST_VERSION=$${LAST_TAG#v}; \
 		NEW_VERSION=$${VERSION#v}; \
 		if [ "$$VERSION" = "$$LAST_TAG" ]; then \
-			echo "❌ Error: Version $$VERSION already exists"; \
+			echo "❌ Error: Tag $$VERSION already exists"; \
 			exit 1; \
 		fi; \
 		NEW_NUM=$$(echo "$$NEW_VERSION" | awk -F. '{print $$1*10000 + $$2*100 + $$3}'); \
