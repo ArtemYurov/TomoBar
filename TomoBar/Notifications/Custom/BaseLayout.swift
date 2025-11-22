@@ -4,7 +4,7 @@ import CoreGraphics
 enum BaseLayout {
     // Element sizes
     static let titleFontSize: CGFloat = 14
-    static let subtitleFontSize: CGFloat = 12
+    static let subtitleFontSize: CGFloat = 13
     static let buttonFontSize: CGFloat = 13
     static let buttonHeight: CGFloat = 36
 

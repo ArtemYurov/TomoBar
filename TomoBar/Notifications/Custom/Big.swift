@@ -40,7 +40,7 @@ struct BigNotificationView: View {
 
                     Text(subtitle)
                         .font(.system(size: Layout.subtitleFontSize))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.primary.opacity(0.8))
                 }
             }
             .frame(maxWidth: .infinity)
