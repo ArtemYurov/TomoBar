@@ -51,25 +51,20 @@ struct SmallNotificationView: View {
 
             NotificationSeparator(orientation: .vertical)
 
-            if isSessionCompleted {
-                VStack(spacing: 0) {
-                    NotificationButton(title: skipActionTitle, action: { onAction(.restart) })
+            VStack(spacing: 0) {
+                NotificationButton(
+                    title: skipActionTitle,
+                    action: { onAction(!isSessionCompleted ? .skipInterval : .restart) }
+                )
 
-                    NotificationSeparator(orientation: .horizontal)
+                NotificationSeparator(orientation: .horizontal)
 
-                    NotificationButton(title: nextActionTitle, action: { onAction(.close) })
-                }
-                .frame(width: Layout.buttonWidth, height: Layout.windowHeight)
-            } else {
-                VStack(spacing: 0) {
-                    NotificationButton(title: skipActionTitle, action: { onAction(.skipInterval) })
-
-                    NotificationSeparator(orientation: .horizontal)
-
-                    NotificationButton(title: nextActionTitle, action: { onAction(.nextInterval) })
-                }
-                .frame(width: Layout.buttonWidth, height: Layout.windowHeight)
+                NotificationButton(
+                    title: nextActionTitle,
+                    action: { onAction(!isSessionCompleted ? .nextInterval : .close) }
+                )
             }
+            .frame(width: Layout.buttonWidth, height: Layout.windowHeight)
         }
         .frame(width: Layout.windowWidth, height: Layout.windowHeight)
         .notificationBackground(opacity: opacity)

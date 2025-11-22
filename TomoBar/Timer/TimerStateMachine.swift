@@ -218,7 +218,7 @@ extension TBTimer {
                 } else {
                     // Check if this should be a session completion
                     let isSessionCompleted = isSessionCompleted(for: stateMachine.state)
-                    stateMachine <-! (isSessionCompleted ? .sessionCompleted : .intervalCompleted)
+                    stateMachine <-! (!isSessionCompleted ? .intervalCompleted : .sessionCompleted)
                 }
             }
         }

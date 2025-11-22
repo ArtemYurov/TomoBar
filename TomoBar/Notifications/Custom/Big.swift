@@ -48,62 +48,57 @@ struct BigNotificationView: View {
 
             Spacer()
 
-            if isSessionCompleted {
-                VStack(spacing: 0) {
+            VStack(spacing: 0) {
+                NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
+
+                if !isSessionCompleted {
+                    timeAddingButtons
                     NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
-
-                    HStack(spacing: 0) {
-                        NotificationButton(title: skipActionTitle, action: { onAction(.restart) })
-
-                        NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
-
-                        NotificationButton(title: nextActionTitle, action: { onAction(.close) })
-                    }
-                    .frame(height: Layout.buttonHeight)
                 }
-                .background(Color.clear)
-            } else {
-                VStack(spacing: 0) {
-                    NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
 
-                    HStack(spacing: 0) {
-                        NotificationButton(
-                            title: NSLocalizedString("CustomNotification.control.addMinute", comment: "Add 1 minute"),
-                            action: { onAction(.addMinute) }
-                        )
+                HStack(spacing: 0) {
+                    NotificationButton(
+                        title: skipActionTitle,
+                        action: { onAction(!isSessionCompleted ? .skipInterval : .restart) }
+                    )
 
-                        NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
+                    NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
-                        NotificationButton(
-                            title: NSLocalizedString("CustomNotification.control.addTwoMinutes", comment: "Add 2 minutes"),
-                            action: { onAction(.addTwoMinutes) }
-                        )
-
-                        NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
-
-                        NotificationButton(
-                            title: NSLocalizedString("CustomNotification.control.addFiveMinutes", comment: "Add 5 minutes"),
-                            action: { onAction(.addFiveMinutes) }
-                        )
-                    }
-                    .frame(height: Layout.buttonHeight)
-
-                    NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
-
-                    HStack(spacing: 0) {
-                        NotificationButton(title: skipActionTitle, action: { onAction(.skipInterval) })
-
-                        NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
-
-                        NotificationButton(title: nextActionTitle, action: { onAction(.nextInterval) })
-                    }
-                    .frame(height: Layout.buttonHeight)
+                    NotificationButton(
+                        title: nextActionTitle,
+                        action: { onAction(!isSessionCompleted ? .nextInterval : .close) }
+                    )
                 }
-                .background(Color.clear)
+                .frame(height: Layout.buttonHeight)
             }
+            .background(Color.clear)
         }
         .frame(width: Layout.windowWidth, height: windowHeight)
         .notificationBackground(opacity: opacity)
+    }
+
+    private var timeAddingButtons: some View {
+        HStack(spacing: 0) {
+            NotificationButton(
+                title: NSLocalizedString("CustomNotification.control.addMinute", comment: "Add 1 minute"),
+                action: { onAction(.addMinute) }
+            )
+
+            NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
+
+            NotificationButton(
+                title: NSLocalizedString("CustomNotification.control.addTwoMinutes", comment: "Add 2 minutes"),
+                action: { onAction(.addTwoMinutes) }
+            )
+
+            NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
+
+            NotificationButton(
+                title: NSLocalizedString("CustomNotification.control.addFiveMinutes", comment: "Add 5 minutes"),
+                action: { onAction(.addFiveMinutes) }
+            )
+        }
+        .frame(height: Layout.buttonHeight)
     }
 }
 
@@ -120,7 +115,7 @@ extension CustomNotifyHelper {
         guard case .big(let content) = style else { return }
 
         let windowWidth: CGFloat = Layout.windowWidth
-        let windowHeight: CGFloat = isSessionCompleted ? 170 : 214
+        let windowHeight: CGFloat = !isSessionCompleted ? 214 : 170
         let menuBarOffset: CGFloat = BaseLayout.menuBarOffset
         let animationDuration: CGFloat = 0.6
         let animationStartOffset: CGFloat = BaseLayout.animationStartOffset
