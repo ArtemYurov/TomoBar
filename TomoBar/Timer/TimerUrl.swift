@@ -28,12 +28,12 @@ extension TBTimer {
             startStop()
         case "pauseresume":
             pauseResume()
-        case "skip":
-            skipInterval()
         case "addminute":
             addMinutes(1)
         case "addfiveminutes":
             addMinutes(5)
+        case "skip":
+            skipInterval()
         default:
             print("url handling error: unknown command \(host)")
         }

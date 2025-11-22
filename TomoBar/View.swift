@@ -70,6 +70,16 @@ struct TBPopoverView: View {
                     .frame(width: 2)
 
                 Button {
+                    timer.pauseResume()
+                    TBStatusItem.shared.closePopover(nil)
+                } label: {
+                    (timer.paused ? resumeIcon : pauseIcon)
+                }
+                .iconButtonStyle()
+                .help(timer.paused ? resumeLabel : pauseLabel)
+                .disabled(timer.timer == nil)
+
+                Button {
                     timer.addMinutes(1)
                 } label: {
                     Text("+1")
@@ -95,16 +105,6 @@ struct TBPopoverView: View {
                 }
                 .buttonStyle(.plain)
                 .help(NSLocalizedString("View.addFiveMinutes.help", comment: "Add five minutes hint"))
-                .disabled(timer.timer == nil)
-
-                Button {
-                    timer.pauseResume()
-                    TBStatusItem.shared.closePopover(nil)
-                } label: {
-                    (timer.paused ? resumeIcon : pauseIcon)
-                }
-                .iconButtonStyle()
-                .help(timer.paused ? resumeLabel : pauseLabel)
                 .disabled(timer.timer == nil)
 
                 Button {

@@ -19,7 +19,7 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
 }
 
 enum RightClickAction: String, CaseIterable {
-    case startStop, addMinute, addFiveMinutes, pauseResume, skipInterval
+    case startStop, pauseResume, addMinute, addFiveMinutes, skipInterval
 }
 
 struct TimerPreset: Codable {
@@ -102,13 +102,13 @@ class TBTimer: ObservableObject {
 
         KeyboardShortcuts.onKeyUp(for: .startStopTimer, action: startStop)
         KeyboardShortcuts.onKeyUp(for: .pauseResumeTimer, action: pauseResume)
-        KeyboardShortcuts.onKeyUp(for: .skipTimer, action: skipInterval)
         KeyboardShortcuts.onKeyUp(for: .addMinuteTimer) { [weak self] in
             self?.addMinutes(1)
         }
         KeyboardShortcuts.onKeyUp(for: .addFiveMinutesTimer) { [weak self] in
             self?.addMinutes(5)
         }
+        KeyboardShortcuts.onKeyUp(for: .skipTimer, action: skipInterval)
 
         let aem: NSAppleEventManager = NSAppleEventManager.shared()
         aem.setEventHandler(self,
