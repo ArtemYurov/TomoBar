@@ -13,10 +13,6 @@ extension TBTimer {
 
         paused = !paused
 
-        if currentPresetInstance.focusOnWork, isWorking {
-            dnd.set(focus: !paused)
-        }
-
         if paused {
             if isWorking {
                 player.stopTicking()
