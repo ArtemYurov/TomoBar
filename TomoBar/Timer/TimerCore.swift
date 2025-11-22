@@ -120,24 +120,4 @@ extension TBTimer {
         // Execute after delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
     }
-
-    func addMinutes(_ minutes: Int = 1) {
-        guard timer != nil else { return }
-
-        let seconds = TimeInterval(minutes * 60)
-        let timeLeft = paused ? pausedTimeRemaining : max(0, finishTime.timeIntervalSince(Date()))
-        var newTimeLeft = timeLeft + seconds
-        if newTimeLeft > 7200 {
-            newTimeLeft = TimeInterval(7200)
-        }
-
-        if paused {
-            pausedTimeRemaining = newTimeLeft
-            pausedTimeElapsed -= seconds
-        } else {
-            startTime = startTime.addingTimeInterval(seconds)
-            finishTime = Date().addingTimeInterval(newTimeLeft)
-        }
-        updateDisplay()
-    }
 }

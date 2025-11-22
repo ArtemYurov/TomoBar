@@ -1,14 +1,6 @@
 import KeyboardShortcuts
 import SwiftUI
 
-extension KeyboardShortcuts.Name {
-    static let startStopTimer = Self("startStopTimer")
-    static let pauseResumeTimer = Self("pauseResumeTimer")
-    static let skipTimer = Self("skipTimer")
-    static let addMinuteTimer = Self("addMinuteTimer")
-    static let addFiveMinutesTimer = Self("addFiveMinutesTimer")
-}
-
 struct ControlsView: View {
     @EnvironmentObject var timer: TBTimer
 

@@ -1,4 +1,3 @@
-import KeyboardShortcuts
 import SwiftState
 import SwiftUI
 
@@ -100,15 +99,7 @@ class TBTimer: ObservableObject {
         setupStateMachine()
         timerFormatter.unitsStyle = .positional
 
-        KeyboardShortcuts.onKeyUp(for: .startStopTimer, action: startStop)
-        KeyboardShortcuts.onKeyUp(for: .pauseResumeTimer, action: pauseResume)
-        KeyboardShortcuts.onKeyUp(for: .addMinuteTimer) { [weak self] in
-            self?.addMinutes(1)
-        }
-        KeyboardShortcuts.onKeyUp(for: .addFiveMinutesTimer) { [weak self] in
-            self?.addMinutes(5)
-        }
-        KeyboardShortcuts.onKeyUp(for: .skipTimer, action: skipInterval)
+        setupKeyboardShortcuts()
 
         let aem: NSAppleEventManager = NSAppleEventManager.shared()
         aem.setEventHandler(self,
@@ -117,54 +108,11 @@ class TBTimer: ObservableObject {
                             andEventID: AEEventID(kAEGetURL))
     }
 
-    func startStop() {
-        notify.custom.hide()
-        paused = false
-        stateMachine <-! .startStop
-    }
-
     func startOnLaunch() {
         if !startTimerOnLaunch {
             return
         }
 
         startStop()
-    }
-
-    func skipInterval() {
-        guard timer != nil else { return }
-
-        paused = false
-        stateMachine <-! .skipEvent
-    }
-
-    func pauseResume() {
-        guard timer != nil else { return }
-
-        paused = !paused
-
-        if currentPresetInstance.focusOnWork, isWorking {
-            dnd.set(focus: !paused)
-        }
-
-        if paused {
-            if isWorking {
-                player.stopTicking()
-            }
-            setPauseIcon()
-            pausedTimeRemaining = finishTime.timeIntervalSince(Date())
-            pausedTimeElapsed = Date().timeIntervalSince(startTime)
-            finishTime = Date.distantFuture
-        } else {
-            if isWorking {
-                player.startTicking(isPaused: true)
-            }
-            setStateIcon()
-            // Adjust startTime to account for pause duration
-            startTime = Date().addingTimeInterval(-pausedTimeElapsed)
-            finishTime = Date().addingTimeInterval(pausedTimeRemaining)
-        }
-
-        updateDisplay()
     }
 }
