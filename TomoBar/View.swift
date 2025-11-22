@@ -123,8 +123,8 @@ struct TBPopoverView: View {
                                        comment: "Intervals label")).tag(ChildView.intervals)
                 Text(NSLocalizedString("View.settings.label",
                                        comment: "Settings label")).tag(ChildView.settings)
-                Text(NSLocalizedString("View.shortcuts.label",
-                                       comment: "Shortcuts label")).tag(ChildView.shortcuts)
+                Text(NSLocalizedString("View.controls.label",
+                                       comment: "Controls label")).tag(ChildView.shortcuts)
                 Text(NSLocalizedString("View.sounds.label",
                                        comment: "Sounds label")).tag(ChildView.sounds)
             }
@@ -139,7 +139,7 @@ struct TBPopoverView: View {
                 case .settings:
                     SettingsView().environmentObject(timer)
                 case .shortcuts:
-                    ShortcutsView()
+                    ControlsView().environmentObject(timer)
                 case .sounds:
                     SoundsView(sliderWidth: getLocalizedWidth()*0.53).environmentObject(timer.player)
                 }

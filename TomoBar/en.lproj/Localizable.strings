@@ -8,7 +8,7 @@
 "View.skip.help" = "Skip";
 "View.intervals.label" = "Intervals";
 "View.settings.label" = "Settings";
-"View.shortcuts.label" = "Shortcuts";
+"View.controls.label" = "Controls";
 "View.sounds.label" = "Sounds";
 "View.checkForUpdates.label" = "Check for Updates";
 "View.about.label" = "About";
@@ -33,11 +33,14 @@
 "IntervalsView.break.label" = "Break";
 "IntervalsView.set.label" = "Set";
 
-"SettingsView.shortcuts.startStop.label" = "Start/stop";
-"SettingsView.shortcuts.pauseResume.label" = "Pause/resume";
-"SettingsView.shortcuts.skip.label" = "Skip";
-"SettingsView.shortcuts.addMinute.label" = "Add a minute";
-"SettingsView.shortcuts.addFiveMinutes.label" = "Add five minutes";
+"SettingsView.controls.rightclick.long.label" = "Icon long right click";
+"SettingsView.controls.rightclick.label" = "Icon right click";
+
+"SettingsView.controls.shortcuts.startStop.label" = "Start/stop";
+"SettingsView.controls.shortcuts.pauseResume.label" = "Pause/resume";
+"SettingsView.controls.shortcuts.addMinute.label" = "Add a minute";
+"SettingsView.controls.shortcuts.addFiveMinutes.label" = "Add five minutes";
+"SettingsView.controls.shortcuts.skipInterval.label" = "Skip interval";
 
 "SettingsView.timer.show.label" = "Show timer";
 "SettingsView.timer.show.active.label" = "Active";
@@ -66,8 +69,6 @@
 "SettingsView.language.restart.restart" = "Restart Now";
 "SettingsView.language.restart.later" = "Later";
 
-"SettingsView.iconLongRightClick.label" = "Icon long right click";
-"SettingsView.iconRightClick.label" = "Icon right click";
 "SettingsView.app.startTimerOnLaunch.label" = "Start timer on launch";
 "SettingsView.app.launchAtLogin.label" = "Launch at login";
 

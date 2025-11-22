@@ -8,7 +8,7 @@
 "View.skip.help" = "スキップ";
 "View.intervals.label" = "インターバル";
 "View.settings.label" = "設定";
-"View.shortcuts.label" = "ショートカット";
+"View.controls.label" = "コントロール";
 "View.sounds.label" = "サウンド";
 "View.checkForUpdates.label" = "アップデートを確認";
 "View.about.label" = "TomoBarについて";
@@ -33,11 +33,14 @@
 "IntervalsView.break.label" = "休憩";
 "IntervalsView.set.label" = "セット";
 
-"SettingsView.shortcuts.startStop.label" = "開始/終了";
-"SettingsView.shortcuts.pauseResume.label" = "一時停止/再開";
-"SettingsView.shortcuts.skip.label" = "スキップ";
-"SettingsView.shortcuts.addMinute.label" = "1分追加";
-"SettingsView.shortcuts.addFiveMinutes.label" = "5分追加";
+"SettingsView.controls.rightclick.long.label" = "長押し右クリック";
+"SettingsView.controls.rightclick.label" = "バーで右クリック";
+
+"SettingsView.controls.shortcuts.startStop.label" = "開始/終了";
+"SettingsView.controls.shortcuts.pauseResume.label" = "一時停止/再開";
+"SettingsView.controls.shortcuts.addMinute.label" = "1分追加";
+"SettingsView.controls.shortcuts.addFiveMinutes.label" = "5分追加";
+"SettingsView.controls.shortcuts.skipInterval.label" = "インターバルをスキップ";
 
 "SettingsView.timer.show.label" = "タイマーを表示";
 "SettingsView.timer.show.active.label" = "アクティブ";
@@ -66,8 +69,6 @@
 "SettingsView.language.restart.restart" = "今すぐ再起動";
 "SettingsView.language.restart.later" = "後で";
 
-"SettingsView.iconLongRightClick.label" = "長押し右クリック";
-"SettingsView.iconRightClick.label" = "バーで右クリック";
 "SettingsView.app.startTimerOnLaunch.label" = "アプリを開く時にタイマーを開始";
 "SettingsView.app.launchAtLogin.label" = "ログイン時に自動的に開く";
 

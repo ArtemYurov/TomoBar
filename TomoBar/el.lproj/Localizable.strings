@@ -8,7 +8,7 @@
 "View.skip.help" = "Παράλειψη";
 "View.intervals.label" = "Διαστήματα";
 "View.settings.label" = "Ρυθμίσεις";
-"View.shortcuts.label" = "Συντομεύσεις";
+"View.controls.label" = "Έλεγχοι";
 "View.sounds.label" = "Ήχοι";
 "View.checkForUpdates.label" = "Έλεγχος ενημερώσεων";
 "View.about.label" = "Σχετικά";
@@ -33,11 +33,14 @@
 "IntervalsView.break.label" = "Διάλειμμα";
 "IntervalsView.set.label" = "Σετ";
 
-"SettingsView.shortcuts.startStop.label" = "Έναρξη/Παύση";
-"SettingsView.shortcuts.pauseResume.label" = "Παύση/Συνέχιση";
-"SettingsView.shortcuts.skip.label" = "Παράλειψη";
-"SettingsView.shortcuts.addMinute.label" = "Προσθήκη λεπτού";
-"SettingsView.shortcuts.addFiveMinutes.label" = "Προσθήκη πέντε λεπτών";
+"SettingsView.controls.rightclick.long.label" = "Παρατεταμένο δεξί κλικ";
+"SettingsView.controls.rightclick.label" = "Δεξί κλικ στη γραμμή";
+
+"SettingsView.controls.shortcuts.startStop.label" = "Έναρξη/Παύση";
+"SettingsView.controls.shortcuts.pauseResume.label" = "Παύση/Συνέχιση";
+"SettingsView.controls.shortcuts.addMinute.label" = "Προσθήκη λεπτού";
+"SettingsView.controls.shortcuts.addFiveMinutes.label" = "Προσθήκη πέντε λεπτών";
+"SettingsView.controls.shortcuts.skipInterval.label" = "Παράλειψη διαστήματος";
 
 "SettingsView.timer.show.label" = "Εμφάνιση χρονομέτρου";
 "SettingsView.timer.show.active.label" = "Ενεργό";
@@ -66,8 +69,6 @@
 "SettingsView.language.restart.restart" = "Επανεκκίνηση τώρα";
 "SettingsView.language.restart.later" = "Αργότερα";
 
-"SettingsView.iconLongRightClick.label" = "Παρατεταμένο δεξί κλικ";
-"SettingsView.iconRightClick.label" = "Δεξί κλικ στη γραμμή";
 "SettingsView.app.startTimerOnLaunch.label" = "Έναρξη χρονομέτρου κατά την εκκίνηση";
 "SettingsView.app.launchAtLogin.label" = "Εκκίνηση εφαρμογής κατά την εκκίνηση";
 

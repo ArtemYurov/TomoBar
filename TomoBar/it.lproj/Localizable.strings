@@ -8,7 +8,7 @@
 "View.skip.help" = "Salta";
 "View.intervals.label" = "Intervalli";
 "View.settings.label" = "Preferenze";
-"View.shortcuts.label" = "Scorciatoie";
+"View.controls.label" = "Controlli";
 "View.sounds.label" = "Suoni";
 "View.checkForUpdates.label" = "Controlla aggiornamenti";
 "View.about.label" = "Informazioni";
@@ -33,11 +33,14 @@
 "IntervalsView.break.label" = "Pausa";
 "IntervalsView.set.label" = "Set";
 
-"SettingsView.shortcuts.startStop.label" = "Avvia/ferma";
-"SettingsView.shortcuts.pauseResume.label" = "Pausa/riprendi";
-"SettingsView.shortcuts.skip.label" = "Salta";
-"SettingsView.shortcuts.addMinute.label" = "Aggiungi un minuto";
-"SettingsView.shortcuts.addFiveMinutes.label" = "Aggiungi cinque minuti";
+"SettingsView.controls.rightclick.long.label" = "Clic destro lungo";
+"SettingsView.controls.rightclick.label" = "Clic destro sulla barra";
+
+"SettingsView.controls.shortcuts.startStop.label" = "Avvia/ferma";
+"SettingsView.controls.shortcuts.pauseResume.label" = "Pausa/riprendi";
+"SettingsView.controls.shortcuts.addMinute.label" = "Aggiungi un minuto";
+"SettingsView.controls.shortcuts.addFiveMinutes.label" = "Aggiungi cinque minuti";
+"SettingsView.controls.shortcuts.skipInterval.label" = "Salta intervallo";
 
 "SettingsView.timer.show.label" = "Mostra timer";
 "SettingsView.timer.show.active.label" = "Attivo";
@@ -66,8 +69,6 @@
 "SettingsView.language.restart.restart" = "Riavvia ora";
 "SettingsView.language.restart.later" = "Più tardi";
 
-"SettingsView.iconLongRightClick.label" = "Clic destro lungo";
-"SettingsView.iconRightClick.label" = "Clic destro sulla barra";
 "SettingsView.app.startTimerOnLaunch.label" = "Avvia il timer aprendo l'app";
 "SettingsView.app.launchAtLogin.label" = "Apri al login";
 

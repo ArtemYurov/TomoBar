@@ -8,7 +8,7 @@
 "View.skip.help" = "Pular";
 "View.intervals.label" = "Intervalos";
 "View.settings.label" = "Configurações";
-"View.shortcuts.label" = "Atalhos";
+"View.controls.label" = "Controles";
 "View.sounds.label" = "Sons";
 "View.checkForUpdates.label" = "Verificar atualizações";
 "View.about.label" = "Sobre";
@@ -33,11 +33,14 @@
 "IntervalsView.break.label" = "Pausa";
 "IntervalsView.set.label" = "Ciclo";
 
-"SettingsView.shortcuts.startStop.label" = "Iniciar/parar";
-"SettingsView.shortcuts.pauseResume.label" = "Pausar/continuar";
-"SettingsView.shortcuts.skip.label" = "Pular";
-"SettingsView.shortcuts.addMinute.label" = "Adicionar um minuto";
-"SettingsView.shortcuts.addFiveMinutes.label" = "Adicionar cinco minutos";
+"SettingsView.controls.rightclick.long.label" = "Clique direito longo";
+"SettingsView.controls.rightclick.label" = "Clique direito na barra";
+
+"SettingsView.controls.shortcuts.startStop.label" = "Iniciar/parar";
+"SettingsView.controls.shortcuts.pauseResume.label" = "Pausar/continuar";
+"SettingsView.controls.shortcuts.addMinute.label" = "Adicionar um minuto";
+"SettingsView.controls.shortcuts.addFiveMinutes.label" = "Adicionar cinco minutos";
+"SettingsView.controls.shortcuts.skipInterval.label" = "Pular intervalo";
 
 "SettingsView.timer.show.label" = "Mostrar cronômetro";
 "SettingsView.timer.show.active.label" = "Ativo";
@@ -66,8 +69,6 @@
 "SettingsView.language.restart.restart" = "Reiniciar agora";
 "SettingsView.language.restart.later" = "Mais tarde";
 
-"SettingsView.iconLongRightClick.label" = "Clique direito longo";
-"SettingsView.iconRightClick.label" = "Clique direito na barra";
 "SettingsView.app.startTimerOnLaunch.label" = "Iniciar cronômetro ao abrir";
 "SettingsView.app.launchAtLogin.label" = "Iniciar ao fazer login";
 

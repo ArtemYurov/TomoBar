@@ -8,7 +8,7 @@
 "View.skip.help" = "Пропустить";
 "View.intervals.label" = "Интервалы";
 "View.settings.label" = "Настройки";
-"View.shortcuts.label" = "Клавиши";
+"View.controls.label" = "Управление";
 "View.sounds.label" = "Звуки";
 "View.checkForUpdates.label" = "Проверить обновления";
 "View.about.label" = "О программе";
@@ -33,11 +33,14 @@
 "IntervalsView.break.label" = "Отдых";
 "IntervalsView.set.label" = "Сет";
 
-"SettingsView.shortcuts.startStop.label" = "Старт/стоп";
-"SettingsView.shortcuts.pauseResume.label" = "Пауза/продолжить";
-"SettingsView.shortcuts.skip.label" = "Пропустить";
-"SettingsView.shortcuts.addMinute.label" = "Добавить минуту";
-"SettingsView.shortcuts.addFiveMinutes.label" = "Добавить пять минут";
+"SettingsView.controls.rightclick.long.label" = "Долгий правый клик";
+"SettingsView.controls.rightclick.label" = "Правый клик в баре";
+
+"SettingsView.controls.shortcuts.startStop.label" = "Старт/стоп";
+"SettingsView.controls.shortcuts.pauseResume.label" = "Пауза/продолжить";
+"SettingsView.controls.shortcuts.addMinute.label" = "Добавить минуту";
+"SettingsView.controls.shortcuts.addFiveMinutes.label" = "Добавить пять минут";
+"SettingsView.controls.shortcuts.skipInterval.label" = "Пропустить интервал";
 
 "SettingsView.timer.show.label" = "Таймер";
 "SettingsView.timer.show.active.label" = "При работе";
@@ -66,8 +69,6 @@
 "SettingsView.language.restart.restart" = "Перезапустить";
 "SettingsView.language.restart.later" = "Позже";
 
-"SettingsView.iconLongRightClick.label" = "Долгий правый клик";
-"SettingsView.iconRightClick.label" = "Правый клик в баре";
 "SettingsView.app.startTimerOnLaunch.label" = "Запускать таймер при открытии";
 "SettingsView.app.launchAtLogin.label" = "Запускать при входе в систему";
 

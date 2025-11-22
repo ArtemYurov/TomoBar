@@ -8,7 +8,7 @@
 "View.skip.help" = "跳过";
 "View.intervals.label" = "时长";
 "View.settings.label" = "设置";
-"View.shortcuts.label" = "快捷键";
+"View.controls.label" = "控制";
 "View.sounds.label" = "声音";
 "View.checkForUpdates.label" = "检查更新";
 "View.about.label" = "关于";
@@ -33,11 +33,14 @@
 "IntervalsView.break.label" = "休息";
 "IntervalsView.set.label" = "组";
 
-"SettingsView.shortcuts.startStop.label" = "快捷键";
-"SettingsView.shortcuts.pauseResume.label" = "暂停/继续";
-"SettingsView.shortcuts.skip.label" = "跳过";
-"SettingsView.shortcuts.addMinute.label" = "增加一分钟";
-"SettingsView.shortcuts.addFiveMinutes.label" = "增加五分钟";
+"SettingsView.controls.rightclick.long.label" = "长按右键";
+"SettingsView.controls.rightclick.label" = "栏上右键点击";
+
+"SettingsView.controls.shortcuts.startStop.label" = "开始/停止";
+"SettingsView.controls.shortcuts.pauseResume.label" = "暂停/继续";
+"SettingsView.controls.shortcuts.addMinute.label" = "增加一分钟";
+"SettingsView.controls.shortcuts.addFiveMinutes.label" = "增加五分钟";
+"SettingsView.controls.shortcuts.skipInterval.label" = "跳过间隔";
 
 "SettingsView.timer.show.label" = "显示计时器";
 "SettingsView.timer.show.active.label" = "活动时";
@@ -66,8 +69,6 @@
 "SettingsView.language.restart.restart" = "立即重启";
 "SettingsView.language.restart.later" = "稍后";
 
-"SettingsView.iconLongRightClick.label" = "长按右键";
-"SettingsView.iconRightClick.label" = "栏上右键点击";
 "SettingsView.app.startTimerOnLaunch.label" = "启动时启动计时器";
 "SettingsView.app.launchAtLogin.label" = "登录时启动";
 

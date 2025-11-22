@@ -8,7 +8,7 @@
 "View.skip.help" = "Passer";
 "View.intervals.label" = "Périodes";
 "View.settings.label" = "Préférences";
-"View.shortcuts.label" = "Raccourcis";
+"View.controls.label" = "Contrôles";
 "View.sounds.label" = "Sons";
 "View.checkForUpdates.label" = "Vérifier les mises à jour";
 "View.about.label" = "À propos";
@@ -33,11 +33,14 @@
 "IntervalsView.break.label" = "Pause";
 "IntervalsView.set.label" = "Série";
 
-"SettingsView.shortcuts.startStop.label" = "Marche/arrêt";
-"SettingsView.shortcuts.pauseResume.label" = "Pause/continuer";
-"SettingsView.shortcuts.skip.label" = "Passer";
-"SettingsView.shortcuts.addMinute.label" = "Ajouter une minute";
-"SettingsView.shortcuts.addFiveMinutes.label" = "Ajouter cinq minutes";
+"SettingsView.controls.rightclick.long.label" = "Long clic droit";
+"SettingsView.controls.rightclick.label" = "Clic droit sur la barre";
+
+"SettingsView.controls.shortcuts.startStop.label" = "Marche/arrêt";
+"SettingsView.controls.shortcuts.pauseResume.label" = "Pause/continuer";
+"SettingsView.controls.shortcuts.addMinute.label" = "Ajouter une minute";
+"SettingsView.controls.shortcuts.addFiveMinutes.label" = "Ajouter cinq minutes";
+"SettingsView.controls.shortcuts.skipInterval.label" = "Passer l'intervalle";
 
 "SettingsView.timer.show.label" = "Afficher le minuteur";
 "SettingsView.timer.show.active.label" = "Actif";
@@ -66,8 +69,6 @@
 "SettingsView.language.restart.restart" = "Redémarrer maintenant";
 "SettingsView.language.restart.later" = "Plus tard";
 
-"SettingsView.iconLongRightClick.label" = "Long clic droit";
-"SettingsView.iconRightClick.label" = "Clic droit sur la barre";
 "SettingsView.app.startTimerOnLaunch.label" = "Démarrer le minuteur au lancement";
 "SettingsView.app.launchAtLogin.label" = "Lancer à l'ouverture de session";
 
