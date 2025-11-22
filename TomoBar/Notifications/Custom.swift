@@ -247,8 +247,8 @@ final class CustomNotifyHelper: NSObject {
         return NotificationContent(
             title: NSLocalizedString("CustomNotification.sessionComplete.title", comment: "Timer completed"),
             subtitle: NSLocalizedString("CustomNotification.sessionComplete.subtitle", comment: "Session finished"),
-            nextActionTitle: restartTitle,
-            skipActionTitle: NSLocalizedString("CustomNotification.control.close", comment: "Close")
+            nextActionTitle: NSLocalizedString("CustomNotification.control.close", comment: "Close"),
+            skipActionTitle: restartTitle
         )
     }
 }

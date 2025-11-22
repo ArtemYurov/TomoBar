@@ -53,11 +53,11 @@ struct BigNotificationView: View {
                     NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
 
                     HStack(spacing: 0) {
-                        NotificationButton(title: skipActionTitle, action: { onAction(.close) })
+                        NotificationButton(title: skipActionTitle, action: { onAction(.restart) })
 
                         NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
-                        NotificationButton(title: nextActionTitle, action: { onAction(.restart) })
+                        NotificationButton(title: nextActionTitle, action: { onAction(.close) })
                     }
                     .frame(height: Layout.buttonHeight)
                 }
