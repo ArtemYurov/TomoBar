@@ -102,6 +102,7 @@
 "CustomNotification.sessionComplete.title" = "Timer completed";
 "CustomNotification.sessionComplete.subtitle" = "Session finished";
 "CustomNotification.control.addMinute" = "+1 min";
+"CustomNotification.control.addTwoMinutes" = "+2 分";
 "CustomNotification.control.addFiveMinutes" = "+5 min";
 "CustomNotification.control.stop" = "Stop";
 "CustomNotification.control.restart.small" = "Restart";

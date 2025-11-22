@@ -307,7 +307,7 @@ class MaskView: NSView {
         if event.clickCount == 1 {
             clickTimer?.invalidate()
             clickTimer = Timer.scheduledTimer(withTimeInterval: NSEvent.doubleClickInterval, repeats: false) { _ in
-                self.userChoiceHandler?(.next)
+                self.userChoiceHandler?(.nextInterval)
             }
         } else if event.clickCount == 2 {
             clickTimer?.invalidate()

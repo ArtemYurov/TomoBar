@@ -66,7 +66,7 @@ struct SmallNotificationView: View {
 
                     NotificationSeparator(orientation: .horizontal)
 
-                    NotificationButton(title: nextActionTitle, action: { onAction(.next) })
+                    NotificationButton(title: nextActionTitle, action: { onAction(.nextInterval) })
                 }
                 .frame(width: Layout.buttonWidth, height: Layout.windowHeight)
             }

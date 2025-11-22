@@ -102,6 +102,7 @@
 "CustomNotification.sessionComplete.title" = "Timer abgeschlossen";
 "CustomNotification.sessionComplete.subtitle" = "Sitzung beendet";
 "CustomNotification.control.addMinute" = "+1 Min.";
+"CustomNotification.control.addTwoMinutes" = "+2 Min.";
 "CustomNotification.control.addFiveMinutes" = "+5 Min.";
 "CustomNotification.control.stop" = "Stoppen";
 "CustomNotification.control.restart.small" = "Neustart";

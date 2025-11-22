@@ -17,6 +17,7 @@ struct BigNotificationView: View {
     let title: String
     let subtitle: String
     let addMinuteTitle: String
+    let addTwoMinutesTitle: String
     let addFiveMinutesTitle: String
     let stopTitle: String
     let nextActionTitle: String
@@ -74,6 +75,10 @@ struct BigNotificationView: View {
 
                         NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
+                        NotificationButton(title: addTwoMinutesTitle, action: { onAction(.addTwoMinutes) })
+
+                        NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
+
                         NotificationButton(title: addFiveMinutesTitle, action: { onAction(.addFiveMinutes) })
                     }
                     .frame(height: Layout.buttonHeight)
@@ -81,15 +86,11 @@ struct BigNotificationView: View {
                     NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
 
                     HStack(spacing: 0) {
-                        NotificationButton(title: stopTitle, action: { onAction(.stop) })
-
-                        NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
-
-                        NotificationButton(title: nextActionTitle, action: { onAction(.next) })
-
-                        NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
-
                         NotificationButton(title: skipActionTitle, action: { onAction(.skipInterval) })
+
+                        NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
+
+                        NotificationButton(title: nextActionTitle, action: { onAction(.nextInterval) })
                     }
                     .frame(height: Layout.buttonHeight)
                 }
@@ -118,6 +119,10 @@ extension CustomNotifyHelper {
             "CustomNotification.control.addMinute",
             comment: "Add 1 minute"
         )
+        let addTwoMinutesTitle = NSLocalizedString(
+            "CustomNotification.control.addTwoMinutes",
+            comment: "Add 2 minutes"
+        )
         let addFiveMinutesTitle = NSLocalizedString(
             "CustomNotification.control.addFiveMinutes",
             comment: "Add 5 minutes"
@@ -138,6 +143,7 @@ extension CustomNotifyHelper {
             title: content.title,
             subtitle: content.subtitle,
             addMinuteTitle: addMinuteTitle,
+            addTwoMinutesTitle: addTwoMinutesTitle,
             addFiveMinutesTitle: addFiveMinutesTitle,
             stopTitle: stopTitle,
             nextActionTitle: content.nextActionTitle,

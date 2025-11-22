@@ -102,6 +102,7 @@
 "CustomNotification.sessionComplete.title" = "Temporizador concluído";
 "CustomNotification.sessionComplete.subtitle" = "Sessão concluída";
 "CustomNotification.control.addMinute" = "+1 min";
+"CustomNotification.control.addTwoMinutes" = "+2 min";
 "CustomNotification.control.addFiveMinutes" = "+5 min";
 "CustomNotification.control.stop" = "Parar";
 "CustomNotification.control.restart.small" = "Reiniciar";

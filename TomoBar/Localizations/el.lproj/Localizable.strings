@@ -102,6 +102,7 @@
 "CustomNotification.sessionComplete.title" = "Το χρονόμετρο ολοκληρώθηκε";
 "CustomNotification.sessionComplete.subtitle" = "Η συνεδρία τελείωσε";
 "CustomNotification.control.addMinute" = "+1 λεπ.";
+"CustomNotification.control.addTwoMinutes" = "+2 λεπ.";
 "CustomNotification.control.addFiveMinutes" = "+5 λεπ.";
 "CustomNotification.control.stop" = "Τερματισμός";
 "CustomNotification.control.restart.small" = "Επανεκκίνηση";

@@ -235,7 +235,7 @@ extension TBTimer {
 
         switch action {
         // for current state (not switched to next)
-        case .next:
+        case .nextInterval:
             paused = false
             // Hide mask when user confirms next (not skip - skip will update seamlessly)
             if notify.alertMode == .fullScreen {
@@ -251,6 +251,10 @@ extension TBTimer {
 
         case .addMinute:
             addMinutes(1)
+            pauseResume()
+
+        case .addTwoMinutes:
+            addMinutes(2)
             pauseResume()
 
         case .addFiveMinutes:
