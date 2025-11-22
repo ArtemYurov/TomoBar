@@ -104,7 +104,6 @@
 "CustomNotification.control.addMinute" = "+1 λεπ.";
 "CustomNotification.control.addTwoMinutes" = "+2 λεπ.";
 "CustomNotification.control.addFiveMinutes" = "+5 λεπ.";
-"CustomNotification.control.stop" = "Τερματισμός";
 "CustomNotification.control.restart.small" = "Επανεκκίνηση";
 "CustomNotification.control.restart.big" = "Επανεκκίνηση συνεδρίας";
 "CustomNotification.control.close" = "Κλείσιμο";

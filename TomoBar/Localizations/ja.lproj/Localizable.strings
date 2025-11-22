@@ -104,7 +104,6 @@
 "CustomNotification.control.addMinute" = "+1 分";
 "CustomNotification.control.addTwoMinutes" = "+2 分";
 "CustomNotification.control.addFiveMinutes" = "+5 分";
-"CustomNotification.control.stop" = "終了";
 "CustomNotification.control.restart.small" = "再開始";
 "CustomNotification.control.restart.big" = "セッションを再開始";
 "CustomNotification.control.close" = "閉じる";

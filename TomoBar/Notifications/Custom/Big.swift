@@ -16,10 +16,6 @@ private enum Layout {
 struct BigNotificationView: View {
     let title: String
     let subtitle: String
-    let addMinuteTitle: String
-    let addTwoMinutesTitle: String
-    let addFiveMinutesTitle: String
-    let stopTitle: String
     let nextActionTitle: String
     let skipActionTitle: String
     let isSessionCompleted: Bool
@@ -71,15 +67,24 @@ struct BigNotificationView: View {
                     NotificationSeparator(orientation: .horizontal, length: Layout.windowWidth)
 
                     HStack(spacing: 0) {
-                        NotificationButton(title: addMinuteTitle, action: { onAction(.addMinute) })
+                        NotificationButton(
+                            title: NSLocalizedString("CustomNotification.control.addMinute", comment: "Add 1 minute"),
+                            action: { onAction(.addMinute) }
+                        )
 
                         NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
-                        NotificationButton(title: addTwoMinutesTitle, action: { onAction(.addTwoMinutes) })
+                        NotificationButton(
+                            title: NSLocalizedString("CustomNotification.control.addTwoMinutes", comment: "Add 2 minutes"),
+                            action: { onAction(.addTwoMinutes) }
+                        )
 
                         NotificationSeparator(orientation: .vertical, length: Layout.buttonHeight)
 
-                        NotificationButton(title: addFiveMinutesTitle, action: { onAction(.addFiveMinutes) })
+                        NotificationButton(
+                            title: NSLocalizedString("CustomNotification.control.addFiveMinutes", comment: "Add 5 minutes"),
+                            action: { onAction(.addFiveMinutes) }
+                        )
                     }
                     .frame(height: Layout.buttonHeight)
 
@@ -114,25 +119,6 @@ extension CustomNotifyHelper {
     func showBig(style: NotificationStyle, isSessionCompleted: Bool) {
         guard case .big(let content) = style else { return }
 
-        // Генерируем дополнительные локализованные строки для Big notification
-        let addMinuteTitle = NSLocalizedString(
-            "CustomNotification.control.addMinute",
-            comment: "Add 1 minute"
-        )
-        let addTwoMinutesTitle = NSLocalizedString(
-            "CustomNotification.control.addTwoMinutes",
-            comment: "Add 2 minutes"
-        )
-        let addFiveMinutesTitle = NSLocalizedString(
-            "CustomNotification.control.addFiveMinutes",
-            comment: "Add 5 minutes"
-        )
-        let stopTitle = NSLocalizedString(
-            "CustomNotification.control.stop",
-            comment: "Stop"
-        )
-
-        // Динамическая высота окна
         let windowWidth: CGFloat = Layout.windowWidth
         let windowHeight: CGFloat = isSessionCompleted ? 170 : 214
         let menuBarOffset: CGFloat = BaseLayout.menuBarOffset
@@ -142,10 +128,6 @@ extension CustomNotifyHelper {
         let view = BigNotificationView(
             title: content.title,
             subtitle: content.subtitle,
-            addMinuteTitle: addMinuteTitle,
-            addTwoMinutesTitle: addTwoMinutesTitle,
-            addFiveMinutesTitle: addFiveMinutesTitle,
-            stopTitle: stopTitle,
             nextActionTitle: content.nextActionTitle,
             skipActionTitle: content.skipActionTitle,
             isSessionCompleted: isSessionCompleted,

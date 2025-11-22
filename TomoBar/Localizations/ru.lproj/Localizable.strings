@@ -104,7 +104,6 @@
 "CustomNotification.control.addMinute" = "+1 мин";
 "CustomNotification.control.addTwoMinutes" = "+2 мин";
 "CustomNotification.control.addFiveMinutes" = "+5 мин";
-"CustomNotification.control.stop" = "Остановить";
 "CustomNotification.control.restart.small" = "Перезапуск";
 "CustomNotification.control.restart.big" = "Перезапустить сессию";
 "CustomNotification.control.close" = "Закрыть";

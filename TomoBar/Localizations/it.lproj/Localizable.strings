@@ -104,7 +104,6 @@
 "CustomNotification.control.addMinute" = "+1 min";
 "CustomNotification.control.addTwoMinutes" = "+2 min";
 "CustomNotification.control.addFiveMinutes" = "+5 min";
-"CustomNotification.control.stop" = "Ferma";
 "CustomNotification.control.restart.small" = "Riavvia";
 "CustomNotification.control.restart.big" = "Riavvia sessione";
 "CustomNotification.control.close" = "Chiudi";
