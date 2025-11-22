@@ -3,7 +3,13 @@
 ## [v4.1.0] - 2025-11-22
 
 ### Added
-- Right-click actions on menu bar icon - click to start/stop timer, long press to pause/resume, fully configurable in settings
+- Right-click actions on menu bar icon - single click, double-click, and long press (fully configurable in settings)
+- +2 minutes button in big notification for quick time extension
+
+### Fixed
+- DND (Do Not Disturb) now stays enabled during work pause
+- Localization improvements
+- UI improvements in notifications
 
 ## [v4.0.1] - 2025-11-15
 
