@@ -1,4 +1,5 @@
 "View.width" = "285";
+
 "View.start.label" = "開始";
 "View.stop.label" = "終了";
 "View.addMinute.help" = "1分追加";
@@ -11,8 +12,8 @@
 "View.controls.label" = "コントロール";
 "View.sounds.label" = "サウンド";
 "View.checkForUpdates.label" = "アップデートを確認";
-"View.about.label" = "TomoBarについて";
-"View.quit.label" = "TomoBarを終了";
+"View.about.label" = "について";
+"View.quit.label" = "終了";
 
 "IntervalsView.min" = "分";
 "IntervalsView.workIntervalLength.label" = "作業";

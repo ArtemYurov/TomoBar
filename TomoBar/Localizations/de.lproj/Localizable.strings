@@ -1,6 +1,7 @@
-"View.width" = "280";
-"View.start.label" = "Start";
-"View.stop.label" = "Stop";
+"View.width" = "310";
+
+"View.start.label" = "Starten";
+"View.stop.label" = "Stoppen";
 "View.addMinute.help" = "1 Min. hinzufügen";
 "View.addFiveMinutes.help" = "5 Min. hinzufügen";
 "View.pause.help" = "Pause";
@@ -57,7 +58,7 @@
 "SettingsView.alert.mode.notify.label" = "Benachrichtigen";
 "SettingsView.alert.mode.fullScreen.label" = "Voll";
 "SettingsView.alert.notifyStyle.label" = "Benachrichtigungsstil";
-"SettingsView.alert.notifyStyle.system.label" = "Systembenachrichtigung";
+"SettingsView.alert.notifyStyle.system.label" = "System";
 "SettingsView.alert.notifyStyle.small.label" = "Klein";
 "SettingsView.alert.notifyStyle.big.label" = "Groß";
 "SettingsView.alert.maskMode.blockActions.label" = "Bildschirm während der Pause sperren";

@@ -1,4 +1,5 @@
 "View.width" = "285";
+
 "View.start.label" = "Start";
 "View.stop.label" = "Stop";
 "View.addMinute.help" = "Add a minute";

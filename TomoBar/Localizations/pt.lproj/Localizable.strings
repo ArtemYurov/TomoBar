@@ -1,4 +1,5 @@
 "View.width" = "310";
+
 "View.start.label" = "Iniciar";
 "View.stop.label" = "Parar";
 "View.addMinute.help" = "Adicionar um minuto";
@@ -56,7 +57,7 @@
 "SettingsView.alert.mode.label" = "Modo de alerta";
 "SettingsView.alert.mode.notify.label" = "Notificar";
 "SettingsView.alert.mode.fullScreen.label" = "Cheia";
-"SettingsView.alert.notifyStyle.label" = "Estilo de notificação";
+"SettingsView.alert.notifyStyle.label" = "Estilo";
 "SettingsView.alert.notifyStyle.system.label" = "Sistema";
 "SettingsView.alert.notifyStyle.small.label" = "Pequeno";
 "SettingsView.alert.notifyStyle.big.label" = "Grande";

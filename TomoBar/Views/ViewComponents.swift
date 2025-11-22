@@ -33,7 +33,7 @@ func getLanguageName(for code: String) -> String {
 
 // Get available app languages: system + English + all other localizations
 func getAvailableLanguages() -> [String] {
-    let localizations = Bundle.main.localizations.filter { $0 != "Base" && $0 != "en" }.sorted()
+    let localizations = Bundle.main.localizations.filter { $0 != "en" }.sorted()
     return ["system", "en"] + localizations
 }
 
