@@ -18,7 +18,7 @@ enum TimerFontMode: String, CaseIterable, DropdownDescribable {
 }
 
 enum RightClickAction: String, CaseIterable {
-    case startStop, pauseResume, addMinute, addFiveMinutes, skipInterval
+    case off, startStop, pauseResume, addMinute, addFiveMinutes, skipInterval
 }
 
 struct TimerPreset: Codable {
@@ -37,8 +37,9 @@ class TBTimer: ObservableObject {
     @AppStorage("showTimerMode") var showTimerMode = Default.showTimerMode
     @AppStorage("timerFontMode") var timerFontMode = Default.timerFontMode
     @AppStorage("grayBackgroundOpacity") var grayBackgroundOpacity = Default.grayBackgroundOpacity
-    @AppStorage("longRightClickAction") var longRightClickAction = Default.longRightClickAction
     @AppStorage("rightClickAction") var rightClickAction = Default.rightClickAction
+    @AppStorage("longRightClickAction") var longRightClickAction = Default.longRightClickAction
+    @AppStorage("doubleRightClickAction") var doubleRightClickAction = Default.doubleRightClickAction
     @AppStorage("currentPreset") var currentPreset = Default.currentPreset
 
     #if DEBUG

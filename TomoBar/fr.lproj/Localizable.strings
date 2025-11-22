@@ -33,8 +33,9 @@
 "IntervalsView.break.label" = "Pause";
 "IntervalsView.set.label" = "Série";
 
-"SettingsView.controls.rightclick.long.label" = "Long clic droit";
-"SettingsView.controls.rightclick.label" = "Clic droit sur la barre";
+"SettingsView.controls.rightclick.label" = "Clic droit sur icône";
+"SettingsView.controls.rightclick.long.label" = "Clic droit long";
+"SettingsView.controls.rightclick.double.label" = "Clic droit double";
 
 "SettingsView.controls.shortcuts.startStop.label" = "Marche/arrêt";
 "SettingsView.controls.shortcuts.pauseResume.label" = "Pause/continuer";

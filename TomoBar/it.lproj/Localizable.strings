@@ -33,8 +33,9 @@
 "IntervalsView.break.label" = "Pausa";
 "IntervalsView.set.label" = "Set";
 
+"SettingsView.controls.rightclick.label" = "Clic destro su icona";
 "SettingsView.controls.rightclick.long.label" = "Clic destro lungo";
-"SettingsView.controls.rightclick.label" = "Clic destro sulla barra";
+"SettingsView.controls.rightclick.double.label" = "Doppio clic destro";
 
 "SettingsView.controls.shortcuts.startStop.label" = "Avvia/ferma";
 "SettingsView.controls.shortcuts.pauseResume.label" = "Pausa/riprendi";

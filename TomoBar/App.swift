@@ -45,6 +45,9 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     private var view: TBPopoverView!
     private var longPressWorkItem: DispatchWorkItem?
     private var longPressTriggered = false
+    private var doubleClickWorkItem: DispatchWorkItem?
+    private var clickCount = 0
+    private let doubleClickTimeInterval: TimeInterval = 0.3
     #if SPARKLE
     private let updaterController: SPUStandardUpdaterController
     private let userDriverDelegate = TBStatusItemUserDriverDelegate()
@@ -53,8 +56,9 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
     // Read display settings directly from AppStorage
     @AppStorage("timerFontMode") private var timerFontMode = Default.timerFontMode
     @AppStorage("grayBackgroundOpacity") private var grayBackgroundOpacity = Default.grayBackgroundOpacity
-    @AppStorage("longRightClickAction") private var longRightClickAction = Default.longRightClickAction
     @AppStorage("rightClickAction") private var rightClickAction = Default.rightClickAction
+    @AppStorage("longRightClickAction") private var longRightClickAction = Default.longRightClickAction
+    @AppStorage("doubleRightClickAction") private var doubleRightClickAction = Default.doubleRightClickAction
 
     override init() {
         #if SPARKLE
@@ -105,7 +109,23 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
             longPressWorkItem?.cancel()
             longPressWorkItem = nil
             if !longPressTriggered {
-                performAction(rightClickAction)
+                if doubleRightClickAction == .off {
+                    performAction(rightClickAction)
+                } else {
+                    clickCount += 1
+                    doubleClickWorkItem?.cancel()
+                    let workItem = DispatchWorkItem { [weak self] in
+                        guard let self = self else { return }
+                        if self.clickCount == 1 {
+                            self.performAction(self.rightClickAction)
+                        } else if self.clickCount >= 2 {
+                            self.performAction(self.doubleRightClickAction)
+                        }
+                        self.clickCount = 0
+                    }
+                    doubleClickWorkItem = workItem
+                    DispatchQueue.main.asyncAfter(deadline: .now() + doubleClickTimeInterval, execute: workItem)
+                }
             }
         default:
             break
@@ -118,6 +138,8 @@ class TBStatusItem: NSObject, NSApplicationDelegate {
 
     private func performAction(_ action: RightClickAction) {
         switch action {
+        case .off:
+            return
         case .startStop:
             view.timer.startStop()
         case .pauseResume:

@@ -33,8 +33,9 @@
 "IntervalsView.break.label" = "Διάλειμμα";
 "IntervalsView.set.label" = "Σετ";
 
-"SettingsView.controls.rightclick.long.label" = "Παρατεταμένο δεξί κλικ";
-"SettingsView.controls.rightclick.label" = "Δεξί κλικ στη γραμμή";
+"SettingsView.controls.rightclick.label" = "Δεξί κλικ εικονιδίου";
+"SettingsView.controls.rightclick.long.label" = "Παρατεταμένο δεξί";
+"SettingsView.controls.rightclick.double.label" = "Διπλό δεξί";
 
 "SettingsView.controls.shortcuts.startStop.label" = "Έναρξη/Παύση";
 "SettingsView.controls.shortcuts.pauseResume.label" = "Παύση/Συνέχιση";

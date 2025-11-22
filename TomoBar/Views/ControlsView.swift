@@ -7,17 +7,24 @@ struct ControlsView: View {
     var body: some View {
         VStack {
             HStack {
+                Text(NSLocalizedString("SettingsView.controls.rightclick.label",
+                                       comment: "Icon right click label"))
+                    .frameInfinityLeading()
+                RightClickActionPicker(value: $timer.rightClickAction)
+            }
+            HStack {
                 Text(NSLocalizedString("SettingsView.controls.rightclick.long.label",
                                        comment: "Icon long right click label"))
                     .frameInfinityLeading()
                 RightClickActionPicker(value: $timer.longRightClickAction)
             }
             HStack {
-                Text(NSLocalizedString("SettingsView.controls.rightclick.label",
-                                       comment: "Icon right click label"))
+                Text(NSLocalizedString("SettingsView.controls.rightclick.double.label",
+                                       comment: "Icon double right click label"))
                     .frameInfinityLeading()
-                RightClickActionPicker(value: $timer.rightClickAction)
+                RightClickActionPicker(value: $timer.doubleRightClickAction)
             }
+            Spacer().frame(height: 10)
             KeyboardShortcuts.Recorder(for: .startStopTimer) {
                 Text(NSLocalizedString("SettingsView.controls.shortcuts.startStop.label",
                                        comment: "Start/stop shortcut label"))

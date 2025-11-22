@@ -33,8 +33,9 @@
 "IntervalsView.break.label" = "Отдых";
 "IntervalsView.set.label" = "Сет";
 
-"SettingsView.controls.rightclick.long.label" = "Долгий правый клик";
 "SettingsView.controls.rightclick.label" = "Правый клик в баре";
+"SettingsView.controls.rightclick.long.label" = "Долгий правый";
+"SettingsView.controls.rightclick.double.label" = "Двойной правый";
 
 "SettingsView.controls.shortcuts.startStop.label" = "Старт/стоп";
 "SettingsView.controls.shortcuts.pauseResume.label" = "Пауза/продолжить";

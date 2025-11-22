@@ -33,8 +33,9 @@
 "IntervalsView.break.label" = "休憩";
 "IntervalsView.set.label" = "セット";
 
-"SettingsView.controls.rightclick.long.label" = "長押し右クリック";
-"SettingsView.controls.rightclick.label" = "バーで右クリック";
+"SettingsView.controls.rightclick.label" = "アイコン右クリック";
+"SettingsView.controls.rightclick.long.label" = "長押し";
+"SettingsView.controls.rightclick.double.label" = "ダブルクリック";
 
 "SettingsView.controls.shortcuts.startStop.label" = "開始/終了";
 "SettingsView.controls.shortcuts.pauseResume.label" = "一時停止/再開";

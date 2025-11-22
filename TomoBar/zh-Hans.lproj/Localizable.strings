@@ -33,8 +33,9 @@
 "IntervalsView.break.label" = "休息";
 "IntervalsView.set.label" = "组";
 
-"SettingsView.controls.rightclick.long.label" = "长按右键";
-"SettingsView.controls.rightclick.label" = "栏上右键点击";
+"SettingsView.controls.rightclick.label" = "图标右键点击";
+"SettingsView.controls.rightclick.long.label" = "长按";
+"SettingsView.controls.rightclick.double.label" = "双击";
 
 "SettingsView.controls.shortcuts.startStop.label" = "开始/停止";
 "SettingsView.controls.shortcuts.pauseResume.label" = "暂停/继续";

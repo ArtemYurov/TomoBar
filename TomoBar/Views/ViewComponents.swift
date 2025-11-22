@@ -110,6 +110,7 @@ struct RightClickActionPicker: View {
 extension RightClickAction {
     var label: String {
         switch self {
+        case .off: return "✕"
         case .startStop: return "▶︎"
         case .pauseResume: return "⏸"
         case .addMinute: return "+1"
