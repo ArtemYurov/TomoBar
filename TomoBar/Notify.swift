@@ -98,9 +98,9 @@ class TBNotify: ObservableObject {
             switch notifyStyle {
             case .notifySystem:
                 custom.hide()
-                system.sessionComplete()
+                system.restStarted(isLong: false)
             case .small, .big:
-                custom.showSessionComplete(notifyStyle: notifyStyle)
+                custom.showPreview(notifyStyle: notifyStyle)
             }
 
         case .fullScreen:

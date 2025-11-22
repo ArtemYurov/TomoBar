@@ -29,6 +29,8 @@ final class CustomNotifyHelper: NSObject {
     var hostingController: NSHostingController<AnyView>?
     private var actionCallback: ((UserChoiceAction) -> Void)?
     private var currentStyle: NotificationStyle?
+    private var autoHideNotifyPreviewTimer: Timer?
+    private var isPreviewMode: Bool = false
     @AppStorage("customBackgroundOpacity") var customBackgroundOpacity = Default.customBackgroundOpacity
 
     init(userChoiceHandler: @escaping (UserChoiceAction) -> Void) {
@@ -68,6 +70,19 @@ final class CustomNotifyHelper: NSObject {
         show(style: style, isSessionCompleted: true)
     }
 
+    func showPreview(notifyStyle: NotifyStyle) {
+        // Show work complete notification to demonstrate buttons
+        showIntervalComplete(state: .work, nextIsLongRest: false, notifyStyle: notifyStyle)
+        isPreviewMode = true
+
+        // Auto-hide after 4 seconds
+        autoHideNotifyPreviewTimer?.invalidate()
+        autoHideNotifyPreviewTimer = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [weak self] _ in
+            self?.exitPreviewMode()
+            self?.hide()
+        }
+    }
+
     func show(style: NotificationStyle, isSessionCompleted: Bool = false) {
         currentStyle = style
 
@@ -85,6 +100,8 @@ final class CustomNotifyHelper: NSObject {
         guard let window = window, let style = currentStyle else {
             return
         }
+
+        exitPreviewMode()
 
         DispatchQueue.main.async { [weak self] in
             guard let self = self else {
@@ -140,13 +157,28 @@ final class CustomNotifyHelper: NSObject {
     }
 
     func handleAction(_ action: UserChoiceAction) {
+        // Ignore actions in preview mode
+        if isPreviewMode {
+            exitPreviewMode()
+            hide()
+            return
+        }
+
         guard let callback = actionCallback else {
             return
         }
         callback(action)
     }
 
+    private func exitPreviewMode() {
+        autoHideNotifyPreviewTimer?.invalidate()
+        autoHideNotifyPreviewTimer = nil
+        isPreviewMode = false
+    }
+
     private func cleanupExistingWindow() {
+        exitPreviewMode()
+
         if let existingWindow = window {
             existingWindow.orderOut(nil)
             if let existingController = hostingController {
