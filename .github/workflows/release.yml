@@ -2,8 +2,8 @@ name: GitHub Release
 
 on:
   push:
-#    branches:
-#      - '*'
+    branches:
+      - main
     tags:
       - 'v*'
 
@@ -32,13 +32,11 @@ jobs:
           xcode-version: '26.1'
 
       - name: Install create-dmg and Sparkle
-        if: github.ref_type == 'tag'
         run: |
           brew install create-dmg
           brew install sparkle
 
       - name: Locate Sparkle Framework
-        if: github.ref_type == 'tag'
         run: |
           echo "🔍 Locating Sparkle.framework from Homebrew..."
           SPARKLE_FW=(/opt/homebrew/Caskroom/sparkle/*/Sparkle.framework)
@@ -53,7 +51,6 @@ jobs:
           ln -s "$SPARKLE_FW" ./Sparkle.framework
 
       - name: Add network entitlement for Sparkle
-        if: github.ref_type == 'tag'
         run: |
           echo "🔑 Adding network client entitlement for Sparkle..."
 
@@ -63,7 +60,6 @@ jobs:
           echo "✅ Network entitlement added"
 
       - name: Install Apple Certificate
-        if: github.ref_type == 'tag'
         env:
           CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
           CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
@@ -107,84 +103,68 @@ jobs:
         env:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
-          # Build application archive
-          if [ "${{ github.ref_type }}" == "tag" ]; then
-            # Find the Developer ID Application certificate identity
-            CERT_IDENTITY=$(security find-identity -v build.keychain | grep "Developer ID Application" | head -1 | sed -E 's/.*"(.*)"/\1/')
+          # Find the Developer ID Application certificate identity
+          CERT_IDENTITY=$(security find-identity -v build.keychain | grep "Developer ID Application" | head -1 | sed -E 's/.*"(.*)"/\1/')
 
-            if [ -z "$CERT_IDENTITY" ]; then
-              echo "ERROR: No Developer ID Application certificate found in keychain!"
-              exit 1
-            fi
-
-            # Build with Sparkle enabled
-            echo "🔨 Building with Sparkle framework..."
-            # Note: ENABLE_OUTGOING_NETWORK_CONNECTIONS=YES which is required for Sparkle to check for updates
-            xcodebuild archive -project TomoBar.xcodeproj \
-                               -scheme TomoBar \
-                               -configuration Release \
-                               -archivePath TomoBar.xcarchive \
-                               -allowProvisioningUpdates \
-                               ARCHS="arm64 x86_64" \
-                               ONLY_ACTIVE_ARCH=NO \
-                               CODE_SIGN_STYLE=Manual \
-                               CODE_SIGN_IDENTITY="$CERT_IDENTITY" \
-                               DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
-                               ENABLE_OUTGOING_NETWORK_CONNECTIONS=YES \
-                               FRAMEWORK_SEARCH_PATHS="\$(inherited) \$(PROJECT_DIR)" \
-                               OTHER_SWIFT_FLAGS="-Xfrontend -disable-batch-mode -D SPARKLE" \
-                               OTHER_LDFLAGS="-framework Sparkle" \
-                               ASSETCATALOG_COMPILER_SKIP_APP_STORE_DEPLOYMENT=YES
-
-            # Copy Sparkle to app bundle (with -H to dereference symlinks)
-            echo "📦 Copying Sparkle to app bundle..."
-            APP_PATH="TomoBar.xcarchive/Products/Applications/TomoBar.app"
-            mkdir -p "$APP_PATH/Contents/Frameworks"
-            cp -RH Sparkle.framework "$APP_PATH/Contents/Frameworks/"
-
-            # Sign Sparkle components according to official documentation
-            echo "✍️  Signing Sparkle components..."
-            SPARKLE_PATH="$APP_PATH/Contents/Frameworks/Sparkle.framework/Versions/B"
-
-            # Sign XPC Services
-            codesign -f -s "$CERT_IDENTITY" -o runtime \
-              "$SPARKLE_PATH/XPCServices/Installer.xpc"
-
-            codesign -f -s "$CERT_IDENTITY" -o runtime --preserve-metadata=entitlements \
-              "$SPARKLE_PATH/XPCServices/Downloader.xpc"
-
-            # Sign helper tools
-            codesign -f -s "$CERT_IDENTITY" -o runtime \
-              "$SPARKLE_PATH/Autoupdate"
-
-            codesign -f -s "$CERT_IDENTITY" -o runtime \
-              "$SPARKLE_PATH/Updater.app"
-
-            # Sign the framework itself
-            codesign -f -s "$CERT_IDENTITY" -o runtime \
-              "$APP_PATH/Contents/Frameworks/Sparkle.framework"
-
-            # Re-sign the entire app to ensure consistent signatures
-            echo "✍️  Re-signing TomoBar.app..."
-            codesign -f -s "$CERT_IDENTITY" -o runtime \
-              --entitlements TomoBar/TomoBar.entitlements \
-              "$APP_PATH"
-
-            echo "✅ Build and signing complete"
-          else
-            # For unsigned builds: disable signing
-            xcodebuild archive -project TomoBar.xcodeproj \
-                               -scheme TomoBar \
-                               -configuration Release \
-                               -archivePath TomoBar.xcarchive \
-                               ARCHS="arm64 x86_64" \
-                               ONLY_ACTIVE_ARCH=NO \
-                               CODE_SIGN_IDENTITY="$CODE_SIGN_IDENTITY" \
-                               CODE_SIGNING_REQUIRED=$CODE_SIGNING_REQUIRED \
-                               CODE_SIGNING_ALLOWED=$CODE_SIGNING_ALLOWED \
-                               ASSETCATALOG_COMPILER_SKIP_APP_STORE_DEPLOYMENT=YES \
-                               OTHER_SWIFT_FLAGS="-Xfrontend -disable-batch-mode"
+          if [ -z "$CERT_IDENTITY" ]; then
+            echo "ERROR: No Developer ID Application certificate found in keychain!"
+            exit 1
           fi
+
+          # Build with Sparkle enabled
+          echo "🔨 Building with Sparkle framework..."
+          # Note: ENABLE_OUTGOING_NETWORK_CONNECTIONS=YES which is required for Sparkle to check for updates
+          xcodebuild archive -project TomoBar.xcodeproj \
+                             -scheme TomoBar \
+                             -configuration Release \
+                             -archivePath TomoBar.xcarchive \
+                             -allowProvisioningUpdates \
+                             ARCHS="arm64 x86_64" \
+                             ONLY_ACTIVE_ARCH=NO \
+                             CODE_SIGN_STYLE=Manual \
+                             CODE_SIGN_IDENTITY="$CERT_IDENTITY" \
+                             DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
+                             ENABLE_OUTGOING_NETWORK_CONNECTIONS=YES \
+                             FRAMEWORK_SEARCH_PATHS="\$(inherited) \$(PROJECT_DIR)" \
+                             OTHER_SWIFT_FLAGS="-Xfrontend -disable-batch-mode -D SPARKLE" \
+                             OTHER_LDFLAGS="-framework Sparkle" \
+                             ASSETCATALOG_COMPILER_SKIP_APP_STORE_DEPLOYMENT=YES
+
+          # Copy Sparkle to app bundle (with -H to dereference symlinks)
+          echo "📦 Copying Sparkle to app bundle..."
+          APP_PATH="TomoBar.xcarchive/Products/Applications/TomoBar.app"
+          mkdir -p "$APP_PATH/Contents/Frameworks"
+          cp -RH Sparkle.framework "$APP_PATH/Contents/Frameworks/"
+
+          # Sign Sparkle components according to official documentation
+          echo "✍️  Signing Sparkle components..."
+          SPARKLE_PATH="$APP_PATH/Contents/Frameworks/Sparkle.framework/Versions/B"
+
+          # Sign XPC Services
+          codesign -f -s "$CERT_IDENTITY" -o runtime \
+            "$SPARKLE_PATH/XPCServices/Installer.xpc"
+
+          codesign -f -s "$CERT_IDENTITY" -o runtime --preserve-metadata=entitlements \
+            "$SPARKLE_PATH/XPCServices/Downloader.xpc"
+
+          # Sign helper tools
+          codesign -f -s "$CERT_IDENTITY" -o runtime \
+            "$SPARKLE_PATH/Autoupdate"
+
+          codesign -f -s "$CERT_IDENTITY" -o runtime \
+            "$SPARKLE_PATH/Updater.app"
+
+          # Sign the framework itself
+          codesign -f -s "$CERT_IDENTITY" -o runtime \
+            "$APP_PATH/Contents/Frameworks/Sparkle.framework"
+
+          # Re-sign the entire app to ensure consistent signatures
+          echo "✍️  Re-signing TomoBar.app..."
+          codesign -f -s "$CERT_IDENTITY" -o runtime \
+            --entitlements TomoBar/TomoBar.entitlements \
+            "$APP_PATH"
+
+          echo "✅ Build and signing complete"
 
           # Create export options plist for Developer ID
           cat > export_options.plist <<EOF
@@ -210,7 +190,6 @@ jobs:
                      -allowProvisioningUpdates
 
       - name: Notarize App Bundle
-        if: github.ref_type == 'tag'
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
@@ -237,7 +216,6 @@ jobs:
           rm "TomoBar-temp.zip"
 
       - name: Create Archives
-        if: github.ref_type == 'tag'
         run: |
           # Create final ZIP archive with notarized app
           ditto -c -k --sequesterRsrc --keepParent "TomoBar.app" "TomoBar-${{env.version}}.zip"
