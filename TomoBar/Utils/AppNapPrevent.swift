@@ -6,7 +6,12 @@ class AppNapPrevent {
     func startActivity() {
         if token == nil {
             token = ProcessInfo.processInfo.beginActivity(
-                options: [.userInitiated, .idleSystemSleepDisabled],
+                options: [
+                    .userInitiated,
+                    .idleSystemSleepDisabled,
+                    .automaticTerminationDisabled,
+                    .suddenTerminationDisabled
+                ],
                 reason: "Timer is running"
             )
         }
