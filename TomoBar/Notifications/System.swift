@@ -48,7 +48,9 @@ class SystemNotifyHelper: NSObject, UNUserNotificationCenterDelegate {
 
     func needsPermission(completion: @escaping (Bool) -> Void) {
         center.getNotificationSettings { settings in
-            completion(settings.authorizationStatus == .notDetermined)
+            DispatchQueue.main.async {
+                completion(settings.authorizationStatus == .notDetermined)
+            }
         }
     }
 
