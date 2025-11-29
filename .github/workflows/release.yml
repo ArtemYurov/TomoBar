@@ -259,32 +259,51 @@ jobs:
           # Move generated appcast
           mv appcast_files/appcast.xml .
 
-      - name: Release
+      - name: Create draft release
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v1
         with:
+          draft: true
           files: |
             TomoBar-${{env.version}}.zip
             TomoBar-${{env.version}}.dmg
             appcast.xml
 
-      - name: Delete old prerelease
-        if: github.ref_type == 'branch'
-        uses: dev-drprasad/delete-tag-and-release@v0.2.1
-        with:
-          delete_release: true
-          tag_name: prerelease
+      - name: Publish release
+        if: github.ref_type == 'tag'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Publish the draft release
+          gh release edit "${{ env.version }}" --draft=false
 
-      - name: Prerelease
+      - name: Create draft prerelease
         if: github.ref_type == 'branch'
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: prerelease
+          tag_name: ${{ env.version }}
+          name: "Prerelease ${{ env.version }}"
+          draft: true
           prerelease: true
           files: TomoBar-${{env.version}}.zip
+
+      - name: Publish prerelease
+        if: github.ref_type == 'branch'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Publish the draft release
+          gh release edit "${{ env.version }}" --draft=false
+
+      - name: Cleanup old prereleases
+        if: github.ref_type == 'branch'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Keep only the latest prerelease, delete older ones
+          gh release list --json tagName,isPrerelease --jq '.[] | select(.isPrerelease) | .tagName' | \
+            tail -n +2 | \
+            xargs -I {} sh -c 'gh release delete {} --yes && gh api -X DELETE repos/${{ github.repository }}/git/refs/tags/{}'
 
   trigger-appstore:
     needs: build
