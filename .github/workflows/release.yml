@@ -23,20 +23,37 @@ jobs:
 
       - name: Set version for branch
         if: github.ref_type == 'branch'
-        run: echo "version=$(git describe --tags 2>/dev/null || echo "dev-$(git rev-parse --short HEAD)")" >> $GITHUB_ENV
+        run: |
+          VERSION=$(git describe --tags 2>/dev/null || echo "dev-$(git rev-parse --short HEAD)")
+          echo "version=$VERSION" >> $GITHUB_ENV
+          # Skip entire workflow if HEAD is exactly on a tag (no -N-gSHA suffix)
+          # Tag workflow will handle the release, no need for branch workflow to build
+          if echo "$VERSION" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "skip_build=true" >> $GITHUB_ENV
+            echo "⏭️ HEAD is on tag $VERSION - skipping build (tag workflow will create release)"
+          fi
+
+      - name: Skip build for tag releases
+        if: github.ref_type == 'branch' && env.skip_build == 'true'
+        run: |
+          echo "✅ Skipping branch workflow - tag workflow will handle release"
+          echo "This workflow will exit cleanly without building"
 
       # Xcode 26.1 includes updated Icon Composer for proper AppIcon.icon support
       - name: Select Xcode 26.1
+        if: env.skip_build != 'true'
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: '26.1'
 
       - name: Install create-dmg and Sparkle
+        if: env.skip_build != 'true'
         run: |
           brew install create-dmg
           brew install sparkle
 
       - name: Locate Sparkle Framework
+        if: env.skip_build != 'true'
         run: |
           echo "🔍 Locating Sparkle.framework from Homebrew..."
           SPARKLE_FW=(/opt/homebrew/Caskroom/sparkle/*/Sparkle.framework)
@@ -51,6 +68,7 @@ jobs:
           ln -s "$SPARKLE_FW" ./Sparkle.framework
 
       - name: Add network entitlement for Sparkle
+        if: env.skip_build != 'true'
         run: |
           echo "🔑 Adding network client entitlement for Sparkle..."
 
@@ -60,6 +78,7 @@ jobs:
           echo "✅ Network entitlement added"
 
       - name: Install Apple Certificate
+        if: env.skip_build != 'true'
         env:
           CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
           CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
@@ -100,6 +119,7 @@ jobs:
           security list-keychains -d user -s build.keychain $(security list-keychains -d user | sed s/\"//g)
 
       - name: Build
+        if: env.skip_build != 'true'
         env:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
@@ -190,6 +210,7 @@ jobs:
                      -allowProvisioningUpdates
 
       - name: Notarize App Bundle
+        if: env.skip_build != 'true'
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
@@ -216,6 +237,7 @@ jobs:
           rm "TomoBar-temp.zip"
 
       - name: Create Archives
+        if: env.skip_build != 'true'
         run: |
           # Create final ZIP archive with notarized app
           ditto -c -k --sequesterRsrc --keepParent "TomoBar.app" "TomoBar-${{env.version}}.zip"
@@ -278,7 +300,7 @@ jobs:
           gh release edit "${{ env.version }}" --draft=false
 
       - name: Create draft prerelease
-        if: github.ref_type == 'branch'
+        if: github.ref_type == 'branch' && env.skip_build != 'true'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.version }}
@@ -288,22 +310,34 @@ jobs:
           files: TomoBar-${{env.version}}.zip
 
       - name: Publish prerelease
-        if: github.ref_type == 'branch'
+        if: github.ref_type == 'branch' && env.skip_build != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Publish the draft release
           gh release edit "${{ env.version }}" --draft=false
 
-      - name: Cleanup old prereleases
-        if: github.ref_type == 'branch'
+      - name: Cleanup prereleases
+        if: github.ref_type == 'tag' || (github.ref_type == 'branch' && env.skip_build != 'true')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Keep only the latest prerelease, delete older ones
-          gh release list --json tagName,isPrerelease --jq '.[] | select(.isPrerelease) | .tagName' | \
-            tail -n +2 | \
-            xargs -I {} sh -c 'gh release delete {} --yes && gh api -X DELETE repos/${{ github.repository }}/git/refs/tags/{}'
+          echo "🧹 Cleaning up prereleases..."
+          PRERELEASES=$(gh release list --json tagName,isPrerelease --jq '.[] | select(.isPrerelease) | .tagName')
+
+          if [ -z "$PRERELEASES" ]; then
+            echo "No prereleases to clean up"
+            exit 0
+          fi
+
+          if [ "${{ github.ref_type }}" == "tag" ]; then
+            # After release: delete ALL prereleases
+            echo "$PRERELEASES" | xargs -I {} sh -c 'echo "Deleting {}..." && gh release delete {} --yes && gh api -X DELETE repos/${{ github.repository }}/git/refs/tags/{} || true'
+          else
+            # After prerelease: keep latest, delete older ones
+            echo "$PRERELEASES" | tail -n +2 | xargs -I {} sh -c 'echo "Deleting {}..." && gh release delete {} --yes && gh api -X DELETE repos/${{ github.repository }}/git/refs/tags/{} || true'
+          fi
+        continue-on-error: true
 
   trigger-appstore:
     needs: build
