@@ -288,6 +288,9 @@ extension TBTimer {
     }
 
     private func onWorkStart(context _: TBStateMachine.Context) {
+        // Hide mask when transitioning from rest to work (auto-resume case)
+        notify.mask.hide()
+
         // Reset counter if we've completed a set (reached or exceeded workIntervalsInSet)
         if currentWorkInterval >= currentPresetInstance.workIntervalsInSet {
             currentWorkInterval = 1
