@@ -1,5 +1,12 @@
 # Changelog
 
+## [v4.1.2] - 2025-01-20
+
+### Fixed
+- Fixed infinite loop in screen blocking when "Auto-resume work" is enabled - mask now properly hides on auto-transition from rest to work (#5)
+- Improved app stability: prevented unexpected termination by system processes
+- Fixed thread safety issue in notification permission handling
+
 ## [v4.1.0] - 2025-11-22
 
 ### Added
