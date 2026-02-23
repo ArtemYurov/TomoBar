@@ -159,7 +159,7 @@ struct IntervalsView: View {
             .onChange(of: timer.currentPresetInstance.longRestIntervalLength) { _ in
                 timer.adjustTimerDebounced(state: .longRest)
             }
-            Stepper(value: $timer.currentPresetInstance.workIntervalsInSet, in: 1 ... 23) {
+            Stepper(value: $timer.currentPresetInstance.workIntervalsInSet, in: 1 ... Default.maxWorkIntervalsInSet) {
                 HStack {
                     Text(NSLocalizedString("IntervalsView.workIntervalsInSet.label",
                                            comment: "Work intervals in a set label"))
@@ -170,7 +170,7 @@ struct IntervalsView: View {
                         },
                         set: { newValue in
                             if !isFieldDisabled(.workIntervals), let value = Int(newValue) {
-                                timer.currentPresetInstance.workIntervalsInSet = min(max(value, 1), 23)
+                                timer.currentPresetInstance.workIntervalsInSet = min(max(value, 1), Default.maxWorkIntervalsInSet)
                             }
                         }
                     ))
