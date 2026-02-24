@@ -60,4 +60,21 @@ extension TBTimer {
         paused = false
         stateMachine <-! .skipEvent
     }
+
+    func showRestMask() {
+        // Only works with fullScreen alert mode
+        guard notify.alertMode == .fullScreen else { return }
+
+        // Only works during rest
+        guard isResting else { return }
+
+        // Only show if mask is currently hidden
+        guard notify.mask.windowControllers.isEmpty else { return }
+
+        notify.mask.show(
+            isLong: isLongRest,
+            isRestStarted: true,
+            blockActions: notify.mask.maskBlockActions
+        )
+    } 
 }
