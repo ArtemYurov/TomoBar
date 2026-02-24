@@ -43,6 +43,7 @@
 "SettingsView.controls.shortcuts.addMinute.label" = "Add a minute";
 "SettingsView.controls.shortcuts.addFiveMinutes.label" = "Add five minutes";
 "SettingsView.controls.shortcuts.skipInterval.label" = "Skip interval";
+"SettingsView.controls.shortcuts.dismissMask.label" = "Dismiss mask";
 
 "SettingsView.timer.show.label" = "Show timer";
 "SettingsView.timer.show.active.label" = "Active";

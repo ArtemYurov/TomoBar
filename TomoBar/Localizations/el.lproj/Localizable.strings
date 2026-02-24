@@ -43,6 +43,7 @@
 "SettingsView.controls.shortcuts.addMinute.label" = "Προσθήκη λεπτού";
 "SettingsView.controls.shortcuts.addFiveMinutes.label" = "Προσθήκη πέντε λεπτών";
 "SettingsView.controls.shortcuts.skipInterval.label" = "Παράλειψη διαστήματος";
+"SettingsView.controls.shortcuts.dismissMask.label" = "Απόκρυψη μάσκας";
 
 "SettingsView.timer.show.label" = "Εμφάνιση χρονομέτρου";
 "SettingsView.timer.show.active.label" = "Ενεργό";

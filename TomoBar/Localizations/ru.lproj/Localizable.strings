@@ -43,6 +43,7 @@
 "SettingsView.controls.shortcuts.addMinute.label" = "Добавить минуту";
 "SettingsView.controls.shortcuts.addFiveMinutes.label" = "Добавить пять минут";
 "SettingsView.controls.shortcuts.skipInterval.label" = "Пропустить интервал";
+"SettingsView.controls.shortcuts.dismissMask.label" = "Скрыть маску";
 
 "SettingsView.timer.show.label" = "Таймер";
 "SettingsView.timer.show.active.label" = "При работе";

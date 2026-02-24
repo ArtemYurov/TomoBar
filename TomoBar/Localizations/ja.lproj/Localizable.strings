@@ -43,6 +43,7 @@
 "SettingsView.controls.shortcuts.addMinute.label" = "1分追加";
 "SettingsView.controls.shortcuts.addFiveMinutes.label" = "5分追加";
 "SettingsView.controls.shortcuts.skipInterval.label" = "インターバルをスキップ";
+"SettingsView.controls.shortcuts.dismissMask.label" = "マスクを非表示";
 
 "SettingsView.timer.show.label" = "タイマーを表示";
 "SettingsView.timer.show.active.label" = "アクティブ";

@@ -50,6 +50,11 @@ struct ControlsView: View {
                                        comment: "Skip interval shortcut label"))
                     .frameInfinityLeading()
             }
+            KeyboardShortcuts.Recorder(for: .dismissMask) {
+                Text(NSLocalizedString("SettingsView.controls.shortcuts.dismissMask.label",
+                                       comment: "Dismiss mask shortcut label"))
+                    .frameInfinityLeading()
+            }
             Spacer().frame(minHeight: 0)
         }
         .padding(4)
