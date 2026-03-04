@@ -1,5 +1,7 @@
 import SwiftUI
 
+private let maxWorkIntervalsInSet = 99
+
 struct IntervalsView: View {
     @EnvironmentObject var timer: TBTimer
     #if DEBUG
@@ -159,7 +161,7 @@ struct IntervalsView: View {
             .onChange(of: timer.currentPresetInstance.longRestIntervalLength) { _ in
                 timer.adjustTimerDebounced(state: .longRest)
             }
-            Stepper(value: $timer.currentPresetInstance.workIntervalsInSet, in: 1 ... Default.maxWorkIntervalsInSet) {
+            Stepper(value: $timer.currentPresetInstance.workIntervalsInSet, in: 1 ... maxWorkIntervalsInSet) {
                 HStack {
                     Text(NSLocalizedString("IntervalsView.workIntervalsInSet.label",
                                            comment: "Work intervals in a set label"))
@@ -170,7 +172,7 @@ struct IntervalsView: View {
                         },
                         set: { newValue in
                             if !isFieldDisabled(.workIntervals), let value = Int(newValue) {
-                                timer.currentPresetInstance.workIntervalsInSet = min(max(value, 1), Default.maxWorkIntervalsInSet)
+                                timer.currentPresetInstance.workIntervalsInSet = min(max(value, 1), maxWorkIntervalsInSet)
                             }
                         }
                     ))

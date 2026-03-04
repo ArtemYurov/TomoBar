@@ -26,9 +26,6 @@ enum Default {
     static let dingVolume = 1.0
     static let tickingVolume = 1.0
 
-    // Timer limits
-    static let maxWorkIntervalsInSet = 99
-
     // Timer presets
     static let presets: [TimerPreset] = [
         TimerPreset(workIntervalLength: 25, shortRestIntervalLength: 5, longRestIntervalLength: 15,
