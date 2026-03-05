@@ -1,5 +1,15 @@
 # Changelog
 
+## [v4.1.3] - 2026-03-06
+
+### Fixed
+- Fixed high CPU and energy usage — reduced energy impact in Activity Monitor (#18)
+- Fixed memory bloat in screen mask overlay caused by repeated subview additions (#18)
+- Fixed file handle leak in logger (#18)
+
+### Changed
+- Increased maximum intervals per set from 12 to 99 (#13)
+
 ## [v4.1.2] - 2025-01-20
 
 ### Fixed
