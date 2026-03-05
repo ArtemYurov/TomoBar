@@ -7,7 +7,7 @@ class AppNapPrevent {
         if token == nil {
             token = ProcessInfo.processInfo.beginActivity(
                 options: [
-                    .userInitiated,
+                    .background,
                     .idleSystemSleepDisabled,
                     .automaticTerminationDisabled,
                     .suddenTerminationDisabled
