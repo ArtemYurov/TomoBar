@@ -249,11 +249,13 @@ class MaskView: NSView {
         self.wantsLayer = true
         layer?.backgroundColor = NSColor.black.withAlphaComponent(0.3).cgColor
 
-        // Add subviews once in init (not in draw to avoid memory bloat)
+        // Add all subviews once in init (not in draw to avoid memory bloat)
         addSubview(blurEffect)
         addSubview(titleLabel)
+        addSubview(timeLeftLabel)
+        addSubview(tipLabel)
 
-        // Initialize UI with updateMask
+        // Initialize UI with updateMask to set correct visibility
         updateMask(isLong: isLong, isRestStarted: isRestStarted, blockActions: blockActions)
     }
 
