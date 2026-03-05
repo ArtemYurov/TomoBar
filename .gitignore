@@ -1,6 +1,8 @@
 xcuserdata
 .DS_Store
+build/
 
 # Claude local files
 .claude/*.local.*
 .claude/**/*.local.*
+.opencode/**
