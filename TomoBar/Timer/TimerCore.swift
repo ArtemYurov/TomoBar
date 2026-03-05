@@ -38,9 +38,21 @@ extension TBTimer {
         // Prevent App Nap while timer is running
         appNapPrevent.startActivity()
 
+        // flags: [] — no .strict flag, allowing macOS to coalesce timer fires
+        // with other system work for energy savings. With .strict, the timer
+        // demands exact firing times, defeating the purpose of leeway.
+        //
+        // leeway: 200ms — gives macOS a ±200ms window to batch this timer
+        // with nearby timers, reducing CPU wakeups. Example: if our timer is
+        // scheduled at 12:00:01.000 and Safari has one at 12:00:01.050,
+        // macOS wakes the CPU once instead of twice — both fire at ~01.050.
+        //
+        // Display accuracy is not affected because onTimerTick uses wall-clock
+        // calculation (finishTime.timeIntervalSince(Date())) rather than
+        // counting ticks.
         let queue = DispatchQueue(label: "Timer")
-        timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)
-        timer!.schedule(deadline: .now(), repeating: .seconds(1), leeway: .never)
+        timer = DispatchSource.makeTimerSource(flags: [], queue: queue)
+        timer!.schedule(deadline: .now(), repeating: .seconds(1), leeway: .milliseconds(200))
         timer!.setEventHandler(handler: onTimerTick)
         timer!.setCancelHandler(handler: onTimerCancel)
         timer!.resume()

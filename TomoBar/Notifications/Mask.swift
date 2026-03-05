@@ -249,7 +249,13 @@ class MaskView: NSView {
         self.wantsLayer = true
         layer?.backgroundColor = NSColor.black.withAlphaComponent(0.3).cgColor
 
-        // Initialize UI with updateMask
+        // Add all subviews once in init (not in draw to avoid memory bloat)
+        addSubview(blurEffect)
+        addSubview(titleLabel)
+        addSubview(timeLeftLabel)
+        addSubview(tipLabel)
+
+        // Initialize UI with updateMask to set correct visibility
         updateMask(isLong: isLong, isRestStarted: isRestStarted, blockActions: blockActions)
     }
 
@@ -260,19 +266,6 @@ class MaskView: NSView {
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-
-        addSubview(blurEffect)
-        addSubview(titleLabel)
-
-        // Hide timer when waiting for confirmation (after rest)
-        if !requiresRestFinishedConfirmation {
-            addSubview(timeLeftLabel)
-        }
-
-        // Show tip only if not blockActions
-        if !blockActions {
-            addSubview(tipLabel)
-        }
     }
 
     override func mouseDown(with event: NSEvent) {
@@ -346,29 +339,11 @@ class MaskView: NSView {
         let newTipText = NSLocalizedString(instructionKey, comment: "Mask instruction")
         tipLabel.stringValue = newTipText
 
-        // Manage timer visibility
-        if isRestStarted {
-            if !subviews.contains(timeLeftLabel) {
-                addSubview(timeLeftLabel)
-            }
-        } else {
-            timeLeftLabel.removeFromSuperview()
-        }
+        // Manage timer visibility (show during rest, hide when rest finished)
+        timeLeftLabel.isHidden = !isRestStarted
 
-        // Manage tip visibility
-        if isRestStarted {
-            // For rest started: hide tip if blockActions
-            if blockActions {
-                tipLabel.removeFromSuperview()
-            } else if !subviews.contains(tipLabel) {
-                addSubview(tipLabel)
-            }
-        } else {
-            // Always show tip for rest finished
-            if !subviews.contains(tipLabel) {
-                addSubview(tipLabel)
-            }
-        }
+        // Manage tip visibility (hide when blockActions during rest, always show when rest finished)
+        tipLabel.isHidden = isRestStarted && blockActions
 
         // Update click behavior
         requiresRestFinishedConfirmation = !isRestStarted

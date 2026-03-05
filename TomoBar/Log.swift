@@ -61,6 +61,10 @@ class TBLogger {
         }
     }
 
+    deinit {
+        try? logHandle?.close()
+    }
+
     func append(event: TBLogEvent) {
         guard let logHandle = logHandle else {
             return
