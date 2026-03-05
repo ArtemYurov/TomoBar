@@ -60,6 +60,7 @@ TomoBar can be controlled using `tomobar://` URLs.
 - use `open tomobar://skip` to skip 
 - use `open tomobar://addMinute` to add a minute
 - use `open tomobar://addFiveMinutes` to add a 5 minutes
+- use `open tomobar://restMask` to show rest mask visibility again during rest
 
 ### Documentation
 

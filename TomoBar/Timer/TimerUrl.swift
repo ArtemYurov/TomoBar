@@ -34,6 +34,8 @@ extension TBTimer {
             addMinutes(5)
         case "skip":
             skipInterval()
+        case "restmask":
+            showRestMask()
         default:
             print("url handling error: unknown command \(host)")
         }
