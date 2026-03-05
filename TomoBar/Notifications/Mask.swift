@@ -339,29 +339,11 @@ class MaskView: NSView {
         let newTipText = NSLocalizedString(instructionKey, comment: "Mask instruction")
         tipLabel.stringValue = newTipText
 
-        // Manage timer visibility
-        if isRestStarted {
-            if !subviews.contains(timeLeftLabel) {
-                addSubview(timeLeftLabel)
-            }
-        } else {
-            timeLeftLabel.removeFromSuperview()
-        }
+        // Manage timer visibility (show during rest, hide when rest finished)
+        timeLeftLabel.isHidden = !isRestStarted
 
-        // Manage tip visibility
-        if isRestStarted {
-            // For rest started: hide tip if blockActions
-            if blockActions {
-                tipLabel.removeFromSuperview()
-            } else if !subviews.contains(tipLabel) {
-                addSubview(tipLabel)
-            }
-        } else {
-            // Always show tip for rest finished
-            if !subviews.contains(tipLabel) {
-                addSubview(tipLabel)
-            }
-        }
+        // Manage tip visibility (hide when blockActions during rest, always show when rest finished)
+        tipLabel.isHidden = isRestStarted && blockActions
 
         // Update click behavior
         requiresRestFinishedConfirmation = !isRestStarted
