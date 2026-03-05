@@ -249,6 +249,10 @@ class MaskView: NSView {
         self.wantsLayer = true
         layer?.backgroundColor = NSColor.black.withAlphaComponent(0.3).cgColor
 
+        // Add subviews once in init (not in draw to avoid memory bloat)
+        addSubview(blurEffect)
+        addSubview(titleLabel)
+
         // Initialize UI with updateMask
         updateMask(isLong: isLong, isRestStarted: isRestStarted, blockActions: blockActions)
     }
@@ -260,19 +264,6 @@ class MaskView: NSView {
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-
-        addSubview(blurEffect)
-        addSubview(titleLabel)
-
-        // Hide timer when waiting for confirmation (after rest)
-        if !requiresRestFinishedConfirmation {
-            addSubview(timeLeftLabel)
-        }
-
-        // Show tip only if not blockActions
-        if !blockActions {
-            addSubview(tipLabel)
-        }
     }
 
     override func mouseDown(with event: NSEvent) {
