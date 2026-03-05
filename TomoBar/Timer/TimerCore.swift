@@ -40,7 +40,7 @@ extension TBTimer {
 
         let queue = DispatchQueue(label: "Timer")
         timer = DispatchSource.makeTimerSource(flags: .strict, queue: queue)
-        timer!.schedule(deadline: .now(), repeating: .seconds(1), leeway: .never)
+        timer!.schedule(deadline: .now(), repeating: .seconds(1), leeway: .milliseconds(200))
         timer!.setEventHandler(handler: onTimerTick)
         timer!.setCancelHandler(handler: onTimerCancel)
         timer!.resume()
