@@ -43,6 +43,7 @@
 "SettingsView.controls.shortcuts.addMinute.label" = "增加一分钟";
 "SettingsView.controls.shortcuts.addFiveMinutes.label" = "增加五分钟";
 "SettingsView.controls.shortcuts.skipInterval.label" = "跳过间隔";
+"SettingsView.controls.shortcuts.dismissMask.label" = "隐藏遮罩";
 
 "SettingsView.timer.show.label" = "显示计时器";
 "SettingsView.timer.show.active.label" = "活动时";

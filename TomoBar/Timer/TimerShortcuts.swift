@@ -6,6 +6,7 @@ extension KeyboardShortcuts.Name {
     static let skipTimer = Self("skipTimer")
     static let addMinuteTimer = Self("addMinuteTimer")
     static let addFiveMinutesTimer = Self("addFiveMinutesTimer")
+    static let dismissMask = Self("dismissMask")
 }
 
 extension TBTimer {
@@ -20,5 +21,8 @@ extension TBTimer {
             self?.addMinutes(5)
         }
         KeyboardShortcuts.onKeyUp(for: .skipTimer, action: skipInterval)
+        KeyboardShortcuts.onKeyUp(for: .dismissMask) { [weak self] in
+            self?.notify.mask.hide()
+        }
     }
 }

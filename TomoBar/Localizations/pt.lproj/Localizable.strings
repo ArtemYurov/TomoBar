@@ -43,6 +43,7 @@
 "SettingsView.controls.shortcuts.addMinute.label" = "Adicionar um minuto";
 "SettingsView.controls.shortcuts.addFiveMinutes.label" = "Adicionar cinco minutos";
 "SettingsView.controls.shortcuts.skipInterval.label" = "Pular intervalo";
+"SettingsView.controls.shortcuts.dismissMask.label" = "Dispensar máscara";
 
 "SettingsView.timer.show.label" = "Mostrar cronômetro";
 "SettingsView.timer.show.active.label" = "Ativo";
