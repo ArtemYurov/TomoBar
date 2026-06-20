@@ -24,6 +24,28 @@ Use when:
 
 ## Workflow
 
+### Step 0: Load Skill Context
+
+**Read `.ai-factory/skill-context/aif-grounded/SKILL.md`** — MANDATORY if the file exists.
+
+This file contains project-specific rules accumulated by `/aif-evolve` from patches,
+codebase conventions, and tech-stack analysis. These rules are tailored to the current project.
+
+**How to apply skill-context rules:**
+- Treat them as **project-level overrides** for this skill's general instructions
+- When a skill-context rule conflicts with a general rule written in this SKILL.md,
+  **the skill-context rule wins** (more specific context takes priority — same principle as nested CLAUDE.md files)
+- When there is no conflict, apply both: general rules from SKILL.md + project rules from skill-context
+- Do NOT ignore skill-context rules even if they seem to contradict this skill's defaults —
+  they exist because the project's experience proved the default insufficient
+- **CRITICAL:** skill-context rules apply to ALL outputs of this skill — including the response
+  format, evidence requirements, and confidence assessment. If a skill-context rule says "analysis
+  MUST include X" or "confidence MUST account for Y" — you MUST comply. Producing an analysis
+  that ignores skill-context rules is a bug.
+
+**Enforcement:** After generating any output artifact, verify it against all skill-context rules.
+If any rule is violated — fix the output before presenting it to the user.
+
 ### Step 1: Classify the request
 
 Classify into one of:
@@ -81,10 +103,15 @@ To reach 100:
 - <1–3 concrete asks or commands for the user to run and paste output>
 ```
 
+## Artifact Ownership and Config Policy
+
+- Primary ownership: none. This skill is a reliability gate for answers, not an artifact-producing workflow.
+- Write policy: do not create or modify project artifacts by default.
+- Config policy: config-agnostic by design. Evidence comes from the repo, command outputs, provided docs, and authoritative sources, not from `config.yaml`.
+
 ## Implementation guardrail
 
 If the user asks for code changes:
 - You may explore the repo and propose what evidence is needed.
 - Only apply patches once confidence can be 100 (e.g., requirements are precise + you can verify build/tests or equivalent checks).
 - If the repo lacks a verification path (no build/tests and behavior can’t be validated), do not claim 100; return INSUFFICIENT INFORMATION and propose the minimal validation needed.
-
